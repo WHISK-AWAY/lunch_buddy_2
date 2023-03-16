@@ -27,7 +27,6 @@ const Rating = db.define('rating', {
     validate: {
       notNull: true,
       notEmpty: true,
-      min: 30,
     },
   },
   reportIsUpheld: {
