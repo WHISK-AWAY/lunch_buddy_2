@@ -166,8 +166,8 @@ const User = db.define('user', {
     type: Sequelize.DECIMAL(10, 7),
     allowNull: true,
     validate: {
-      min: 0,
-      max: 360,
+      min: -180,
+      max: 180,
     },
   },
   zip: {
