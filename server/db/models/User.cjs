@@ -154,6 +154,22 @@ const User = db.define('user', {
       isUppercase: true,
     },
   },
+  lastLat: {
+    type: Sequelize.DECIMAL(10, 7),
+    allowNull: true,
+    validate: {
+      min: -90,
+      max: 90,
+    },
+  },
+  lastLong: {
+    type: Sequelize.DECIMAL(10, 7),
+    allowNull: true,
+    validate: {
+      min: 0,
+      max: 360,
+    },
+  },
   zip: {
     type: Sequelize.INTEGER,
     allowNull: false,
@@ -220,6 +236,15 @@ const User = db.define('user', {
       throw new Error(
         'Cannot directly set fullName value -- must set firstName and lastName individually.'
       );
+    },
+  },
+  position: {
+    type: Sequelize.VIRTUAL,
+    get() {
+      return { lat: this.lastLat, long: this.lastLong };
+    },
+    set() {
+      return 'Cannot directly set position value -- must set lastLat and lastLong individually.';
     },
   },
   // avgRating: {
