@@ -3499,6 +3499,8 @@ const cuisines = [
   'halal',
 ];
 
+//Console logs will be changed to variables, only to show object shape
+
 console.log(
   activities.map((act) => {
     return { [act.title]: 1 };
