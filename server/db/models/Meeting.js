@@ -29,7 +29,7 @@ const Meeting = db.define('meeting', {
     },
   },
   lunchDate: {
-    type: Sequelize.DATEONLY,
+    type: Sequelize.DATE,
     allowNull: false,
     defaultValue: DataTypes.NOW,
     validate: {
