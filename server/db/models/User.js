@@ -3,7 +3,8 @@ const db = require('../database');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const {Rating, Meeting} = require('../index')
+const Rating = require('./Rating');
+const Meeting = require('./Meeting');
 
 const User = db.define('user', {
   firstName: {
