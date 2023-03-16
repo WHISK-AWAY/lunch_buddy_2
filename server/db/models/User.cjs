@@ -363,4 +363,4 @@ User.authenticate = async ({ email, password }) => {
   }
 };
 
-exports.User = User;
+module.exports = User;
