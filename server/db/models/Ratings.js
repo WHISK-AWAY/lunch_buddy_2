@@ -13,6 +13,7 @@ const Rating = db.define('rating', {
   },
   isReport: {
     type: Sequelize.BOOLEAN,
+    allowNull: false,
     defaultValue: false,
   },
   reportComment: {
@@ -24,6 +25,7 @@ const Rating = db.define('rating', {
   },
   reportIsUpheld: {
     type: Sequelize.BOOLEAN,
+    allowNull: false,
     defaultValue: false,
   },
 });
