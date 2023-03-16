@@ -1,8 +1,11 @@
 const Sequelize = require('sequelize');
-const db = require('../database');
+const db = require('../database.cjs');
 
-const Rating = db.define('rating', {
-    userId: {
+const User = require('./User.cjs');
+const Meeting = require('./Meeting.cjs');
+
+const Message = db.define('message', {
+  senderId: {
     type: Sequelize.INTEGER,
     references: {
       model: User,
@@ -14,7 +17,7 @@ const Rating = db.define('rating', {
       notEmpty: true,
     },
   },
-  buddyId: {
+  recipientId: {
     type: Sequelize.INTEGER,
     references: {
       model: User,
@@ -26,26 +29,20 @@ const Rating = db.define('rating', {
       notEmpty: true,
     },
   },
-  rating: {
+  //further evaluation needed
+  meetingId: {
     type: Sequelize.INTEGER,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-      notNull: true,
-      min: 1,
-      max: 5,
+    references: {
+      model: Meeting,
+      key: 'id',
     },
-  },
-  isReport: {
-    type: Sequelize.BOOLEAN,
     allowNull: false,
-    defaultValue: false,
     validate: {
       notNull: true,
       notEmpty: true,
     },
   },
-  reportComment: {
+  message: {
     type: Sequelize.TEXT,
     allowNull: false,
     validate: {
@@ -53,15 +50,15 @@ const Rating = db.define('rating', {
       notEmpty: true,
     },
   },
-  reportIsUpheld: {
+  isRead: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
     defaultValue: false,
     validate: {
       notNull: true,
-      notEmpty: true,
+      notNull: true,
     },
   },
 });
 
-module.exports = Rating;
+module.exports = Message;
