@@ -6,6 +6,7 @@ const Rating = db.define('rating', {
     type: Sequelize.INTEGER,
     allowNull: false,
     validate: {
+      notEmpty: true,
       notNull: true,
       min: 1,
       max: 5,
@@ -15,11 +16,17 @@ const Rating = db.define('rating', {
     type: Sequelize.BOOLEAN,
     allowNull: false,
     defaultValue: false,
+    validate: {
+      notNull: true,
+      notEmpty: true,
+    },
   },
   reportComment: {
     type: Sequelize.TEXT,
     allowNull: false,
     validate: {
+      notNull: true,
+      notEmpty: true,
       min: 30,
     },
   },
@@ -27,6 +34,10 @@ const Rating = db.define('rating', {
     type: Sequelize.BOOLEAN,
     allowNull: false,
     defaultValue: false,
+    validate: {
+      notNull: true,
+      notEmpty: true,
+    },
   },
 });
 
