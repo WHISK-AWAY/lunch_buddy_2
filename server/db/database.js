@@ -10,6 +10,4 @@ const db = new Sequelize(
   }
 );
 
-module.exports = {
-  db,
-};
+module.exports = db,
