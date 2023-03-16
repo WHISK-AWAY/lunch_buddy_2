@@ -1,9 +1,10 @@
 const Sequelize = require('sequelize');
-const db = require('../database');
+const db = require('../database.cjs');
 
-const User = require('./User');
+const User = require('./User.cjs');
+// const { User } = require('../index.cjs');
 
-const Meeting = db.define('meeting', {
+const Rating = db.define('rating', {
   userId: {
     type: Sequelize.INTEGER,
     references: {
@@ -28,16 +29,34 @@ const Meeting = db.define('meeting', {
       notEmpty: true,
     },
   },
-  lunchDate: {
-    type: Sequelize.DATE,
+  rating: {
+    type: Sequelize.INTEGER,
     allowNull: false,
-    defaultValue: DataTypes.NOW,
+    validate: {
+      notEmpty: true,
+      notNull: true,
+      min: 1,
+      max: 5,
+    },
+  },
+  isReport: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
     validate: {
       notNull: true,
       notEmpty: true,
     },
   },
-  isClosed: {
+  reportComment: {
+    type: Sequelize.TEXT,
+    allowNull: false,
+    validate: {
+      notNull: true,
+      notEmpty: true,
+    },
+  },
+  reportIsUpheld: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
     defaultValue: false,
@@ -48,4 +67,4 @@ const Meeting = db.define('meeting', {
   },
 });
 
-module.exports = Meeting;
+module.exports = Rating;

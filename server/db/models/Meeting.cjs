@@ -1,11 +1,10 @@
 const Sequelize = require('sequelize');
-const db = require('../database');
+const db = require('../database.cjs');
 
-const User = require('./User');
-const Meeting = require('./Meeting');
+const User = require('./User.cjs');
 
-const Message = db.define('message', {
-  senderId: {
+const Meeting = db.define('meeting', {
+  userId: {
     type: Sequelize.INTEGER,
     references: {
       model: User,
@@ -17,7 +16,7 @@ const Message = db.define('message', {
       notEmpty: true,
     },
   },
-  recipientId: {
+  buddyId: {
     type: Sequelize.INTEGER,
     references: {
       model: User,
@@ -29,36 +28,24 @@ const Message = db.define('message', {
       notEmpty: true,
     },
   },
-  //further evaluation needed
-  meetingId: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: Meeting,
-      key: 'id',
-    },
+  lunchDate: {
+    type: Sequelize.DATE,
     allowNull: false,
+    defaultValue: Sequelize.NOW,
     validate: {
       notNull: true,
       notEmpty: true,
     },
   },
-  message: {
-    type: Sequelize.TEXT,
-    allowNull: false,
-    validate: {
-      notNull: true,
-      notEmpty: true,
-    },
-  },
-  isRead: {
+  isClosed: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
     defaultValue: false,
     validate: {
       notNull: true,
-      notNull: true,
+      notEmpty: true,
     },
   },
 });
 
-module.exports = Message;
+module.exports = Meeting;
