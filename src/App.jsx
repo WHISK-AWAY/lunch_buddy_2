@@ -5,9 +5,9 @@ function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <div className='flex flex-col w-screen h-screen justify-center items-center text-white text-5xl gap-4'>
+    <div className='flex flex-col w-screen h-screen justify-center items-center text-white text-xl gap-4'>
       <h1>Count: {count}</h1>
-      <button onClick={() => setCount((prev) => prev + 1)}>Increase</button>
+      <button onClick={() => setCount((prev) => prev + 2)}>Increase</button>
     </div>
   );
 }
