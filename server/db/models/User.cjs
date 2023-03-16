@@ -4,9 +4,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config();
 
-// const Rating = require('./Rating.cjs');
-// const Meeting = require('./Meeting.cjs');
-
 const SECRET = process.env.JWT;
 const SALT_ROUNDS = 10;
 

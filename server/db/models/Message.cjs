@@ -5,18 +5,18 @@ const User = require('./User.cjs');
 const Meeting = require('./Meeting.cjs');
 
 const Message = db.define('message', {
-  senderId: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: User,
-      key: 'id',
-    },
-    allowNull: false,
-    validate: {
-      notNull: true,
-      notEmpty: true,
-    },
-  },
+  // senderId: {
+  //   type: Sequelize.INTEGER,
+  //   references: {
+  //     model: User,
+  //     key: 'id',
+  //   },
+  //   allowNull: false,
+  //   validate: {
+  //     notNull: true,
+  //     notEmpty: true,
+  //   },
+  // },
   recipientId: {
     type: Sequelize.INTEGER,
     references: {
