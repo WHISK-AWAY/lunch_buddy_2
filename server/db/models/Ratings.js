@@ -2,6 +2,30 @@ const Sequelize = require('sequelize');
 const db = require('../database');
 
 const Rating = db.define('rating', {
+    userId: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: User,
+      key: 'id',
+    },
+    allowNull: false,
+    validate: {
+      notNull: true,
+      notEmpty: true,
+    },
+  },
+  buddyId: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: User,
+      key: 'id',
+    },
+    allowNull: false,
+    validate: {
+      notNull: true,
+      notEmpty: true,
+    },
+  },
   rating: {
     type: Sequelize.INTEGER,
     allowNull: false,
