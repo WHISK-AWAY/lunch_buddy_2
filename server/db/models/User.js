@@ -3,8 +3,7 @@ const db = require('../database');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// TODO: import Rating
-// TODO: import Meeting
+const {Rating, Meeting} = require('../index')
 
 const User = db.define('user', {
   firstName: {
@@ -26,6 +25,7 @@ const User = db.define('user', {
   email: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: true,
     validate: {
       notNull: true,
       notEmpty: true,
@@ -37,7 +37,6 @@ const User = db.define('user', {
     allowNull: false,
     validate: {
       // length controlled via hook
-      // TODO: write the damn hook
       notNull: true,
       notEmpty: true,
     }
@@ -217,13 +216,10 @@ const User = db.define('user', {
   avgRating: {
     type: Sequelize.VIRTUAL,
     async get() {
-      // import Rating
-      /*
       const scoreCount = await Rating.count({where: {buddyId: this.id}});
       const scoreSum = await Rating.sum('rating', {where: {buddyId: this.id}});
       if (!scoreCount || !scoreSum >= 0) return null;
       return scoreSum / scoreCount;
-      */
     },
     set() {
       throw new Error('Cannot directly set avgRating - this is calculated from other records')
@@ -232,12 +228,9 @@ const User = db.define('user', {
   meetingCount: {
     type: Sequelize.VIRTUAL,
     async get() {
-      // import Meeting
-      /*
       const userCount = await Meeting.count({where: {userId: this.id}});
       const buddyCount = await Meeting.count({where: {buddyId: this.id}});
       return userCount + buddyCount;
-      */
     },
     set() {
       throw new Error('Cannot directly set meetingCount - this is calculated from other records');
@@ -246,10 +239,8 @@ const User = db.define('user', {
   reportCount: {
     type: Sequelize.VIRTUAL,
     async get() {
-      /*
       const count = await Rating.count({where: {buddyId: this.id, isReport: true}})
       return count || 0;
-      */
     },
     set() {
       throw new Error('Cannot directly set reportCount - this is calculated from other records');
@@ -258,10 +249,8 @@ const User = db.define('user', {
   strikeCount: {
     type: Sequelize.VIRTUAL,
     async get() {
-      /*
       const count = await Rating.count({where: {buddyId: this.id, isReport: true, isUpheld: true}})
       return count || 0;
-      */
     },
     set() {
       throw new Error('Cannot directly set strikeCount - this is calculated from other records');
@@ -332,28 +321,4 @@ User.authenticate = async ({ email, password }) => {
   }
 };
 
-/*
-USERS
-firstName: string (not null)
-lastName: string (not null)
-email: email (not null / isemail)
-password (not null / hashed / hook for minlength)
-age (integer, not null)
-gender (str, not null)
-address1(string, not null)
-address2(string)
-city(string, not null)
-state(string, not null)
-zip(integer, min/max length5, notnull)
-imgUrl(string, not null/default)
-aboutMe(text, not null)
-isVerified(boolean, default=false, notnull)
-role(enum [user, admin], default=user)
-status( enum [active, inactive, banned])
-**avgRating (virtual)
-meetingCount(virtual)
-**reportCount(virtual)
-**strikeCount (virtual)
-
-
-*/
+module.exports = User;
