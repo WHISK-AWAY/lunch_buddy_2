@@ -22,7 +22,9 @@ async function requireToken(req, res, next) {
 
 async function isAdmin(req, res, next) {
   try {
-    if (!req.user.isAdmin) {
+    if (!req.user) {
+      return res.status(401).send('Must be signed in as admin');
+    } else if (req.user.role !== 'admin') {
       return res.status(403).send('Inadequate access rights.');
     }
     next();
