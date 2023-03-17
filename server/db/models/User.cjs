@@ -247,63 +247,6 @@ const User = db.define('user', {
       return 'Cannot directly set position value -- must set lastLat and lastLong individually.';
     },
   },
-  // avgRating: {
-  //   type: Sequelize.VIRTUAL,
-  //   async get() {
-  //     const scoreCount = await Rating.count({ where: { buddyId: this.id } });
-  //     const scoreSum = await Rating.sum('rating', {
-  //       where: { buddyId: this.id },
-  //     });
-  //     if (!scoreCount || !scoreSum >= 0) return null;
-  //     return scoreSum / scoreCount;
-  //   },
-  //   set() {
-  //     throw new Error(
-  //       'Cannot directly set avgRating - this is calculated from other records'
-  //     );
-  //   },
-  // },
-  // meetingCount: {
-  //   type: Sequelize.VIRTUAL,
-  //   async get() {
-  //     const userCount = await Meeting.count({ where: { userId: this.id } });
-  //     const buddyCount = await Meeting.count({ where: { buddyId: this.id } });
-  //     return userCount + buddyCount;
-  //   },
-  //   set() {
-  //     throw new Error(
-  //       'Cannot directly set meetingCount - this is calculated from other records'
-  //     );
-  //   },
-  // },
-  // reportCount: {
-  //   type: Sequelize.VIRTUAL,
-  //   async get() {
-  //     const count = await Rating.count({
-  //       where: { buddyId: this.id, isReport: true },
-  //     });
-  //     return count || 0;
-  //   },
-  //   set() {
-  //     throw new Error(
-  //       'Cannot directly set reportCount - this is calculated from other records'
-  //     );
-  //   },
-  // },
-  // strikeCount: {
-  //   type: Sequelize.VIRTUAL,
-  //   async get() {
-  //     const count = await Rating.count({
-  //       where: { buddyId: this.id, isReport: true, isUpheld: true },
-  //     });
-  //     return count || 0;
-  //   },
-  //   set() {
-  //     throw new Error(
-  //       'Cannot directly set strikeCount - this is calculated from other records'
-  //     );
-  //   },
-  // },
 });
 
 /**
