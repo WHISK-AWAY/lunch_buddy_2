@@ -1020,11 +1020,6 @@ const activities = [
     subCategory: 'Outdoors',
   },
   {
-    title: 'Herping',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
-  {
     title: 'High-power rocketry',
     category: 'General',
     subCategory: 'Outdoors',
