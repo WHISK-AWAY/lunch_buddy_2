@@ -1,23 +1,28 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const cors = require('cors');
 const dotenv = require('dotenv').config();
 const volleyball = require('volleyball');
 const PORT = process.env.PORT_NUMBER || 3000;
-
-// Static middleware
-app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(volleyball);
+
 // Start of API routes
 app.use('/api', require('./api/index.cjs'));
 
-// Serves HTML file
-app.use('*', (req, res, next) => {
-  res.status(200).sendFile(path.join(__dirname, '../public/index.html'));
+// Indicates server is running if user goes to this URL
+app.use('/', (req, res, next) => {
+  try {
+    res.send('Backend is running');
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
 });
 
 // Default error handling
