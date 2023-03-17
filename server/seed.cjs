@@ -136,7 +136,53 @@ const seed = async () => {
 
     console.log('Seeding messages...');
 
+    const messageData = messageList.map((message) => {
+      let randomMeeting =
+        seededMeeting[Math.floor(Math.random() * seededMeeting.length)];
+      if (Math.random() < 0.5) {
+        message.senderId = randomMeeting.userId;
+        message.recipientId = randomMeeting.buddyId;
+      } else {
+        message.senderId = randomMeeting.buddyId;
+        message.recipientId = randomMeeting.userId;
+      }
+      message.meetingId = randomMeeting.id;
+      return message;
+    });
+
+    const seededMessages = await Message.bulkCreate(messageData, {
+      validate: true,
+    });
+
     console.log('Messages seeding successful');
+
+    /**
+     * SEED RATINGS
+     */
+
+    console.log('Seeding ratings...');
+
+    const ratingsData = [];
+
+    for (let meeting of seededMeeting) {
+      let ratingA = ratingList.pop();
+      ratingA.userId = meeting.userId;
+      ratingA.buddyId = meeting.buddyId;
+      ratingA.meetingId = meeting.id;
+      ratingsData.push(ratingA);
+
+      let ratingB = ratingList.pop();
+      ratingB.userId = meeting.buddyId;
+      ratingB.buddyId = meeting.userId;
+      ratingB.meetingId = meeting.id;
+      ratingsData.push(ratingB);
+    }
+
+    const seededRatings = await Rating.bulkCreate(ratingsData, {
+      validate: true,
+    });
+
+    console.log('Ratings seeding succseful');
 
     db.close();
   } catch (err) {
