@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const { Tag } = require('../../db/index.cjs');
-const { isAdmin } = require('../authMiddleware.cjs');
+const { isAdmin, requireToken } = require('../authMiddleware.cjs');
 
 // Route - api/tags
-router.get('/', async (req, res, next) => {
+// Get ALL tags
+router.get('/', requireToken, async (req, res, next) => {
   try {
     const allTags = await Tag.findAll();
     res.json(allTags);
@@ -15,9 +16,21 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// This will require the isAdmin middleware
 // Route - api/tags/:tagId
-router.put('/:tagId', isAdmin, async (req, res, next) => {
+// Get a single tag
+router.get('/:tagId', requireToken, async (req, res, next) => {
+  try {
+    const tag = await Tag.findByPk(req.params.tagId);
+    res.json(tag);
+  } catch (error) {
+    console.error(
+      'Server issue when trying to retrieve this tag, please try again later.'
+    );
+    next(error);
+  }
+});
+
+router.put('/:tagId', requireToken, isAdmin, async (req, res, next) => {
   try {
     const tag = await Tag.findByPk(req.params.tagId);
 
@@ -35,7 +48,7 @@ router.put('/:tagId', isAdmin, async (req, res, next) => {
   }
 });
 
-router.delete('/:tagId', async (req, res, next) => {
+router.delete('/:tagId', requireToken, isAdmin, async (req, res, next) => {
   try {
     const tag = await Tag.findByPk(req.params.tagId);
     if (!tag) {
@@ -47,6 +60,23 @@ router.delete('/:tagId', async (req, res, next) => {
     console.error(
       `Server issue when trying to delete tag: ${req.params.tagId}. Please try again later`
     );
+    next(error);
+  }
+});
+
+router.post('/', requireToken, isAdmin, async (req, res, next) => {
+  try {
+    const [newTag, wasCreated] = await Tag.findOrCreate({
+      where: { tagName: req.body.tagName },
+      defaults: req.body,
+    });
+    if (!wasCreated) {
+      return res.status(409).send('Tag already exists.');
+    } else {
+      res.status(201).json(newTag);
+    }
+  } catch (error) {
+    console.error(error);
     next(error);
   }
 });
