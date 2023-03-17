@@ -50,10 +50,10 @@ const Rating = db.define('rating', {
   },
   reportComment: {
     type: Sequelize.TEXT,
-    allowNull: false,
+    allowNull: true,
     validate: {
-      notNull: true,
-      notEmpty: true,
+      notNull: false,
+      notEmpty: false,
     },
   },
   reportIsUpheld: {
