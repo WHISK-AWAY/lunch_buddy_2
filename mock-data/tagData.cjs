@@ -35,20 +35,11 @@ const activities = [
     subCategory: 'Indoors',
   },
   {
-    title: 'Astronomy',
-    category: 'General',
-    subCategory: 'Indoors',
-  },
-  {
     title: 'Baking',
     category: 'General',
     subCategory: 'Indoors',
   },
-  {
-    title: 'Baton twirling',
-    category: 'General',
-    subCategory: 'Indoors',
-  },
+
   {
     title: 'Blogging',
     category: 'General',
@@ -71,11 +62,6 @@ const activities = [
   },
   {
     title: 'Book restoration',
-    category: 'General',
-    subCategory: 'Indoors',
-  },
-  {
-    title: 'Bowling',
     category: 'General',
     subCategory: 'Indoors',
   },
@@ -354,11 +340,7 @@ const activities = [
     category: 'General',
     subCategory: 'Indoors',
   },
-  {
-    title: 'Gymnastics',
-    category: 'General',
-    subCategory: 'Indoors',
-  },
+
   {
     title: 'Hacking',
     category: 'General',
@@ -570,11 +552,6 @@ const activities = [
     subCategory: 'Indoors',
   },
   {
-    title: 'Photography',
-    category: 'General',
-    subCategory: 'Indoors',
-  },
-  {
     title: 'Practical jokes',
     category: 'General',
     subCategory: 'Indoors',
@@ -621,11 +598,6 @@ const activities = [
   },
   {
     title: 'Quizzes',
-    category: 'General',
-    subCategory: 'Indoors',
-  },
-  {
-    title: 'Radio-controlled model',
     category: 'General',
     subCategory: 'Indoors',
   },
@@ -696,11 +668,6 @@ const activities = [
   },
   {
     title: 'Skipping rope',
-    category: 'General',
-    subCategory: 'Indoors',
-  },
-  {
-    title: 'Slot car',
     category: 'General',
     subCategory: 'Indoors',
   },
@@ -870,25 +837,11 @@ const activities = [
     subCategory: 'Outdoors',
   },
   {
-    title: 'Airsoft',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
-  {
     title: 'Amateur geology',
     category: 'General',
     subCategory: 'Outdoors',
   },
-  {
-    title: 'Archery',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
-  {
-    title: 'Astronomy',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
+
   {
     title: 'Backpacking',
     category: 'General',
@@ -901,11 +854,6 @@ const activities = [
   },
   {
     title: 'BASE jumping',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
-  {
-    title: 'Baseball',
     category: 'General',
     subCategory: 'Outdoors',
   },
@@ -989,11 +937,7 @@ const activities = [
     category: 'General',
     subCategory: 'Outdoors',
   },
-  {
-    title: 'Cycling',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
+
   {
     title: 'Dowsing',
     category: 'General',
@@ -1006,11 +950,6 @@ const activities = [
   },
   {
     title: 'Farming',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
-  {
-    title: 'Fishing',
     category: 'General',
     subCategory: 'Outdoors',
   },
@@ -1074,18 +1013,9 @@ const activities = [
     category: 'General',
     subCategory: 'Outdoors',
   },
-  {
-    title: 'Handball',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
+
   {
     title: 'Herbalism',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
-  {
-    title: 'Herping',
     category: 'General',
     subCategory: 'Outdoors',
   },
@@ -1111,11 +1041,6 @@ const activities = [
   },
   {
     title: 'Hooping',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
-  {
-    title: 'Horseback riding',
     category: 'General',
     subCategory: 'Outdoors',
   },
@@ -1155,11 +1080,6 @@ const activities = [
     subCategory: 'Outdoors',
   },
   {
-    title: 'Lacrosse',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
-  {
     title: 'LARPing',
     category: 'General',
     subCategory: 'Outdoors',
@@ -1174,11 +1094,7 @@ const activities = [
     category: 'General',
     subCategory: 'Outdoors',
   },
-  {
-    title: 'Martial arts',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
+
   {
     title: 'Metal detecting',
     category: 'General',
@@ -1240,11 +1156,6 @@ const activities = [
     subCategory: 'Outdoors',
   },
   {
-    title: 'Photography',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
-  {
     title: 'Podcast hosting',
     category: 'General',
     subCategory: 'Outdoors',
@@ -1300,11 +1211,6 @@ const activities = [
     subCategory: 'Outdoors',
   },
   {
-    title: 'Radio-controlled model',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
-  {
     title: 'Sailing',
     category: 'General',
     subCategory: 'Outdoors',
@@ -1346,11 +1252,6 @@ const activities = [
   },
   {
     title: 'Skateboarding',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
-  {
-    title: 'Skiing',
     category: 'General',
     subCategory: 'Outdoors',
   },
@@ -1409,11 +1310,7 @@ const activities = [
     category: 'General',
     subCategory: 'Outdoors',
   },
-  {
-    title: 'Swimming',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
+
   {
     title: 'Taekwondo',
     category: 'General',
@@ -1434,11 +1331,7 @@ const activities = [
     category: 'General',
     subCategory: 'Outdoors',
   },
-  {
-    title: 'Tourism',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
+
   {
     title: 'Thru-hiking',
     category: 'General',
@@ -1470,11 +1363,6 @@ const activities = [
     subCategory: 'Outdoors',
   },
   {
-    title: 'Videography',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
-  {
     title: 'Vehicle restoration',
     category: 'General',
     subCategory: 'Outdoors',
@@ -1488,11 +1376,6 @@ const activities = [
     title: 'Water sports',
     category: 'General',
     subCategory: 'Outdoors',
-  },
-  {
-    title: 'Astronomy',
-    category: 'Educational',
-    subCategory: false,
   },
   {
     title: 'Biology',
@@ -1695,11 +1578,6 @@ const activities = [
     subCategory: 'Indoors',
   },
   {
-    title: 'Stamp collecting',
-    category: 'Collection',
-    subCategory: 'Indoors',
-  },
-  {
     title: 'Stuffed toy collecting',
     category: 'Collection',
     subCategory: 'Indoors',
@@ -1775,11 +1653,6 @@ const activities = [
     subCategory: 'Outdoors',
   },
   {
-    title: 'Metal detecting',
-    category: 'Collection',
-    subCategory: 'Outdoors',
-  },
-  {
     title: 'Mineral collecting',
     category: 'Collection',
     subCategory: 'Outdoors',
@@ -1819,11 +1692,7 @@ const activities = [
     category: 'Competitive',
     subCategory: 'Indoors',
   },
-  {
-    title: 'Badminton',
-    category: 'Competitive',
-    subCategory: 'Indoors',
-  },
+
   {
     title: 'Baton twirling',
     category: 'Competitive',
@@ -1934,11 +1803,7 @@ const activities = [
     category: 'Competitive',
     subCategory: 'Indoors',
   },
-  {
-    title: 'Ice skating',
-    category: 'Competitive',
-    subCategory: 'Indoors',
-  },
+
   {
     title: 'Judo',
     category: 'Competitive',
@@ -1964,11 +1829,7 @@ const activities = [
     category: 'Competitive',
     subCategory: 'Indoors',
   },
-  {
-    title: 'Longboarding',
-    category: 'Competitive',
-    subCategory: 'Indoors',
-  },
+
   {
     title: 'Mahjong',
     category: 'Competitive',
@@ -2026,11 +1887,6 @@ const activities = [
   },
   {
     title: 'Table football',
-    category: 'Competitive',
-    subCategory: 'Indoors',
-  },
-  {
-    title: 'Table tennis',
     category: 'Competitive',
     subCategory: 'Indoors',
   },
@@ -2199,11 +2055,7 @@ const activities = [
     category: 'Competitive',
     subCategory: 'Outdoors',
   },
-  {
-    title: 'Longboarding',
-    category: 'Competitive',
-    subCategory: 'Outdoors',
-  },
+
   {
     title: 'Long-distance running',
     category: 'Competitive',
@@ -2216,11 +2068,6 @@ const activities = [
   },
   {
     title: 'Model aircraft',
-    category: 'Competitive',
-    subCategory: 'Outdoors',
-  },
-  {
-    title: 'Orienteering',
     category: 'Competitive',
     subCategory: 'Outdoors',
   },
@@ -2259,21 +2106,13 @@ const activities = [
     category: 'Competitive',
     subCategory: 'Outdoors',
   },
-  {
-    title: 'Sculling',
-    category: 'Competitive',
-    subCategory: 'Outdoors',
-  },
+
   {
     title: 'Shooting sport',
     category: 'Competitive',
     subCategory: 'Outdoors',
   },
-  {
-    title: 'Skateboarding',
-    category: 'Competitive',
-    subCategory: 'Outdoors',
-  },
+
   {
     title: 'Skiing',
     category: 'Competitive',
@@ -2300,25 +2139,11 @@ const activities = [
     subCategory: 'Outdoors',
   },
   {
-    title: 'Surfing',
-    category: 'Competitive',
-    subCategory: 'Outdoors',
-  },
-  {
     title: 'Swimming',
     category: 'Competitive',
     subCategory: 'Outdoors',
   },
-  {
-    title: 'Table tennis',
-    category: 'Competitive',
-    subCategory: 'Outdoors',
-  },
-  {
-    title: 'Tennis',
-    category: 'Competitive',
-    subCategory: 'Outdoors',
-  },
+
   {
     title: 'Tennis polo',
     category: 'Competitive',
@@ -2354,20 +2179,11 @@ const activities = [
     category: 'Competitive',
     subCategory: 'Outdoors',
   },
-  {
-    title: 'Volleyball',
-    category: 'Competitive',
-    subCategory: 'Outdoors',
-  },
+
   {
     title: 'Water polo',
     category: 'Competitive',
     subCategory: 'Outdoors',
-  },
-  {
-    title: 'Fishkeeping',
-    category: 'Observation',
-    subCategory: 'Indoors',
   },
   {
     title: 'Learning',
@@ -2384,11 +2200,7 @@ const activities = [
     category: 'Observation',
     subCategory: 'Indoors',
   },
-  {
-    title: 'Reading',
-    category: 'Observation',
-    subCategory: 'Indoors',
-  },
+
   {
     title: 'Research',
     category: 'Observation',
@@ -2414,18 +2226,9 @@ const activities = [
     category: 'Observation',
     subCategory: 'Outdoors',
   },
-  {
-    title: 'Birdwatching',
-    category: 'Observation',
-    subCategory: 'Outdoors',
-  },
+
   {
     title: 'Bus spotting',
-    category: 'Observation',
-    subCategory: 'Outdoors',
-  },
-  {
-    title: 'Geocaching',
     category: 'Observation',
     subCategory: 'Outdoors',
   },
@@ -2439,16 +2242,7 @@ const activities = [
     category: 'Observation',
     subCategory: 'Outdoors',
   },
-  {
-    title: 'Hiking',
-    category: 'Observation',
-    subCategory: 'Outdoors',
-  },
-  {
-    title: 'Meteorology',
-    category: 'Observation',
-    subCategory: 'Outdoors',
-  },
+
   {
     title: 'Photography',
     category: 'Observation',
@@ -3460,7 +3254,6 @@ const dietaryRestrictions = [
   'keto',
   'diabetic',
   'wheat',
-  'soy',
   'nuts',
   'fish',
   'shellfish',
@@ -3501,21 +3294,23 @@ const cuisines = [
 
 //Console logs will be changed to variables, only to show object shape
 
-console.log(
-  activities.map((act) => {
-    return { [act.title]: 1 };
-  })
-);
+// console.log(
+//   activities.map((act) => {
+//     return { [act.title]: 1 };
+//   })
+// );
 
-console.log(
-  professions.map((p) => {
-    return { [p]: 2 };
-  })
-);
-console.log(
-  dietaryRestrictions.map((dr) => {
-    return { [dr]: 3 };
-  })
-);
+// console.log(
+//   professions.map((p) => {
+//     return { [p]: 2 };
+//   })
+// );
+// console.log(
+//   dietaryRestrictions.map((dr) => {
+//     return { [dr]: 3 };
+//   })
+// );
 
-console.log(cuisines.map((c) => ({ [c]: 4 })));
+// console.log(cuisines.map((c) => ({ [c]: 4 })));
+
+module.exports = { activities, professions, dietaryRestrictions, cuisines };

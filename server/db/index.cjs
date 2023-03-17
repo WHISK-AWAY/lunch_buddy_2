@@ -69,37 +69,6 @@ User.prototype.strikeCount = async () => {
   return count || 0;
 };
 
-// pretty much just for testing
-
-const testUserData = {
-  firstName: 'Sheffy',
-  lastName: 'Orwin',
-  email: 'sorwin0@google.com.au',
-  password: 'SFYTgvdMCu',
-  age: 51,
-  gender: 'M',
-  address1: '459 Fuller Street',
-  address2: null,
-  city: 'El Paso',
-  state: 'TX',
-  lastLat: null,
-  lastLong: null,
-  zip: '79945',
-  avatarURL: 'http://dummyimage.com/144x100.png/dddddd/000000',
-  aboutMe: 'Other specified disorders of esophagus',
-  isVerified: false,
-  role: 'user',
-  status: 'active',
-};
-
-const testUserCreate = async () => {
-  await db.sync({ force: true });
-  let testUser = await User.create(testUserData);
-  await db.close();
-};
-
-// testUserCreate();
-
 module.exports = {
   Category,
   Meeting,
