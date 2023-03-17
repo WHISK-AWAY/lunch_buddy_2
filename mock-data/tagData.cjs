@@ -858,11 +858,6 @@ const activities = [
     subCategory: 'Outdoors',
   },
   {
-    title: 'Baseball',
-    category: 'General',
-    subCategory: 'Outdoors',
-  },
-  {
     title: 'Basketball',
     category: 'General',
     subCategory: 'Outdoors',
@@ -2194,11 +2189,6 @@ const activities = [
     title: 'Water polo',
     category: 'Competitive',
     subCategory: 'Outdoors',
-  },
-  {
-    title: 'Fishkeeping',
-    category: 'Observation',
-    subCategory: 'Indoors',
   },
   {
     title: 'Learning',
