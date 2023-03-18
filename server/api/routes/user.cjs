@@ -107,11 +107,23 @@ router.put('/:userId', (req, res, next) => {
   res.send('hello');
 });
 
-router.delete('/:userId', requireToken, isAdmin, (req, res, next) => {
+router.delete('/:userId', requireToken, isAdmin, async (req, res, next) => {
   /**
    * DELETE /api/user/:userId
    * Admin-only: delete user account
    */
+  try {
+    const userId = +req.params.userId;
+    const destroyCount = await User.destroy({
+      where: { id: userId },
+      limit: 1,
+    });
+
+    if (destroyCount > 0) return res.sendStatus(204);
+    else return res.status(404).send('Nothing deleted: no matching user found');
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.put('/:userId/location', (req, res, next) => {
