@@ -112,7 +112,7 @@ router.put('/:meetingId/rating/:ratingId', isAdmin, async (req, res, next) => {
       {
         where: {
           id: req.params.ratingId,
-          iSReport: false,
+          isReport: false,
         },
       }
     );
