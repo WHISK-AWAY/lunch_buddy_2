@@ -48,7 +48,7 @@ router.delete('/:meetingId', async (req, res, next) => {
         id: req.params.meetingId,
       },
     });
-    res.end();
+    res.sendStatus(204);
   } catch (err) {
     next(err);
   }
