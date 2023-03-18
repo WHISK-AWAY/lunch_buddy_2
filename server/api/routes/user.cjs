@@ -52,6 +52,10 @@ router.post('/', (req, res, next) => {
       tags,
     } = req.body;
 
+    // reject if anything important is missing
+
+    // build up new user object, *excluding* tags
+    // (we'll tack these on after initial user creation)
     const newUserData = {
       firstName,
       lastName,
@@ -67,6 +71,14 @@ router.post('/', (req, res, next) => {
       avatarUrl,
       aboutMe,
     };
+
+    // verify tags meet count-by-category requirements; reject if not
+
+    // create user
+
+    // add tags to user
+
+    // return new user info
 
     res.send('hello');
   } catch (err) {
@@ -163,11 +175,6 @@ router.put(
     }
   }
 );
-
-// router.get('/:userId', (req, res, next) => {
-//   console.log('req.params.userId:', req.params.userId);
-//   res.send(req.params.userId);
-// });
 
 router.use('/:userId/meeting', require('./userMeeting.cjs'));
 
