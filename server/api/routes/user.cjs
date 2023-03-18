@@ -8,6 +8,11 @@ const {
 const { User, Tag, Category } = require('../../db/index.cjs');
 const { Op } = require('sequelize');
 
+// user tag minimums
+const MINIMUM_SOCIAL = 10;
+const MINIMUM_PROFESSIONAL = 1;
+const MINIMUM_CUISINE = 5;
+
 router.get('/', requireToken, isAdmin, async (req, res, next) => {
   /**
    * GET /api/user
@@ -101,7 +106,6 @@ router.post('/', async (req, res, next) => {
     });
 
     let cats = tagCollection.map((cat) => cat.categoryName);
-    console.log('cats:', cats);
     if (
       !cats.includes('professional') ||
       !cats.includes('social') ||
@@ -113,13 +117,6 @@ router.post('/', async (req, res, next) => {
     }
 
     for (let i = 0; i < tagCollection.length; i++) {
-      const MINIMUM_SOCIAL = 10;
-      const MINIMUM_PROFESSIONAL = 1;
-      const MINIMUM_CUISINE = 5;
-
-      console.log(
-        `${tagCollection[i].categoryName}: ${tagCollection[i].tags.length}`
-      ); // REMOVE ME
       let currentCat = tagCollection[i].categoryName;
       let currentTagCount = tagCollection[i].tags.length;
       let meetsReq = true;
@@ -194,9 +191,9 @@ router.put(
     /**
      * PUT /api/user/:userId
      * Update user profile (normal profile fields)
+     * If updating tags, *include full collection* (not just adds)
      */
 
-    /*  START COMMENT BLOCK >>>>>>>>>>
     const userId = +req.params.userId;
 
     // big destructure to filter out unwanted fields from user-provided inputs
@@ -240,30 +237,78 @@ router.put(
       status,
     };
 
-    // iterate over update package & strip out any missing fields // REMOVE ME
+    // iterate over update package & strip out any missing fields
 
-    // console.log('before prop stripping:', updatePackage);
     for (let key of Object.keys(updatePackage)) {
       if (updatePackage[key] === undefined || updatePackage[key] === null)
         delete updatePackage[key];
     }
-    // console.log('after prop stripping:', updatePackage); // REMOVE ME
-
-    // TODO: check tags in same manner as POST /api/user/
-
-    // reject if anything important is missing?
 
     // reject if non-admin attempting to change admin-only fields
     if (
       (updatePackage.isVerified !== undefined &&
         updatePackage.isVerified !== req.user.isVerified) ||
       updatePackage.role === 'admin' ||
-      !['active', 'inactive'].includes(updatePackage.status)
+      (updatePackage.status !== undefined &&
+        !['active', 'inactive'].includes(updatePackage.status))
     ) {
       if (req.user.role !== 'admin')
         return res
           .status(403)
           .send('Requested changes require admin privileges');
+    }
+
+    /**
+     * Check that tag collection meets minimum requirements per-category
+     * (only need to do this if tags were passed in)
+     */
+
+    // convert passed-in tag IDs to tag collection grouped by category
+    if (updatePackage.tags && updatePackage.tags.length > 0) {
+      const tagCollection = await Category.findAll({
+        include: {
+          model: Tag,
+          where: {
+            id: {
+              [Op.in]: tags,
+            },
+          },
+        },
+      });
+
+      // check that required categories are all present
+      let cats = tagCollection.map((cat) => cat.categoryName);
+      if (
+        !cats.includes('professional') ||
+        !cats.includes('social') ||
+        !cats.includes('cuisine')
+      ) {
+        return res
+          .status(400)
+          .send('Cannot update user: missing required tag category');
+      }
+
+      // iterate over category groups & check for minimum length
+      for (let i = 0; i < tagCollection.length; i++) {
+        let currentCat = tagCollection[i].categoryName;
+        let currentTagCount = tagCollection[i].tags.length;
+        let meetsReq = true;
+
+        if (currentCat === 'social' && currentTagCount < MINIMUM_SOCIAL)
+          meetsReq = false;
+        if (
+          currentCat === 'professional' &&
+          currentTagCount < MINIMUM_PROFESSIONAL
+        )
+          meetsReq = false;
+        if (currentCat === 'cuisine' && currentTagCount < MINIMUM_CUISINE)
+          meetsReq = false;
+
+        if (!meetsReq)
+          return res
+            .status(400)
+            .send('Cannot update user: minimum tag requirements not met');
+      }
     }
 
     // find requested user
@@ -277,9 +322,15 @@ router.put(
 
     // make requested changes
     await userToUpdate.update(updatePackage);
->>>>>>>>> END COMMENT BLOCK */
     // return updated user
-    res.send('hello');
+
+    const updatedUser = await User.findByPk(userToUpdate.id, {
+      attributes: {
+        exclude: ['password', 'avgRating', 'reportCount', 'strikeCount'],
+      },
+    });
+
+    res.status(200).json(updatedUser);
   }
 );
 
@@ -343,6 +394,7 @@ router.put(
   }
 );
 
+// split off Meeting section of User route into separate module
 router.use('/:userId/meeting', require('./userMeeting.cjs'));
 
 module.exports = router;
