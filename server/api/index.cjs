@@ -1,5 +1,7 @@
 const router = require('express').Router();
 
+router.use('/tags', require('./routes/tags.cjs'));
+
 // If api route isn't found
 
 router.use('/meeting', require('./meeting/index.cjs'));
