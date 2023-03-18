@@ -322,8 +322,8 @@ router.put(
 
     // make requested changes
     await userToUpdate.update(updatePackage);
-    // return updated user
 
+    // return updated user
     const updatedUser = await User.findByPk(userToUpdate.id, {
       attributes: {
         exclude: ['password', 'avgRating', 'reportCount', 'strikeCount'],
@@ -381,6 +381,7 @@ router.put(
           exclude: ['password'],
         },
       });
+
       if (!thisUser)
         return res
           .status(404)
