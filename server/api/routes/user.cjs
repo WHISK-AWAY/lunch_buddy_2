@@ -37,7 +37,7 @@ router.post('/', async (req, res, next) => {
   /**
    * POST /api/user
    * Create new user
-   * Pass in array of tag names
+   * Pass in array of tag ids
    */
   try {
     // destructure to filter out any other weird things that might be
@@ -191,7 +191,7 @@ router.put(
     /**
      * PUT /api/user/:userId
      * Update user profile (normal profile fields)
-     * If updating tags, *include full collection* (not just adds)
+     * If updating tags, *include full collection* of ids (not just adds)
      */
 
     const userId = +req.params.userId;
