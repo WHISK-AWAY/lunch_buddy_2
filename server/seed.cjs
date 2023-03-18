@@ -109,7 +109,6 @@ const seed = async () => {
         let randomTag = Math.floor(Math.random() * seededTags.length);
         await user.addTag(seededTags[randomTag]);
       }
-      // return user;
     }
 
     console.log('Users seeding successful');
@@ -195,3 +194,5 @@ const seed = async () => {
 };
 
 seed();
+
+module.exports = seed;
