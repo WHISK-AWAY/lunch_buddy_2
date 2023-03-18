@@ -154,6 +154,16 @@ const User = db.define('user', {
       isUppercase: true,
     },
   },
+  zip: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    validate: {
+      min: 0,
+      max: 99999,
+      notEmpty: true,
+      notNull: true,
+    },
+  },
   lastLat: {
     type: Sequelize.DECIMAL(10, 7),
     allowNull: true,
@@ -168,16 +178,6 @@ const User = db.define('user', {
     validate: {
       min: -180,
       max: 180,
-    },
-  },
-  zip: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    validate: {
-      min: 0,
-      max: 99999,
-      notEmpty: true,
-      notNull: true,
     },
   },
   avatarUrl: {
@@ -257,7 +257,7 @@ User.beforeValidate((user) => {
   const MIN_PASSWORD_LENGTH = 8;
 
   const pw = user.password;
-  if (pw.length < MIN_PASSWORD_LENGTH) {
+  if (pw && pw.length < MIN_PASSWORD_LENGTH) {
     const err = new Error();
     err.message = `Minimum password requirement not met (${MIN_PASSWORD_LENGTH} characters)`;
     throw err;
@@ -266,6 +266,11 @@ User.beforeValidate((user) => {
 
 User.beforeCreate(async (user) => {
   user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
+});
+
+User.beforeUpdate(async (user) => {
+  if (user.password)
+    user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
 });
 
 /**
