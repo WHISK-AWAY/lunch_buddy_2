@@ -20,6 +20,16 @@ async function requireToken(req, res, next) {
   }
 }
 
+function sameUserOrAdmin(req, res, next) {
+  if (req.user.id === +req.params.userId || req.user.role === 'admin') next();
+  else
+    res
+      .status(403)
+      .send(
+        'Inadequate access rights / Requested user does not match logged-in user'
+      );
+}
+
 async function isAdmin(req, res, next) {
   try {
     if (!req.user) {
@@ -34,4 +44,4 @@ async function isAdmin(req, res, next) {
 }
 
 // isAdmin/role (admin priv) (req.user.isAdmin / req.user.role === ...)
-module.exports = { requireToken, isAdmin };
+module.exports = { requireToken, sameUserOrAdmin, isAdmin };
