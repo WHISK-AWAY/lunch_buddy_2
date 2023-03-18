@@ -1,7 +1,7 @@
 const router = require('express').Router();
 // const {requireToken, isAdmin} = require('./authMiddleware.cjs');
 
-const { User } = require('../db/index.cjs');
+const { User } = require('../../db/index.cjs');
 
 router.get('/', async (req, res, next) => {
   /**
