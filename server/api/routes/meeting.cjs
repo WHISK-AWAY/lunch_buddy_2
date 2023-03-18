@@ -72,7 +72,7 @@ router.get('/:meetingId/messages', async (req, res, next) => {
       next(err);
     }
   } else {
-    res.status(404).send('Meeting not found with id ' + req.params.meetingId);
+    res.status(404).send('User is not found in meeting');
   }
 });
 
@@ -87,7 +87,7 @@ router.post('/:meetingId/messages', async (req, res, next) => {
       s;
     }
   } else {
-    res.status(404).send('Meeting not found with id ' + req.params.meetingId);
+    res.status(404).send('User is not found in meeting');
   }
 });
 
@@ -101,7 +101,7 @@ router.post('/:meetingId/rating', requireToken, async (req, res, next) => {
       next(err);
     }
   } else {
-    res.status(404).send('Meeting not found with id ' + req.params.meetingId);
+    res.status(404).send('User is not found in meeting');
   }
 });
 
