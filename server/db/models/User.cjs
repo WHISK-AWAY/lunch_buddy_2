@@ -154,6 +154,16 @@ const User = db.define('user', {
       isUppercase: true,
     },
   },
+  zip: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    validate: {
+      min: 0,
+      max: 99999,
+      notEmpty: true,
+      notNull: true,
+    },
+  },
   lastLat: {
     type: Sequelize.DECIMAL(10, 7),
     allowNull: true,
@@ -168,16 +178,6 @@ const User = db.define('user', {
     validate: {
       min: -180,
       max: 180,
-    },
-  },
-  zip: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    validate: {
-      min: 0,
-      max: 99999,
-      notEmpty: true,
-      notNull: true,
     },
   },
   avatarUrl: {
