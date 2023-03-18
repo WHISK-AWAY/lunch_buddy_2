@@ -99,7 +99,10 @@ const seed = async () => {
         user.password = user.password + 'nsdjkfnsdjkfnsdkj374234';
       return user;
     });
-    const seededUsers = await User.bulkCreate(userData, { validate: true });
+    const seededUsers = await User.bulkCreate(userData, {
+      validate: true,
+      individualHooks: true,
+    });
 
     for (let user of seededUsers) {
       for (let i = 0; i < 5; i++) {
