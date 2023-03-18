@@ -5,7 +5,8 @@ const {
   sameUserOrAdmin,
 } = require('../authMiddleware.cjs');
 
-const { User, Tag } = require('../../db/index.cjs');
+const { User, Tag, Category } = require('../../db/index.cjs');
+const { Op } = require('sequelize');
 
 router.get('/', requireToken, isAdmin, async (req, res, next) => {
   /**
@@ -27,10 +28,11 @@ router.get('/', requireToken, isAdmin, async (req, res, next) => {
   }
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
   /**
    * POST /api/user
    * Create new user
+   * Pass in array of tag names
    */
   try {
     // destructure to filter out any other weird things that might be
@@ -52,8 +54,6 @@ router.post('/', (req, res, next) => {
       tags,
     } = req.body;
 
-    // reject if anything important is missing
-
     // build up new user object, *excluding* tags
     // (we'll tack these on after initial user creation)
     const newUserData = {
@@ -72,15 +72,88 @@ router.post('/', (req, res, next) => {
       aboutMe,
     };
 
+    // clean up object for unrequired fields
+    // reject for missing required fields
+    for (let key of Object.keys(newUserData)) {
+      if (
+        (key === 'address2' || key === 'avatarUrl') &&
+        newUserData[key] === undefined
+      ) {
+        delete newUserData[key];
+      } else if (newUserData[key] === undefined) {
+        return res
+          .status(400)
+          .send('Cannot create user: missing required information');
+      }
+    }
+
     // verify tags meet count-by-category requirements; reject if not
 
-    // create user
+    const tagCollection = await Category.findAll({
+      include: {
+        model: Tag,
+        where: {
+          id: {
+            [Op.in]: tags,
+          },
+        },
+      },
+    });
 
-    // add tags to user
+    let cats = tagCollection.map((cat) => cat.categoryName);
+    console.log('cats:', cats);
+    if (
+      !cats.includes('professional') ||
+      !cats.includes('social') ||
+      !cats.includes('cuisine')
+    ) {
+      return res
+        .status(400)
+        .send('Cannot create user: missing required tag category');
+    }
+
+    for (let i = 0; i < tagCollection.length; i++) {
+      const MINIMUM_SOCIAL = 10;
+      const MINIMUM_PROFESSIONAL = 1;
+      const MINIMUM_CUISINE = 5;
+
+      console.log(
+        `${tagCollection[i].categoryName}: ${tagCollection[i].tags.length}`
+      ); // REMOVE ME
+      let currentCat = tagCollection[i].categoryName;
+      let currentTagCount = tagCollection[i].tags.length;
+      let meetsReq = true;
+
+      if (currentCat === 'social' && currentTagCount < MINIMUM_SOCIAL)
+        meetsReq = false;
+      if (
+        currentCat === 'professional' &&
+        currentTagCount < MINIMUM_PROFESSIONAL
+      )
+        meetsReq = false;
+      if (currentCat === 'cuisine' && currentTagCount < MINIMUM_CUISINE)
+        meetsReq = false;
+
+      if (!meetsReq)
+        return res
+          .status(400)
+          .send('Cannot create user: minimum tag requirements not met');
+    }
+
+    // create user
+    const newUser = await User.create(newUserData);
+    await newUser.addTags(tags);
+
+    const finalUser = await User.findByPk(newUser.id, {
+      include: [Tag],
+      attributes: {
+        exclude: ['password', 'avgRating', 'reportCount', 'strikeCount'],
+      },
+    });
 
     // return new user info
 
-    res.send('hello');
+    res.status(200).json(finalUser);
   } catch (err) {
     next(err);
   }
@@ -113,13 +186,102 @@ router.get(
   }
 );
 
-router.put('/:userId', (req, res, next) => {
-  /**
-   * PUT /api/user/:userId
-   * Update user profile (normal profile fields)
-   */
-  res.send('hello');
-});
+router.put(
+  '/:userId',
+  requireToken,
+  sameUserOrAdmin,
+  async (req, res, next) => {
+    /**
+     * PUT /api/user/:userId
+     * Update user profile (normal profile fields)
+     */
+
+    /*  START COMMENT BLOCK >>>>>>>>>>
+    const userId = +req.params.userId;
+
+    // big destructure to filter out unwanted fields from user-provided inputs
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      age,
+      gender,
+      address1,
+      address2,
+      city,
+      state,
+      zip,
+      avatarUrl,
+      aboutMe,
+      tags,
+      isVerified,
+      role,
+      status,
+    } = req.body;
+
+    const updatePackage = {
+      firstName,
+      lastName,
+      email,
+      password,
+      age,
+      gender,
+      address1,
+      address2,
+      city,
+      state,
+      zip,
+      avatarUrl,
+      aboutMe,
+      tags,
+      isVerified,
+      role,
+      status,
+    };
+
+    // iterate over update package & strip out any missing fields // REMOVE ME
+
+    // console.log('before prop stripping:', updatePackage);
+    for (let key of Object.keys(updatePackage)) {
+      if (updatePackage[key] === undefined || updatePackage[key] === null)
+        delete updatePackage[key];
+    }
+    // console.log('after prop stripping:', updatePackage); // REMOVE ME
+
+    // TODO: check tags in same manner as POST /api/user/
+
+    // reject if anything important is missing?
+
+    // reject if non-admin attempting to change admin-only fields
+    if (
+      (updatePackage.isVerified !== undefined &&
+        updatePackage.isVerified !== req.user.isVerified) ||
+      updatePackage.role === 'admin' ||
+      !['active', 'inactive'].includes(updatePackage.status)
+    ) {
+      if (req.user.role !== 'admin')
+        return res
+          .status(403)
+          .send('Requested changes require admin privileges');
+    }
+
+    // find requested user
+    const userToUpdate = await User.findByPk(userId, {
+      include: [Tag],
+      attributes: { exclude: ['password'] },
+    });
+
+    if (!userToUpdate)
+      return res.status(404).send(`Cannot update: no such user id: ${userId}`);
+
+    // make requested changes
+    await userToUpdate.update(updatePackage);
+>>>>>>>>> END COMMENT BLOCK */
+    // return updated user
+    res.send('hello');
+  }
+);
 
 router.delete('/:userId', requireToken, isAdmin, async (req, res, next) => {
   /**
@@ -135,7 +297,10 @@ router.delete('/:userId', requireToken, isAdmin, async (req, res, next) => {
     });
 
     if (destroyCount > 0) return res.sendStatus(204);
-    else return res.status(404).send('Nothing deleted: no matching user found');
+    else
+      return res
+        .status(404)
+        .send(`Nothing deleted: no such user id: ${userId}`);
   } catch (err) {
     next(err);
   }
@@ -166,7 +331,9 @@ router.put(
         },
       });
       if (!thisUser)
-        return res.status(404).send('Cannot update location: user not found');
+        return res
+          .status(404)
+          .send(`Cannot update location: no such user id: ${userId}`);
 
       await thisUser.update({ lastLat: lat, lastLong: long });
       res.status(200).send(thisUser);
