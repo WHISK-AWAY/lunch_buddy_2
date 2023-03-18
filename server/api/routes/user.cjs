@@ -85,12 +85,14 @@ router.get(
      */
     try {
       const userId = +req.params.userId;
+
       const user = await User.findByPk(userId, {
         include: [Tag],
         attributes: {
           exclude: ['password', 'avgRating', 'reportCount', 'strikeCount'],
         },
       });
+
       if (!user) return res.status(404).send(`No such user id: ${userId}`);
       res.status(200).json(user);
     } catch (err) {
@@ -114,6 +116,7 @@ router.delete('/:userId', requireToken, isAdmin, async (req, res, next) => {
    */
   try {
     const userId = +req.params.userId;
+
     const destroyCount = await User.destroy({
       where: { id: userId },
       limit: 1,
@@ -126,13 +129,40 @@ router.delete('/:userId', requireToken, isAdmin, async (req, res, next) => {
   }
 });
 
-router.put('/:userId/location', (req, res, next) => {
-  /**
-   * PUT /api/user/:userId/location
-   * Update user's lat/long location
-   */
-  res.send('hello');
-});
+router.put(
+  '/:userId/location',
+  requireToken,
+  sameUserOrAdmin,
+  async (req, res, next) => {
+    /**
+     * PUT /api/user/:userId/location
+     * Update user's lat/long location
+     */
+    try {
+      const { lat, long } = req.body;
+      const userId = +req.params.userId;
+
+      if (lat === undefined || long === undefined) {
+        return res
+          .status(400)
+          .send('Cannot update location: missing parameters');
+      }
+
+      const thisUser = await User.findByPk(userId, {
+        attributes: {
+          exclude: ['password'],
+        },
+      });
+      if (!thisUser)
+        return res.status(404).send('Cannot update location: user not found');
+
+      await thisUser.update({ lastLat: lat, lastLong: long });
+      res.status(200).send(thisUser);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 // router.get('/:userId', (req, res, next) => {
 //   console.log('req.params.userId:', req.params.userId);
