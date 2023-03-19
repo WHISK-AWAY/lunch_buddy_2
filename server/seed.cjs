@@ -1,4 +1,5 @@
 const db = require('./db/database.cjs');
+const geolib = require('geolib');
 const {
   Category,
   Meeting,
@@ -94,7 +95,31 @@ const seed = async () => {
 
     console.log('Seeding users...');
 
+    const plantUserData = userList.shift();
+
+    const plantUser = await User.create(plantUserData);
+
+    const center = {
+      latitude: plantUserData.lastLat,
+      longitude: plantUserData.lastLong,
+    };
+
+    const milesToMeters = (miles) => {
+      const metersPerMile = 1609.344;
+      const meters = miles * metersPerMile;
+      return meters;
+    };
     const userData = userList.map((user) => {
+      const searchRadius = 5;
+      const randomCoordinate = geolib.computeDestinationPoint(
+        center,
+        Math.random() * milesToMeters(searchRadius),
+        Math.random() * 360
+      );
+
+      user.lastLat = randomCoordinate.latitude;
+      user.lastLong = randomCoordinate.longitude;
+
       if (user.password.length < 8)
         user.password = user.password + 'nsdjkfnsdjkfnsdkj374234';
       return user;
@@ -103,6 +128,8 @@ const seed = async () => {
       validate: true,
       individualHooks: true,
     });
+
+    seededUsers.push(plantUser);
 
     for (let user of seededUsers) {
       for (let i = 0; i < 5; i++) {
