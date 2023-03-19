@@ -31,8 +31,8 @@ const demoUsers = [
     address2: null,
     city: 'Brooklyn',
     state: 'NY',
-    lastLat: 34.0639,
-    lastLong: -118.2744,
+    lastLat: null,
+    lastLong: null,
     zip: 11228,
     avatarURL: '/src/assets/demoUserImg/F2.jpg',
     aboutMe:
@@ -52,8 +52,8 @@ const demoUsers = [
     address2: 'Suite 79',
     city: 'Brooklyn',
     state: 'NY',
-    lastLat: 34.0516,
-    lastLong: -118.2577,
+    lastLat: null,
+    lastLong: null,
     zip: 11228,
     avatarURL: '/src/assets/demoUserImg/F11.jpg',
     aboutMe:
@@ -73,8 +73,8 @@ const demoUsers = [
     address2: null,
     city: 'Bronx',
     state: 'NY',
-    lastLat: 34.0402,
-    lastLong: -118.2513,
+    lastLat: null,
+    lastLong: null,
     zip: 10451,
     avatarURL: '/src/assets/demoUserImg/M5.jpg',
     aboutMe:
@@ -94,8 +94,8 @@ const demoUsers = [
     address2: null,
     city: 'Queens',
     state: 'NY',
-    lastLat: 34.0485,
-    lastLong: -118.2801,
+    lastLat: null,
+    lastLong: null,
     zip: 11005,
     avatarURL: '/src/assets/demoUserImg/M8.jpg',
     aboutMe:
