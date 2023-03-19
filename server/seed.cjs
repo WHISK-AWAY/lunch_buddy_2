@@ -12,7 +12,7 @@ const meetingList = require('../mock-data/meetingData.cjs');
 const messageList = require('../mock-data/messageData.cjs');
 const ratingList = require('../mock-data/ratingsData.cjs');
 const tagList = require('../mock-data/tagData.cjs');
-const userList = require('../mock-data/userData.cjs');
+const userList = require('../mock-data/demoUsersData.cjs');
 
 const seed = async () => {
   try {
@@ -184,7 +184,7 @@ const seed = async () => {
       validate: true,
     });
 
-    console.log('Ratings seeding succseful');
+    console.log('Ratings seeding successful');
 
     db.close();
   } catch (err) {
