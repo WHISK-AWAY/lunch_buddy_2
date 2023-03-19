@@ -40,12 +40,13 @@ User.hasMany(Rating, { foreignKey: 'buddyId' });
  * (placed here to avoid circular dependencies)
  */
 
-User.prototype.avgRating = async () => {
+User.prototype.avgRating = async function () {
   const scoreCount = await Rating.count({ where: { buddyId: this.id } });
+
   const scoreSum = await Rating.sum('rating', {
     where: { buddyId: this.id },
   });
-  if (!scoreCount || !scoreSum >= 0) return null;
+
   return scoreSum / scoreCount;
 };
 
