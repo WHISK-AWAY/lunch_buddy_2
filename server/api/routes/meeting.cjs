@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { Meeting, Message, Rating } = require('../../db/index.cjs');
 const { requireToken, isAdmin } = require('../authMiddleware.cjs');
 
+// Don't belive needs middleware it'd be the server creating the meeting when needed
 router.post('/', async (req, res, next) => {
   try {
     console.log(req.body.userId);
@@ -11,7 +12,7 @@ router.post('/', async (req, res, next) => {
     next(err);
   }
 });
-
+// same case with above
 router.put('/:meetingId', async (req, res, next) => {
   try {
     const meeting = await Meeting.findByPk(req.params.meetingId);
@@ -25,7 +26,7 @@ router.put('/:meetingId', async (req, res, next) => {
     next(err);
   }
 });
-
+// only admins can get full past meeting info
 router.get('/:meetingId', isAdmin, async (req, res, next) => {
   try {
     const meeting = await Meeting.findByPk(req.params.meetingId);
@@ -33,13 +34,13 @@ router.get('/:meetingId', isAdmin, async (req, res, next) => {
     if (meeting) {
       res.json(meeting);
     } else {
-      res.status(404).send('Meeting not found with id ' + req.params.meetingId);
+      res.status(400).send('Meeting not found with id ' + req.params.meetingId);
     }
   } catch (err) {
     next(err);
   }
 });
-
+// only admins can remove past meetings
 router.delete('/:meetingId', isAdmin, async (req, res, next) => {
   try {
     await Meeting.destroy({
@@ -52,10 +53,11 @@ router.delete('/:meetingId', isAdmin, async (req, res, next) => {
     next(err);
   }
 });
-router.get('/:meetingId/messages', async (req, res, next) => {
-  const meeting = await Meeting.findByPk(req.params.meetingId);
-  if (req.user.name === meeting.userId || req.user.name === meeting.buddyId) {
-    try {
+// want to check if user is logged in and user is in meeting
+router.get('/:meetingId/messages', requireToken, async (req, res, next) => {
+  try {
+    const meeting = await Meeting.findByPk(req.params.meetingId);
+    if (req.user.name === meeting.userId || req.user.name === meeting.buddyId) {
       const meeting = await Meeting.findByPk(req.params.meetingId, {
         include: {
           model: Message,
@@ -68,40 +70,38 @@ router.get('/:meetingId/messages', async (req, res, next) => {
           .status(404)
           .send('Meeting not found with id ' + req.params.meetingId);
       }
-    } catch (err) {
-      next(err);
+    } else {
+      res.status(404).send('User is not found in meeting');
     }
-  } else {
-    res.status(404).send('User is not found in meeting');
+  } catch (err) {
+    next(err);
   }
 });
-
-router.post('/:meetingId/messages', async (req, res, next) => {
-  const meeting = await Meeting.findByPk(req.params.meetingId);
-  if (req.user.name === meeting.userId || req.user.name === meeting.buddyId) {
-    try {
+router.post('/:meetingId/messages', requireToken, async (req, res, next) => {
+  try {
+    const meeting = await Meeting.findByPk(req.params.meetingId);
+    if (req.user.name === meeting.userId || req.user.name === meeting.buddyId) {
       const newMessage = await Message.create(req.body);
       res.status(200).json(newMessage);
-    } catch (err) {
-      next(err);
-      s;
+    } else {
+      res.status(404).send('User is not found in meeting');
     }
-  } else {
-    res.status(404).send('User is not found in meeting');
+  } catch (err) {
+    next(err);
   }
 });
-
+// want to check if user is logged in and user is in meeting
 router.post('/:meetingId/rating', requireToken, async (req, res, next) => {
-  const meeting = await Meeting.findByPk(req.params.meetingId);
-  if (req.user.name === meeting.userId || req.user.name === meeting.buddyId) {
-    try {
+  try {
+    const meeting = await Meeting.findByPk(req.params.meetingId);
+    if (req.user.name === meeting.userId || req.user.name === meeting.buddyId) {
       const rating = await Rating.create(req.body);
       res.status(200).json(rating);
-    } catch (err) {
-      next(err);
+    } else {
+      res.status(404).send('User is not found in meeting');
     }
-  } else {
-    res.status(404).send('User is not found in meeting');
+  } catch (err) {
+    next(err);
   }
 });
 
