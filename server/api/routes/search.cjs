@@ -4,44 +4,24 @@ const { isAdmin, requireToken } = require('../authMiddleware.cjs');
 const { Op } = require('sequelize');
 const geolib = require('geolib');
 
-// const test = [
-//   {
-//     firstName: 'Liam',
-//     lastName: 'Shelton',
-//     email: 'lshelton0@gmail.com',
-//     password: 'BJB6qr7fdsfsd4ee4',
-//     age: 25,
-//     gender: 'M',
-//     address1: '2 Crest Line Pass',
-//     address2: null,
-//     city: 'Bronx',
-//     state: 'NY',
-//     lastLat: 40.678178,
-//     lastLong: -73.944158,
-//     zip: '10451',
-//     avatarURL: '/src/assets/demoUserImg/M1.jpg',
-//     aboutMe:
-//       'As a journalist, I spend my days writing and researching stories. But when I am off, you can find me at the beach, practicing yoga, or trying out new restaurants in town.',
-//     isVerified: true,
-//     role: 'user',
-//     status: 'active',
-//   },
-// ];
 router.get('/', requireToken, async (req, res, next) => {
   try {
-    const conversion = (miles) => {
+    if (req.user.lastLat === null || req.user.lastLong === null) {
+      res.status(400).send('No current position found');
+    }
+
+    const milesToMeters = (miles) => {
       const metersPerMile = 1609.344;
       const meters = miles * metersPerMile;
       return meters;
     };
 
-    const currentLocation = geolib.getBoundsOfDistance(
+    const searchArea = geolib.getBoundsOfDistance(
       { latitude: req.user.lastLat, longitude: req.user.lastLong },
-      conversion(5)
+      milesToMeters(5)
     );
-    // console.log('currentLocation', currentLocation);
 
-    const userPosition = await User.findAll({
+    const usersInRange = await User.findAll({
       include: {
         model: Tag,
       },
@@ -50,26 +30,19 @@ router.get('/', requireToken, async (req, res, next) => {
         [Op.and]: [
           {
             lastLong: {
-              [Op.between]: [
-                currentLocation[0].longitude,
-                currentLocation[1].longitude,
-              ],
+              [Op.between]: [searchArea[0].longitude, searchArea[1].longitude],
             },
           },
           {
             lastLat: {
-              [Op.between]: [
-                currentLocation[0].latitude,
-                currentLocation[1].latitude,
-              ],
+              [Op.between]: [searchArea[0].latitude, searchArea[1].latitude],
             },
           },
         ],
       },
     });
 
-    console.log('userPosition', userPosition);
-    res.send();
+    res.status(200).json(usersInRange);
   } catch (err) {
     next(err);
   }
