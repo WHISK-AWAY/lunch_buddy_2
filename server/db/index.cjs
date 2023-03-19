@@ -50,20 +50,20 @@ User.prototype.avgRating = async function () {
   return scoreSum / scoreCount;
 };
 
-User.prototype.meetingCount = async () => {
+User.prototype.meetingCount = async function () {
   const userCount = await Meeting.count({ where: { userId: this.id } });
   const buddyCount = await Meeting.count({ where: { buddyId: this.id } });
   return userCount + buddyCount;
 };
 
-User.prototype.reportCount = async () => {
+User.prototype.reportCount = async function () {
   const count = await Rating.count({
     where: { buddyId: this.id, isReport: true },
   });
   return count || 0;
 };
 
-User.prototype.strikeCount = async () => {
+User.prototype.strikeCount = async function () {
   const count = await Rating.count({
     where: { buddyId: this.id, isReport: true, isUpheld: true },
   });
