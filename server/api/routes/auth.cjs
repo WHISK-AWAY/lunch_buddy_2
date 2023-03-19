@@ -16,7 +16,6 @@ router.get('/', requireToken, (req, res, next) => {
 router.post('/login', async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    console.log('email&password', email, password);
     const token = await User.authenticate({ email, password });
     if (token) {
       return res.status(200).send({ token });
