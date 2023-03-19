@@ -19,9 +19,11 @@ router.get('/', requireToken, async (req, res, next) => {
     //will need to pass radius in query later, for now set to 5miles as a default value
     const searchRadius = +req.query.radius || 5;
 
+    const center = { latitude: req.user.lastLat, longitude: req.user.lastLong };
+
     //defining search radius coordinates
     const searchArea = geolib.getBoundsOfDistance(
-      { latitude: req.user.lastLat, longitude: req.user.lastLong },
+      center,
       milesToMeters(searchRadius)
     );
 
@@ -70,7 +72,6 @@ router.get('/', requireToken, async (req, res, next) => {
 
       //scale tag overlap count by buddy rating
       buddyUser.averageScore = (buddyUser.tagCount + 1) * (buddyRating + 1);
-
     }
 
     usersInRange.sort((a, b) => {
