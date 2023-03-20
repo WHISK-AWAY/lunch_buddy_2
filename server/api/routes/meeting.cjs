@@ -4,9 +4,14 @@ const { requireToken, isAdmin } = require('../authMiddleware.cjs');
 
 // Don't belive needs middleware it'd be the server creating the meeting when needed
 router.post('/', async (req, res, next) => {
+  const { userId, buddyId } = req.body;
+  const bodyKeys = { userId, buddyId };
+  for (let key in bodyKeys) {
+    if (bodyKeys[key] === undefined || bodyKeys[key] === null)
+      delete bodyKeys[key];
+  }
   try {
-    console.log(req.body.userId);
-    const newMeeting = await Meeting.create(req.body);
+    const newMeeting = await Meeting.create(bodyKeys);
     res.status(200).json(newMeeting);
   } catch (err) {
     next(err);
@@ -14,11 +19,17 @@ router.post('/', async (req, res, next) => {
 });
 // same case with above
 router.put('/:meetingId', async (req, res, next) => {
+  const { userId, buddyId, isClosed } = req.body;
+  const bodyKeys = { userId, buddyId, isClosed };
+  for (let key in bodyKeys) {
+    if (bodyKeys[key] === undefined || bodyKeys[key] === null)
+      delete bodyKeys[key];
+  }
   try {
     const meeting = await Meeting.findByPk(req.params.meetingId);
 
     if (meeting) {
-      res.json(await Meeting.update(req.body));
+      res.json(await meeting.update(bodyKeys));
     } else {
       res.status(404).send('Meeting not found with id ' + req.params.meetingId);
     }
@@ -56,27 +67,29 @@ router.delete('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
 // want to check if user is logged in and user is in meeting
 router.get('/:meetingId/messages', requireToken, async (req, res, next) => {
   try {
-    const meeting = await Meeting.findByPk(req.params.meetingId);
-    if (req.user.id === meeting.userId || req.user.id === meeting.buddyId) {
-      const meeting = await Meeting.findByPk(req.params.meetingId, {
-        include: {
-          model: Message,
-        },
-      });
-      if (meeting) {
+    const meeting = await Meeting.findByPk(req.params.meetingId, {
+      include: {
+        model: Message,
+      },
+    });
+    if (meeting) {
+      if (
+        req.user.id === meeting.userId ||
+        req.user.id === meeting.buddyId ||
+        req.user.role === 'admin'
+      ) {
         res.json(meeting);
       } else {
-        res
-          .status(404)
-          .send('Meeting not found with id ' + req.params.meetingId);
+        res.status(404).send('User is not found in meeting');
       }
     } else {
-      res.status(404).send('User is not found in meeting');
+      res.status(404).send('Meeting not found with id ' + req.params.meetingId);
     }
   } catch (err) {
     next(err);
   }
 });
+// last one
 router.post('/:meetingId/messages', requireToken, async (req, res, next) => {
   try {
     const meeting = await Meeting.findByPk(req.params.meetingId);
