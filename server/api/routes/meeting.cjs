@@ -53,12 +53,19 @@ router.get('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
 // only admins can remove past meetings
 router.delete('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
   try {
-    await Meeting.destroy({
+    const destroyCount = await Meeting.destroy({
       where: {
         id: req.params.meetingId,
       },
+      limit: 1,
     });
-    res.sendStatus(204);
+    if (destroyCount > 0) {
+      res.sendStatus(204);
+    } else {
+      res
+        .status(404)
+        .send(`meeting with ID ${req.params.meetingId} not foound`);
+    }
   } catch (err) {
     next(err);
   }
