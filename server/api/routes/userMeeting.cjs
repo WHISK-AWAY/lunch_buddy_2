@@ -98,11 +98,7 @@ router.put(
         return res
           .status(404)
           .send('No meeting found matching user and meetingId to update.');
-      } else if (
-        req.user.id !== meeting.userId &&
-        req.user.id !== meeting.buddyId &&
-        req.user.role !== 'admin'
-      ) {
+      } else if (req.user.id !== meeting.userId && req.user.role !== 'admin') {
         res.status(403).send('You are unable to edit this meeting.');
       } else {
         const updatedMeeting = await meeting.update({ lunchDate });
