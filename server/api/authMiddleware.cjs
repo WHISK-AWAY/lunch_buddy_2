@@ -21,7 +21,11 @@ async function requireToken(req, res, next) {
 }
 
 function sameUserOrAdmin(req, res, next) {
-  if (req.user.id === +req.params.userId || req.user.role === 'admin') next();
+  if (
+    req.user &&
+    (req.user.id === +req.params.userId || req.user.role === 'admin')
+  )
+    next();
   else
     res
       .status(403)

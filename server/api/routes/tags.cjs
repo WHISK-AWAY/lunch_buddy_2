@@ -55,7 +55,7 @@ router.delete('/:tagId', requireToken, isAdmin, async (req, res, next) => {
       return res.status(404).send(`No tag found to delete`);
     }
     await tag.destroy();
-    res.json(tag);
+    res.status(204).json(tag);
   } catch (error) {
     console.error(
       `Server issue when trying to delete tag: ${req.params.tagId}. Please try again later`
