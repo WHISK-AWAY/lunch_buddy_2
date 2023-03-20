@@ -2,8 +2,7 @@ const router = require('express').Router();
 const { Meeting, Message, Rating } = require('../../db/index.cjs');
 const { requireToken, isAdmin } = require('../authMiddleware.cjs');
 
-// Don't belive needs middleware it'd be the server creating the meeting when needed
-router.post('/', async (req, res, next) => {
+router.post('/', requireToken, async (req, res, next) => {
   const { userId, buddyId } = req.body;
   const bodyKeys = { userId, buddyId };
   for (let key in bodyKeys) {
@@ -17,8 +16,8 @@ router.post('/', async (req, res, next) => {
     next(err);
   }
 });
-// same case with above
-router.put('/:meetingId', async (req, res, next) => {
+
+router.put('/:meetingId', requireToken, async (req, res, next) => {
   const { userId, buddyId, isClosed } = req.body;
   const bodyKeys = { userId, buddyId, isClosed };
   for (let key in bodyKeys) {
