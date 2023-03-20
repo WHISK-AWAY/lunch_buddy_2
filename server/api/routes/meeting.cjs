@@ -147,7 +147,6 @@ router.put(
   isAdmin,
   async (req, res, next) => {
     try {
-      console.log(req.body.reportIsUpheld);
       const rating = await Rating.update(
         { reportIsUpheld: req.body.reportIsUpheld },
         {
