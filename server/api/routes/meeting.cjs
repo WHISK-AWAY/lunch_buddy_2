@@ -92,12 +92,20 @@ router.get('/:meetingId/messages', requireToken, async (req, res, next) => {
 // last one
 router.post('/:meetingId/messages', requireToken, async (req, res, next) => {
   try {
+    let correctRecip;
     const meeting = await Meeting.findByPk(req.params.meetingId);
     if (req.user.id === meeting.userId || req.user.id === meeting.buddyId) {
-      const newMessage = await Message.create(req.body);
+      if (req.user.id === meeting.userId) correctRecip = meeting.buddyId;
+      else correctRecip = meeting.userId;
+      const newMessage = await Message.create({
+        recipientId: correctRecip,
+        meetingId: req.params.meetingId,
+        message: req.body.message,
+        senderId: req.user.id,
+      });
       res.status(200).json(newMessage);
     } else {
-      res.status(404).send('User is not found in meeting');
+      res.status(404).send(`User is not in meeting ${req.params.meetingId}`);
     }
   } catch (err) {
     next(err);
@@ -106,12 +114,28 @@ router.post('/:meetingId/messages', requireToken, async (req, res, next) => {
 // want to check if user is logged in and user is in meeting
 router.post('/:meetingId/rating', requireToken, async (req, res, next) => {
   try {
+    const { isReport, reportComment } = req.body;
+    const bodyKeys = { isReport, reportComment };
+    for (let key in bodyKeys) {
+      if (bodyKeys[key] === undefined || bodyKeys[key] === null)
+        delete bodyKeys[key];
+    }
+    let correctRecip;
     const meeting = await Meeting.findByPk(req.params.meetingId);
     if (req.user.id === meeting.userId || req.user.id === meeting.buddyId) {
-      const rating = await Rating.create(req.body);
+      if (req.user.id === meeting.userId) correctRecip = meeting.buddyId;
+      else correctRecip = meeting.userId;
+      const rating = await Rating.create({
+        userId: req.user.id,
+        buddyId: correctRecip,
+        rating: req.body.rating,
+        meetingId: req.params.meetingId,
+        isReport: bodyKeys['isReport'],
+        reportComment: bodyKeys['reportComment'],
+      });
       res.status(200).json(rating);
     } else {
-      res.status(404).send('User is not found in meeting');
+      res.status(404).send(`User is not in meeting ${req.params.meetingId}`);
     }
   } catch (err) {
     next(err);
@@ -119,11 +143,12 @@ router.post('/:meetingId/rating', requireToken, async (req, res, next) => {
 });
 
 router.put(
-  '/:meetingId/rating/:ratingId',
+  '/rating/:ratingId',
   requireToken,
   isAdmin,
   async (req, res, next) => {
     try {
+      console.log(req.body.reportIsUpheld);
       const rating = await Rating.update(
         { reportIsUpheld: req.body.reportIsUpheld },
         {
@@ -133,7 +158,7 @@ router.put(
           },
         }
       );
-      if (rating) {
+      if (rating[0] !== 0) {
         res.status(200).json(rating);
       } else {
         res.status(404).send('Rating not found with id ' + req.params.ratingId);
