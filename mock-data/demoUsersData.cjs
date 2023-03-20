@@ -10,9 +10,9 @@ const demoUsers = [
     address2: null,
     city: 'Bronx',
     state: 'NY',
-    lastLat: null,
-    lasLong: null,
-    zip: '10451',
+    lastLat: 34.0522,
+    lastLong: -118.2437,
+    zip: 10451,
     avatarURL: '/src/assets/demoUserImg/M1.jpg',
     aboutMe:
       'As a journalist, I spend my days writing and researching stories. But when I am off, you can find me at the beach, practicing yoga, or trying out new restaurants in town.',
@@ -32,8 +32,8 @@ const demoUsers = [
     city: 'Brooklyn',
     state: 'NY',
     lastLat: null,
-    lasLong: null,
-    zip: '11228',
+    lastLong: null,
+    zip: 11228,
     avatarURL: '/src/assets/demoUserImg/F2.jpg',
     aboutMe:
       'I am a UX designer who loves to paint, take photos, and spend time with my family and friends on the weekends.',
@@ -53,8 +53,8 @@ const demoUsers = [
     city: 'Brooklyn',
     state: 'NY',
     lastLat: null,
-    lasLong: null,
-    zip: '11228',
+    lastLong: null,
+    zip: 11228,
     avatarURL: '/src/assets/demoUserImg/F11.jpg',
     aboutMe:
       'I am a teacher who loves to spend my free time reading, writing, and practicing mindfulness.',
@@ -74,8 +74,8 @@ const demoUsers = [
     city: 'Bronx',
     state: 'NY',
     lastLat: null,
-    lasLong: null,
-    zip: '10451',
+    lastLong: null,
+    zip: 10451,
     avatarURL: '/src/assets/demoUserImg/M5.jpg',
     aboutMe:
       'Hey, my name is Oliver and I am a web developer who loves to ride my bike, play guitar, and experiment with new recipes in the kitchen.',
@@ -95,8 +95,8 @@ const demoUsers = [
     city: 'Queens',
     state: 'NY',
     lastLat: null,
-    lasLong: null,
-    zip: '11005',
+    lastLong: null,
+    zip: 11005,
     avatarURL: '/src/assets/demoUserImg/M8.jpg',
     aboutMe:
       'My name is Lucas, and I work as a photographer. In my spare time, you can find me hiking, camping, and exploring new places with my camera.',
@@ -116,8 +116,8 @@ const demoUsers = [
     city: 'Queens',
     state: 'NY',
     lastLat: null,
-    lasLong: null,
-    zip: '11005',
+    lastLong: null,
+    zip: 11005,
     avatarURL: '/src/assets/demoUserImg/M7.jpg',
     aboutMe:
       'I am a writer by profession and love to spend my free time reading books, traveling, and practicing yoga.',
@@ -137,8 +137,8 @@ const demoUsers = [
     city: 'Brooklyn',
     state: 'NY',
     lastLat: null,
-    lasLong: null,
-    zip: '11228',
+    lastLong: null,
+    zip: 11228,
     avatarURL: '/src/assets/demoUserImg/M10.jpg',
     aboutMe:
       'Hi, my name is James, a social media manager who enjoys hiking with my dog, practicing yoga, and trying out new recipes in the kitchen.',
@@ -158,8 +158,8 @@ const demoUsers = [
     city: 'Brooklyn',
     state: 'NY',
     lastLat: null,
-    lasLong: null,
-    zip: '11228',
+    lastLong: null,
+    zip: 11228,
     avatarURL: '/src/assets/demoUserImg/F22.jpg',
     aboutMe:
       'As a nurse, I spend my days taking care of others. But when I am off, you can find me at the gym or cooking up a storm in the kitchen.',
@@ -179,8 +179,8 @@ const demoUsers = [
     city: 'Brooklyn',
     state: 'NY',
     lastLat: null,
-    lasLong: null,
-    zip: '11228',
+    lastLong: null,
+    zip: 11228,
     avatarURL: '/src/assets/demoUserImg/F24.jpg',
     aboutMe:
       'I am a lawyer who loves to unwind with a good game of tennis or a hike in the mountains.',
@@ -200,8 +200,8 @@ const demoUsers = [
     city: 'Queens',
     state: 'NY',
     lastLat: null,
-    lasLong: null,
-    zip: '11005',
+    lastLong: null,
+    zip: 11005,
     avatarURL: '/src/assets/demoUserImg/F12.jpg',
     aboutMe:
       'My name is Hana, and I work as a marketer. I am also an avid traveler and enjoy exploring new cultures and cuisines.',
@@ -221,8 +221,8 @@ const demoUsers = [
     city: 'Staten Island',
     state: 'NY',
     lastLat: null,
-    lasLong: null,
-    zip: '10311',
+    lastLong: null,
+    zip: 10311,
     avatarURL: '/src/assets/demoUserImg/F1.jpg',
     aboutMe:
       'As an accountant, numbers are my bread and butter. But when I am not crunching numbers, I like to go camping and fishing with my family.',
@@ -242,8 +242,8 @@ const demoUsers = [
     city: 'Staten Island',
     state: 'NY',
     lastLat: null,
-    lasLong: null,
-    zip: '10311',
+    lastLong: null,
+    zip: 10311,
     avatarURL: '/src/assets/demoUserImg/M4.jpg',
     aboutMe:
       'My name is Derick and I work as a scientist. In my free time, I like to go running, watch movies, and tinker with electronics.',
@@ -263,8 +263,8 @@ const demoUsers = [
     city: 'Brooklyn',
     state: 'NY',
     lastLat: null,
-    lasLong: null,
-    zip: '11228',
+    lastLong: null,
+    zip: 11228,
     avatarURL: '/src/assets/demoUserImg/M11.jpg',
     aboutMe:
       'My name is Dallis, and I am a graphic designer who loves to paint and explore new coffee shops in my spare time.',
@@ -284,8 +284,8 @@ const demoUsers = [
     city: 'Bronx',
     state: 'NY',
     lastLat: null,
-    lasLong: null,
-    zip: '10451',
+    lastLong: null,
+    zip: 10451,
     avatarURL: '/src/assets/demoUserImg/F10.jpg',
     aboutMe:
       'Hi, I am Cathy, a veterinarian who loves to knit, read books, and travel to new places whenever possible.',
@@ -305,8 +305,8 @@ const demoUsers = [
     city: 'Bronx',
     state: 'NY',
     lastLat: null,
-    lasLong: null,
-    zip: '10451',
+    lastLong: null,
+    zip: 10451,
     avatarURL: '/src/assets/demoUserImg/M6.jpg',
     aboutMe:
       'Hi, I am Killian! I work as a software engineer during the day and enjoy hiking and photography on the weekends.',
@@ -315,3 +315,5 @@ const demoUsers = [
     status: 'active',
   },
 ];
+
+module.exports = demoUsers;
