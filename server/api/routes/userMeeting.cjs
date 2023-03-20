@@ -1,3 +1,5 @@
+const { Op } = require('sequelize');
+
 const router = require('express').Router({ mergeParams: true });
 const { Meeting } = require('../../db/index.cjs');
 const { requireToken, sameUserOrAdmin } = require('../authMiddleware.cjs');
@@ -10,7 +12,10 @@ router.get('/', requireToken, sameUserOrAdmin, async (req, res, next) => {
   try {
     const userMeetings = await Meeting.findAll({
       where: {
-        userId: req.params.userId,
+        [Op.or]: [
+          { userId: req.params.userId },
+          { buddyId: req.params.userId },
+        ],
       },
     });
     res.status(200).json(userMeetings);
@@ -33,7 +38,10 @@ router.get(
       const meeting = await Meeting.findByPk(req.params.meetingId);
       if (!meeting) {
         return res.status(404).send('No meeting found.');
-      } else if (req.user.id !== meeting.userId && req.user.role !== 'admin') {
+      } else if (
+        (req.user.id !== meeting.userId || req.user.id !== meeting.buddyId) &&
+        req.user.role !== 'admin'
+      ) {
         res.status(403).send('You are unable to view this meeting.');
       } else {
         res.status(200).json(meeting);
@@ -61,7 +69,10 @@ router.put(
       const meeting = await Meeting.findByPk(req.params.meetingId);
       if (!meeting) {
         return res.status(404).send('No meeting found to update.');
-      } else if (req.user.id !== meeting.userId && req.user.role !== 'admin') {
+      } else if (
+        (req.user.id !== meeting.userId || req.user.id !== meeting.buddyId) &&
+        req.user.role !== 'admin'
+      ) {
         res.status(403).send('You are unable to edit this meeting.');
       } else {
         const updatedMeeting = await meeting.update({ lunchDate });
@@ -96,9 +107,7 @@ router.put(
         res.status(200).json(updatedMeeting);
       }
     } catch (error) {
-      console.error(
-        'Error trying to change meeting date. Please try again later.'
-      );
+      console.error('Error trying to cancel meeting. Please try again later.');
       next(error);
     }
   }
