@@ -1,6 +1,7 @@
 export {
   default as authSlice,
   selectAuth,
+  selectAuthStatus,
   requestLogin,
   tryToken,
 } from './authSlice';
