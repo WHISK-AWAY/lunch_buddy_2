@@ -1,4 +1,7 @@
 const db = require('./db/database.cjs');
+const seedLocalUsers = require('./utilities/seedLocalUsers.cjs');
+const seedUserTags = require('./utilities/seedUserTags.cjs');
+
 const {
   Category,
   Meeting,
@@ -12,8 +15,9 @@ const meetingList = require('../mock-data/meetingData.cjs');
 const messageList = require('../mock-data/messageData.cjs');
 const ratingList = require('../mock-data/ratingsData.cjs');
 const tagList = require('../mock-data/tagData.cjs');
-const userList = require('../mock-data/userData.cjs');
+const userList = require('../mock-data/demoUsersData.cjs');
 
+const SEARCH_RADIUS = 5;
 const seed = async () => {
   try {
     await db.sync({ force: true });
@@ -86,6 +90,8 @@ const seed = async () => {
       { validate: true }
     );
 
+    // console.log('seeded tags', seededTags);
+
     console.log('Tags seeding successful');
 
     /**
@@ -94,20 +100,23 @@ const seed = async () => {
 
     console.log('Seeding users...');
 
-    const userData = userList.map((user) => {
-      if (user.password.length < 8)
-        user.password = user.password + 'nsdjkfnsdjkfnsdkj374234';
-      return user;
-    });
-    const seededUsers = await User.bulkCreate(userData, { validate: true });
+    //*for now* picking 1 user with predefined center coords, while dynamically generating coords for buddy users in the area
 
-    for (let user of seededUsers) {
-      for (let i = 0; i < 5; i++) {
-        let randomTag = Math.floor(Math.random() * seededTags.length);
-        await user.addTag(seededTags[randomTag]);
-      }
-      // return user;
-    }
+    const plantUserData = userList.shift();
+
+    const plantUser = await User.create(plantUserData);
+
+    const center = {
+      latitude: plantUserData.lastLat,
+      longitude: plantUserData.lastLong,
+    };
+
+    const seededUsers = await seedLocalUsers(userList, center, SEARCH_RADIUS);
+
+    //add plantUser back to the list of users, so he gets his tags assigned
+    seededUsers.push(plantUser);
+
+    await seedUserTags(seededCategories, seededTags, seededUsers);
 
     console.log('Users seeding successful');
 
@@ -182,7 +191,7 @@ const seed = async () => {
       validate: true,
     });
 
-    console.log('Ratings seeding succseful');
+    console.log('Ratings seeding successful');
 
     db.close();
   } catch (err) {
@@ -192,3 +201,5 @@ const seed = async () => {
 };
 
 seed();
+
+module.exports = seed;
