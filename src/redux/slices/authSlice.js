@@ -47,7 +47,6 @@ export const tryToken = createAsyncThunk(
           authorization: token,
         },
       });
-      console.log('data', data);
       if (data) {
         return { data, token };
       } else {
@@ -102,7 +101,7 @@ const authSlice = createSlice({
         state.error = payload;
       })
       .addCase(tryToken.fulfilled, (state, { payload }) => {
-        state.user = payload.data || {};
+        state.user = payload.data;
         state.status = 'loginSuccessful';
         state.error = '';
         state.token = payload.token;
