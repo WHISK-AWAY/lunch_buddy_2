@@ -74,7 +74,7 @@ router.delete('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
     } else {
       res
         .status(404)
-        .send(`meeting with ID ${req.params.meetingId} not foound`);
+        .send(`meeting with ID ${req.params.meetingId} not found`);
     }
   } catch (err) {
     next(err);
@@ -96,7 +96,7 @@ router.get('/:meetingId/messages', requireToken, async (req, res, next) => {
       ) {
         res.json(meeting);
       } else {
-        res.status(404).send('User is not found in meeting');
+        res.status(403).send('User is not found in meeting');
       }
     } else {
       res.status(404).send('Meeting not found with id ' + req.params.meetingId);
