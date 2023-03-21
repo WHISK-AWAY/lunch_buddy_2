@@ -91,13 +91,88 @@ const tagSlice = createSlice({
   initialState: {
     tags: [],
     tag: {},
+    isLoading: false,
+    error: '',
   },
   reducers: {
     testTags: (state) => {
       state.tag = { test: 'tag' };
     },
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder
+      // Fetch all tags
+      .addCase(fetchAllTags.fulfilled, (state, action) => {
+        state.tags = action.payload;
+        state.isLoading = false;
+        state.error = '';
+      })
+      .addCase(fetchAllTags.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchAllTags.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+
+      // Fetch single tag
+      .addCase(fetchSingleTag.fulfilled, (state, action) => {
+        state.tag = action.payload;
+        state.isLoading = false;
+        state.error = '';
+      })
+      .addCase(fetchSingleTag.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchSingleTag.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+
+      // Edit a tag
+      .addCase(editTag.fulfilled, (state, action) => {
+        state.tag = action.payload;
+        state.isLoading = false;
+        state.error = '';
+      })
+      .addCase(editTag.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(editTag.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+
+      // Delete a tag
+      .addCase(deleteTag.fulfilled, (state, action) => {
+        // removes tag from state that was just deleted
+        state.tags = state.tags.filter((tag) => tag.id !== action.payload.id);
+        state.isLoading = false;
+        state.error = '';
+      })
+      .addCase(deleteTag.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteTag.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+
+      // Add a tag
+      .addCase(addTag.fulfilled, (state, action) => {
+        // removes tag from state that was just deleted
+        state.tags.push(action.payload);
+        state.isLoading = false;
+        state.error = '';
+      })
+      .addCase(addTag.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(addTag.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      });
+  },
 });
 
 export const selectTags = (state) => state.tags;
