@@ -3,8 +3,8 @@ const { Meeting, Message, Rating } = require('../../db/index.cjs');
 const { requireToken, isAdmin } = require('../authMiddleware.cjs');
 
 router.post('/', requireToken, async (req, res, next) => {
-  const { buddyId, lunchDate } = req.body;
-  const bodyKeys = { buddyId, lunchDate };
+  const { buddyId, lunchDate, yelpBusinessId } = req.body;
+  const bodyKeys = { buddyId, lunchDate, yelpBusinessId };
   for (let key in bodyKeys) {
     if (bodyKeys[key] === undefined || bodyKeys[key] === null)
       delete bodyKeys[key];
@@ -31,8 +31,8 @@ router.post('/', requireToken, async (req, res, next) => {
   }
 });
 router.put('/:meetingId', requireToken, async (req, res, next) => {
-  const { isClosed, lunchDate } = req.body;
-  const bodyKeys = { isClosed, lunchDate };
+  const { isClosed, lunchDate, yelpBusinessId } = req.body;
+  const bodyKeys = { isClosed, lunchDate, yelpBusinessId };
   for (let key in bodyKeys) {
     if (bodyKeys[key] === undefined || bodyKeys[key] === null)
       delete bodyKeys[key];
