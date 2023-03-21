@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const API_URL = 'http://localhost:3000/';
+
 /**
  * requestLogin accepts an object { email, password } which is used to
  * log the user in.
@@ -12,7 +14,7 @@ export const requestLogin = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const { email, password } = credentials;
-      let { data } = await axios.post('http://localhost:3000/api/auth/login', {
+      let { data } = await axios.post('/api/auth/login', {
         email,
         password,
       });
@@ -24,7 +26,6 @@ export const requestLogin = createAsyncThunk(
         throw new Error('Failed token creation');
       }
     } catch (err) {
-      console.error('error in requestLogin');
       return rejectWithValue(err);
     }
   }
@@ -40,20 +41,19 @@ export const tryToken = createAsyncThunk(
     try {
       const token = localStorage.getItem('token');
 
-      if (!token) throw new Error('no token in localstorage');
+      if (!token) {
+        throw new Error('No token found in localStorage');
+      }
 
-      const { data } = await axios.get(`http://localhost:3000/api/auth`, {
+      const { data } = await axios.get(`/api/auth`, {
         headers: {
           authorization: token,
         },
       });
       if (data) {
         return { data, token };
-      } else {
-        throw new Error('Failed token validation');
       }
     } catch (err) {
-      console.error('error in tryToken');
       return rejectWithValue(err);
     }
   }
@@ -111,10 +111,11 @@ const authSlice = createSlice({
         state.error = '';
       })
       .addCase(tryToken.rejected, (state, action) => {
+        console.log('action:', action);
         state.token = '';
         state.user = {};
         state.isLoading = false;
-        state.error = action.error;
+        state.error = action.payload.message;
       });
   },
 });
