@@ -29,20 +29,21 @@ router.post('/', requireToken, async (req, res, next) => {
   }
 });
 // NOT COMPLETLY SURE WHAT TO DO HERE ON THE FIGMA IS SAYS UPDATE MEETING STATUS, TIMESLOTS ETC BUT WE DONT HAVE ANY BESDIES IS CLOSED
-// router.put('/:meetingId', requireToken, async (req, res, next) => {
-//   const { isClosed } = req.body;
-//   try {
-//     const meeting = await Meeting.findByPk(req.params.meetingId);
+router.put('/:meetingId', requireToken, async (req, res, next) => {
+  const { isClosed } = req.body;
+    if (!isClosed) { res.status(404).send('please include status of isClosed') }
+  try {
+    const meeting = await Meeting.findByPk(req.params.meetingId);
 
-//     if (meeting) {
-//       res.json(await meeting.update(isClosed));
-//     } else {
-//       res.status(404).send('Meeting not found with id ' + req.params.meetingId);
-//     }
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+    if (meeting) {
+      res.json(await meeting.update(isClosed));
+    } else {
+      res.status(404).send('Meeting not found with id ' + req.params.meetingId);
+    }
+  } catch (err) {
+    next(err);
+  }
+});
 // only admins can get full past meeting info
 router.get('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
   try {
