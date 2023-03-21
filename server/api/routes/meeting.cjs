@@ -39,7 +39,13 @@ router.put('/:meetingId', requireToken, async (req, res, next) => {
   }
   try {
     const meeting = await Meeting.findByPk(req.params.meetingId);
-
+    if (meeting && meeting.userId !== req.user.id && !isClosed) {
+      // prevent date / venue updates from "buddy"
+      if (req.user.role !== 'admin')
+        return res
+          .status(403)
+          .send('Only originator may change meeting details');
+    }
     if (meeting) {
       res.json(await meeting.update(bodyKeys));
     } else {
