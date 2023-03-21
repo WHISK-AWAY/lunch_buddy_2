@@ -3,39 +3,46 @@ const { Meeting, Message, Rating } = require('../../db/index.cjs');
 const { requireToken, isAdmin } = require('../authMiddleware.cjs');
 
 router.post('/', requireToken, async (req, res, next) => {
-  const { userId, buddyId } = req.body;
-  const bodyKeys = { userId, buddyId };
-  for (let key in bodyKeys) {
-    if (bodyKeys[key] === undefined || bodyKeys[key] === null)
-      delete bodyKeys[key];
-  }
+  // HOW TO PREVENT THEM FROM PUTTING A RANDOM BUDDY ID?!?!?!?
+  const { buddyId } = req.body;
   try {
-    const newMeeting = await Meeting.create(bodyKeys);
-    res.status(200).json(newMeeting);
-  } catch (err) {
-    next(err);
-  }
-});
-
-router.put('/:meetingId', requireToken, async (req, res, next) => {
-  const { userId, buddyId, isClosed } = req.body;
-  const bodyKeys = { userId, buddyId, isClosed };
-  for (let key in bodyKeys) {
-    if (bodyKeys[key] === undefined || bodyKeys[key] === null)
-      delete bodyKeys[key];
-  }
-  try {
-    const meeting = await Meeting.findByPk(req.params.meetingId);
-
-    if (meeting) {
-      res.json(await meeting.update(bodyKeys));
+    if (buddyId === undefined) {
+      res.status(404).send('please proved a buddyId');
     } else {
-      res.status(404).send('Meeting not found with id ' + req.params.meetingId);
+      const [newMeeting, wasCreated] = await Meeting.findOrCreate({
+        where: {
+          userId: req.user.id,
+          isClosed: false,
+        },
+        defaults: {
+          buddyId,
+        },
+      });
+      if (wasCreated === false) {
+        res.status(409).send('user is already in a meeting');
+      } else {
+        res.status(200).json(newMeeting);
+      }
     }
   } catch (err) {
     next(err);
   }
 });
+// NOT COMPLETLY SURE WHAT TO DO HERE ON THE FIGMA IS SAYS UPDATE MEETING STATUS, TIMESLOTS ETC BUT WE DONT HAVE ANY BESDIES IS CLOSED
+// router.put('/:meetingId', requireToken, async (req, res, next) => {
+//   const { isClosed } = req.body;
+//   try {
+//     const meeting = await Meeting.findByPk(req.params.meetingId);
+
+//     if (meeting) {
+//       res.json(await meeting.update(isClosed));
+//     } else {
+//       res.status(404).send('Meeting not found with id ' + req.params.meetingId);
+//     }
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 // only admins can get full past meeting info
 router.get('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
   try {
@@ -60,7 +67,9 @@ router.delete('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
       limit: 1,
     });
     if (destroyCount > 0) {
-      res.sendStatus(204);
+      res
+        .send(204)
+        .status(`successfully removed meeting ${req.params.meetingId}`);
     } else {
       res
         .status(404)
@@ -129,17 +138,40 @@ router.post('/:meetingId/rating', requireToken, async (req, res, next) => {
     let correctRecip;
     const meeting = await Meeting.findByPk(req.params.meetingId);
     if (req.user.id === meeting.userId || req.user.id === meeting.buddyId) {
-      if (req.user.id === meeting.userId) correctRecip = meeting.buddyId;
-      else correctRecip = meeting.userId;
-      const rating = await Rating.create({
-        userId: req.user.id,
-        buddyId: correctRecip,
-        rating: req.body.rating,
-        meetingId: req.params.meetingId,
-        isReport: bodyKeys['isReport'],
-        reportComment: bodyKeys['reportComment'],
-      });
-      res.status(200).json(rating);
+      if (
+        bodyKeys['isReport'] !== undefined &&
+        bodyKeys['reportComment'] === undefined
+      ) {
+        res.status(409).send(`please include a reason for reporting`);
+      } else if (
+        bodyKeys['isReport'] === undefined &&
+        bodyKeys['reportComment'] !== undefined
+      ) {
+        res
+          .status(409)
+          .send(`please change report to true or remove reportComment`);
+      } else if (req.user.id === meeting.userId) correctRecip = meeting.buddyId;
+      else {
+        correctRecip = meeting.userId;
+        const [rating, wasCreated] = await Rating.findOrCreate({
+          where: {
+            meetingId: req.params.meetingId,
+            userId: req.user.id,
+          },
+          defaults: {
+            userId: req.user.id,
+            buddyId: correctRecip,
+            rating: req.body.rating,
+            isReport: bodyKeys['isReport'],
+            reportComment: bodyKeys['reportComment'],
+          },
+        });
+        if (wasCreated === false) {
+          res.status(409).send(`User already created a rating`);
+        } else {
+          res.status(200).json(rating);
+        }
+      }
     } else {
       res.status(404).send(`User is not in meeting ${req.params.meetingId}`);
     }
@@ -163,6 +195,11 @@ router.put(
           },
         }
       );
+      if (typeof req.body.reportIsUpheld !== 'boolean') {
+        res
+          .status(400)
+          .send('Please provide reportIsUpheld type boolean in body');
+      }
       if (rating[0] !== 0) {
         res.status(200).json(rating);
       } else {
