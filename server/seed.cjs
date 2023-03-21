@@ -1,5 +1,7 @@
 const db = require('./db/database.cjs');
-const geolib = require('geolib');
+const seedLocalUsers = require('./utilities/seedLocalUsers.cjs');
+const seedUserTags = require('./utilities/seedUserTags.cjs');
+
 const {
   Category,
   Meeting,
@@ -15,13 +17,7 @@ const ratingList = require('../mock-data/ratingsData.cjs');
 const tagList = require('../mock-data/tagData.cjs');
 const userList = require('../mock-data/demoUsersData.cjs');
 
-const MINIMUM_SOCIAL = 10;
-const MINIMUM_PROFESSIONAL = 1;
-const MINIMUM_CUISINE = 5;
-
 const SEARCH_RADIUS = 5;
-const METERS_PER_MILE = 1609.344;
-
 const seed = async () => {
   try {
     await db.sync({ force: true });
@@ -115,72 +111,12 @@ const seed = async () => {
       longitude: plantUserData.lastLong,
     };
 
-    const milesToMeters = (miles) => {
-      const meters = miles * METERS_PER_MILE;
-      return meters;
-    };
+    const seededUsers = await seedLocalUsers(userList, center, SEARCH_RADIUS);
 
-    const userData = userList.map((user) => {
-      //generate random coords within 5 miles radius of plantUser
-      const randomCoordinate = geolib.computeDestinationPoint(
-        center,
-        Math.random() * milesToMeters(SEARCH_RADIUS),
-        Math.random() * 360
-      );
-
-      user.lastLat = randomCoordinate.latitude;
-      user.lastLong = randomCoordinate.longitude;
-
-      if (user.password.length < 8)
-        user.password = user.password + 'nsdjkfnsdjkfnsdkj374234';
-      return user;
-    });
-
-    const seededUsers = await User.bulkCreate(userData, {
-      validate: true,
-      individualHooks: true,
-    });
     //add plantUser back to the list of users, so he gets his tags assigned
     seededUsers.push(plantUser);
 
-    //this section is for assigning minimum amount of tags for user per each category
-    //categoryMap&&CategoryTags reorganize seeded tags by category
-    const categoryMap = seededCategories.reduce((accumulator, category) => {
-      if (category.categoryName === 'dietary restriction')
-        accumulator.dietary = category.id;
-      else accumulator[category.categoryName] = category.id;
-      return accumulator;
-    }, {});
-
-    const categoryTags = seededTags.reduce((accumulator, tag) => {
-      if (accumulator.hasOwnProperty(tag.categoryId))
-        accumulator[tag.categoryId].push(tag);
-      else accumulator[tag.categoryId] = [tag];
-      return accumulator;
-    }, {});
-
-    //iterating over users list, attaching minumum amount of unique tags (making copy of the array of tags to prevent dupes), attaching it to the each user upon creation
-    for (let user of seededUsers) {
-      const socialTags = [...categoryTags[categoryMap.social]];
-      for (let i = 0; i < MINIMUM_SOCIAL; i++) {
-        let randomSocialTag = Math.floor(Math.random() * socialTags.length);
-        await user.addTag(socialTags.splice(randomSocialTag, 1));
-      }
-
-      const professionalTags = [...categoryTags[categoryMap.professional]];
-      for (let i = 0; i < MINIMUM_PROFESSIONAL; i++) {
-        let randomProfessionalTag = Math.floor(
-          Math.random() * professionalTags.length
-        );
-        await user.addTag(professionalTags.splice(randomProfessionalTag, 1));
-      }
-
-      const cuisineTags = [...categoryTags[categoryMap.cuisine]];
-      for (let i = 0; i < MINIMUM_CUISINE; i++) {
-        let randomCuisineTags = Math.floor(Math.random() * cuisineTags.length);
-        await user.addTag(cuisineTags.splice(randomCuisineTags, 1));
-      }
-    }
+    await seedUserTags(seededCategories, seededTags, seededUsers);
 
     console.log('Users seeding successful');
 
