@@ -73,7 +73,7 @@ export const addTag = createAsyncThunk(
   'getTags',
   async ({ token, newTag }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`/api/tags/${id}`, newTag, {
+      const { data } = await axios.post(`/api/tags`, newTag, {
         headers: {
           authorization: token,
         },
