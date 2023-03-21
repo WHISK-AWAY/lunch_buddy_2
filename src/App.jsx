@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import MockResponsive from './components/MockResponsive';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -8,7 +9,7 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<h1>Testing</h1>}></Route>
+        <Route path="/" element={<MockResponsive />}></Route>
       </Routes>
     </div>
   );
