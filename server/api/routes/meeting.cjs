@@ -3,7 +3,12 @@ const { Meeting, Message, Rating } = require('../../db/index.cjs');
 const { requireToken, isAdmin } = require('../authMiddleware.cjs');
 
 router.post('/', requireToken, async (req, res, next) => {
-  const { buddyId } = req.body;
+  const { buddyId, lunchDate } = req.body;
+  const bodyKeys = { buddyId, lunchDate };
+  for (let key in bodyKeys) {
+    if (bodyKeys[key] === undefined || bodyKeys[key] === null)
+      delete bodyKeys[key];
+  }
   try {
     if (buddyId === undefined) {
       res.status(404).send('please provide a buddyId');
@@ -13,9 +18,7 @@ router.post('/', requireToken, async (req, res, next) => {
           userId: req.user.id,
           isClosed: false,
         },
-        defaults: {
-          buddyId,
-        },
+        defaults: bodyKeys,
       });
       if (wasCreated === false) {
         res.status(409).send('user is already in a meeting');
