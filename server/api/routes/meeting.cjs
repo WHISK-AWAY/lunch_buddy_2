@@ -3,7 +3,6 @@ const { Meeting, Message, Rating } = require('../../db/index.cjs');
 const { requireToken, isAdmin } = require('../authMiddleware.cjs');
 
 router.post('/', requireToken, async (req, res, next) => {
-  // HOW TO PREVENT THEM FROM PUTTING A RANDOM BUDDY ID?!?!?!?
   const { buddyId } = req.body;
   try {
     if (buddyId === undefined) {
@@ -28,15 +27,18 @@ router.post('/', requireToken, async (req, res, next) => {
     next(err);
   }
 });
-// NOT COMPLETLY SURE WHAT TO DO HERE ON THE FIGMA IS SAYS UPDATE MEETING STATUS, TIMESLOTS ETC BUT WE DONT HAVE ANY BESDIES IS CLOSED
 router.put('/:meetingId', requireToken, async (req, res, next) => {
-  const { isClosed } = req.body;
-    if (!isClosed) { res.status(404).send('please include status of isClosed') }
+  const { isClosed, lunchDate } = req.body;
+  const bodyKeys = { isClosed, lunchDate };
+  for (let key in bodyKeys) {
+    if (bodyKeys[key] === undefined || bodyKeys[key] === null)
+      delete bodyKeys[key];
+  }
   try {
     const meeting = await Meeting.findByPk(req.params.meetingId);
 
     if (meeting) {
-      res.json(await meeting.update(isClosed));
+      res.json(await meeting.update(bodyKeys));
     } else {
       res.status(404).send('Meeting not found with id ' + req.params.meetingId);
     }
@@ -72,9 +74,7 @@ router.delete('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
         .send(204)
         .status(`successfully removed meeting ${req.params.meetingId}`);
     } else {
-      res
-        .status(404)
-        .send(`meeting with ID ${req.params.meetingId} not found`);
+      res.status(404).send(`meeting with ID ${req.params.meetingId} not found`);
     }
   } catch (err) {
     next(err);
@@ -105,7 +105,6 @@ router.get('/:meetingId/messages', requireToken, async (req, res, next) => {
     next(err);
   }
 });
-// last one
 router.post('/:meetingId/messages', requireToken, async (req, res, next) => {
   try {
     let correctRecip;
