@@ -16,8 +16,13 @@ export const requestLogin = createAsyncThunk(
         email,
         password,
       });
-      localStorage.setItem('token', data.token);
-      return data;
+
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        return data;
+      } else {
+        throw new Error('Failed token creation');
+      }
     } catch (err) {
       console.error('error in requestLogin');
       return rejectWithValue(err.message);
@@ -33,18 +38,20 @@ export const tryToken = createAsyncThunk(
   'tryToken',
   async (placeholder, { rejectWithValue }) => {
     try {
-      console.log('hello from tryToken');
       const token = localStorage.getItem('token');
 
-      if (!token) return {};
+      if (!token) throw new Error('no token in localstorage');
 
       const { data } = await axios.get(`http://localhost:3000/api/auth`, {
         headers: {
           authorization: token,
         },
       });
-      console.log('server response from tryToken:', data);
-      return { data, token };
+      if (data) {
+        return { data, token };
+      } else {
+        throw new Error('Failed token validation');
+      }
     } catch (err) {
       console.error('error in tryToken');
       return rejectWithValue(err.message);
@@ -94,7 +101,7 @@ const authSlice = createSlice({
         state.error = payload;
       })
       .addCase(tryToken.fulfilled, (state, { payload }) => {
-        state.user = payload.data || {};
+        state.user = payload.data;
         state.status = 'loginSuccessful';
         state.error = '';
         state.token = payload.token;
@@ -105,12 +112,14 @@ const authSlice = createSlice({
       })
       .addCase(tryToken.rejected, (state, { payload }) => {
         state.status = 'loginFailed';
-        state.error = payload.message;
+        state.error = payload.message || 'token failure';
       });
   },
 });
 
 export const { testAuth } = authSlice.actions;
 export const selectAuth = (state) => state.auth;
-export const selectAuthStatus = (state) => state.auth.status;
+export const selectAuthStatus = (state) => {
+  return { status: state.auth.status, error: state.auth.error };
+};
 export default authSlice.reducer;
