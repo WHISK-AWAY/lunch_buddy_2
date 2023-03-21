@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 /**
  * requestLogin accepts an object { email, password } which is used to
  * log the user in.
@@ -12,7 +14,7 @@ export const requestLogin = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const { email, password } = credentials;
-      let { data } = await axios.post('http://localhost:3000/api/auth/login', {
+      let { data } = await axios.post(API_URL + '/api/auth/login', {
         email,
         password,
       });
@@ -24,8 +26,7 @@ export const requestLogin = createAsyncThunk(
         throw new Error('Failed token creation');
       }
     } catch (err) {
-      console.error('error in requestLogin');
-      return rejectWithValue(err.message);
+      return rejectWithValue(err);
     }
   }
 );
@@ -40,21 +41,20 @@ export const tryToken = createAsyncThunk(
     try {
       const token = localStorage.getItem('token');
 
-      if (!token) throw new Error('no token in localstorage');
+      if (!token) {
+        throw new Error('No token found in localStorage');
+      }
 
-      const { data } = await axios.get(`http://localhost:3000/api/auth`, {
+      const { data } = await axios.get(API_URL + '/api/auth', {
         headers: {
           authorization: token,
         },
       });
       if (data) {
         return { data, token };
-      } else {
-        throw new Error('Failed token validation');
       }
     } catch (err) {
-      console.error('error in tryToken');
-      return rejectWithValue(err.message);
+      return rejectWithValue(err);
     }
   }
 );
@@ -64,19 +64,19 @@ const authSlice = createSlice({
   initialState: {
     token: '',
     user: {},
-    status: '',
+    isLoading: false,
     error: '',
   },
   reducers: {
     resetStatus: (state) => {
-      state.status = '';
+      state.isLoading = false;
       state.error = '';
     },
     logOut: (state) => {
       localStorage.removeItem('token');
       state.token = '';
       state.user = {};
-      state.status = '';
+      state.isLoading = false;
       state.error = '';
     },
   },
@@ -85,34 +85,37 @@ const authSlice = createSlice({
       .addCase(requestLogin.fulfilled, (state, { payload }) => {
         state.token = payload.token;
         state.user = {};
-        state.status = 'loginSuccessful';
+        state.isLoading = false;
         state.error = '';
       })
       .addCase(requestLogin.pending, (state, { payload }) => {
         state.token = '';
         state.user = {};
-        state.status = 'pendingLogin';
+        state.isLoading = true;
         state.error = '';
       })
-      .addCase(requestLogin.rejected, (state, { payload }) => {
+      .addCase(requestLogin.rejected, (state, action) => {
         state.token = '';
         state.user = {};
-        state.status = 'loginFailed';
-        state.error = payload;
+        state.isLoading = false;
+        state.error = action.payload.message;
       })
       .addCase(tryToken.fulfilled, (state, { payload }) => {
         state.user = payload.data;
-        state.status = 'loginSuccessful';
+        state.isLoading = false;
         state.error = '';
         state.token = payload.token;
       })
       .addCase(tryToken.pending, (state, { payload }) => {
-        state.status = 'pendingLogin';
+        state.isLoading = true;
         state.error = '';
       })
-      .addCase(tryToken.rejected, (state, { payload }) => {
-        state.status = 'loginFailed';
-        state.error = payload.message || 'token failure';
+      .addCase(tryToken.rejected, (state, action) => {
+        console.log('action:', action);
+        state.token = '';
+        state.user = {};
+        state.isLoading = false;
+        state.error = action.payload.message;
       });
   },
 });
@@ -120,6 +123,6 @@ const authSlice = createSlice({
 export const { testAuth } = authSlice.actions;
 export const selectAuth = (state) => state.auth;
 export const selectAuthStatus = (state) => {
-  return { status: state.auth.status, error: state.auth.error };
+  return { isLoading: state.auth.isLoading, error: state.auth.error };
 };
 export default authSlice.reducer;
