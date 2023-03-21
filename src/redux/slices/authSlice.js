@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 /**
  * requestLogin accepts an object { email, password } which is used to
@@ -14,7 +14,7 @@ export const requestLogin = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const { email, password } = credentials;
-      let { data } = await axios.post('/api/auth/login', {
+      let { data } = await axios.post(API_URL + '/api/auth/login', {
         email,
         password,
       });
@@ -45,7 +45,7 @@ export const tryToken = createAsyncThunk(
         throw new Error('No token found in localStorage');
       }
 
-      const { data } = await axios.get(`/api/auth`, {
+      const { data } = await axios.get(API_URL + '/api/auth', {
         headers: {
           authorization: token,
         },
