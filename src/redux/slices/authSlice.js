@@ -25,7 +25,7 @@ export const requestLogin = createAsyncThunk(
       }
     } catch (err) {
       console.error('error in requestLogin');
-      return rejectWithValue(err.message);
+      return rejectWithValue(err);
     }
   }
 );
@@ -54,7 +54,7 @@ export const tryToken = createAsyncThunk(
       }
     } catch (err) {
       console.error('error in tryToken');
-      return rejectWithValue(err.message);
+      return rejectWithValue(err);
     }
   }
 );
@@ -94,11 +94,11 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.error = '';
       })
-      .addCase(requestLogin.rejected, (state, { payload }) => {
+      .addCase(requestLogin.rejected, (state, action) => {
         state.token = '';
         state.user = {};
         state.isLoading = false;
-        state.error = payload;
+        state.error = action.error;
       })
       .addCase(tryToken.fulfilled, (state, { payload }) => {
         state.user = payload.data;
@@ -110,9 +110,11 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.error = '';
       })
-      .addCase(tryToken.rejected, (state, { payload }) => {
+      .addCase(tryToken.rejected, (state, action) => {
+        state.token = '';
+        state.user = {};
         state.isLoading = false;
-        state.error = payload.message || 'token failure';
+        state.error = action.error;
       });
   },
 });
