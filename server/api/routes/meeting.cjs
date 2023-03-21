@@ -7,7 +7,7 @@ router.post('/', requireToken, async (req, res, next) => {
   const { buddyId } = req.body;
   try {
     if (buddyId === undefined) {
-      res.status(404).send('please proved a buddyId');
+      res.status(404).send('please provide a buddyId');
     } else {
       const [newMeeting, wasCreated] = await Meeting.findOrCreate({
         where: {
