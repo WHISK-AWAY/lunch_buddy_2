@@ -98,7 +98,7 @@ const authSlice = createSlice({
         state.token = '';
         state.user = {};
         state.isLoading = false;
-        state.error = action.error;
+        state.error = action.payload.message;
       })
       .addCase(tryToken.fulfilled, (state, { payload }) => {
         state.user = payload.data;
