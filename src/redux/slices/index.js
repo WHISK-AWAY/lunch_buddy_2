@@ -16,4 +16,9 @@ export {
   testMessages,
 } from './messagesSlice';
 export { default as tagSlice, selectTags, testTags } from './tagSlice';
-export { default as userSlice, selectUsers, testUser } from './userSlice';
+export {
+  default as userSlice,
+  selectUser,
+  selectUserStatus,
+  createNewUser,
+} from './userSlice';
