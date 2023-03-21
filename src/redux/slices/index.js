@@ -21,4 +21,5 @@ export {
   selectUser,
   selectUserStatus,
   createNewUser,
+  updateUser,
 } from './userSlice';
