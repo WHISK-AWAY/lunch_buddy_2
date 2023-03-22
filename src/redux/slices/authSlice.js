@@ -50,9 +50,8 @@ export const tryToken = createAsyncThunk(
           authorization: token,
         },
       });
-      if (data) {
-        return { data, token };
-      }
+
+      return { data, token };
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -68,7 +67,7 @@ const authSlice = createSlice({
     error: '',
   },
   reducers: {
-    resetStatus: (state) => {
+    resetAuthStatus: (state) => {
       state.isLoading = false;
       state.error = '';
     },
@@ -120,7 +119,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { testAuth } = authSlice.actions;
+export const { resetAuthStatus } = authSlice.actions;
 export const selectAuth = (state) => state.auth;
 export const selectAuthStatus = (state) => {
   return { isLoading: state.auth.isLoading, error: state.auth.error };
