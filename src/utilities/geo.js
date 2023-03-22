@@ -1,4 +1,4 @@
-import { updateLocation } from '../../redux/slices';
+import { updateLocation } from '../redux/slices';
 
 /**
  * Must pass in dispatch function from react component in order to get around
