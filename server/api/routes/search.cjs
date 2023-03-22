@@ -31,6 +31,15 @@ router.get('/', requireToken, async (req, res, next) => {
       include: {
         model: Tag,
       },
+      attributes: [
+        'firstName',
+        'lastName',
+        'fullName',
+        'id',
+        'gender',
+        'avatarUrl',
+        'aboutMe',
+      ],
       where: {
         status: 'active',
         id: { [Op.ne]: [+req.user.id] },
@@ -73,7 +82,6 @@ router.get('/', requireToken, async (req, res, next) => {
 
       //scale tag overlap count by buddy rating
       buddyUser.averageScore = (buddyUser.tagCount + 1) * (buddyRating + 1);
- 
     }
 
     usersInRange.sort((a, b) => {
@@ -81,12 +89,12 @@ router.get('/', requireToken, async (req, res, next) => {
     });
 
     // useful if you want to see the list of properly sorted matches
-    // console.log(
-    //   'sorted users',
-    //   usersInRange.map((user) => {
-    //     return { name: user.firstName, score: user.averageScore };
-    //   })
-    // );
+    console.log(
+      'sorted users',
+      usersInRange.map((user) => {
+        return { name: user.firstName, score: user.averageScore };
+      })
+    );
 
     res.status(200).json(usersInRange);
   } catch (err) {
