@@ -8,21 +8,13 @@ export {
 } from './authSlice';
 
 // MEETINGS
-export {
-  default as meetingSlice,
-  selectMeetings,
-  testMeeting,
-} from './meetingSlice';
+export { default as meetingSlice, selectMeetings } from './meetingSlice';
 
 // MESSAGES
-export {
-  default as messagesSlice,
-  selectMessages,
-  testMessages,
-} from './messagesSlice';
+export { default as messagesSlice, selectMessages } from './messagesSlice';
 
 // TAGS
-export { default as tagSlice, selectTags, testTags } from './tagSlice';
+export { default as tagSlice, selectTags } from './tagSlice';
 
 // USERS
 export {
