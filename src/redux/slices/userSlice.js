@@ -152,7 +152,13 @@ const userSlice = createSlice({
     error: '',
     isLoading: false,
   },
-  reducers: {},
+  reducers: {
+    resetUserState: (state) => {
+      state.user = {};
+      state.error = '';
+      state.isLoading = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUser.fulfilled, (state, { payload }) => {
@@ -250,5 +256,5 @@ const userSlice = createSlice({
 
 export const selectUser = (state) => state.user.user;
 export const selectUserStatus = (state) => state.user.status;
-export const {} = userSlice.actions;
+export const { resetUserState } = userSlice.actions;
 export default userSlice.reducer;

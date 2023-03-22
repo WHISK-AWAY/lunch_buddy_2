@@ -29,6 +29,7 @@ export {
   default as userSlice,
   selectUser,
   selectUserStatus,
+  resetUserState,
   fetchUser,
   createNewUser,
   updateUser,
