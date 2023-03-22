@@ -189,7 +189,7 @@ const userSlice = createSlice({
       .addCase(fetchUser.rejected, (state, action) => {
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.error.message;
       })
       .addCase(createNewUser.fulfilled, (state, { payload }) => {
         state.user = payload;
@@ -204,7 +204,7 @@ const userSlice = createSlice({
       .addCase(createNewUser.rejected, (state, action) => {
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.error.message;
       })
       .addCase(updateUser.fulfilled, (state, { payload }) => {
         state.user = payload;
@@ -219,7 +219,7 @@ const userSlice = createSlice({
       .addCase(updateUser.rejected, (state, action) => {
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.error.message;
       })
       .addCase(updateLocation.fulfilled, (state, { payload }) => {
         state.user = payload;
@@ -234,7 +234,7 @@ const userSlice = createSlice({
       .addCase(updateLocation.rejected, (state, action) => {
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.error.message;
       })
       .addCase(deleteUser.fulfilled, (state, { payload }) => {
         state.user = {};
@@ -249,7 +249,7 @@ const userSlice = createSlice({
       .addCase(deleteUser.rejected, (state, action) => {
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.error.message;
       })
       .addCase(banUser.fulfilled, (state, { payload }) => {
         state.user = {};
@@ -264,7 +264,7 @@ const userSlice = createSlice({
       .addCase(banUser.rejected, (state, action) => {
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.error.message;
       })
       .addCase(removeBan.fulfilled, (state, { payload }) => {
         state.user = {};
@@ -279,7 +279,7 @@ const userSlice = createSlice({
       .addCase(removeBan.rejected, (state, action) => {
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.error.message;
       });
   },
 });
