@@ -99,27 +99,6 @@ export const updateLocation = createAsyncThunk(
   }
 );
 
-export const deleteUser = createAsyncThunk(
-  'user/deleteUser',
-  async (userId, { rejectWithValue }) => {
-    // here's a problem: we cannot delete where deleted user exists as
-    // a buddy in a meeting record
-    try {
-      const { token, user } = await checkToken();
-
-      const res = await axios.delete(API_URL + `/api/user/${userId}`, {
-        headers: { authorization: token },
-      });
-
-      if (res.status !== 204) throw new Error('Failed to delete user');
-
-      return {};
-    } catch (err) {
-      return rejectWithValue(err);
-    }
-  }
-);
-
 export const banUser = createAsyncThunk(
   'user/banUser',
   async (userId, { rejectWithValue }) => {
@@ -236,23 +215,8 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message;
       })
-      .addCase(deleteUser.fulfilled, (state, { payload }) => {
-        state.user = {};
-        state.isLoading = false;
-        state.error = '';
-      })
-      .addCase(deleteUser.pending, (state, { payload }) => {
-        state.user = {};
-        state.isLoading = true;
-        state.error = '';
-      })
-      .addCase(deleteUser.rejected, (state, action) => {
-        state.user = {};
-        state.isLoading = false;
-        state.error = action.error.message;
-      })
       .addCase(banUser.fulfilled, (state, { payload }) => {
-        state.user = {};
+        state.user = payload;
         state.isLoading = false;
         state.error = '';
       })
@@ -267,7 +231,7 @@ const userSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(removeBan.fulfilled, (state, { payload }) => {
-        state.user = {};
+        state.user = payload;
         state.isLoading = false;
         state.error = '';
       })
