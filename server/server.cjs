@@ -12,6 +12,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(volleyball);
 
+// TODO: tighten this up - all-permissive at the moment
+app.use(cors());
+
 // Start of API routes
 app.use('/api', require('./api/index.cjs'));
 

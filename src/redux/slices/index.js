@@ -1,4 +1,11 @@
-export { default as authSlice, selectAuth, testAuth } from './authSlice';
+export {
+  default as authSlice,
+  selectAuth,
+  selectAuthStatus,
+  resetAuthStatus,
+  requestLogin,
+  tryToken,
+} from './authSlice';
 export {
   default as meetingSlice,
   selectMeetings,
