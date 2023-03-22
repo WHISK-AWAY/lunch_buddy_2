@@ -37,6 +37,10 @@ const Meeting = db.define('meeting', {
       notEmpty: true,
     },
   },
+  yelpBusinessId: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
   isClosed: {
     type: Sequelize.BOOLEAN,
     allowNull: false,

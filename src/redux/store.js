@@ -13,7 +13,7 @@ const store = configureStore({
     meetings: meetingSlice,
     messages: messagesSlice,
     tags: tagSlice,
-    users: userSlice,
+    user: userSlice,
   },
 });
 
