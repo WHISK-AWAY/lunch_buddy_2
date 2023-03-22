@@ -58,7 +58,9 @@ router.put('/:meetingId', requireToken, async (req, res, next) => {
 // only admins can get full past meeting info
 router.get('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
   try {
-    const meeting = await Meeting.findByPk(req.params.meetingId);
+    const meeting = await Meeting.findByPk(req.params.meetingId, {
+      include: Message,
+    });
 
     if (meeting) {
       res.json(meeting);
