@@ -117,7 +117,7 @@ export const banUser = createAsyncThunk(
 
       return updatedUser;
     } catch (err) {
-      rejectWithValue(err);
+      return rejectWithValue(err);
     }
   }
 );
@@ -140,7 +140,27 @@ export const removeBan = createAsyncThunk(
 
       return updatedUser;
     } catch (err) {
-      rejectWithValue(err);
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const fetchUserMeetings = createAsyncThunk(
+  'user/fetchUserMeetings',
+  async (userId, { rejectWithValue }) => {
+    try {
+      const { user, token } = await checkToken();
+
+      // if userId isn't passed in, use the one from the token
+      if (userId === undefined) userId = user.id;
+
+      const res = await axios.get(API_URL + `/api/user/${userId}/meeting`, {
+        headers: { authorization: token },
+      });
+
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
     }
   }
 );
@@ -149,12 +169,14 @@ const userSlice = createSlice({
   name: 'user',
   initialState: {
     user: {},
+    userMeetings: [],
     error: '',
     isLoading: false,
   },
   reducers: {
     resetUserState: (state) => {
       state.user = {};
+      state.userMeetings = [];
       state.error = '';
       state.isLoading = false;
     },
@@ -261,11 +283,28 @@ const userSlice = createSlice({
         state.user = {};
         state.isLoading = false;
         state.error = action.error.message;
+      })
+
+      // FETCH USER MEETINGS
+      .addCase(fetchUserMeetings.fulfilled, (state, { payload }) => {
+        state.meetings = payload;
+        state.isLoading = false;
+        state.error = '';
+      })
+      .addCase(fetchUserMeetings.pending, (state, action) => {
+        state.meetings = [];
+        state.isLoading = true;
+        state.error = '';
+      })
+      .addCase(fetchUserMeetings.rejected, (state, action) => {
+        state.meetings = [];
+        state.isLoading = false;
+        state.error = action.error.message;
       });
   },
 });
 
-export const selectUser = (state) => state.user.user;
+export const selectUser = (state) => state.user;
 export const selectUserStatus = (state) => state.user.status;
 export const { resetUserState } = userSlice.actions;
 export default userSlice.reducer;

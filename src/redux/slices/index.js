@@ -29,4 +29,5 @@ export {
   updateLocation,
   banUser,
   removeBan,
+  fetchUserMeetings,
 } from './userSlice';
