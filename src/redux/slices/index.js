@@ -11,3 +11,4 @@ export {
 } from './messagesSlice';
 export { default as tagSlice, selectTags, testTags } from './tagSlice';
 export { default as userSlice, selectUsers, testUser } from './userSlice';
+export { default as searchSlice } from './searchSlice';

@@ -3,6 +3,7 @@ import {
   authSlice,
   meetingSlice,
   messagesSlice,
+  searchSlice,
   tagSlice,
   userSlice,
 } from './slices';
@@ -14,6 +15,7 @@ const store = configureStore({
     messages: messagesSlice,
     tags: tagSlice,
     users: userSlice,
+    search: searchSlice,
   },
 });
 
