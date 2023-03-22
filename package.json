@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "api": "nodemon ./server/server.cjs",
-    "seed": "node ./server/seed.cjs"
+    "seed": "node ./server/seed.cjs",
+    "socketIo": "nodemon ./server/socketServer.cjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
@@ -28,6 +29,8 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.9.0",
     "sequelize": "^6.29.3",
+    "socket.io": "^4.6.1",
+    "socket.io-client": "^4.6.1",
     "volleyball": "^1.5.1"
   },
   "devDependencies": {
