@@ -57,7 +57,6 @@ export const getMeeting = createAsyncThunk(
   }
 );
 
-// Route does not return the meeting that was deleted so the ex reducer won't be able to filter it out unless page is refreshed
 export const deleteMeeting = createAsyncThunk(
   'meeting/deleteMeeting',
   async ({ token, meetingId }, { rejectWithValue }) => {
@@ -168,9 +167,10 @@ const meetingSlice = createSlice({
     status: {},
   },
   reducers: {
-    testMeeting: (state) => {
-      // delete me
-      state.meeting = { test: 'meeting' };
+    resetMeetingStatus: (state) => {
+      state.status = {};
+      state.error = '';
+      state.isLoading = false;
     },
   },
   extraReducers: (builder) => {
@@ -178,6 +178,7 @@ const meetingSlice = createSlice({
       // Create a new meeting
       .addCase(createMeeting.fulfilled, (state, action) => {
         state.meetings.push(action.payload);
+        state.meeting = action.payload;
         state.isLoading = false;
         state.error = '';
       })
@@ -278,7 +279,7 @@ const meetingSlice = createSlice({
         state.error = action.error.message;
       })
 
-      // Get a single meeting
+      // No payload returned, thunk updates the rating
       .addCase(upholdRating.fulfilled, (state) => {
         state.isLoading = false;
         state.error = '';
@@ -294,5 +295,5 @@ const meetingSlice = createSlice({
 });
 
 export const selectMeetings = (state) => state.meetings;
-export const { testMeeting } = meetingSlice.actions;
+export const { resetMeetingStatus } = meetingSlice.actions;
 export default meetingSlice.reducer;
