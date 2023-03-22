@@ -7,11 +7,13 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export const fetchUser = createAsyncThunk(
   'user/fetchUser',
-  async (placeholder, { rejectWithValue }) => {
+  async (userId, { rejectWithValue }) => {
     try {
       const { token, user } = await checkToken();
 
-      const res = await axios.get(API_URL + `/api/user/${user.id}`, {
+      if (userId === undefined) throw new Error('No user ID provided');
+
+      const res = await axios.get(API_URL + `/api/user/${userId}`, {
         headers: { authorization: token },
       });
       const userInfo = res.data;
