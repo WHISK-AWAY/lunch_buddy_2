@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const fetchAllTags = createAsyncThunk(
-  'getTags',
+  'tag/getAll',
   async ({ token }, { rejectWithValue }) => {
     try {
       const { data } = await axios.get('/api/tags', {
@@ -19,7 +19,7 @@ export const fetchAllTags = createAsyncThunk(
 );
 
 export const fetchSingleTag = createAsyncThunk(
-  'getTags',
+  'tag/getOne',
   async ({ token, id }, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(`/api/tags/${id}`, {
@@ -36,7 +36,7 @@ export const fetchSingleTag = createAsyncThunk(
 );
 
 export const editTag = createAsyncThunk(
-  'getTags',
+  'tag/editTag',
   async ({ token, id, updates }, { rejectWithValue }) => {
     try {
       const { data } = await axios.put(`/api/tags/${id}`, updates, {
@@ -53,7 +53,7 @@ export const editTag = createAsyncThunk(
 );
 
 export const deleteTag = createAsyncThunk(
-  'getTags',
+  'tag/deleteTag',
   async ({ token, id }, { rejectWithValue }) => {
     try {
       const { data } = await axios.delete(`/api/tags/${id}`, {
@@ -70,7 +70,7 @@ export const deleteTag = createAsyncThunk(
 );
 
 export const addTag = createAsyncThunk(
-  'getTags',
+  'tag/addTag',
   async ({ token, newTag }, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`/api/tags`, newTag, {
@@ -95,8 +95,9 @@ const tagSlice = createSlice({
     error: '',
   },
   reducers: {
-    testTags: (state) => {
-      state.tag = { test: 'tag' };
+    resetTagStatus: (state) => {
+      state.error = '';
+      state.isLoading = false;
     },
   },
   extraReducers: (builder) => {
@@ -176,5 +177,5 @@ const tagSlice = createSlice({
 });
 
 export const selectTags = (state) => state.tags;
-export const { testTags } = tagSlice.actions;
+export const { resetTagStatus } = tagSlice.actions;
 export default tagSlice.reducer;
