@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import checkToken from '../../utilities/checkToken';
+import getLocation from '../../utilities/geo';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -12,12 +13,15 @@ export const findBuddies = createAsyncThunk(
 
       console.log('user:', user);
 
-      // Rejecting for not-active status here...should we automatically
-      // set inactive ---> active instead?
-      // The really important thing is that the user needs to have a location set...
-      if (user.status !== 'active')
-        throw new Error('Must set status to active to enable search');
-
+      // If user isn't active, grab their location & make them active
+      if (user.status === 'inactive') {
+        getLocation();
+        await axios.put(
+          API_URL + `/api/user/${user.id}`,
+          { status: 'active' },
+          { headers: { authorization: token } }
+        );
+      }
       // default search radius to 5 mi
       const radius = searchParams?.searchRadius || 5;
 
