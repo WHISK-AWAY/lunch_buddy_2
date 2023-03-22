@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import MockResponsive from './components/MockResponsive';
@@ -7,8 +6,6 @@ import RegisterForm from './pages/register/RegisterForm';
 import SignInForm from './pages/signIn/SignInForm';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <Routes>
       <Route path="/" element={<MockResponsive />} />
