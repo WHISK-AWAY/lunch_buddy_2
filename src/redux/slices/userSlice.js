@@ -32,25 +32,41 @@ export const updateUser = createAsyncThunk(
   'user/updateUser',
   async (userUpdateData, { rejectWithValue }) => {
     try {
-      console.log('userUpdateData', userUpdateData);
-      // pull token from localStorage & use it to poll for user info
-      const token = window.localStorage.getItem('token');
-      if (!token) throw new Error('No token found in localStorage');
-
-      let res = await axios.get(API_URL + '/api/auth', {
-        headers: { authorization: token },
-      });
-      const user = res.data;
-
-      if (!user) throw new Error('Failed token validation');
+      const { token, user } = await checkToken();
 
       // request update
-      res = await axios.put(API_URL + `/api/user/${user.id}`, userUpdateData, {
-        headers: { authorization: token },
-      });
+      const res = await axios.put(
+        API_URL + `/api/user/${user.id}`,
+        userUpdateData,
+        {
+          headers: { authorization: token },
+        }
+      );
       const updatedUser = res.data;
 
       if (!updatedUser.id) throw new Error('Failed to update user');
+
+      return updatedUser;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const updateLocation = createAsyncThunk(
+  'user/updateLocation',
+  async (location, { rejectWithValue }) => {
+    try {
+      const { token, user } = await checkToken();
+
+      const res = await axios.put(
+        API_URL + `/api/user/${user.id}/location`,
+        location,
+        { headers: { authorization: token } }
+      );
+
+      const updatedUser = res.data;
+      if (!updatedUser) throw new Error('Failed to update user location');
 
       return updatedUser;
     } catch (err) {
@@ -98,6 +114,21 @@ const userSlice = createSlice({
         state.user = {};
         state.isLoading = false;
         state.error = action.payload.message;
+      })
+      .addCase(updateLocation.fulfilled, (state, { payload }) => {
+        state.user = payload;
+        state.isLoading = false;
+        state.error = '';
+      })
+      .addCase(updateLocation.pending, (state, { payload }) => {
+        state.user = {};
+        state.isLoading = true;
+        state.error = '';
+      })
+      .addCase(updateLocation.rejected, (state, action) => {
+        state.user = {};
+        state.isLoading = false;
+        state.error = action.payload.message;
       });
   },
 });
@@ -106,3 +137,18 @@ export const selectUser = (state) => state.user.user;
 export const selectUserStatus = (state) => state.user.status;
 export const {} = userSlice.actions;
 export default userSlice.reducer;
+
+// helper to pull & validate token
+async function checkToken() {
+  // pull token from localStorage & use it to poll for user info
+  const token = window.localStorage.getItem('token');
+  if (!token) throw new Error('No token found in localStorage');
+
+  const res = await axios.get(API_URL + '/api/auth', {
+    headers: { authorization: token },
+  });
+  const user = res.data;
+
+  if (!user) throw new Error('Failed token validation');
+  return { token, user };
+}
