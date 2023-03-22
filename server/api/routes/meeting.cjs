@@ -94,7 +94,6 @@ router.delete('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
 });
 // to get the currently active meeting for said user
 router.get('/active/messages', requireToken, async (req, res, next) => {
-  console.log('huh');
   try {
     const meeting = await Meeting.findOne({
       include: {
