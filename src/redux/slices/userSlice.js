@@ -160,6 +160,7 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // FETCH USER
     builder
       .addCase(fetchUser.fulfilled, (state, { payload }) => {
         state.user = payload;
@@ -176,6 +177,8 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message;
       })
+
+      // CREATE NEW USER
       .addCase(createNewUser.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.isLoading = false;
@@ -191,6 +194,8 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message;
       })
+
+      // UPDATE USER (general purpose)
       .addCase(updateUser.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.isLoading = false;
@@ -206,6 +211,8 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message;
       })
+
+      // UPDATE USER LOCATION
       .addCase(updateLocation.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.isLoading = false;
@@ -221,6 +228,8 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message;
       })
+
+      // BAN USER
       .addCase(banUser.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.isLoading = false;
@@ -236,6 +245,8 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message;
       })
+
+      // REMOVE USER BAN
       .addCase(removeBan.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.isLoading = false;
