@@ -74,6 +74,7 @@ const RegisterForm = () => {
               Password
             </label>
             <input
+              type="password"
               className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
               value={formInputs.password}
               onChange={(e) =>
@@ -86,6 +87,7 @@ const RegisterForm = () => {
               Confirm Password
             </label>
             <input
+              type="password"
               className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
               value={formInputs.confirmPassword}
               onChange={(e) =>
@@ -199,7 +201,7 @@ const RegisterForm = () => {
             </select>
           </div>
           <div className="col-span-full md:w-3/5 md:mx-auto">
-            <FormButton handleSubmit={handleSubmit}>Create Account</FormButton>
+            <FormButton handleSubmit={handleSubmit}>Continue</FormButton>
           </div>
         </form>
       </div>
