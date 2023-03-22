@@ -44,7 +44,7 @@ const searchSlice = createSlice({
     resetSearchState: (state) => {
       state.searchResults = [];
       state.error = '';
-      isLoading: false;
+      state.isLoading = false;
     },
   },
   extraReducers: (builder) => {
