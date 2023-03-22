@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { Meeting, Message, Rating } = require('../../db/index.cjs');
 const { requireToken, isAdmin } = require('../authMiddleware.cjs');
+const { Op } = require('sequelize');
 
 router.post('/', requireToken, async (req, res, next) => {
   const { buddyId, lunchDate, yelpBusinessId } = req.body;
@@ -86,6 +87,40 @@ router.delete('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
         .status(`successfully removed meeting ${req.params.meetingId}`);
     } else {
       res.status(404).send(`meeting with ID ${req.params.meetingId} not found`);
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+// to get the currently active meeting for said user
+router.get('/active/messages', requireToken, async (req, res, next) => {
+  console.log('huh');
+  try {
+    const meeting = await Meeting.findOne({
+      include: {
+        model: Message,
+      },
+      where: {
+        isClosed: false,
+        [Op.or]: [{ userId: req.user.id }, { buddyId: req.user.id }],
+      },
+    });
+    if (meeting) {
+      if (
+        req.user.id === meeting.userId ||
+        req.user.id === meeting.buddyId ||
+        req.user.role === 'admin'
+      ) {
+        res.json(meeting);
+      } else {
+        res.status(403).send('User is not found in meeting');
+      }
+    } else {
+      res
+        .status(404)
+        .send(
+          `Meeting not found with id ${req.params.meetingId} that's currently active `
+        );
     }
   } catch (err) {
     next(err);
