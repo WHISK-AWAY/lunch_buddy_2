@@ -89,12 +89,12 @@ router.get('/', requireToken, async (req, res, next) => {
     });
 
     // useful if you want to see the list of properly sorted matches
-    console.log(
-      'sorted users',
-      usersInRange.map((user) => {
-        return { name: user.firstName, score: user.averageScore };
-      })
-    );
+    // console.log(
+    //   'sorted users',
+    //   usersInRange.map((user) => {
+    //     return { name: user.firstName, score: user.averageScore };
+    //   })
+    // );
 
     res.status(200).json(usersInRange);
   } catch (err) {
