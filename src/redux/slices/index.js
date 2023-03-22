@@ -20,7 +20,11 @@ export {
   default as userSlice,
   selectUser,
   selectUserStatus,
+  fetchUser,
   createNewUser,
   updateUser,
   updateLocation,
+  deleteUser,
+  banUser,
+  removeBan,
 } from './userSlice';

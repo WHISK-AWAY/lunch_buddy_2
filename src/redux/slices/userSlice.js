@@ -1,7 +1,29 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import checkToken from '../../utilities/checkToken';
+
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
+export const fetchUser = createAsyncThunk(
+  'user/fetchUser',
+  async (placeholder, { rejectWithValue }) => {
+    try {
+      const { token, user } = await checkToken();
+
+      const res = await axios.get(API_URL + `/api/user/${user.id}`, {
+        headers: { authorization: token },
+      });
+      const userInfo = res.data;
+
+      if (!userInfo) throw new Error('Failed to retrieve user information');
+
+      return userInfo;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
 
 export const createNewUser = createAsyncThunk(
   'user/createNewUser',
@@ -75,6 +97,73 @@ export const updateLocation = createAsyncThunk(
   }
 );
 
+export const deleteUser = createAsyncThunk(
+  'user/deleteUser',
+  async (userId, { rejectWithValue }) => {
+    // here's a problem: we cannot delete where deleted user exists as
+    // a buddy in a meeting record
+    try {
+      const { token, user } = await checkToken();
+
+      const res = await axios.delete(API_URL + `/api/user/${userId}`, {
+        headers: { authorization: token },
+      });
+
+      if (res.status !== 204) throw new Error('Failed to delete user');
+
+      return {};
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const banUser = createAsyncThunk(
+  'user/banUser',
+  async (userId, { rejectWithValue }) => {
+    try {
+      const { token, user } = await checkToken();
+
+      const res = await axios.put(
+        API_URL + `/api/user/${userId}`,
+        { status: 'banned' },
+        { headers: { authorization: token } }
+      );
+
+      const updatedUser = res.data;
+
+      if (!updatedUser.id) throw new Error('Failed to update user status');
+
+      return updatedUser;
+    } catch (err) {
+      rejectWithValue(err);
+    }
+  }
+);
+
+export const removeBan = createAsyncThunk(
+  'user/removeBan',
+  async (userId, { rejectWithValue }) => {
+    try {
+      const { token, user } = await checkToken();
+
+      const res = await axios.put(
+        API_URL + `/api/user/${userId}`,
+        { status: 'inactive' },
+        { headers: { authorization: token } }
+      );
+
+      const updatedUser = res.data;
+
+      if (!updatedUser.id) throw new Error('Failed to update user status');
+
+      return updatedUser;
+    } catch (err) {
+      rejectWithValue(err);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -85,6 +174,21 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchUser.fulfilled, (state, { payload }) => {
+        state.user = payload;
+        state.isLoading = false;
+        state.error = '';
+      })
+      .addCase(fetchUser.pending, (state, { payload }) => {
+        state.user = {};
+        state.isLoading = true;
+        state.error = '';
+      })
+      .addCase(fetchUser.rejected, (state, action) => {
+        state.user = {};
+        state.isLoading = false;
+        state.error = action.payload.message;
+      })
       .addCase(createNewUser.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.isLoading = false;
@@ -129,6 +233,51 @@ const userSlice = createSlice({
         state.user = {};
         state.isLoading = false;
         state.error = action.payload.message;
+      })
+      .addCase(deleteUser.fulfilled, (state, { payload }) => {
+        state.user = {};
+        state.isLoading = false;
+        state.error = '';
+      })
+      .addCase(deleteUser.pending, (state, { payload }) => {
+        state.user = {};
+        state.isLoading = true;
+        state.error = '';
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        state.user = {};
+        state.isLoading = false;
+        state.error = action.payload.message;
+      })
+      .addCase(banUser.fulfilled, (state, { payload }) => {
+        state.user = {};
+        state.isLoading = false;
+        state.error = '';
+      })
+      .addCase(banUser.pending, (state, { payload }) => {
+        state.user = {};
+        state.isLoading = true;
+        state.error = '';
+      })
+      .addCase(banUser.rejected, (state, action) => {
+        state.user = {};
+        state.isLoading = false;
+        state.error = action.payload.message;
+      })
+      .addCase(removeBan.fulfilled, (state, { payload }) => {
+        state.user = {};
+        state.isLoading = false;
+        state.error = '';
+      })
+      .addCase(removeBan.pending, (state, { payload }) => {
+        state.user = {};
+        state.isLoading = true;
+        state.error = '';
+      })
+      .addCase(removeBan.rejected, (state, action) => {
+        state.user = {};
+        state.isLoading = false;
+        state.error = action.payload.message;
       });
   },
 });
@@ -137,18 +286,3 @@ export const selectUser = (state) => state.user.user;
 export const selectUserStatus = (state) => state.user.status;
 export const {} = userSlice.actions;
 export default userSlice.reducer;
-
-// helper to pull & validate token
-async function checkToken() {
-  // pull token from localStorage & use it to poll for user info
-  const token = window.localStorage.getItem('token');
-  if (!token) throw new Error('No token found in localStorage');
-
-  const res = await axios.get(API_URL + '/api/auth', {
-    headers: { authorization: token },
-  });
-  const user = res.data;
-
-  if (!user) throw new Error('Failed token validation');
-  return { token, user };
-}
