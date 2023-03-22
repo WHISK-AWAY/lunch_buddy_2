@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import checkToken from '../../utilities/checkToken';
-import getLocation from '../../utilities/geo';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -11,17 +10,17 @@ export const findBuddies = createAsyncThunk(
     try {
       const { token, user } = await checkToken();
 
-      console.log('user:', user);
-
-      // If user isn't active, grab their location & make them active
+      // If user isn't active, make them active
+      // I think we need to make sure to update location prior to calling search...
+      // ... not easy to do from here before search call gets executed
       if (user.status === 'inactive') {
-        getLocation();
         await axios.put(
           API_URL + `/api/user/${user.id}`,
           { status: 'active' },
           { headers: { authorization: token } }
         );
       }
+
       // default search radius to 5 mi
       const radius = searchParams?.searchRadius || 5;
 
