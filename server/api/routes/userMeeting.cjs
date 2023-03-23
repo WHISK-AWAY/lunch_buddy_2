@@ -62,6 +62,16 @@ router.get(
           ],
           id: req.params.meetingId,
         },
+        include: [
+          {
+            association: 'user',
+            attributes: SAFE_USER_FIELDS,
+          },
+          {
+            association: 'buddy',
+            attributes: SAFE_USER_FIELDS,
+          },
+        ],
       });
       if (!meeting) {
         return res
