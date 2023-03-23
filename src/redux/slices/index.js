@@ -26,6 +26,14 @@ export {
 // MESSAGES
 export { default as messagesSlice, selectMessages } from './messagesSlice';
 
+// SEARCH
+export {
+  default as searchSlice,
+  selectSearch,
+  findBuddies,
+  resetSearchState,
+} from './searchSlice';
+
 // TAGS
 export { default as tagSlice, selectTags } from './tagSlice';
 
