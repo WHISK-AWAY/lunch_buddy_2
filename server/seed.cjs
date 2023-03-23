@@ -133,11 +133,9 @@ const seed = async () => {
 
     const meetingData = meetingList.map((meeting) => {
       meeting.userId = meeting.buddyId = randomUserIndex();
-      // meeting.buddyId = meeting.userId;
 
       while (meeting.userId === meeting.buddyId) {
         meeting.buddyId = randomUserIndex();
-        if (meeting.userId === meeting.buddyId) console.log('removing repeat');
       }
 
       return meeting;
