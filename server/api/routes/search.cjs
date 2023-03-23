@@ -31,6 +31,15 @@ router.get('/', requireToken, async (req, res, next) => {
       include: {
         model: Tag,
       },
+      attributes: [
+        'firstName',
+        'lastName',
+        'fullName',
+        'id',
+        'gender',
+        'avatarUrl',
+        'aboutMe',
+      ],
       where: {
         status: 'active',
         id: { [Op.ne]: [+req.user.id] },
@@ -73,7 +82,6 @@ router.get('/', requireToken, async (req, res, next) => {
 
       //scale tag overlap count by buddy rating
       buddyUser.averageScore = (buddyUser.tagCount + 1) * (buddyRating + 1);
- 
     }
 
     usersInRange.sort((a, b) => {
