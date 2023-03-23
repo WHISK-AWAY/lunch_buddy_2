@@ -16,8 +16,9 @@ Tag.belongsToMany(User, { through: 'user_tags' });
 Tag.belongsTo(Category);
 Category.hasMany(Tag);
 
-User.hasMany(Meeting);
-Meeting.belongsTo(User);
+User.hasOne(Meeting);
+Meeting.belongsTo(User, { as: 'user', foreignKey: 'userId' });
+Meeting.belongsTo(User, { as: 'buddy', foreignKey: 'buddyId' });
 
 /**
  * TODO: I commented out the senderId in messages model --
