@@ -4,24 +4,22 @@ import TagSelect from './TagSelect';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllTags } from '../../redux/slices/tagSlice';
 import FormButton from '../../components/FormButton';
-
-// Helper Functions
-function getTagsByCategory(category, tags) {
-  tags = tags
-    .filter((tag) => tag.category.categoryName === category)
-    .map((tag) => {
-      return { ...tag, clicked: false };
-    })
-    .sort((a, b) => (a.tagName > b.tagName ? 1 : -1));
-  return tags;
-}
-
-function filterSelectedTags(tags) {
-  return tags.filter(({ clicked }) => clicked);
-}
+import {
+  getTagsByCategory,
+  shapeTagsForDB,
+} from '../../utilities/registerHelpers';
+import {
+  createNewUser,
+  selectUserLoading,
+  selectUserError,
+} from '../../redux/slices/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const AboutForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userLoading = useSelector(selectUserLoading);
+  const userError = useSelector(selectUserError);
 
   const [bio, setBio] = useState('');
 
@@ -42,9 +40,33 @@ const AboutForm = () => {
     setCuisineTags(getTagsByCategory('cuisine', tagsInState));
   }, [tagsInState]);
 
+  // Handles creation of new user based on user inputs
   function handleSubmit() {
-    console.log(filterSelectedTags(socialTags));
-    console.log(filterSelectedTags(professionalTags));
+    const prevPageFormData = JSON.parse(
+      window.localStorage.getItem('registerForm')
+    );
+
+    prevPageFormData.tags = shapeTagsForDB(
+      socialTags,
+      professionalTags,
+      dietaryTags,
+      cuisineTags
+    );
+
+    prevPageFormData.aboutMe = bio;
+
+    if (prevPageFormData.address2 === '') {
+      delete prevPageFormData.address2;
+    }
+
+    console.log(prevPageFormData);
+    dispatch(createNewUser(prevPageFormData));
+    console.log('THUNK DISPATCHED: --> user loading?', userLoading);
+    if (userError) {
+      alert(userError);
+    } else {
+      navigate('/');
+    }
   }
 
   return (
@@ -53,30 +75,24 @@ const AboutForm = () => {
         Tell us about yourself
       </h1>
       <Bio setBio={setBio} bio={bio} />
-      <TagSelect
-        tags={socialTags}
-        setter={setSocialTags}
-        height={'h-[715px]'}
-        category="social"
-      />
-      <TagSelect
-        tags={professionalTags}
-        setter={setProfessionalTags}
-        height={'h-[425px]'}
-        category="Professional"
-      />
-      <TagSelect
-        tags={dietaryTags}
-        setter={setDietaryTags}
-        height={'h-[285px]'}
-        category="Dietary"
-      />
-      <TagSelect
-        tags={cuisineTags}
-        setter={setCuisineTags}
-        height={'h-[400px]'}
-        category="Cuisine"
-      />
+      <div className="lg:flex">
+        <TagSelect tags={socialTags} setter={setSocialTags} category="social" />
+        <TagSelect
+          tags={professionalTags}
+          setter={setProfessionalTags}
+          category="Professional"
+        />
+        <TagSelect
+          tags={dietaryTags}
+          setter={setDietaryTags}
+          category="Dietary"
+        />
+        <TagSelect
+          tags={cuisineTags}
+          setter={setCuisineTags}
+          category="Cuisine"
+        />
+      </div>
       <div className="sm:max-w-lg sm:min-w-[40%] w-full px-6">
         <FormButton handleSubmit={handleSubmit}>Submit</FormButton>
       </div>
