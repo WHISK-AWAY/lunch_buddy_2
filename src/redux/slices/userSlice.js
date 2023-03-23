@@ -287,17 +287,17 @@ const userSlice = createSlice({
 
       // FETCH USER MEETINGS
       .addCase(fetchUserMeetings.fulfilled, (state, { payload }) => {
-        state.meetings = payload;
+        state.userMeetings = payload;
         state.isLoading = false;
         state.error = '';
       })
       .addCase(fetchUserMeetings.pending, (state, action) => {
-        state.meetings = [];
+        state.userMeetings = [];
         state.isLoading = true;
         state.error = '';
       })
       .addCase(fetchUserMeetings.rejected, (state, action) => {
-        state.meetings = [];
+        state.userMeetings = [];
         state.isLoading = false;
         state.error = action.error.message;
       });
