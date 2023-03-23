@@ -189,7 +189,7 @@ const userSlice = createSlice({
       .addCase(createNewUser.rejected, (state, action) => {
         state.user = {};
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
       .addCase(updateUser.fulfilled, (state, { payload }) => {
         state.user = payload;
@@ -255,6 +255,7 @@ const userSlice = createSlice({
 });
 
 export const selectUser = (state) => state.user.user;
-export const selectUserStatus = (state) => state.user.status;
+export const selectUserLoading = (state) => state.user.isLoading;
+export const selectUserError = (state) => state.user.error;
 export const { resetUserState } = userSlice.actions;
 export default userSlice.reducer;
