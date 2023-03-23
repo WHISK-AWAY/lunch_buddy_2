@@ -18,6 +18,7 @@ const tagList = require('../mock-data/tagData.cjs');
 const userList = require('../mock-data/demoUsersData.cjs');
 
 const SEARCH_RADIUS = 5;
+
 const seed = async () => {
   try {
     await db.sync({ force: true });
@@ -126,9 +127,18 @@ const seed = async () => {
 
     console.log('Seeding meetings...');
 
+    function randomUserIndex() {
+      return Math.floor(Math.random() * seededUsers.length) + 1;
+    }
+
     const meetingData = meetingList.map((meeting) => {
-      meeting.userId = Math.floor(Math.random() * seededUsers.length) + 1;
-      meeting.buddyId = Math.floor(Math.random() * seededUsers.length) + 1;
+      meeting.userId = meeting.buddyId = randomUserIndex();
+      // meeting.buddyId = meeting.userId;
+
+      while (meeting.userId === meeting.buddyId) {
+        meeting.buddyId = randomUserIndex();
+        if (meeting.userId === meeting.buddyId) console.log('removing repeat');
+      }
 
       return meeting;
     });
