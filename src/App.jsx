@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import MockResponsive from './components/MockResponsive';
+import SliceTest from './components/sliceTest';
 import {
   MeetingSetup,
   BuddyList,
@@ -13,8 +14,9 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={<MockResponsive />}></Route>
-        <Route path="/test" element={<MeetingSetup />}></Route>
-        <Route path="/match" element={<RestaurantSuggestions />}></Route>
+        <Route path="/test" element={<SliceTest />}></Route>
+        <Route path="/login" element={<MockResponsive />}></Route>
+        <Route path="/match" element={<MeetingSetup />}></Route>
         <Route path="/match/results" element={<BuddyList />}></Route>
         <Route
           path="/match/restaurants"
