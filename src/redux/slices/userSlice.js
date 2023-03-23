@@ -145,6 +145,13 @@ export const removeBan = createAsyncThunk(
   }
 );
 
+export const checkUserCreated = createAsyncThunk(
+  'user/checkUserCreated',
+  async (x, { getState }) => {
+    return getState().user;
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -250,6 +257,11 @@ const userSlice = createSlice({
         state.user = {};
         state.isLoading = false;
         state.error = action.error.message;
+      })
+
+      // Checks if user had error when creating account
+      .addCase(checkUserCreated.fulfilled, (state, action) => {
+        return action.payload;
       });
   },
 });

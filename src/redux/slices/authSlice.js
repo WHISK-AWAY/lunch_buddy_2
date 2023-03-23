@@ -31,6 +31,13 @@ export const requestLogin = createAsyncThunk(
   }
 );
 
+export const successfulLogin = createAsyncThunk(
+  'auth/successfulLogin',
+  async (x, { getState }) => {
+    return getState().auth.error;
+  }
+);
+
 /**
  * tryToken takes no parameters, but it does pull token from localStorage
  * Once verified, the user info and token are placed in slice
@@ -97,7 +104,7 @@ const authSlice = createSlice({
         state.token = '';
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.payload.response.data;
       })
       .addCase(tryToken.fulfilled, (state, { payload }) => {
         state.user = payload.data;
@@ -114,7 +121,12 @@ const authSlice = createSlice({
         state.token = '';
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.payload;
+      })
+
+      // async check to make sure a user successfully logs in before redirecting
+      .addCase(successfulLogin.fulfilled, (state, action) => {
+        return action.payload;
       });
   },
 });
