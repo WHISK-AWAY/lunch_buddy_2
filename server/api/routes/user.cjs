@@ -33,6 +33,33 @@ router.get('/', requireToken, isAdmin, async (req, res, next) => {
   }
 });
 
+router.get(
+  '/:userId',
+  requireToken,
+  sameUserOrAdmin,
+  async (req, res, next) => {
+    /**
+     * GET /api/user/:userId
+     * return details of given user
+     */
+    try {
+      const userId = +req.params.userId;
+
+      const user = await User.findByPk(userId, {
+        include: [Tag],
+        attributes: {
+          exclude: ['password', 'avgRating', 'reportCount', 'strikeCount'],
+        },
+      });
+
+      if (!user) return res.status(404).send(`No such user id: ${userId}`);
+      res.status(200).json(user);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 router.post('/', async (req, res, next) => {
   /**
    * POST /api/user
@@ -155,33 +182,6 @@ router.post('/', async (req, res, next) => {
     next(err);
   }
 });
-
-router.get(
-  '/:userId',
-  requireToken,
-  sameUserOrAdmin,
-  async (req, res, next) => {
-    /**
-     * GET /api/user/:userId
-     * return details of given user
-     */
-    try {
-      const userId = +req.params.userId;
-
-      const user = await User.findByPk(userId, {
-        include: [Tag],
-        attributes: {
-          exclude: ['password', 'avgRating', 'reportCount', 'strikeCount'],
-        },
-      });
-
-      if (!user) return res.status(404).send(`No such user id: ${userId}`);
-      res.status(200).json(user);
-    } catch (err) {
-      next(err);
-    }
-  }
-);
 
 router.put(
   '/:userId',
@@ -338,12 +338,15 @@ router.delete('/:userId', requireToken, isAdmin, async (req, res, next) => {
   /**
    * DELETE /api/user/:userId
    * Admin-only: delete user account
+   * presently having trouble with this: cannot delete where user
+   * is present as a buddy in meeting table...
    */
   try {
     const userId = +req.params.userId;
 
     const destroyCount = await User.destroy({
       where: { id: userId },
+      cascade: true,
       limit: 1,
     });
 
