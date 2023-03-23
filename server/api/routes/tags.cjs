@@ -4,7 +4,7 @@ const { isAdmin, requireToken } = require('../authMiddleware.cjs');
 
 // Route - api/tags
 // Get ALL tags
-router.get('/', requireToken, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const allTags = await Tag.findAll({ include: Category });
     res.json(allTags);
