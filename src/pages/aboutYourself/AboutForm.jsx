@@ -12,6 +12,7 @@ import {
   createNewUser,
   selectUserLoading,
   selectUserError,
+  checkUserCreated,
 } from '../../redux/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,7 +30,16 @@ const AboutForm = () => {
   const [cuisineTags, setCuisineTags] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchAllTags());
+    const form = localStorage.getItem('registerForm');
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+    if (!form) {
+      navigate('/register');
+    } else {
+      dispatch(fetchAllTags());
+    }
   }, []);
 
   const tagsInState = useSelector((state) => state.tags.tags);
@@ -41,7 +51,7 @@ const AboutForm = () => {
   }, [tagsInState]);
 
   // Handles creation of new user based on user inputs
-  function handleSubmit() {
+  async function handleSubmit() {
     const prevPageFormData = JSON.parse(
       window.localStorage.getItem('registerForm')
     );
@@ -60,11 +70,13 @@ const AboutForm = () => {
     }
 
     console.log(prevPageFormData);
-    dispatch(createNewUser(prevPageFormData));
-    console.log('THUNK DISPATCHED: --> user loading?', userLoading);
-    if (userError) {
-      alert(userError);
+    await dispatch(createNewUser(prevPageFormData));
+    const { payload: errorOnCreation } = await dispatch(checkUserCreated());
+    console.log('errorOnCreation', errorOnCreation);
+    if (errorOnCreation.error) {
+      alert(errorOnCreation.error);
     } else {
+      localStorage.removeItem('registerForm');
       navigate('/');
     }
   }

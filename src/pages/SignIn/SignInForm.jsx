@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
+import { useSelector, useDispatch } from 'react-redux';
+import { requestLogin, successfulLogin } from '../../redux/slices/authSlice';
+import { selectAuthStatus } from '../../redux/slices/authSlice';
 
 const inputs = {
   email: '',
@@ -8,11 +11,29 @@ const inputs = {
 };
 
 const SignInForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { error: authError } = useSelector(selectAuthStatus);
+
   const [formInputs, setFormInputs] = useState(inputs);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formInputs);
+    await dispatch(requestLogin(formInputs));
+    const { payload } = await dispatch(successfulLogin());
+    if (payload) {
+      alert(payload);
+    } else {
+      navigate('/');
+    }
   };
   return (
     <div className="h-screen flex justify-center items-center">

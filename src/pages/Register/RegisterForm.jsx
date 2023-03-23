@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
+import { listOfStates } from '../../utilities/registerHelpers';
 
-const inputs = {
+const inputs = JSON.parse(localStorage.getItem('registerForm')) || {
   firstName: '',
   lastName: '',
   email: '',
@@ -16,12 +18,47 @@ const inputs = {
   gender: '',
 };
 
+const requiredFields = [
+  'firstName',
+  'LastName',
+  'email',
+  'password',
+  'address1',
+  'city',
+  'state',
+  'zip',
+  'age',
+  'gender',
+];
+
 const RegisterForm = () => {
+  const navigate = useNavigate();
+
   const [formInputs, setFormInputs] = useState(inputs);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formInputs);
+    const missingFields = [];
+    for (let field of requiredFields) {
+      if (formInputs[field] === '') {
+        missingFields.push(field);
+      }
+    }
+    if (missingFields.length > 0) {
+      console.log(missingFields.join(','));
+      alert(`Missing required fields: ${missingFields.join(', ')}`);
+    } else {
+      localStorage.setItem('registerForm', JSON.stringify(formInputs));
+      console.log(formInputs);
+      navigate('/register/aboutyourself');
+    }
   };
   return (
     <div className="flex justify-center items-center md:h-screen">
@@ -144,15 +181,9 @@ const RegisterForm = () => {
                 setFormInputs((prev) => ({ ...prev, state: e.target.value }))
               }
             >
-              <option disabled selected value>
-                {''}
-              </option>
-              <option>Test</option>
-              <option>Test2</option>
-              <option>Test3</option>
-              <option>Test4</option>
-              <option>Test5</option>
-              <option>Test6</option>
+              {listOfStates.map((state) => {
+                return <option key={state}>{state}</option>;
+              })}
             </select>
           </div>
           <div className="relative col-span-2">
@@ -193,7 +224,7 @@ const RegisterForm = () => {
               <option disabled selected value>
                 {''}
               </option>
-              <option>Male</option>
+              <option>M</option>
               <option>Female</option>
               <option>Non-Binary</option>
               <option>Other</option>
