@@ -5,12 +5,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllTags } from '../../redux/slices/tagSlice';
 import FormButton from '../../components/FormButton';
 
+// Helper Functions
 function getTagsByCategory(category, tags) {
   tags = tags
     .filter((tag) => tag.category.categoryName === category)
     .map((tag) => {
       return { ...tag, clicked: false };
-    });
+    })
+    .sort((a, b) => (a.tagName > b.tagName ? 1 : -1));
   return tags;
 }
 
@@ -21,7 +23,7 @@ function filterSelectedTags(tags) {
 const AboutForm = () => {
   const dispatch = useDispatch();
 
-  const tagsInState = useSelector((state) => state.tags.tags);
+  const [bio, setBio] = useState('');
 
   const [socialTags, setSocialTags] = useState([]);
   const [professionalTags, setProfessionalTags] = useState([]);
@@ -32,16 +34,12 @@ const AboutForm = () => {
     dispatch(fetchAllTags());
   }, []);
 
+  const tagsInState = useSelector((state) => state.tags.tags);
   useEffect(() => {
-    const tempSocial = getTagsByCategory('social', tagsInState);
-    const tempProfessional = getTagsByCategory('professional', tagsInState);
-    const tempDietary = getTagsByCategory('dietary restriction', tagsInState);
-    const tempCuisine = getTagsByCategory('cuisine', tagsInState);
-
-    setSocialTags(tempSocial);
-    setProfessionalTags(tempProfessional);
-    setDietaryTags(tempDietary);
-    setCuisineTags(tempCuisine);
+    setSocialTags(getTagsByCategory('social', tagsInState));
+    setProfessionalTags(getTagsByCategory('professional', tagsInState));
+    setDietaryTags(getTagsByCategory('dietary restriction', tagsInState));
+    setCuisineTags(getTagsByCategory('cuisine', tagsInState));
   }, [tagsInState]);
 
   function handleSubmit() {
@@ -54,7 +52,7 @@ const AboutForm = () => {
       <h1 className="my-8 text-lg font-bold text-red-400">
         Tell us about yourself
       </h1>
-      <Bio />
+      <Bio setBio={setBio} bio={bio} />
       <TagSelect
         tags={socialTags}
         setter={setSocialTags}
@@ -79,7 +77,9 @@ const AboutForm = () => {
         height={'h-[400px]'}
         category="Cuisine"
       />
-      <FormButton handleSubmit={handleSubmit}>Submit</FormButton>
+      <div className="sm:max-w-lg sm:min-w-[40%] w-full px-6">
+        <FormButton handleSubmit={handleSubmit}>Submit</FormButton>
+      </div>
     </div>
   );
 };

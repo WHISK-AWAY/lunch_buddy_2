@@ -39,7 +39,7 @@ const TagSelect = ({ setter, tags = [], height, category }) => {
             return (
               <button
                 key={idx}
-                className={`border border-black rounded-full px-4 h-7 flex justify-between gap-4 items-center hover:bg-slate-100 ${
+                className={`border border-black rounded-full px-4 h-7 flex justify-between gap-4 items-center hover:bg-slate-100 text-sm sm:text-base ${
                   tag.clicked
                     ? 'bg-gradient-to-r from-orange-300 to-red-400 text-white transition-all'
                     : ''
