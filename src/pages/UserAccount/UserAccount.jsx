@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { tryToken, selectAuth } from '../../redux/slices/authSlice';
 import { fetchUser, selectUser } from '../../redux/slices/userSlice';
+import chevronRight from '../../assets/icons/chevron-right.svg';
 
 const UserAccount = () => {
   const dispatch = useDispatch();
@@ -15,11 +16,10 @@ const UserAccount = () => {
   const [socialTags, setSocialTags] = useState([]);
   const [dietaryTags, setDietaryTags] = useState([]);
   const [cuisineTags, setCuisineTags] = useState([]);
+  const [tagExpand, setTagExpand] = useState(true);
 
-  console.log('auth', auth);
 
   useEffect(() => {
-    console.log('hello');
     dispatch(tryToken());
   }, []);
 
@@ -49,58 +49,150 @@ const UserAccount = () => {
   }, [dispatch, auth]);
 
   const tags = user.tags;
+
   useEffect(() => {
-    console.log(tags);
-    if (tags) {
-      const social = tags.filter((tag) => tag.categoryId === 1);
-      const professional = tags.filter((tag) => tag.categoryId === 2);
-      const dietary = tags.filter((tag) => tag.categoryId === 3);
-      const cuisine = tags.filter((tag) => tag.categoryId === 4);
-      setSocialTags(social);
-      setProfessionalTags(professional);
-      setDietaryTags(dietary);
-      setCuisineTags(cuisine);
-    }
+    const social = tags?.filter(
+      (tag) => tag.category.categoryName === 'social'
+    );
+    const professional = tags?.filter(
+      (tag) => tag.category.categoryName === 'professional'
+    );
+    const dietary = tags?.filter(
+      (tag) => tag.category.categoryName === 'dietary restrictions'
+    );
+    const cuisine = tags?.filter(
+      (tag) => tag.category.categoryName === 'cuisine'
+    );
+
+    setSocialTags(social || []);
+    setProfessionalTags(professional || []);
+    setDietaryTags(dietary || []);
+    setCuisineTags(cuisine || []);
+
   }, [user]);
+
+  console.log('social', socialTags);
 
   if (!tags) return <p>Loading tags...</p>;
 
   return (
-    <div id="user-container">
-      <div className="flex flex-col items-center justify-center w-screen mx-2 font-tenor">
-        <h1 className="my-8 text-lg font-bold text-headers">
-          {auth.user.fullName}
+    <div id="user-container font-tenor">
+      <div className="flex flex-col items-center justify-center w-screen mx-2 px-4">
+        <h1 className="my-8 text-2xl text-headers">
+          {auth.user.fullName.toUpperCase()}
         </h1>
-        <img
-          src={auth.user.avatarUrl}
-          alt="user avatar"
-          className="h-80 w-100 rounded-full"
-        ></img>
-        {/*Link to edit page */}
-        <p>{auth.user.aboutMe}</p>
-        <div>
-          {socialTags.map((social) => {
-            return <p key={social.id}>{social.tagName}</p>;
-          })}
+        <div id="user-avatar" className=" flex justify-center w-96">
+          <img
+            src={auth.user.avatarUrl}
+            alt="user avatar"
+            className="object-cover aspect-square w-24 h-24 rounded-[100%]"
+          />
         </div>
-        <div>
-          {professionalTags.map((professional) => {
-            return <p key={professional.id}>{professional.tagName}</p>;
-          })}
+        {/*Link to edit page */}
+        <div id="about-me" className="pt-14">
+          <p>{auth.user.aboutMe}</p>
         </div>
 
-        <div>
-          {cuisineTags.map((cuisine) => {
-            return <p key={cuisine.id}>{cuisine.tagName}</p>;
-          })}
-        </div>
-        {dietaryTags.length > 0 && (
-          <div>
-            {dietaryTags.map((dietary) => {
-              return <p key={dietary.id}>{dietary.tagName}</p>;
+        <div id="tags-container" className="flex flex-wrap px-10 my-8">
+          <h2 className="ml-12">
+            {socialTags[0]?.category.categoryName.toUpperCase()}
+          </h2>
+
+          <div
+            id="social-tags"
+            className="w-full flex flex-wrap gap-x-5 gap-y-2 my-6"
+          >
+            <img
+              className={`w-6 transition-all ${tagExpand ? '' : 'rotate-90'}`}
+              src={chevronRight}
+              alt="Expand/Retract Arrow"
+            />
+            {socialTags.map((social) => {
+              return (
+                <p
+                  key={social.id}
+                  className="border border-black rounded-full px-4 h-7 lg:h-auto flex  gap-4 items-center"
+                >
+                  {social.tagName}
+                </p>
+              );
             })}
           </div>
-        )}
+
+          <h2 className="ml-12">
+            {professionalTags[0]?.category.categoryName.toUpperCase()}
+          </h2>
+          <div
+            id="professional-tags"
+            className=" w-full flex flex-wrap gap-x-5 gap-y-2 my-6"
+          >
+            <img
+              className={`w-6 transition-all ${tagExpand ? '' : 'rotate-90'}`}
+              src={chevronRight}
+              alt="Expand/Retract Arrow"
+            />
+            {professionalTags.map((professional) => {
+              return (
+                <p
+                  key={professional.id}
+                  className="border border-black rounded-full px-4 h-7 lg:h-auto flex  gap-4 items-center"
+                >
+                  {professional.tagName}
+                </p>
+              );
+            })}
+          </div>
+
+          <h2 className="ml-12">
+            {cuisineTags[0]?.category.categoryName.toUpperCase()}
+          </h2>
+          <div
+            id="cuisine-tags"
+            className="w-full flex flex-wrap gap-x-5 gap-y-2 my-6"
+          >
+            <img
+              className={`w-6 transition-all ${tagExpand ? '' : 'rotate-90'}`}
+              // src={tagExpand ? chevronRight : chevronDown}
+              src={chevronRight}
+              alt="Expand/Retract Arrow"
+            />
+            {cuisineTags.map((cuisine) => {
+              return (
+                <p
+                  key={cuisine.id}
+                  className="border border-black rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center"
+                >
+                  {cuisine.tagName}
+                </p>
+              );
+            })}
+          </div>
+
+          {dietaryTags.length > 0 && (
+            <div>
+              <h2 className="ml-12">
+                {dietaryTags[0]?.category.categoryName.toUpperCase()}
+              </h2>
+
+              <div
+                id="dietary-tags"
+                className="w-full flex flex-wrap gap-x-5 gap-y-2 my-6"
+              >
+                <img
+                  className={`w-6 transition-all ${
+                    tagExpand ? '' : 'rotate-90'
+                  }`}
+                  // src={tagExpand ? chevronRight : chevronDown}
+                  src={chevronRight}
+                  alt="Expand/Retract Arrow"
+                />
+                {dietaryTags.map((dietary) => {
+                  return <p key={dietary.id}>{dietary.tagName}</p>;
+                })}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

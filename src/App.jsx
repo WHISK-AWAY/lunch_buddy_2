@@ -15,11 +15,12 @@ import {
 
 function App() {
   return (
-    <>
+    <React.Fragment>
       <NavBar />
       <Routes>
         <Route path="/" element={<MockResponsive />} />
         <Route path="/login" element={<SignInForm />} />
+        <Route path="/account" element={<UserAccount />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/register/aboutyourself" element={<AboutForm />} />
         <Route path="/test" element={<MeetingSetup />}></Route>
@@ -31,22 +32,7 @@ function App() {
         ></Route>
         <Route path="/match/confirm" element={<MeetingRecap />}></Route>
       </Routes>
-    </>
-    <Routes>
-      <Route path="/" element={<MockResponsive />} />
-      <Route path="/login" element={<SignInForm />} />
-      <Route path="/account" element={<UserAccount />} />
-      <Route path="/register" element={<RegisterForm />} />
-      <Route path="/register/aboutyourself" element={<AboutForm />} />
-      <Route path="/test" element={<MeetingSetup />}></Route>
-      <Route path="/match" element={<RestaurantSuggestions />}></Route>
-      <Route path="/match/results" element={<BuddyList />}></Route>
-      <Route
-        path="/match/restaurants"
-        element={<RestaurantSuggestions />}
-      ></Route>
-      <Route path="/match/confirm" element={<MeetingRecap />}></Route>
-    </Routes>
+    </React.Fragment>
   );
 }
 
