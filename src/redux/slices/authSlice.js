@@ -34,7 +34,7 @@ export const requestLogin = createAsyncThunk(
 export const successfulLogin = createAsyncThunk(
   'auth/successfulLogin',
   async (x, { getState }) => {
-    return getState().auth.error;
+    return getState().auth;
   }
 );
 
@@ -101,6 +101,7 @@ const authSlice = createSlice({
         state.error = '';
       })
       .addCase(requestLogin.rejected, (state, action) => {
+        console.log('state', state);
         state.token = '';
         state.user = {};
         state.isLoading = false;
