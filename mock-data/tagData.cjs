@@ -97,5 +97,31 @@ const cuisines = [
   'seafood',
   'halal',
 ];
+const cuisineObjects = [
+  { alias: 'african', tagName: 'African' },
+  { alias: 'latin', tagName: 'Latin American' },
+  'mexican',
+  'american',
+  'spicy',
+  'barbecue',
+  'indian',
+  'thai',
+  'chinese',
+  'japanese',
+  'sushi',
+  'greek',
+  'mediterranean',
+  'french',
+  'italian',
+  'asian',
+  'southern',
+  'portugese',
+  'spanish',
+  'cuban',
+  'german',
+  'english',
+  'seafood',
+  'halal',
+];
 
 module.exports = { activities, professions, dietaryRestrictions, cuisines };
