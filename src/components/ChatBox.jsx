@@ -56,7 +56,7 @@ export default function ChatBox() {
         <h2 className="text-center">Buddy</h2>
         <h2 className="text-center text-gray-500">{Date.now()}</h2>
       </div>
-      <div className=" m-1 p-5 overflow-scroll h-3/5">
+      <div className=" m-1 p-5 overflow-scroll h-4/6 w-fit">
         {!meeting.messages ? (
           <div>No Messages</div>
         ) : (
@@ -86,16 +86,15 @@ export default function ChatBox() {
         )}
       </div>
       <form id="form">
-        <label>message</label>
-        <input
+        <textarea
           type="text"
-          className="border border-black"
+          className=" m-4 border border-black  w-11/12 rounded-2xl h-16 py-2 px-6"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
         />
-        <button type="submit" className="p-10" onClick={onMessageSubmit}>
+        {/* <button type="submit" className="p-10" onClick={onMessageSubmit}>
           Send
-        </button>
+        </button> */}
       </form>
     </div>
   );
