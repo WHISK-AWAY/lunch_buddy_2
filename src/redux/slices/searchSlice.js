@@ -28,7 +28,6 @@ export const findBuddies = createAsyncThunk(
         headers: { authorization: token },
         params: { radius },
       });
-      console.log('response from buddy search', res);
       return res.data;
     } catch (err) {
       return rejectWithValue(err);
