@@ -1,14 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import MockResponsive from './components/MockResponsive';
-import AboutForm from './pages/aboutYourself/AboutForm';
-import RegisterForm from './pages/register/RegisterForm';
-import SignInForm from './pages/signIn/SignInForm';
 import {
   MeetingSetup,
   BuddyList,
   MeetingRecap,
   RestaurantSuggestions,
+  AboutForm,
+  SignInForm,
+  RegisterForm,
 } from './pages';
 
 function App() {
