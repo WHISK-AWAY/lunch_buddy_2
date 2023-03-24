@@ -131,7 +131,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { resetAuthStatus } = authSlice.actions;
+export const { resetAuthStatus, logOut } = authSlice.actions;
 export const selectAuth = (state) => state.auth;
 export const selectAuthUser = (state) => state.auth.user;
 export const selectAuthStatus = (state) => {
