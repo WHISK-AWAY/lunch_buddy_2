@@ -63,7 +63,7 @@ const RegisterForm = () => {
   return (
     <div className="h-screen flex justify-center lg:grow items-center">
       <div className="w-full xs:w-4/5 sm:w-3/5 md:w-1/2">
-        <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6">
+        <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8">
           <h1 className="text-center text-2xl mb-6 text-red-400 font-bold font-sans col-span-full">
             Sign Up
           </h1>
@@ -182,7 +182,11 @@ const RegisterForm = () => {
               }
             >
               {listOfStates.map((state) => {
-                return <option key={state}>{state}</option>;
+                return (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                );
               })}
             </select>
           </div>
@@ -221,14 +225,10 @@ const RegisterForm = () => {
                 setFormInputs((prev) => ({ ...prev, gender: e.target.value }))
               }
             >
-              <option disabled selected value>
-                {''}
-              </option>
-              <option>M</option>
-              <option>Female</option>
-              <option>Non-Binary</option>
-              <option>Other</option>
-              <option>Prefer Not To Say</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+              <option value="Other">Other</option>
+              <option value="DidNotDisclose">Prefer Not To Say</option>
             </select>
           </div>
           <div className="col-span-full md:w-3/5 md:mx-auto">
