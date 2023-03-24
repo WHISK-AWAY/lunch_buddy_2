@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   findBuddies,
   selectSearch,
@@ -18,6 +18,7 @@ export default function BuddyList(props) {
   const buddiesList = useSelector(selectSearch);
   const user = useSelector(selectUser);
   const auth = useSelector(selectAuth);
+  const navigate = useNavigate();
 
   const { searchRadius, timeSlot } = location.state;
 
@@ -39,6 +40,10 @@ export default function BuddyList(props) {
 
   function selectBuddy(buddy) {
     console.log(`${buddy.fullName} selected`);
+
+    navigate('/match/restaurants', {
+      state: { searchRadius, timeSlot, buddy },
+    });
   }
 
   const myTagList = user.tags?.map((tag) => tag.id) || [];

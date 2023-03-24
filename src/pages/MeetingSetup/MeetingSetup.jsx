@@ -10,7 +10,7 @@ import {
 } from '../../redux/slices';
 import getLocation from '../../utilities/geo';
 
-const SEARCH_RADIUS_LIST = [0.5, 1, 3, 5, 10];
+const SEARCH_RADIUS_LIST = [0.5, 1, 3, 5];
 const TIME_SLOTS = 4;
 
 export default function MeetingSetup(props) {
@@ -87,14 +87,21 @@ export default function MeetingSetup(props) {
   }
 
   return (
-    <div id="search-params-page">
-      <div id="search-params-container">
-        <form action="/" onSubmit={handleSearchSubmit}>
-          <div id="radius-group">
+    <div
+      id="search-params-page"
+      className="h-screen w-2/5 mx-auto flex flex-col justify-center items-center bg-gradient-to-tr from-orange-200 to-white"
+    >
+      <div
+        id="search-params-container"
+        className="flex flex-col justify-center items-center w-full "
+      >
+        <form action="/" onSubmit={handleSearchSubmit} className="">
+          <div id="radius-group" className="flex flex-col items-center">
             <label htmlFor="search-radius">SEARCH RADIUS</label>
             <select
               name="radius"
               id="search-radius"
+              className="bg-white rounded-full"
               value={searchRadius}
               onChange={(e) => setSearchRadius(e.target.value)}
             >
@@ -107,7 +114,10 @@ export default function MeetingSetup(props) {
               })}
             </select>
           </div>
-          <div id="time-slot-group">
+          <div
+            id="time-slot-group"
+            className="flex flex-row flex-wrap justify-center gap-5"
+          >
             {timeSlots.map((timeOption) => {
               return (
                 <button
@@ -116,6 +126,7 @@ export default function MeetingSetup(props) {
                     e.preventDefault();
                     handleTimeslot(timeOption);
                   }}
+                  className=" bg-slate-600 rounded-full px-3 py-1"
                 >
                   {`${timeOption.startTime} - ${timeOption.endTime}`}
                 </button>

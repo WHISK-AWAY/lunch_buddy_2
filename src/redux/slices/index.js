@@ -19,6 +19,7 @@ export {
   default as searchSlice,
   selectSearch,
   findBuddies,
+  findRestaurants,
   resetSearchState,
 } from './searchSlice';
 
