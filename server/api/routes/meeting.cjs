@@ -100,6 +100,16 @@ router.post('/active/messages', requireToken, async (req, res, next) => {
         isClosed: false,
         [Op.or]: [{ userId: req.user.id }, { buddyId: req.user.id }],
       },
+      include: [
+        {
+          association: 'user',
+          attributes: ['firstName', 'lastName', 'fullName', 'avatarUrl'],
+        },
+        {
+          association: 'buddy',
+          attributes: ['firstName', 'lastName', 'fullName', 'avatarUrl'],
+        },
+      ],
     });
     if (req.user.id === meeting.userId || req.user.id === meeting.buddyId) {
       if (req.user.id === meeting.userId) correctRecip = meeting.buddyId;
@@ -125,11 +135,11 @@ router.get('/active/messages', requireToken, async (req, res, next) => {
       include: [
         {
           association: 'user',
-          attributes: ['firstName', 'lastName', 'fullName'],
+          attributes: ['firstName', 'lastName', 'fullName', 'avatarUrl'],
         },
         {
           association: 'buddy',
-          attributes: ['firstName', 'lastName', 'fullName'],
+          attributes: ['firstName', 'lastName', 'fullName', 'avatarUrl'],
         },
         {
           model: Message,
