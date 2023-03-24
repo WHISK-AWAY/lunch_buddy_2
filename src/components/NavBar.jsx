@@ -10,6 +10,7 @@ const NavBar = () => {
   const dispatch = useDispatch();
 
   const authUser = useSelector(selectAuthUser);
+  console.log('auth user fname boolean', !!authUser.firstName);
 
   // Turns off scroll when showing menu
   document.body.style.overflow = expandMenu ? 'hidden' : 'auto';
@@ -19,29 +20,32 @@ const NavBar = () => {
   }, []);
 
   return (
-    <header className="relative mb-20">
-      <nav className="flex border-b border-black p-4 justify-between">
+    <header className="relative mb-20 z-10">
+      <nav className="flex border-b border-black p-4 justify-between bg-slate-50">
         <Link to="/">
           <h1 onClick={() => setExpandMenu(false)} className="text-3xl">
             Lunch<span className="font-thin">buddy</span>
           </h1>
         </Link>
         <ul className="flex items-center justify-center gap-5 text-center">
-          <li>
-            <Link to={'/login'}>
-              <div className="py-2 px-4 w-24 rounded border border-black text-lg text-red-400 hidden sm:block">
-                Login
-              </div>
-            </Link>
-          </li>
-
-          <li>
-            <Link to={'/register'}>
-              <div className="py-2 px-4 w-24 rounded bg-gradient-to-r from-orange-300 to-red-400 text-white text-lg hidden sm:block">
-                Register
-              </div>
-            </Link>
-          </li>
+          {!authUser.firstName && (
+            <>
+              <li>
+                <Link to={'/login'}>
+                  <div className="py-2 px-4 w-24 rounded border border-black text-lg text-red-400 hidden sm:block">
+                    Login
+                  </div>
+                </Link>
+              </li>
+              <li>
+                <Link to={'/register'}>
+                  <div className="py-2 px-4 w-24 rounded bg-gradient-to-r from-orange-300 to-red-400 text-white text-lg hidden sm:block">
+                    Register
+                  </div>
+                </Link>
+              </li>
+            </>
+          )}
 
           <li className="h-8">
             <button>
