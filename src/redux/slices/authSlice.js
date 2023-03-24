@@ -51,6 +51,8 @@ export const tryToken = createAsyncThunk(
         },
       });
 
+      if (!data) throw new Error('Token validation failed');
+
       return { data, token };
     } catch (err) {
       return rejectWithValue(err);
@@ -110,7 +112,7 @@ const authSlice = createSlice({
         state.error = '';
       })
       .addCase(tryToken.rejected, (state, action) => {
-        console.log('action:', action);
+        window.localStorage.removeItem('token');
         state.token = '';
         state.user = {};
         state.isLoading = false;
