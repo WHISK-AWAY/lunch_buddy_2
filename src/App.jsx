@@ -6,23 +6,27 @@ import {
   BuddyList,
   MeetingRecap,
   RestaurantSuggestions,
+  AboutForm,
+  SignInForm,
+  RegisterForm,
 } from './pages';
 
 function App() {
   return (
-    <div>
-      <Routes>
-        <Route path="/" element={<MockResponsive />}></Route>
-        <Route path="/test" element={<MeetingSetup />}></Route>
-        <Route path="/match" element={<RestaurantSuggestions />}></Route>
-        <Route path="/match/results" element={<BuddyList />}></Route>
-        <Route
-          path="/match/restaurants"
-          element={<RestaurantSuggestions />}
-        ></Route>
-        <Route path="/match/confirm" element={<MeetingRecap />}></Route>
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<MockResponsive />} />
+      <Route path="/login" element={<SignInForm />} />
+      <Route path="/register" element={<RegisterForm />} />
+      <Route path="/register/aboutyourself" element={<AboutForm />} />
+      <Route path="/test" element={<MeetingSetup />}></Route>
+      <Route path="/match" element={<RestaurantSuggestions />}></Route>
+      <Route path="/match/results" element={<BuddyList />}></Route>
+      <Route
+        path="/match/restaurants"
+        element={<RestaurantSuggestions />}
+      ></Route>
+      <Route path="/match/confirm" element={<MeetingRecap />}></Route>
+    </Routes>
   );
 }
 
