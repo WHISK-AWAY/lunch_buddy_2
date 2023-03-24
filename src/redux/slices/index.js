@@ -9,10 +9,30 @@ export {
 } from './authSlice';
 
 // MEETINGS
-export { default as meetingSlice, selectMeetings } from './meetingSlice';
+export {
+  default as meetingSlice,
+  selectMeetings,
+  createMeeting,
+  updateMeeting,
+  getMeeting,
+  deleteMeeting,
+  getMeetingMessages,
+  addMessage,
+  addRating,
+  upholdRating,
+  resetMeetingStatus,
+} from './meetingSlice';
 
 // MESSAGES
 export { default as messagesSlice, selectMessages } from './messagesSlice';
+
+// SEARCH
+export {
+  default as searchSlice,
+  selectSearch,
+  findBuddies,
+  resetSearchState,
+} from './searchSlice';
 
 // TAGS
 export { default as tagSlice, selectTags } from './tagSlice';
@@ -29,4 +49,5 @@ export {
   updateLocation,
   banUser,
   removeBan,
+  fetchUserMeetings,
 } from './userSlice';

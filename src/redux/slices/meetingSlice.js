@@ -42,13 +42,21 @@ export const updateMeeting = createAsyncThunk(
 
 export const getMeeting = createAsyncThunk(
   'meeting/getOne',
-  async ({ token, meetingId }, { rejectWithValue }) => {
+  async ({ token, meetingId, userId }, { rejectWithValue }) => {
     try {
-      const { data } = axios.get(API_URL + `/api/meeting/${meetingId}`, {
+      let route;
+      if (!token) throw new Error('No token provided');
+      if (userId !== undefined) {
+        route = API_URL + `/api/user/${userId}/meeting/${meetingId}`;
+      } else {
+        route = API_URL + `/api/meeting/${meetingId}`;
+      }
+      const { data } = await axios.get(route, {
         headers: {
           authorization: token,
         },
       });
+
       return data;
     } catch (error) {
       console.log(error);
@@ -245,6 +253,8 @@ const meetingSlice = createSlice({
       // Get a single meeting (Already includes the messages)
       .addCase(getMeeting.fulfilled, (state, action) => {
         state.meeting = action.payload;
+        if (!state.meetings.some((meeting) => meeting.id === action.payload.id))
+          state.meetings.push(action.payload);
         state.isLoading = false;
         state.error = '';
       })
@@ -253,7 +263,7 @@ const meetingSlice = createSlice({
       })
       .addCase(getMeeting.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.message;
       })
       .addCase(getActiveMeeting.fulfilled, (state, action) => {
         state.meeting = action.payload;
