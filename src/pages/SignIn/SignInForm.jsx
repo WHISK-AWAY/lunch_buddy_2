@@ -36,9 +36,9 @@ const SignInForm = () => {
     }
   };
   return (
-    <div className="h-screen flex justify-center items-center">
-      <div className="w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-2/5">
-        <form className="bg-white p-10 rounded-lg min-w-full">
+    <div className="h-screen flex justify-center lg:grow items-center">
+      <div className="w-full xs:w-4/5 sm:w-3/5 md:w-1/2">
+        <form className="bg-white p-10 rounded-lg lg:w-2/3 mx-auto flex flex-col ">
           <h1 className="text-center text-2xl mb-6 text-red-400 font-bold font-sans">
             Sign In
           </h1>
@@ -85,6 +85,11 @@ const SignInForm = () => {
           </p>
         </form>
       </div>
+      <img
+        className="w-1/2 hidden lg:block"
+        src="/src/assets/bgImg/signUpView.jpg"
+        alt="top down image of 5 people reaching in to a table of food"
+      />
     </div>
   );
 };

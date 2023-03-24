@@ -61,8 +61,8 @@ const RegisterForm = () => {
     }
   };
   return (
-    <div className="flex justify-center items-center md:h-screen">
-      <div className="w-full my-12 max-w-4xl">
+    <div className="h-screen flex justify-center lg:grow items-center">
+      <div className="w-full xs:w-4/5 sm:w-3/5 md:w-1/2">
         <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6">
           <h1 className="text-center text-2xl mb-6 text-red-400 font-bold font-sans col-span-full">
             Sign Up
@@ -236,6 +236,11 @@ const RegisterForm = () => {
           </div>
         </form>
       </div>
+      <img
+        className="w-1/2 hidden lg:block"
+        src="/src/assets/bgImg/signUpView.jpg"
+        alt="person smearing a dip on toast, at a restaurant with wine, plates, coffee"
+      />
     </div>
   );
 };
