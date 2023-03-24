@@ -3,15 +3,19 @@ const io = require('socket.io')(5000, {
     origin: '*',
   },
 });
-io.on('connection', (socket) => {
-  socket.on('message-event', (message, room, name) => {
+io.on('connection', async (socket) => {
+  socket.on('message-event', (room) => {
     if (room === '') {
-      socket.broadcast.emit('recieve-message', message);
+      return;
     } else {
-      socket.to(room).emit('recieve-message', message);
+      socket.to(room).emit('recieve-message');
     }
   });
-  socket.on('joinRoom', (room) => {
-    socket.join(room);
+  socket.on('joinRoom', async (room) => {
+    if (socket.rooms.has(room)) {
+      return;
+    } else {
+      await socket.join(room);
+    }
   });
 });
