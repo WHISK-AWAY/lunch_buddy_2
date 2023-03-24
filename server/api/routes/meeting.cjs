@@ -122,9 +122,19 @@ router.post('/active/messages', requireToken, async (req, res, next) => {
 router.get('/active/messages', requireToken, async (req, res, next) => {
   try {
     const meeting = await Meeting.findOne({
-      include: {
-        model: Message,
-      },
+      include: [
+        {
+          association: 'user',
+          attributes: ['firstName', 'lastName', 'fullName'],
+        },
+        {
+          association: 'buddy',
+          attributes: ['firstName', 'lastName', 'fullName'],
+        },
+        {
+          model: Message,
+        },
+      ],
       where: {
         isClosed: false,
         [Op.or]: [{ userId: req.user.id }, { buddyId: req.user.id }],
