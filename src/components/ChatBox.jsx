@@ -51,16 +51,34 @@ export default function ChatBox() {
     }
   };
   return (
-    <div className="block">
-      <div className="border-8 border-black m-5 p-5">
+    <div className="h-screen">
+      <div className="">
+        <h2 className="text-center">Buddy</h2>
+        <h2 className="text-center text-gray-500">{Date.now()}</h2>
+      </div>
+      <div className=" m-1 p-5 overflow-scroll h-3/5">
         {!meeting.messages ? (
           <div>No Messages</div>
         ) : (
           <div>
             {meeting?.messages?.map((message) => {
               return (
-                <div key={message.id}>
-                  {message.senderId}: {message.message}
+                <div key={message.id} className="flex">
+                  {message.senderId === 1 && (
+                    <img
+                      className="self-center mr-3 w-10 h-10 rounded-full"
+                      src="https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cmFuZG9tfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+                    ></img>
+                  )}
+                  <p
+                    className={` py-2 px-4  min-w-[60px] text-center my-2  break-words ${
+                      message.senderId === 8
+                        ? 'bg-orange-500 ml-auto text-white rounded-l-full rounded-tr-full  '
+                        : 'bg-slate-400 rounded-r-full rounded-tl-full '
+                    }`}
+                  >
+                    {message.message}
+                  </p>
                 </div>
               );
             })}
