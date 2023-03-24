@@ -19,7 +19,6 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<ChatBox />}></Route>
-        {/* <Route path="/" element={<MockResponsive />}></Route> */}
         {/* <Route path="/" element={<MockResponsive />} /> */}
         <Route path="/login" element={<SignInForm />} />
         <Route path="/register" element={<RegisterForm />} />
