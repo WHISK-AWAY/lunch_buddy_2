@@ -9,6 +9,7 @@ import {
   AboutForm,
   SignInForm,
   RegisterForm,
+  UserAccount,
 } from './pages';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
     <Routes>
       <Route path="/" element={<MockResponsive />} />
       <Route path="/login" element={<SignInForm />} />
+      <Route path="/account" element={<UserAccount />} />
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/register/aboutyourself" element={<AboutForm />} />
       <Route path="/test" element={<MeetingSetup />}></Route>
