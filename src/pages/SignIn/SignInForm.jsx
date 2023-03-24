@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
 import { useSelector, useDispatch } from 'react-redux';
-import { requestLogin, successfulLogin } from '../../redux/slices/authSlice';
+import {
+  requestLogin,
+  successfulLogin,
+  tryToken,
+} from '../../redux/slices/authSlice';
 import { selectAuthStatus } from '../../redux/slices/authSlice';
 
 const inputs = {
@@ -33,6 +37,7 @@ const SignInForm = () => {
     if (authState.payload.error) {
       alert(authState.payload.error);
     } else {
+      dispatch(tryToken());
       navigate('/');
     }
   };
