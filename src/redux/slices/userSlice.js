@@ -117,7 +117,7 @@ export const banUser = createAsyncThunk(
 
       return updatedUser;
     } catch (err) {
-      rejectWithValue(err);
+      return rejectWithValue(err);
     }
   }
 );
@@ -140,8 +140,35 @@ export const removeBan = createAsyncThunk(
 
       return updatedUser;
     } catch (err) {
-      rejectWithValue(err);
+      return rejectWithValue(err);
     }
+  }
+);
+
+export const fetchUserMeetings = createAsyncThunk(
+  'user/fetchUserMeetings',
+  async (userId, { rejectWithValue }) => {
+    try {
+      const { user, token } = await checkToken();
+
+      // if userId isn't passed in, use the one from the token
+      if (userId === undefined) userId = user.id;
+
+      const res = await axios.get(API_URL + `/api/user/${userId}/meeting`, {
+        headers: { authorization: token },
+      });
+
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const checkUserCreated = createAsyncThunk(
+  'user/checkUserCreated',
+  async (x, { getState }) => {
+    return getState().user;
   }
 );
 
@@ -149,17 +176,20 @@ const userSlice = createSlice({
   name: 'user',
   initialState: {
     user: {},
+    userMeetings: [],
     error: '',
     isLoading: false,
   },
   reducers: {
     resetUserState: (state) => {
       state.user = {};
+      state.userMeetings = [];
       state.error = '';
       state.isLoading = false;
     },
   },
   extraReducers: (builder) => {
+    // FETCH USER
     builder
       .addCase(fetchUser.fulfilled, (state, { payload }) => {
         state.user = payload;
@@ -176,6 +206,8 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message;
       })
+
+      // CREATE NEW USER
       .addCase(createNewUser.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.isLoading = false;
@@ -189,8 +221,10 @@ const userSlice = createSlice({
       .addCase(createNewUser.rejected, (state, action) => {
         state.user = {};
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
+
+      // UPDATE USER (general purpose)
       .addCase(updateUser.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.isLoading = false;
@@ -206,6 +240,8 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message;
       })
+
+      // UPDATE USER LOCATION
       .addCase(updateLocation.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.isLoading = false;
@@ -221,6 +257,8 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message;
       })
+
+      // BAN USER
       .addCase(banUser.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.isLoading = false;
@@ -236,6 +274,8 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message;
       })
+
+      // REMOVE USER BAN
       .addCase(removeBan.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.isLoading = false;
@@ -250,11 +290,33 @@ const userSlice = createSlice({
         state.user = {};
         state.isLoading = false;
         state.error = action.error.message;
+      })
+
+      // Checks if user had error when creating account
+      .addCase(checkUserCreated.fulfilled, (state, action) => {
+        return action.payload;
+      })
+      // FETCH USER MEETINGS
+      .addCase(fetchUserMeetings.fulfilled, (state, { payload }) => {
+        state.userMeetings = payload;
+        state.isLoading = false;
+        state.error = '';
+      })
+      .addCase(fetchUserMeetings.pending, (state, action) => {
+        state.userMeetings = [];
+        state.isLoading = true;
+        state.error = '';
+      })
+      .addCase(fetchUserMeetings.rejected, (state, action) => {
+        state.userMeetings = [];
+        state.isLoading = false;
+        state.error = action.error.message;
       });
   },
 });
 
 export const selectUser = (state) => state.user.user;
-export const selectUserStatus = (state) => state.user.status;
+export const selectUserLoading = (state) => state.user.isLoading;
+export const selectUserError = (state) => state.user.error;
 export const { resetUserState } = userSlice.actions;
 export default userSlice.reducer;

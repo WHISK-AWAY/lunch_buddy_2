@@ -1,3 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Clicker+Script&family=Cormorant:wght@300;400;500;600;700&family=El+Messiri:wght@400;500;600&family=Fredericka+the+Great&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Tenor+Sans&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .button {
+    @apply bg-gradient-to-r from-[#FEA530]/80 to-[#FF5269]/80;
+  }
+  /* add buddies circle button only*/
+  .button-round {
+    @apply bg-gradient-to-r from-[#FEA530] to-[#FF5269];
+  }
+  .orange-linear-bg {
+    @apply bg-gradient-to-t from-[#FF8A00]/20 to-[#FFFFFF];
+  }
+}

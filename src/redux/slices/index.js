@@ -9,7 +9,19 @@ export {
 } from './authSlice';
 
 // MEETINGS
-export { default as meetingSlice, selectMeetings } from './meetingSlice';
+export {
+  default as meetingSlice,
+  selectMeetings,
+  createMeeting,
+  updateMeeting,
+  getMeeting,
+  deleteMeeting,
+  getMeetingMessages,
+  addMessage,
+  addRating,
+  upholdRating,
+  resetMeetingStatus,
+} from './meetingSlice';
 
 // MESSAGES
 export { default as messagesSlice, selectMessages } from './messagesSlice';
@@ -29,7 +41,7 @@ export { default as tagSlice, selectTags } from './tagSlice';
 export {
   default as userSlice,
   selectUser,
-  selectUserStatus,
+  selectUserError,
   resetUserState,
   fetchUser,
   createNewUser,
@@ -37,4 +49,5 @@ export {
   updateLocation,
   banUser,
   removeBan,
+  fetchUserMeetings,
 } from './userSlice';
