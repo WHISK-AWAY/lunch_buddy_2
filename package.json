@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
-    "preview": "vite preview",
+    "preview": "vite preview --host",
     "api": "nodemon ./server/server.cjs",
     "seed": "node ./server/seed.cjs",
     "socketIo": "nodemon ./server/socketServer.cjs"

@@ -31,6 +31,13 @@ export const requestLogin = createAsyncThunk(
   }
 );
 
+export const successfulLogin = createAsyncThunk(
+  'auth/successfulLogin',
+  async (x, { getState }) => {
+    return getState().auth;
+  }
+);
+
 /**
  * tryToken takes no parameters, but it does pull token from localStorage
  * Once verified, the user info and token are placed in slice
@@ -50,6 +57,8 @@ export const tryToken = createAsyncThunk(
           authorization: token,
         },
       });
+
+      if (!data) throw new Error('Token validation failed');
 
       return { data, token };
     } catch (err) {
@@ -97,7 +106,7 @@ const authSlice = createSlice({
         state.token = '';
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.payload.response.data;
       })
       .addCase(tryToken.fulfilled, (state, { payload }) => {
         state.user = payload.data;
@@ -110,17 +119,23 @@ const authSlice = createSlice({
         state.error = '';
       })
       .addCase(tryToken.rejected, (state, action) => {
-        console.log('action:', action);
         state.token = '';
         state.user = {};
         state.isLoading = false;
         state.error = action.payload.message;
+        window.localStorage.removeItem('token');
+      })
+
+      // async check to make sure a user successfully logs in before redirecting
+      .addCase(successfulLogin.fulfilled, (state, action) => {
+        return action.payload;
       });
   },
 });
 
-export const { resetAuthStatus } = authSlice.actions;
+export const { resetAuthStatus, logOut } = authSlice.actions;
 export const selectAuth = (state) => state.auth;
+export const selectAuthUser = (state) => state.auth.user;
 export const selectAuthStatus = (state) => {
   return { isLoading: state.auth.isLoading, error: state.auth.error };
 };
