@@ -14,6 +14,11 @@ export default function ChatBox() {
   //   const [meeting, setMeeting] = useState('');
   // currently the room is hard coded but I'd like it to be a mixture of the meeting id user id and buddy id or something of that sor
   const meeting = useSelector((state) => state.meetings.meeting);
+  const today = new Date();
+  const dayOfMonth = today.getUTCDate();
+  const monthToday = today.getMonth();
+  const yearToday = today.getUTCFullYear();
+  //   const curDate = new Date();
   //   setMeeting(meetingState);
 
   useEffect(() => {
@@ -54,7 +59,9 @@ export default function ChatBox() {
     <div className="h-screen">
       <div className="">
         <h2 className="text-center">Buddy</h2>
-        <h2 className="text-center text-gray-500">{Date.now()}</h2>
+        <h2 className="text-center text-gray-500">
+          {monthToday}-{dayOfMonth}-{yearToday}
+        </h2>
       </div>
       <div className=" m-1 p-5 overflow-scroll h-4/6 w-fit">
         {!meeting.messages ? (
