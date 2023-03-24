@@ -92,6 +92,32 @@ router.delete('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
     next(err);
   }
 });
+router.post('/active/messages', requireToken, async (req, res, next) => {
+  try {
+    let correctRecip;
+    const meeting = await Meeting.findOne({
+      where: {
+        isClosed: false,
+        [Op.or]: [{ userId: req.user.id }, { buddyId: req.user.id }],
+      },
+    });
+    if (req.user.id === meeting.userId || req.user.id === meeting.buddyId) {
+      if (req.user.id === meeting.userId) correctRecip = meeting.buddyId;
+      else correctRecip = meeting.userId;
+      const newMessage = await Message.create({
+        recipientId: correctRecip,
+        meetingId: meeting.id,
+        message: req.body.message,
+        senderId: req.user.id,
+      });
+      res.status(200).json(newMessage);
+    } else {
+      res.status(404).send(`User is not in meeting`);
+    }
+  } catch (err) {
+    next(err);
+  }
+});
 // to get the currently active meeting for said user
 router.get('/active/messages', requireToken, async (req, res, next) => {
   try {
