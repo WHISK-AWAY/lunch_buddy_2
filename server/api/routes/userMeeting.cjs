@@ -1,8 +1,10 @@
 const { Op } = require('sequelize');
 const router = require('express').Router({ mergeParams: true });
-const { Meeting } = require('../../db/index.cjs');
+const { Meeting, User } = require('../../db/index.cjs');
 const { requireToken, sameUserOrAdmin } = require('../authMiddleware.cjs');
 const validUser = require('../validUserMiddleware.cjs');
+
+const { SAFE_USER_FIELDS } = require('../../constants.cjs');
 
 router.get(
   '/',
@@ -22,6 +24,16 @@ router.get(
             { buddyId: req.params.userId },
           ],
         },
+        include: [
+          {
+            association: 'user',
+            attributes: SAFE_USER_FIELDS,
+          },
+          {
+            association: 'buddy',
+            attributes: SAFE_USER_FIELDS,
+          },
+        ],
       });
       res.status(200).json(userMeetings);
     } catch (error) {
@@ -50,6 +62,16 @@ router.get(
           ],
           id: req.params.meetingId,
         },
+        include: [
+          {
+            association: 'user',
+            attributes: SAFE_USER_FIELDS,
+          },
+          {
+            association: 'buddy',
+            attributes: SAFE_USER_FIELDS,
+          },
+        ],
       });
       if (!meeting) {
         return res
