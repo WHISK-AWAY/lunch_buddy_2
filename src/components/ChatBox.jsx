@@ -52,7 +52,7 @@ export default function ChatBox() {
   };
   return (
     <div className="block">
-      <div className="border-8 border-black m-5 p-5" id="chatbox">
+      <div className="border-8 border-black m-5 p-5">
         {!meeting.messages ? (
           <div>No Messages</div>
         ) : (
