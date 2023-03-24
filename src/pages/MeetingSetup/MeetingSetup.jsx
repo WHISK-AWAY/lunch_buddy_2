@@ -50,14 +50,14 @@ export default function MeetingSetup(props) {
 
   let timeSlots = [getNextTime(new Date())];
 
-  for (let i = 0; i < TIME_SLOTS; i++) {
+  for (let i = 0; i < TIME_SLOTS - 1; i++) {
     timeSlots.push(getNextTime(timeSlots[timeSlots.length - 1]));
   }
 
   // set timeslots into format:
-  // {dateObj: Date(), startTime: '1:30', endTime: '1:00'}
+  // {dateObj: Date(), startTime: '1:30', endTime: '2:30'}
   timeSlots = timeSlots.map((time) => {
-    const times = [time, getNextTime(time, 60)];
+    const times = [time, new Date(time.getTime() + 60 * 60 * 1000)];
     const accum = {};
     accum.dateObj = time;
     accum.startTime = times[0]
@@ -89,19 +89,25 @@ export default function MeetingSetup(props) {
   return (
     <div
       id="search-params-page"
-      className="h-screen w-2/5 mx-auto flex flex-col justify-center items-center bg-gradient-to-tr from-orange-200 to-white"
+      className="font-tenor h-screen w-full mx-auto flex flex-col justify-center items-center bg-gradient-to-tr from-headers/20 to-white"
     >
       <div
         id="search-params-container"
-        className="flex flex-col justify-center items-center w-full "
+        className="w-4/5 flex flex-col justify-center items-center"
       >
-        <form action="/" onSubmit={handleSearchSubmit} className="">
-          <div id="radius-group" className="flex flex-col items-center">
-            <label htmlFor="search-radius">SEARCH RADIUS</label>
+        <form
+          action="/"
+          onSubmit={handleSearchSubmit}
+          className="flex flex-col gap-5 mb-5 items-center"
+        >
+          <div id="radius-group" className="flex flex-col items-center gap-5">
+            <label className="text-headers" htmlFor="search-radius">
+              SEARCH RADIUS
+            </label>
             <select
               name="radius"
               id="search-radius"
-              className="bg-white rounded-full"
+              className="bg-white rounded-full px-5 py-3 border-[1px] border-primary-gray"
               value={searchRadius}
               onChange={(e) => setSearchRadius(e.target.value)}
             >
@@ -115,25 +121,33 @@ export default function MeetingSetup(props) {
             </select>
           </div>
           <div
-            id="time-slot-group"
-            className="flex flex-row flex-wrap justify-center gap-5"
+            id="time-slot-wrapper"
+            className="flex flex-col items-center gap-5"
           >
-            {timeSlots.map((timeOption) => {
-              return (
-                <button
-                  key={timeOption.dateObj}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleTimeslot(timeOption);
-                  }}
-                  className=" bg-slate-600 rounded-full px-3 py-1"
-                >
-                  {`${timeOption.startTime} - ${timeOption.endTime}`}
-                </button>
-              );
-            })}
+            <h2 className="text-headers">TIME SLOTS</h2>
+            <div
+              id="time-slot-group"
+              className="flex flex-row flex-wrap justify-center gap-5"
+            >
+              {timeSlots.map((timeOption) => {
+                return (
+                  <button
+                    key={timeOption.dateObj}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleTimeslot(timeOption);
+                    }}
+                    className=" bg-white rounded-full px-3 py-1 border-[1px] border-primary-gray"
+                  >
+                    {`${timeOption.startTime} - ${timeOption.endTime}`}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          <button>FIND BUDDY</button>
+          <button className="button text-white w-fit px-5 py-2 rounded-full">
+            FIND BUDDY
+          </button>
         </form>
       </div>
       <Link to="/match/results">To Search Results Page</Link>
