@@ -58,6 +58,8 @@ export const tryToken = createAsyncThunk(
         },
       });
 
+      if (!data) throw new Error('Token validation failed');
+
       return { data, token };
     } catch (err) {
       return rejectWithValue(err);
@@ -101,7 +103,6 @@ const authSlice = createSlice({
         state.error = '';
       })
       .addCase(requestLogin.rejected, (state, action) => {
-        console.log('state', state);
         state.token = '';
         state.user = {};
         state.isLoading = false;
@@ -118,14 +119,12 @@ const authSlice = createSlice({
         state.error = '';
       })
       .addCase(tryToken.rejected, (state, action) => {
-        console.log('action:', action);
+        window.localStorage.removeItem('token');
         state.token = '';
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload;
+        state.error = action.payload.response.data;
       })
-
-      // async check to make sure a user successfully logs in before redirecting
       .addCase(successfulLogin.fulfilled, (state, action) => {
         return action.payload;
       });
