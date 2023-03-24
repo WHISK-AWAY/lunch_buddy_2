@@ -165,6 +165,13 @@ export const fetchUserMeetings = createAsyncThunk(
   }
 );
 
+export const checkUserCreated = createAsyncThunk(
+  'user/checkUserCreated',
+  async (x, { getState }) => {
+    return getState().user;
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -214,7 +221,7 @@ const userSlice = createSlice({
       .addCase(createNewUser.rejected, (state, action) => {
         state.user = {};
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // UPDATE USER (general purpose)
@@ -285,6 +292,10 @@ const userSlice = createSlice({
         state.error = action.error.message;
       })
 
+      // Checks if user had error when creating account
+      .addCase(checkUserCreated.fulfilled, (state, action) => {
+        return action.payload;
+      })
       // FETCH USER MEETINGS
       .addCase(fetchUserMeetings.fulfilled, (state, { payload }) => {
         state.userMeetings = payload;
@@ -304,7 +315,8 @@ const userSlice = createSlice({
   },
 });
 
-export const selectUser = (state) => state.user?.user;
-export const selectUserStatus = (state) => state.user?.status;
+export const selectUser = (state) => state.user.user;
+export const selectUserLoading = (state) => state.user.isLoading;
+export const selectUserError = (state) => state.user.error;
 export const { resetUserState } = userSlice.actions;
 export default userSlice.reducer;

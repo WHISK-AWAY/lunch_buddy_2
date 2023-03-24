@@ -42,7 +42,7 @@ export { default as tagSlice, selectTags } from './tagSlice';
 export {
   default as userSlice,
   selectUser,
-  selectUserStatus,
+  selectUserError,
   resetUserState,
   fetchUser,
   createNewUser,

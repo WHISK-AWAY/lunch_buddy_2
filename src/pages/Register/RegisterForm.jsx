@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
+import { listOfStates } from '../../utilities/registerHelpers';
 
-const inputs = {
+const inputs = JSON.parse(localStorage.getItem('registerForm')) || {
   firstName: '',
   lastName: '',
   email: '',
@@ -16,17 +18,52 @@ const inputs = {
   gender: '',
 };
 
+const requiredFields = [
+  'firstName',
+  'LastName',
+  'email',
+  'password',
+  'address1',
+  'city',
+  'state',
+  'zip',
+  'age',
+  'gender',
+];
+
 const RegisterForm = () => {
+  const navigate = useNavigate();
+
   const [formInputs, setFormInputs] = useState(inputs);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formInputs);
+    const missingFields = [];
+    for (let field of requiredFields) {
+      if (formInputs[field] === '') {
+        missingFields.push(field);
+      }
+    }
+    if (missingFields.length > 0) {
+      console.log(missingFields.join(','));
+      alert(`Missing required fields: ${missingFields.join(', ')}`);
+    } else {
+      localStorage.setItem('registerForm', JSON.stringify(formInputs));
+      console.log(formInputs);
+      navigate('/register/aboutyourself');
+    }
   };
   return (
-    <div className="flex justify-center items-center md:h-screen">
-      <div className="w-full my-12 max-w-4xl">
-        <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6">
+    <div className="h-screen flex justify-center lg:grow items-center">
+      <div className="w-full xs:w-4/5 sm:w-3/5 md:w-1/2">
+        <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8">
           <h1 className="text-center text-2xl mb-6 text-red-400 font-bold font-sans col-span-full">
             Sign Up
           </h1>
@@ -74,6 +111,7 @@ const RegisterForm = () => {
               Password
             </label>
             <input
+              type="password"
               className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
               value={formInputs.password}
               onChange={(e) =>
@@ -86,6 +124,7 @@ const RegisterForm = () => {
               Confirm Password
             </label>
             <input
+              type="password"
               className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
               value={formInputs.confirmPassword}
               onChange={(e) =>
@@ -142,15 +181,13 @@ const RegisterForm = () => {
                 setFormInputs((prev) => ({ ...prev, state: e.target.value }))
               }
             >
-              <option disabled selected value>
-                {''}
-              </option>
-              <option>Test</option>
-              <option>Test2</option>
-              <option>Test3</option>
-              <option>Test4</option>
-              <option>Test5</option>
-              <option>Test6</option>
+              {listOfStates.map((state) => {
+                return (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                );
+              })}
             </select>
           </div>
           <div className="relative col-span-2">
@@ -188,21 +225,22 @@ const RegisterForm = () => {
                 setFormInputs((prev) => ({ ...prev, gender: e.target.value }))
               }
             >
-              <option disabled selected value>
-                {''}
-              </option>
-              <option>Male</option>
-              <option>Female</option>
-              <option>Non-Binary</option>
-              <option>Other</option>
-              <option>Prefer Not To Say</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+              <option value="Other">Other</option>
+              <option value="DidNotDisclose">Prefer Not To Say</option>
             </select>
           </div>
           <div className="col-span-full md:w-3/5 md:mx-auto">
-            <FormButton handleSubmit={handleSubmit}>Create Account</FormButton>
+            <FormButton handleSubmit={handleSubmit}>Continue</FormButton>
           </div>
         </form>
       </div>
+      <img
+        className="w-1/2 hidden lg:block"
+        src="/src/assets/bgImg/signUpView.jpg"
+        alt="person smearing a dip on toast, at a restaurant with wine, plates, coffee"
+      />
     </div>
   );
 };
