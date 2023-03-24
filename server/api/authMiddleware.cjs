@@ -26,12 +26,13 @@ function sameUserOrAdmin(req, res, next) {
     (req.user.id === +req.params.userId || req.user.role === 'admin')
   )
     next();
-  else
+  else {
     res
       .status(403)
       .send(
         'Inadequate access rights / Requested user does not match logged-in user'
       );
+  }
 }
 
 async function isAdmin(req, res, next) {
