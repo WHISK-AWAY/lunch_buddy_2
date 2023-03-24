@@ -5,6 +5,15 @@ module.exports = {
     fontFamily: {
       fredericka: ['Fredericka the Great', 'cursive'],
       tenor: ['Tenor Sans', 'sans-serif'],
+      monserrat: ['Montserrat', 'sans-serif'],
+      cormo: ['Cormorant', 'serif'],
+      clicker: ['Clicker Script', 'cursive'],
+    },
+    fontWeight: {
+      thin: 100,
+      xtralight: 200,
+      light: 300,
+      semibold: 600,
     },
     extend: {
       colors: {
