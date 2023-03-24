@@ -19,9 +19,6 @@ export default function RestaurantSuggestions(props) {
 
   const { searchRadius, timeSlot, buddy } = location.state;
 
-  console.log(searchRadius);
-  console.log('search:', search);
-
   useEffect(() => {
     dispatch(findRestaurants({ searchRadius }));
   }, [dispatch]);
