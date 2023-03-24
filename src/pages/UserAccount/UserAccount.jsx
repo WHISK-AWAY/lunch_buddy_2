@@ -46,18 +46,7 @@ const UserAccount = () => {
     if (token && auth.user.id) {
       dispatch(fetchUser(auth.user.id));
     }
-    // console.log('tags', auth.user.user?.tags);
   }, [dispatch, auth]);
-
-  // console.log('user', user.tags);
-
-  // const tags = user.tags;
-
-  // const catId = tags[0].categoryId;
-
-  // if (tags.categoryId === 1) {
-  //   setSocialTags()
-  // }
 
   const tags = user.tags;
   useEffect(() => {
@@ -74,45 +63,45 @@ const UserAccount = () => {
     }
   }, [user]);
 
-  // console.log('social', socialTags);
-  // console.log('professiona', professionalTags);
-  // console.log('dietary', dietaryTags);
-  // console.log('cuisine', cuisineTags);
   if (!tags) return <p>Loading tags...</p>;
 
-  // console.log(social);
-  // console.log('catId', tags[0].categoryId);
-  // console.log('tags', tags);
-
   return (
-    <div>
-      <h1>{auth.user.fullName}</h1>
-      <img src={auth.user.avatarUrl}></img>
-      {/*Link to edit page */}
-      <p>{auth.user.aboutMe}</p>
-      <div>
-        {socialTags.map((social) => {
-          return <p key={social.id}>{social.tagName}</p>;
-        })}
-      </div>
-      <div>
-        {professionalTags.map((professional) => {
-          return <p key={professional.id}>{professional.tagName}</p>;
-        })}
-      </div>
-
-      <div>
-        {cuisineTags.map((cuisine) => {
-          return <p key={cuisine.id}>{cuisine.tagName}</p>;
-        })}
-      </div>
-      {dietaryTags.length > 0 && (
+    <div id="user-container">
+      <div className="flex flex-col items-center justify-center w-screen mx-2 font-tenor">
+        <h1 className="my-8 text-lg font-bold text-headers">
+          {auth.user.fullName}
+        </h1>
+        <img
+          src={auth.user.avatarUrl}
+          alt="user avatar"
+          className="h-80 w-100 rounded-full"
+        ></img>
+        {/*Link to edit page */}
+        <p>{auth.user.aboutMe}</p>
         <div>
-          {dietaryTags.map((dietary) => {
-            return <p key={dietary.id}>{dietary.tagName}</p>;
+          {socialTags.map((social) => {
+            return <p key={social.id}>{social.tagName}</p>;
           })}
         </div>
-      )}
+        <div>
+          {professionalTags.map((professional) => {
+            return <p key={professional.id}>{professional.tagName}</p>;
+          })}
+        </div>
+
+        <div>
+          {cuisineTags.map((cuisine) => {
+            return <p key={cuisine.id}>{cuisine.tagName}</p>;
+          })}
+        </div>
+        {dietaryTags.length > 0 && (
+          <div>
+            {dietaryTags.map((dietary) => {
+              return <p key={dietary.id}>{dietary.tagName}</p>;
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
