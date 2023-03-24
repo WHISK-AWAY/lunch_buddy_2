@@ -34,7 +34,7 @@ export const requestLogin = createAsyncThunk(
 export const successfulLogin = createAsyncThunk(
   'auth/successfulLogin',
   async (x, { getState }) => {
-    return getState().auth.error;
+    return getState().auth;
   }
 );
 
@@ -117,11 +117,11 @@ const authSlice = createSlice({
         state.error = '';
       })
       .addCase(tryToken.rejected, (state, action) => {
-        console.log('action:', action);
+        // console.log('action:', typeof action.payload.message);
         state.token = '';
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload;
+        state.error = action.payload.message;
       })
 
       // async check to make sure a user successfully logs in before redirecting
@@ -133,6 +133,7 @@ const authSlice = createSlice({
 
 export const { resetAuthStatus } = authSlice.actions;
 export const selectAuth = (state) => state.auth;
+export const selectAuthUser = (state) => state.auth.user;
 export const selectAuthStatus = (state) => {
   return { isLoading: state.auth.isLoading, error: state.auth.error };
 };

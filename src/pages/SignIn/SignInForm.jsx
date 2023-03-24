@@ -28,9 +28,10 @@ const SignInForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await dispatch(requestLogin(formInputs));
-    const { payload } = await dispatch(successfulLogin());
-    if (payload) {
-      alert(payload);
+    const authState = await dispatch(successfulLogin());
+    console.log('authState', authState.payload);
+    if (authState.payload.error) {
+      alert(authState.payload.error);
     } else {
       navigate('/');
     }

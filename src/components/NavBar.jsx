@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import menuIcon from '../assets/icons/menu.svg';
 import DropdownMenu from './DropdownMenu';
+import { selectAuthUser, tryToken } from '../redux/slices/authSlice';
 
 const NavBar = () => {
   const [expandMenu, setExpandMenu] = useState(false);
+  const dispatch = useDispatch();
+
+  const authUser = useSelector(selectAuthUser);
+
   // Turns off scroll when showing menu
   document.body.style.overflow = expandMenu ? 'hidden' : 'auto';
+
+  useEffect(() => {
+    dispatch(tryToken());
+  }, []);
 
   return (
     <header className="relative mb-20">
@@ -16,7 +26,7 @@ const NavBar = () => {
             Lunch<span className="font-thin">buddy</span>
           </h1>
         </Link>
-        <ul className="flex items-center justify-center gap-5">
+        <ul className="flex items-center justify-center gap-5 text-center">
           <li>
             <Link to={'/login'}>
               <div className="py-2 px-4 w-24 rounded border border-black text-lg text-red-400 hidden sm:block">
