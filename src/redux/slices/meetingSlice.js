@@ -135,7 +135,6 @@ export const addMessage = createAsyncThunk(
 export const addMessageActiveMeeting = createAsyncThunk(
   'meeting/active/addMessage',
   async ({ token, newMessage }, { rejectWithValue }) => {
-    console.log(newMessage);
     try {
       const { data } = await axios.post(
         API_URL + `/api/meeting/active/messages`,
@@ -318,7 +317,6 @@ const meetingSlice = createSlice({
       })
       // add message for active meeting with user
       .addCase(addMessageActiveMeeting.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.meeting.messages.push(action.payload);
         state.isLoading = false;
         state.error = '';
