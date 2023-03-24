@@ -73,9 +73,6 @@ export default function MeetingSetup(props) {
 
   if (!timeSlot) setTimeSlot(timeSlots[0].dateObj);
 
-  // console.log(timeSlots);
-  console.log('auth', auth);
-
   function handleSearchSubmit(e) {
     e.preventDefault();
 
