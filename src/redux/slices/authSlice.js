@@ -125,6 +125,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload.response.data;
       })
+
+      // async check to make sure a user successfully logs in before redirecting
       .addCase(successfulLogin.fulfilled, (state, action) => {
         return action.payload;
       });
