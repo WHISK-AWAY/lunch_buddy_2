@@ -119,11 +119,11 @@ const authSlice = createSlice({
         state.error = '';
       })
       .addCase(tryToken.rejected, (state, action) => {
-        window.localStorage.removeItem('token');
         state.token = '';
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.response.data;
+        state.error = action.payload.message;
+        window.localStorage.removeItem('token');
       })
 
       // async check to make sure a user successfully logs in before redirecting
@@ -133,8 +133,9 @@ const authSlice = createSlice({
   },
 });
 
-export const { resetAuthStatus } = authSlice.actions;
+export const { resetAuthStatus, logOut } = authSlice.actions;
 export const selectAuth = (state) => state.auth;
+export const selectAuthUser = (state) => state.auth.user;
 export const selectAuthStatus = (state) => {
   return { isLoading: state.auth.isLoading, error: state.auth.error };
 };
