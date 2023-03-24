@@ -8,6 +8,7 @@ module.exports = {
       monserrat: ['Montserrat', 'sans-serif'],
       cormo: ['Cormorant', 'serif'],
       clicker: ['Clicker Script', 'cursive'],
+      poppins: ['Poppins', 'sans-serif'],
     },
     fontWeight: {
       thin: 100,
@@ -17,12 +18,14 @@ module.exports = {
     },
     extend: {
       colors: {
-         headers: '#F68080',
+        headers: '#F68080',
         'primary-gray': '#4A4B51',
-         label: '#F68080',
+        label: '#F68080',
         'light-gray': 'rgba(196, 196, 196, 12%)',
         'user-acc-bg': 'rgba(246, 126, 128, 8%)',
-         blobs: 'rgba(255, 118, 80, 8%)',
+        'sender-message': '#ffb398',
+        'buddy-message': '#e9e7e6',
+        blobs: 'rgba(255, 118, 80, 8%)',
         'primary-black': '#000000',
         'primary-white': '#FFFFFF',
       },
