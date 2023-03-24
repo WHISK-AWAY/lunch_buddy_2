@@ -1,11 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 import axios from 'axios';
+
+const token = window.localStorage.getItem('token');
 
 export const fetchAllTags = createAsyncThunk(
   'tag/getAll',
-  async ({ token }, { rejectWithValue }) => {
+  async (placeholder, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get('/api/tags', {
+      const { data } = await axios.get(API_URL + '/api/tags', {
         headers: {
           authorization: token,
         },
@@ -22,7 +25,7 @@ export const fetchSingleTag = createAsyncThunk(
   'tag/getOne',
   async ({ token, id }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`/api/tags/${id}`, {
+      const { data } = await axios.get(API_URL + `/api/tags/${id}`, {
         headers: {
           authorization: token,
         },
@@ -39,7 +42,7 @@ export const editTag = createAsyncThunk(
   'tag/editTag',
   async ({ token, id, updates }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.put(`/api/tags/${id}`, updates, {
+      const { data } = await axios.put(API_URL + `/api/tags/${id}`, updates, {
         headers: {
           authorization: token,
         },
@@ -56,7 +59,7 @@ export const deleteTag = createAsyncThunk(
   'tag/deleteTag',
   async ({ token, id }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.delete(`/api/tags/${id}`, {
+      const { data } = await axios.delete(API_URL + `/api/tags/${id}`, {
         headers: {
           authorization: token,
         },
@@ -73,7 +76,7 @@ export const addTag = createAsyncThunk(
   'tag/addTag',
   async ({ token, newTag }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`/api/tags`, newTag, {
+      const { data } = await axios.post(API_URL + `/api/tags`, newTag, {
         headers: {
           authorization: token,
         },
