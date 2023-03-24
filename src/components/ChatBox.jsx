@@ -31,7 +31,6 @@ export default function ChatBox() {
     // REMOVE .OFF WHEN DEPLOYING OR ELSE WILL NEVER SEND MSG
     socket.off('recieve-message').on('recieve-message', (d) => {
       const asyncEvent = async () => {
-        console.log('get it');
         const token = localStorage.getItem('token');
         setTimeout(() => {
           dispatch(getActiveMeeting(token));
