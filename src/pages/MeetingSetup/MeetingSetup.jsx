@@ -78,6 +78,8 @@ export default function MeetingSetup(props) {
 
     // hang on to selected time slot -- we'll need it a couple screens from now
     window.localStorage.setItem('meetingTimeslot', JSON.stringify(timeSlot));
+
+    navigate('/match/results', { state: { searchRadius, timeSlot } });
   }
 
   function handleTimeslot(timeOption) {
