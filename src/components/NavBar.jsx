@@ -20,7 +20,7 @@ const NavBar = () => {
   }, []);
 
   return (
-    <header className="relative mb-20 z-10">
+    <header className="relative z-10">
       <nav className="flex border-b border-black p-4 justify-between bg-slate-50">
         <Link to="/">
           <h1 onClick={() => setExpandMenu(false)} className="text-3xl">
