@@ -31,7 +31,9 @@ export default function MeetingSetup(props) {
   useEffect(() => {
     // use token to keep track of logged-in user (id)
     // once that's known we can pull down user data
-    if (!auth.user?.id) {
+    if (auth.error) {
+      navigate('/login');
+    } else if (!auth.user?.id) {
       dispatch(tryToken());
     } else dispatch(fetchUser(auth.user.id));
 
@@ -72,6 +74,7 @@ export default function MeetingSetup(props) {
   if (!timeSlot) setTimeSlot(timeSlots[0].dateObj);
 
   // console.log(timeSlots);
+  console.log('auth', auth);
 
   function handleSearchSubmit(e) {
     e.preventDefault();
@@ -85,11 +88,11 @@ export default function MeetingSetup(props) {
   function handleTimeslot(timeOption) {
     setTimeSlot(timeOption);
   }
-
+  // bg-gradient-to-tr from-headers/20 to-white
   return (
     <div
       id="search-params-page"
-      className="font-tenor h-screen w-full mx-auto flex flex-col justify-center items-center bg-gradient-to-tr from-headers/20 to-white"
+      className="font-tenor h-screen w-full mx-auto flex flex-col justify-center items-center orange-linear-bg"
     >
       <div
         id="search-params-container"
@@ -145,7 +148,7 @@ export default function MeetingSetup(props) {
               })}
             </div>
           </div>
-          <button className="button text-white w-fit px-5 py-2 rounded-full">
+          <button className="button text-white w-3/5 px-5 py-2 rounded-full">
             FIND BUDDY
           </button>
         </form>
