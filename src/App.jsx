@@ -14,7 +14,7 @@ import {
 
 function App() {
   return (
-    <>
+    <div className="font-tenor">
       <NavBar />
       <Routes>
         <Route path="/" element={<MockResponsive />} />
@@ -30,7 +30,7 @@ function App() {
         ></Route>
         <Route path="/match/confirm" element={<MeetingRecap />}></Route>
       </Routes>
-    </>
+    </div>
   );
 }
 
