@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Tag } = require('../../db/index.cjs');
+const { User, Tag, Category } = require('../../db/index.cjs');
 const { requireToken } = require('../authMiddleware.cjs');
 const { Op } = require('sequelize');
 const geolib = require('geolib');
@@ -34,6 +34,7 @@ router.get('/', requireToken, async (req, res, next) => {
     const usersInRange = await User.findAll({
       include: {
         model: Tag,
+        include: { model: Category },
       },
       attributes: [
         'firstName',
@@ -62,7 +63,9 @@ router.get('/', requireToken, async (req, res, next) => {
       },
     });
 
-    const myUser = await User.findByPk(req.user.id, { include: Tag });
+    const myUser = await User.findByPk(req.user.id, {
+      include: { model: Tag, include: { model: Category } },
+    });
 
     const myUserTags = myUser.tags.map((tag) => {
       return tag.id;
@@ -109,16 +112,17 @@ router.get('/', requireToken, async (req, res, next) => {
 router.get('/restaurants', requireToken, async (req, res, next) => {
   try {
     const YELP_BASE_URL = 'https://api.yelp.com/v3/businesses/search';
-    const { latitude, longitude, radius, open_now } = req.query;
+    const { latitude, longitude, radius, open_now, categories } = req.query;
 
     const params = {
       latitude,
       longitude,
       radius: parseInt(milesToMeters(radius)),
       open_now,
+      categories: categories.join(','),
     };
 
-    const yelpRes = await axios.get(YELP_BASE_URL, {
+    let yelpRes = await axios.get(YELP_BASE_URL, {
       headers: {
         Authorization: 'Bearer ' + YELP_API_KEY,
         accept: 'application/json',
@@ -126,7 +130,22 @@ router.get('/restaurants', requireToken, async (req, res, next) => {
       params,
     });
 
-    console.log(yelpRes.headers);
+    // if we didn't return anything with the first try, try again w/no categories
+    if (!yelpRes.data?.businesses?.length) {
+      console.log('No category-specific results -- trying again...');
+      delete params.categories;
+      yelpRes = await axios.get(YELP_BASE_URL, {
+        headers: {
+          Authorization: 'Bearer ' + YELP_API_KEY,
+          accept: 'application/json',
+        },
+        params,
+      });
+    }
+
+    console.log(
+      `Yelp rate limit: ${yelpRes.headers['ratelimit-remaining']}/${yelpRes.headers['ratelimit-dailylimit']}`
+    );
 
     res.status(200).send(yelpRes.data);
   } catch (err) {
