@@ -72,6 +72,7 @@ const searchSlice = createSlice({
   reducers: {
     resetSearchState: (state) => {
       state.searchResults = [];
+      restaurants = [];
       state.error = '';
       state.isLoading = false;
     },
@@ -115,5 +116,6 @@ const searchSlice = createSlice({
 });
 
 export const selectSearch = (state) => state.search;
+export const selectRestaurants = (state) => state.search.restaurants;
 export const { resetSearchState } = searchSlice.actions;
 export default searchSlice.reducer;
