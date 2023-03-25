@@ -4,8 +4,13 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export const createMeeting = createAsyncThunk(
   'meeting/createMeeting',
-  async ({ token, newMeeting }, { rejectWithValue }) => {
+  async ({ newMeeting }, { rejectWithValue }) => {
     try {
+      console.log('newMeeting', newMeeting);
+      const token = window.localStorage.getItem('token');
+
+      if (!token) throw new Error('No token found in local storage...');
+
       const { data } = axios.post(API_URL + '/api/meeting', newMeeting, {
         headers: {
           authorization: token,
