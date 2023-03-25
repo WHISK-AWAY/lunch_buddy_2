@@ -89,9 +89,9 @@ export default function MeetingSetup(props) {
   return (
     <div
       id="search-params-page"
-      className="font-tenor lg:bg-none w-full mx-auto flex flex-row-reverse justify-center items-center h-[calc(100vh_-_69px)] bg-fixed bg-gradient-to-t from-[#FF8A00]/10 to-[#FFFFFF] text-primary-gray"
+      className="font-tenor lg:bg-none w-screen flex flex-row-reverse justify-center items-center h-[calc(100vh_-_69px)] overflow-hidden bg-fixed bg-gradient-to-t from-[#FF8A00]/10 to-[#FFFFFF] text-primary-gray"
     >
-      <div className="lg:basis-1/2 w-4/5 flex flex-col justify-center items-center">
+      <div className="lg:basis-1/2 flex flex-col justify-center items-center">
         <div id="search-params-container" className="">
           <form
             action="/"
@@ -108,13 +108,13 @@ export default function MeetingSetup(props) {
               <select
                 name="radius"
                 id="search-radius"
-                className="bg-white rounded-full px-5 py-2 border-[1px] border-primary-gray text-sm "
+                className="rounded-full px-7 py-2 focus:border-primary-gray active:border-primary-gray text-sm active:ring-primary-gray focus:ring-primary-gray outline-0 form-select focus:bg-white"
                 value={searchRadius}
                 onChange={(e) => setSearchRadius(e.target.value)}
               >
                 {SEARCH_RADIUS_LIST.map((opt) => {
                   return (
-                    <option key={opt} value={opt}>
+                    <option className="text-left" key={opt} value={opt}>
                       {`${opt} MILE${opt > 1 ? 'S' : ''}`}
                     </option>
                   );
@@ -151,9 +151,16 @@ export default function MeetingSetup(props) {
             </button>
           </form>
         </div>
-      
-          <p className="">back to   <Link className="text-primary-gray text-sm font-semibold" to="/match/results">search results</Link></p>
-   
+
+        <p className="text-xs">
+          back to{' '}
+          <Link
+            className="text-label text-inherit"
+            to="/match/results"
+          >
+            search results
+          </Link>
+        </p>
       </div>
       <div
         id="bg-img"
