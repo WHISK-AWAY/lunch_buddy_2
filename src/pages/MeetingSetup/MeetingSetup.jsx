@@ -89,68 +89,77 @@ export default function MeetingSetup(props) {
   return (
     <div
       id="search-params-page"
-      className="font-tenor h-screen w-full mx-auto flex flex-col justify-center items-center orange-linear-bg"
+      className="font-tenor lg:bg-none w-full mx-auto flex flex-row-reverse justify-center items-center h-[calc(100vh_-_69px)] bg-fixed bg-gradient-to-t from-[#FF8A00]/10 to-[#FFFFFF] text-primary-gray"
     >
-      <div
-        id="search-params-container"
-        className="w-4/5 flex flex-col justify-center items-center"
-      >
-        <form
-          action="/"
-          onSubmit={handleSearchSubmit}
-          className="flex flex-col gap-5 mb-5 items-center"
-        >
-          <div id="radius-group" className="flex flex-col items-center gap-5">
-            <label className="text-headers" htmlFor="search-radius">
-              SEARCH RADIUS
-            </label>
-            <select
-              name="radius"
-              id="search-radius"
-              className="bg-white rounded-full px-5 py-3 border-[1px] border-primary-gray"
-              value={searchRadius}
-              onChange={(e) => setSearchRadius(e.target.value)}
-            >
-              {SEARCH_RADIUS_LIST.map((opt) => {
-                return (
-                  <option key={opt} value={opt}>
-                    {`${opt} MILE${opt > 1 ? 'S' : ''}`}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div
-            id="time-slot-wrapper"
-            className="flex flex-col items-center gap-5"
+      <div className="lg:basis-1/2 w-4/5 flex flex-col justify-center items-center">
+        <div id="search-params-container" className="">
+          <form
+            action="/"
+            onSubmit={handleSearchSubmit}
+            className="flex flex-col gap-5 mb-5 items-center"
           >
-            <h2 className="text-headers">TIME SLOTS</h2>
-            <div
-              id="time-slot-group"
-              className="flex flex-row flex-wrap justify-center gap-5"
-            >
-              {timeSlots.map((timeOption) => {
-                return (
-                  <button
-                    key={timeOption.dateObj}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleTimeslot(timeOption);
-                    }}
-                    className=" bg-white rounded-full px-3 py-1 border-[1px] border-primary-gray"
-                  >
-                    {`${timeOption.startTime} - ${timeOption.endTime}`}
-                  </button>
-                );
-              })}
+            <div id="radius-group" className="flex flex-col items-center gap-5">
+              <label
+                className="text-headers text-md py-3"
+                htmlFor="search-radius"
+              >
+                SEARCH RADIUS
+              </label>
+              <select
+                name="radius"
+                id="search-radius"
+                className="bg-white rounded-full px-5 py-2 border-[1px] border-primary-gray text-sm "
+                value={searchRadius}
+                onChange={(e) => setSearchRadius(e.target.value)}
+              >
+                {SEARCH_RADIUS_LIST.map((opt) => {
+                  return (
+                    <option key={opt} value={opt}>
+                      {`${opt} MILE${opt > 1 ? 'S' : ''}`}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
-          </div>
-          <button className="button text-white w-3/5 px-5 py-2 rounded-full">
-            FIND BUDDY
-          </button>
-        </form>
+            <div
+              id="time-slot-wrapper"
+              className="flex flex-col items-center gap-5"
+            >
+              <h2 className="text-headers text-md py-4">TIME SLOTS</h2>
+              <div
+                id="time-slot-group"
+                className="flex flex-row flex-wrap justify-center gap-5 pb-3 text-sm"
+              >
+                {timeSlots.map((timeOption) => {
+                  return (
+                    <button
+                      key={timeOption.dateObj}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleTimeslot(timeOption);
+                      }}
+                      className=" bg-white rounded-full px-3 py-1 border-[1px] border-primary-gray"
+                    >
+                      {`${timeOption.startTime} - ${timeOption.endTime}`}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            <button className="button text-white w-3/5 px-5 py-[5px] lg:py-2 rounded-full text-sm">
+              FIND BUDDY
+            </button>
+          </form>
+        </div>
+      
+          <p className="">back to   <Link className="text-primary-gray text-sm font-semibold" to="/match/results">search results</Link></p>
+   
       </div>
-      <Link to="/match/results">To Search Results Page</Link>
+      <div
+        id="bg-img"
+        className="bg-cover
+          bg-[url('/assets/bgImg/interestFormView.jpg')] basis-1/2 hidden lg:block h-full"
+      ></div>
     </div>
   );
 }
