@@ -118,7 +118,7 @@ router.get('/restaurants', requireToken, async (req, res, next) => {
       open_now,
     };
 
-    const { data } = await axios.get(YELP_BASE_URL, {
+    const yelpRes = await axios.get(YELP_BASE_URL, {
       headers: {
         Authorization: 'Bearer ' + YELP_API_KEY,
         accept: 'application/json',
@@ -126,9 +126,9 @@ router.get('/restaurants', requireToken, async (req, res, next) => {
       params,
     });
 
-    console.log('yelp response:', data);
+    console.log(yelpRes.headers);
 
-    res.status(200).send(data);
+    res.status(200).send(yelpRes.data);
   } catch (err) {
     next(err);
   }
