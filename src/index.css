@@ -13,6 +13,6 @@
     @apply bg-gradient-to-r from-[#FEA530] to-[#FF5269];
   }
   .orange-linear-bg {
-    @apply bg-gradient-to-t from-[#FF8A00]/20 to-[#FFFFFF];
+    @apply bg-gradient-to-t from-[#FF8A00]/10 to-[#FFFFFF];
   }
 }
