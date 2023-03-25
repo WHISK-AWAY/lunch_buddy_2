@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { tryToken, selectAuth } from '../../redux/slices/authSlice';
 import { fetchUser, selectUser } from '../../redux/slices/userSlice';
-import chevronRight from '../../assets/icons/chevron-right.svg';
+import squaresSolid from '../../assets/icons/squares-solid.svg';
+import pencil from '../../assets/icons/pencil.svg';
+
 
 const UserAccount = () => {
   const dispatch = useDispatch();
@@ -41,11 +43,13 @@ const UserAccount = () => {
     }
   }, [dispatch, auth]);
 
+
   useEffect(() => {
     if (token && auth.user.id) {
       dispatch(fetchUser(auth.user.id));
     }
   }, [dispatch, auth]);
+
 
   const tags = user.tags;
 
@@ -69,134 +73,136 @@ const UserAccount = () => {
     setCuisineTags(cuisine || []);
   }, [user]);
 
-  console.log('social', socialTags);
 
   if (!tags) return <p>Loading tags...</p>;
 
   return (
     <div
       id="user-container"
-      className="font-tenor flex flex-row-reverse flex-nowrap w-screen justify-center h-[calc(100vh_-_69px)] lg:overflow-hidden"
+      className="font-tenor flex flex-row-reverse flex-nowrap w-screen justify-center h-[calc(100vh_-_69px)] overflow-hidden text-primary-gray  bg-fixed"
     >
-      <div className="lg:basis-1/2 basis-4/5 flex flex-col items-center mx-2 px-4 h-full lg:overflow-auto md:px-10">
-        <h1 className="my-8 text-2xl text-headers">
-          {auth.user.fullName.toUpperCase()}
-        </h1>
-        <div id="user-avatar" className=" flex justify-center ">
-          <img
-            src={auth.user.avatarUrl}
-            alt="user avatar"
-            className="object-cover aspect-square w-24 h-24 rounded-[100%]"
-          />
-        </div>
-        {/*Link to edit page */}
-        <div id="about-me" className="pt-14 text-justify text-primary-gray">
-          <p>{auth.user.aboutMe}</p>
-        </div>
+      <div className="lg:basis-1/2 flex flex-col items-center  h-full relative bg-pink-100/30">
+        <div className="sticky px-[10%] z-10 bg-white w-full h-48 top-0  flex flex-col justify-start  items-center">
+          <h1 className="pt-10 text-2xl text-headers ">
+            {auth.user.fullName.toUpperCase()}
+          </h1>
 
-        <div id="tags-container" className="flex flex-wrap my-8">
-          <h2 className="">
-            {socialTags[0]?.category.categoryName.toUpperCase()}
-          </h2>
-
-          <div id="social-tags" className="w-full flex gap-x-5 gap-y-2 my-6">
+          <div id="user-avatar" className=" flex justify-center relative">
+            {/*ADD LINK TO EDIT ACC*/}
+            <Link
+              to=""
+              className="w-14 h-14 rounded-full bg-primary-gray/20 absolute -right-5 top-7 z-0"
+            >
+              <img
+                src={pencil}
+                className="h-[16px] w-6 m-auto relative top-[11px] rotate-3 left-2"
+              />
+            </Link>
             <img
-              className={`w-4 transition-all ${
-                tagExpand ? '' : 'rotate-90'
-              } self-start`}
-              src={chevronRight}
-              alt="Expand/Retract Arrow"
+              src={auth.user.avatarUrl}
+              alt="user avatar"
+              className="object-cover aspect-square w-28 h-28 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative translate-y-[30%] place-self-end"
             />
-            <div className="flex flex-row flex-wrap gap-3">
-              {socialTags.map((social) => {
+          </div>
+        </div>
+
+        <div className="px-8 py-7 overflow-auto">
+          <div id="about-me" className="pt-14 text-justify text-primary-gray">
+            <p>{auth.user.aboutMe}</p>
+          </div>
+
+          <div id="tags-container" className="flex flex-wrap my-8">
+            <h2 id="social-tags" className="text-headers">
+              {socialTags[0]?.category.categoryName.toUpperCase()}
+            </h2>
+            <div className="w-full flex gap-x-5 gap-y-2 my-6">
+              <img
+                className="w-2 relative rotate-45 top-[8px] self-start"
+                src={squaresSolid}
+              />
+              <div className="flex flex-row flex-wrap gap-3">
+                {socialTags.map((social) => {
+                  return (
+                    <p
+                      key={social.id}
+                      className="border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex  gap-4 items-center justify-center grow text-sm bg-white"
+                    >
+                      {social.tagName}
+                    </p>
+                  );
+                })}
+              </div>
+            </div>
+
+            <h2 id="professional-tags" className="text-headers">
+              {professionalTags[0]?.category.categoryName.toUpperCase()}
+            </h2>
+            <div className=" w-full flex flex-wrap gap-x-5 gap-y-2 my-6">
+              <img
+                className="w-2 relative rotate-45 bottom-[-30%] self-start"
+                src={squaresSolid}
+              />
+              {professionalTags.map((professional) => {
                 return (
                   <p
-                    key={social.id}
-                    className="border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex  gap-4 items-center justify-center grow"
+                    key={professional.id}
+                    className="border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex  gap-4 items-center text-sm bg-white"
                   >
-                    {social.tagName}
+                    {professional.tagName}
                   </p>
                 );
               })}
             </div>
-          </div>
 
-          <h2 className="">
-            {professionalTags[0]?.category.categoryName.toUpperCase()}
-          </h2>
-          <div
-            id="professional-tags"
-            className=" w-full flex flex-wrap gap-x-5 gap-y-2 my-6"
-          >
-            <img
-              className={`w-6 transition-all ${tagExpand ? '' : 'rotate-90'}`}
-              src={chevronRight}
-              alt="Expand/Retract Arrow"
-            />
-            {professionalTags.map((professional) => {
-              return (
-                <p
-                  key={professional.id}
-                  className="border border-black rounded-full px-4 h-7 lg:h-auto flex  gap-4 items-center"
-                >
-                  {professional.tagName}
-                </p>
-              );
-            })}
-          </div>
-
-          <h2 className="">
-            {cuisineTags[0]?.category.categoryName.toUpperCase()}
-          </h2>
-          <div
-            id="cuisine-tags"
-            className="w-full flex flex-wrap gap-x-5 gap-y-2 my-6"
-          >
-            <img
-              className={`w-6 transition-all ${tagExpand ? '' : 'rotate-90'}`}
-              // src={tagExpand ? chevronRight : chevronDown}
-              src={chevronRight}
-              alt="Expand/Retract Arrow"
-            />
-            {cuisineTags.map((cuisine) => {
-              return (
-                <p
-                  key={cuisine.id}
-                  className="border border-black rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center"
-                >
-                  {cuisine.tagName}
-                </p>
-              );
-            })}
-          </div>
-
-          {dietaryTags.length > 0 && (
-            <div>
-              <h2 className="ml-12">
-                {dietaryTags[0]?.category.categoryName.toUpperCase()}
-              </h2>
-
-              <div
-                id="dietary-tags"
-                className="w-full flex flex-wrap gap-x-5 gap-y-2 my-6"
-              >
-                <img
-                  className={`w-6 transition-all ${
-                    tagExpand ? '' : 'rotate-90'
-                  }`}
-                  // src={tagExpand ? chevronRight : chevronDown}
-                  src={chevronRight}
-                  alt="Expand/Retract Arrow"
-                />
-                {dietaryTags.map((dietary) => {
-                  return <p key={dietary.id}>{dietary.tagName}</p>;
+            <h2 id="cuisine-tags" className="text-headers">
+              {cuisineTags[0]?.category.categoryName.toUpperCase()}
+            </h2>
+            <div className="w-full flex gap-x-5 gap-y-2 my-6">
+              <img
+                className="w-2 relative rotate-45 top-[8px] self-start"
+                src={squaresSolid}
+              />
+              <div className="flex flex-row flex-wrap gap-3">
+                {cuisineTags.map((cuisine) => {
+                  return (
+                    <p
+                      key={cuisine.id}
+                      className="border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center text-sm capitalize bg-white"
+                    >
+                      {cuisine.tagName}
+                    </p>
+                  );
                 })}
               </div>
             </div>
-          )}
+            {dietaryTags.length > 0 && (
+              <div>
+                <h2 id="dietary-tags" className="headers">
+                  {dietaryTags[0]?.category.categoryName.toUpperCase()}
+                </h2>
+
+                <div className="w-full flex flex-wrap gap-x-5 gap-y-2 my-6">
+                  <img
+                    className="w-2 relative rotate-45 top-[8px] self-start"
+                    src={squaresSolid}
+                  />
+                  {dietaryTags.map((dietary) => {
+                    return (
+                      <p
+                        key={dietary.id}
+                        className="border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center text-sm bg-white"
+                      >
+                        {dietary.tagName}
+                      </p>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      <div
+      <div id="bg-img"
         className="bg-cover
           bg-[url('/assets/bgImg/accView.jpg')] basis-1/2 hidden lg:block h-full"
       ></div>
