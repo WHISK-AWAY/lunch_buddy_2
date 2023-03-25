@@ -77,11 +77,7 @@ const seed = async () => {
       }
     );
 
-    /**
-     * TODO: update for yelp alias here
-     */
     const cuisineData = tagList.cuisineObjects.map((cuisine) => {
-      console.log(cuisine);
       return {
         tagName: cuisine.tagName,
         yelpAlias: cuisine.yelpAlias,
