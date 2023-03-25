@@ -18,22 +18,33 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
 
   return (
     <div className="h-screen absolute -bottom-screen bg-white w-screen opacity-95">
-      <h2 className="text-red-400 ml-7 mt-2 text-lg">Hello, Name</h2>
+      {authUser.firstName && (
+        <h2 className="text-red-400 ml-7 mt-2 text-lg">
+          Hello, {authUser.firstName}
+        </h2>
+      )}
       <ul className="flex flex-col items-center">
-        <DropDownItem handleClick={handleClick}>Account</DropDownItem>
-        <DropDownItem handleClick={handleClick}>New Meeting</DropDownItem>
-        <DropDownItem handleClick={handleClick}>Messages</DropDownItem>
         {!authUser.firstName ? (
           <>
+            {/* NAV LINKS WHEN NOT SIGNED IN */}
             <DropDownItem handleClick={handleClick} linkTo="/register">
               Sign Up
             </DropDownItem>
             <DropDownItem handleClick={handleClick} linkTo="/login">
               Login
             </DropDownItem>
+            <DropDownItem handleClick={handleClick} linkTo="/">
+              Home
+            </DropDownItem>
           </>
         ) : (
-          <DropDownItem handleClick={handleLogout}>Logout</DropDownItem>
+          <>
+            {/* NAV LINKS WHEN SIGNED IN */}
+            <DropDownItem handleClick={handleClick}>Account</DropDownItem>
+            <DropDownItem handleClick={handleClick}>New Meeting</DropDownItem>
+            <DropDownItem handleClick={handleClick}>Messages</DropDownItem>
+            <DropDownItem handleClick={handleLogout}>Logout</DropDownItem>
+          </>
         )}
       </ul>
     </div>
