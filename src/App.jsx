@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import React from 'react';
 import './App.css';
 import MockResponsive from './components/MockResponsive';
 import {
