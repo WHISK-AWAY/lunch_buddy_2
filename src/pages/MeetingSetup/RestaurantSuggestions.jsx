@@ -33,7 +33,7 @@ export default function RestaurantSuggestions(props) {
 
   useEffect(() => {
     if (user.id && !restaurants.length)
-      dispatch(findRestaurants({ searchRadius }));
+      dispatch(findRestaurants({ searchRadius, buddy }));
   }, [dispatch, user]);
 
   if (!restaurants) return <h1>No restaurants found :(</h1>;
