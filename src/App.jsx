@@ -23,8 +23,7 @@ function App() {
         <Route path="/login" element={<SignInForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/register/aboutyourself" element={<AboutForm />} />
-        <Route path="/test" element={<MeetingSetup />}></Route>
-        <Route path="/match" element={<RestaurantSuggestions />}></Route>
+        <Route path="/match" element={<MeetingSetup />}></Route>
         <Route path="/match/results" element={<BuddyList />}></Route>
         <Route
           path="/match/restaurants"
