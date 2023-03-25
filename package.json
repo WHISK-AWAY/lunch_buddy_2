@@ -11,6 +11,7 @@
     "seed": "node ./server/seed.cjs"
   },
   "dependencies": {
+    "@googlemaps/react-wrapper": "^1.1.35",
     "@reduxjs/toolkit": "^1.9.3",
     "axios": "^1.3.4",
     "bcrypt": "^5.1.0",

@@ -3,18 +3,22 @@ const { User, Tag } = require('../../db/index.cjs');
 const { requireToken } = require('../authMiddleware.cjs');
 const { Op } = require('sequelize');
 const geolib = require('geolib');
+const dotenv = require('dotenv').config();
+const axios = require('axios');
+
+const YELP_API_KEY = process.env.YELP_API_KEY;
+
+const milesToMeters = (miles) => {
+  const metersPerMile = 1609.344;
+  const meters = miles * metersPerMile;
+  return meters;
+};
 
 router.get('/', requireToken, async (req, res, next) => {
   try {
     if (req.user.lastLat === null || req.user.lastLong === null) {
       res.status(400).send('No coordinates provided');
     }
-
-    const milesToMeters = (miles) => {
-      const metersPerMile = 1609.344;
-      const meters = miles * metersPerMile;
-      return meters;
-    };
 
     //will need to pass radius in query later, for now set to 5miles as a default value
     const searchRadius = +req.query.radius || 5;
@@ -97,6 +101,34 @@ router.get('/', requireToken, async (req, res, next) => {
     // );
 
     res.status(200).json(usersInRange);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get('/restaurants', requireToken, async (req, res, next) => {
+  try {
+    const YELP_BASE_URL = 'https://api.yelp.com/v3/businesses/search';
+    const { latitude, longitude, radius, open_now } = req.query;
+
+    const params = {
+      latitude,
+      longitude,
+      radius: parseInt(milesToMeters(radius)),
+      open_now,
+    };
+
+    const yelpRes = await axios.get(YELP_BASE_URL, {
+      headers: {
+        Authorization: 'Bearer ' + YELP_API_KEY,
+        accept: 'application/json',
+      },
+      params,
+    });
+
+    console.log(yelpRes.headers);
+
+    res.status(200).send(yelpRes.data);
   } catch (err) {
     next(err);
   }

@@ -77,8 +77,16 @@ const seed = async () => {
       }
     );
 
-    const cuisineData = tagList.cuisines.map((cuisine) => {
-      return { tagName: cuisine, categoryId: cuisinePreference.id };
+    /**
+     * TODO: update for yelp alias here
+     */
+    const cuisineData = tagList.cuisineObjects.map((cuisine) => {
+      console.log(cuisine);
+      return {
+        tagName: cuisine.tagName,
+        yelpAlias: cuisine.yelpAlias,
+        categoryId: cuisinePreference.id,
+      };
     });
 
     const seededTags = await Tag.bulkCreate(

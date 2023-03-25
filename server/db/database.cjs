@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const dotenv = require('dotenv').config();
 const database_url =
   process.env.DATABASE_URL || `postgres://localhost:5432/lunch_buddy`;
 

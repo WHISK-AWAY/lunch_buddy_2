@@ -1,7 +1,9 @@
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import React from 'react';
 import './App.css';
 import MockResponsive from './components/MockResponsive';
+import SliceTest from './components/sliceTest';
 import {
   MeetingSetup,
   BuddyList,
@@ -24,8 +26,7 @@ function App() {
         <Route path="/account" element={<UserAccount />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/register/aboutyourself" element={<AboutForm />} />
-        <Route path="/test" element={<MeetingSetup />}></Route>
-        <Route path="/match" element={<RestaurantSuggestions />}></Route>
+        <Route path="/match" element={<MeetingSetup />}></Route>
         <Route path="/match/results" element={<BuddyList />}></Route>
         <Route
           path="/match/restaurants"

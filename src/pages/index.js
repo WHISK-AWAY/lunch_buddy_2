@@ -5,5 +5,5 @@ export { default as RestaurantSuggestions } from './MeetingSetup/RestaurantSugge
 export { default as UserAccount } from './UserAccount/UserAccount';
 export { default as NavBar } from '../components/NavBar';
 export { default as AboutForm } from './aboutYourself/AboutForm';
-export { default as SignInForm } from './signIn/SignInForm';
-export { default as RegisterForm } from './register/RegisterForm';
+export { default as SignInForm } from './SignIn/SignInForm';
+export { default as RegisterForm } from './Register/RegisterForm';
