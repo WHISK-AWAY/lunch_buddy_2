@@ -147,6 +147,7 @@ const seed = async () => {
 
     const seededMeeting = await Meeting.bulkCreate(meetingData, {
       validate: true,
+      individualHooks: true,
     });
 
     console.log('Meetings seeding successful');

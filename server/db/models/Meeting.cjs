@@ -50,6 +50,19 @@ const Meeting = db.define('meeting', {
       notEmpty: true,
     },
   },
+  meetingStatus: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: 'pending',
+    validate: {
+      isIn: [['pending', 'confirmed', 'closed']],
+    },
+  },
+});
+
+Meeting.beforeUpdate((meeting) => {
+  if (meeting.meetingStatus === 'closed') meeting.isClosed = true;
+  if (meeting.isClosed) meeting.meetingStatus = 'closed';
 });
 
 module.exports = Meeting;
