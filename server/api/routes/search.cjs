@@ -144,7 +144,7 @@ router.get('/restaurants', requireToken, async (req, res, next) => {
     }
 
     console.log(
-      `Yelp rate limit: ${yelpRes.headers['ratelimit-remaining']}/${yelpRes.headers['ratelimit-dailylimit']}`
+      `Yelp rate limit: ${yelpRes.headers['ratelimit-remaining']} remaining of ${yelpRes.headers['ratelimit-dailylimit']}`
     );
 
     res.status(200).json(yelpRes.data);
@@ -171,7 +171,7 @@ router.get(
       );
 
       console.log(
-        `Yelp rate limit: ${yelpRes.headers['ratelimit-remaining']}/${yelpRes.headers['ratelimit-dailylimit']}`
+        `Yelp rate limit: ${yelpRes.headers['ratelimit-remaining']} remaining of ${yelpRes.headers['ratelimit-dailylimit']}`
       );
 
       res.status(200).json(yelpRes.data);
