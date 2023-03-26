@@ -1,16 +1,8 @@
 import React, { useEffect, useRef } from 'react';
+import { default as mapPinBlue } from '../assets/icons/map-pin-blue.png';
 
 export default function MapComponent({ center, zoom, points }) {
   const ref = useRef();
-  // const defaultProps = {
-  //   center: {
-  //     lat: 10.99835602,
-  //     lng: 77.01502627,
-  //   },
-  //   zoom: 11,
-  // };
-
-  console.log('points', points);
 
   center = center || defaultProps.center;
   zoom = zoom || defaultProps.zoom;
@@ -20,10 +12,15 @@ export default function MapComponent({ center, zoom, points }) {
       center,
       zoom,
     });
+
     const pin = new google.maps.Marker(
       {
         position: center,
-        title: 'Is this thing on?',
+        icon: {
+          url: mapPinBlue,
+          scaledSize: new google.maps.Size(20, 30),
+        },
+        title: 'You are here!',
       },
       []
     );
@@ -42,7 +39,7 @@ export default function MapComponent({ center, zoom, points }) {
         rest.setMap(map);
       }
     }
-  }, []);
+  }, [points]);
 
   return <div className="h-96 w-96" ref={ref} id="map" />;
 }
