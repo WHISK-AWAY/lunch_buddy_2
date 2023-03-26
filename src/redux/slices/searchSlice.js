@@ -46,29 +46,23 @@ export const findRestaurants = createAsyncThunk(
 
       // figure out overlap of user & buddy tags
       const currentState = getState();
-      console.log('currentState:', currentState);
-      console.log('buddy:', buddy);
 
       // pull cuisine tags from buddy
       const buddyCuisineTags = buddy.tags
         .filter((tag) => tag.category.categoryName === 'cuisine')
         .map((tag) => tag.yelpAlias);
-      console.log('buddyCuisineTags', buddyCuisineTags);
 
       // pull cuisine tags from user
       const userCuisineTags = currentState.user.user.tags
         .filter((tag) => tag.category.categoryName === 'cuisine')
         .map((tag) => tag.yelpAlias);
-      console.log('userCuisineTags', userCuisineTags);
 
       let overlappingCuisineTags = userCuisineTags.filter((tag) =>
         buddyCuisineTags.includes(tag)
       );
-      console.log(overlappingCuisineTags);
 
       // if we don't have any common food interests, just use our own for search
       if (!overlappingCuisineTags.length) {
-        console.log('no overlaps - using our own tags');
         overlappingCuisineTags = userCuisineTags;
       }
 
