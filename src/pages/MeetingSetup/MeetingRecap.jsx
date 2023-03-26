@@ -23,7 +23,7 @@ export default function MeetingRecap(props) {
   }
 
   return (
-    <div className="recap-card orange-linear-bg bg-fixed h-[calc(100vh_-_69px)] font-tenor text-primary-gray flex flex-col gap-16 items-center">
+    <div className="recap-card orange-linear-bg bg-fixed h-[calc(100vh_-_69px)] pt-16 text-primary-gray flex flex-col gap-12 items-center">
       <div className="recap-header text-headers text-xl font-semibold">
         <h1>MEETING RECAP</h1>
       </div>
