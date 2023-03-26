@@ -50,17 +50,28 @@ export const getMeeting = createAsyncThunk(
   async ({ token, meetingId, userId }, { rejectWithValue }) => {
     try {
       let route;
+
+      if (!token) token = window.localStorage.getItem('token');
       if (!token) throw new Error('No token provided');
+
       if (userId !== undefined) {
         route = API_URL + `/api/user/${userId}/meeting/${meetingId}`;
       } else {
         route = API_URL + `/api/meeting/${meetingId}`;
       }
+
       const { data } = await axios.get(route, {
         headers: {
           authorization: token,
         },
       });
+
+      if (data.yelpBusinessId) {
+        const yelpRes = await axios.get(
+          API_URL + `/search/restaurants/${yelpBusinessId}`
+        );
+        data.restaurant = yelpRes.data;
+      }
 
       return data;
     } catch (error) {
