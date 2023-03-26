@@ -6,7 +6,6 @@ export const createMeeting = createAsyncThunk(
   'meeting/createMeeting',
   async ({ newMeeting }, { rejectWithValue }) => {
     try {
-      console.log('newMeeting', newMeeting);
       const token = window.localStorage.getItem('token');
 
       if (!token) throw new Error('No token found in local storage...');
@@ -16,6 +15,7 @@ export const createMeeting = createAsyncThunk(
           authorization: token,
         },
       });
+
       return data;
     } catch (error) {
       console.log(error);
