@@ -7,21 +7,17 @@ export default function MeetingRecap(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { state } = useLocation();
+  const location = useLocation();
 
-  console.log('state:', state);
-
-  const { buddy, timeSlot, restaurant } = state;
+  const { buddy, timeSlot, restaurant } = location.state;
 
   const newMeeting = {
     buddyId: buddy.id,
     lunchDate: timeSlot.dateObj,
     yelpBusinessId: restaurant.id,
   };
-  console.log('newMeeting', newMeeting);
 
   function handleMeeting() {
-    // newMeeting = { buddyId, lunchDate, yelpBusinessId }
     dispatch(createMeeting({ newMeeting }));
     navigate('/');
   }
