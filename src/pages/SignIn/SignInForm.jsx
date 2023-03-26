@@ -85,7 +85,7 @@ const SignInForm = () => {
               />
             </div>
             <FormButton handleSubmit={handleSubmit}>SIGN IN</FormButton>
-            <p className="my-4 text-xs sm:text-base text-center">
+            <p className="my-4 text-xs text-center">
               don't have an account? create one{' '}
               <Link to={'/register'}>
                 <span className="text-headers hover:underline">here</span>

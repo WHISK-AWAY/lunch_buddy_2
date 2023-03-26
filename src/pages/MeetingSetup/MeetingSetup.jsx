@@ -91,7 +91,7 @@ export default function MeetingSetup(props) {
   return (
     <div
       id="search-params-page"
-      className="font-tenor lg:bg-none w-screen flex flex-row-reverse justify-center items-center h-[calc(100vh_-_69px)] overflow-hidden bg-fixed bg-gradient-to-t from-[#FF8A00]/10 to-[#FFFFFF] text-primary-gray"
+      className="lg:bg-none w-screen flex flex-row-reverse justify-center items-center h-[calc(100vh_-_75px)] overflow-hidden bg-fixed bg-gradient-to-t from-[#FF8A00]/10 to-[#FFFFFF] text-primary-gray"
     >
       <div className="lg:basis-1/2 flex flex-col justify-center items-center">
         <div id="search-params-container" className="">
@@ -156,10 +156,7 @@ export default function MeetingSetup(props) {
 
         <p className="text-xs">
           back to{' '}
-          <Link
-            className="text-label text-inherit"
-            to="/match/results"
-          >
+          <Link className="text-label text-inherit" to="/match/results">
             search results
           </Link>
         </p>

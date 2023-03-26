@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
 import { listOfStates } from '../../utilities/registerHelpers';
 
+// setting a couple defaults here so we keep the starting value if we proceed without changing
 const inputs = JSON.parse(localStorage.getItem('registerForm')) || {
   firstName: '',
   lastName: '',
@@ -12,10 +13,10 @@ const inputs = JSON.parse(localStorage.getItem('registerForm')) || {
   address1: '',
   address2: '',
   city: '',
-  state: '',
+  state: 'NY',
   zip: '',
   age: '18',
-  gender: '',
+  gender: 'DidNotDisclose',
 };
 
 const requiredFields = [
@@ -102,6 +103,7 @@ const RegisterForm = () => {
     }
     setInputValidator(tempValidator);
     setFormInputs(tempFields);
+    console.log('tempValidator:', tempValidator);
 
     if (
       missingFields.length > 0 &&
@@ -115,7 +117,6 @@ const RegisterForm = () => {
       navigate('/register/aboutyourself');
     }
   };
-  console.log('inputValidator', inputValidator);
 
   const validateZip = (zip) => {
     const valid = /^\d+$/;
@@ -130,7 +131,7 @@ const RegisterForm = () => {
 
   const validatePassword = (password) => {
     return (
-      inputs.password.length >= 8 &&
+      formInputs.password.length >= 8 &&
       formInputs.password === formInputs.confirmPassword
     );
   };
@@ -360,7 +361,9 @@ const RegisterForm = () => {
                 <option value="M">Male</option>
                 <option value="F">Female</option>
                 <option value="Other">Other</option>
-                <option value="DidNotDisclose">Prefer Not To Say</option>
+                <option value="DidNotDisclose" selected>
+                  Prefer Not To Say
+                </option>
               </select>
             </div>
             <div className="col-span-full md:w-3/5 md:mx-auto">
