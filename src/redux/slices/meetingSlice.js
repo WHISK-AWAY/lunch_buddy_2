@@ -68,7 +68,12 @@ export const getMeeting = createAsyncThunk(
 
       if (data.yelpBusinessId) {
         const yelpRes = await axios.get(
-          API_URL + `/search/restaurants/${yelpBusinessId}`
+          API_URL + `/api/search/restaurants/${data.yelpBusinessId}`,
+          {
+            headers: {
+              authorization: token,
+            },
+          }
         );
         data.restaurant = yelpRes.data;
       }
