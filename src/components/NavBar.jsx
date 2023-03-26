@@ -13,7 +13,6 @@ const NavBar = () => {
 
   const authUser = useSelector(selectAuthUser);
   const userState = useSelector((state) => state.user.user);
-  // console.log(userState);
 
   // THIS VARIABLE WILL HIDE OR SHOW THE DOT INDICATING NOTIFICATIONS
   const hasNotifications = true;
@@ -44,9 +43,9 @@ const NavBar = () => {
   }, [authUser]);
 
   return (
-    <header className="relative z-10">
-      <nav className="flex border-b border-black p-4 justify-between bg-slate-50">
-        <button className="h-8">
+    <header className="relative z-40 text-primary-gray">
+      <nav className="flex border-b border-primary-gray p-4 justify-between bg-slate-50">
+        <button className="h-8 flex justify-center items-center pt-1">
           <img
             className="w-8"
             src={menuIcon}
@@ -59,7 +58,7 @@ const NavBar = () => {
           {authUser?.firstName ? (
             <>
               <li className="hidden md:block">
-                <Link>Hi, {authUser.firstName}</Link>
+                <Link>HI, {authUser.firstName.toUpperCase()}</Link>
               </li>
 
               <li className="flex items-center">
@@ -95,9 +94,9 @@ const NavBar = () => {
             //  WHEN NOT SIGNED IN SHOW BELOW
             <>
               <Link to="/">
-                <h1 className="text-4xl">
-                  Lunch
-                  <span className="font-clicker text-3xl font-thin text-black">
+                <h1 className="text-2xl">
+                  LUNCH
+                  <span className="font-clicker text-xl font-thin text-black">
                     buddy
                   </span>
                 </h1>
