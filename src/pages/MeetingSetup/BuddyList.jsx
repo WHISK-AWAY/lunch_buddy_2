@@ -39,8 +39,6 @@ export default function BuddyList(props) {
   }, [dispatch, auth]);
 
   function selectBuddy(buddy) {
-    console.log(`${buddy.fullName} selected`);
-
     navigate('/match/restaurants', {
       state: { searchRadius, timeSlot, buddy },
     });

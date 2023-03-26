@@ -54,7 +54,6 @@ export default function RestaurantSuggestions(props) {
   }
 
   const center = { lat: +user.lastLat, lng: +user.lastLong };
-  // console.log('restaurants:', restaurants);
 
   return (
     <div id="restaurant-results-page">
