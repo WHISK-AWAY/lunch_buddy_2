@@ -147,10 +147,38 @@ router.get('/restaurants', requireToken, async (req, res, next) => {
       `Yelp rate limit: ${yelpRes.headers['ratelimit-remaining']}/${yelpRes.headers['ratelimit-dailylimit']}`
     );
 
-    res.status(200).send(yelpRes.data);
+    res.status(200).json(yelpRes.data);
   } catch (err) {
     next(err);
   }
 });
+
+router.get(
+  '/restaurants/:yelpBusinessId',
+  requireToken,
+  async (req, res, next) => {
+    try {
+      const YELP_BY_BIZ_ID = 'https://api.yelp.com/v3/businesses/';
+
+      const yelpRes = await axios.get(
+        YELP_BY_BIZ_ID + req.params.yelpBusinessId,
+        {
+          headers: {
+            Authorization: 'Bearer ' + YELP_API_KEY,
+            accept: 'application/json',
+          },
+        }
+      );
+
+      console.log(
+        `Yelp rate limit: ${yelpRes.headers['ratelimit-remaining']}/${yelpRes.headers['ratelimit-dailylimit']}`
+      );
+
+      res.status(200).json(yelpRes.data);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 module.exports = router;
