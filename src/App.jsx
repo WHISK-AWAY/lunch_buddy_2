@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import MockResponsive from './components/MockResponsive';
-import SliceTest from './components/sliceTest';
+
 import {
   MeetingSetup,
   BuddyList,
@@ -12,6 +12,7 @@ import {
   AboutForm,
   SignInForm,
   RegisterForm,
+  UserAccount,
 } from './pages';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MockResponsive />} />
         <Route path="/login" element={<SignInForm />} />
+        <Route path="/account" element={<UserAccount />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/register/aboutyourself" element={<AboutForm />} />
         <Route path="/match" element={<MeetingSetup />}></Route>
