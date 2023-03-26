@@ -58,7 +58,9 @@ const NavBar = () => {
           {authUser?.firstName ? (
             <>
               <li className="hidden md:block">
-                <Link>HI, {authUser.firstName.toUpperCase()}</Link>
+                <Link to="/account">
+                  HI, {authUser.firstName.toUpperCase()}
+                </Link>
               </li>
 
               <li className="flex items-center">
