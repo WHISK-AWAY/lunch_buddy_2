@@ -18,7 +18,8 @@ const UserAccount = () => {
   const [socialTags, setSocialTags] = useState([]);
   const [dietaryTags, setDietaryTags] = useState([]);
   const [cuisineTags, setCuisineTags] = useState([]);
-  const [tagExpand, setTagExpand] = useState(true);
+
+  // console.log(user.city);
 
   useEffect(() => {
     dispatch(tryToken());
