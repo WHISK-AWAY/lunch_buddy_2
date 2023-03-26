@@ -23,21 +23,39 @@ export default function MeetingRecap(props) {
   }
 
   return (
-    <div className="recap-card">
-      <h2>Time:</h2>
-      <p>
-        {timeSlot.startTime} - {timeSlot.endTime}
-      </p>
-
-      <h2>Buddy:</h2>
-      <p>{buddy.fullName}</p>
-
-      <h2>Restaurant:</h2>
-      <a href={restaurant.url}>{restaurant.name}</a>
-
-      <button className="button" onClick={(e) => handleMeeting(e)}>
-        Letsfkngoooo
-      </button>
+    <div className="recap-card orange-linear-bg bg-fixed h-[calc(100vh_-_69px)] font-tenor text-primary-gray flex flex-col gap-16 items-center">
+      <div className="recap-header text-headers text-xl font-semibold">
+        <h1>MEETING RECAP</h1>
+      </div>
+      <div className="recap-body flex flex-col items-center">
+        <div className="buddy-avatar-container rounded-full mb-6">
+          <img
+            src={buddy.avatarUrl}
+            alt="Your buddy's avatar image"
+            className="object-cover w-16 h-16 rounded-full"
+          />
+        </div>
+        <h2 className="text-lg font-semibold">
+          {buddy.fullName.toUpperCase()}
+        </h2>
+        <p>
+          {timeSlot.startTime} - {timeSlot.endTime}
+        </p>
+        <p className="font-semibold">
+          <a href={restaurant.url} target="_blank">
+            {restaurant.name.toUpperCase()}
+          </a>
+        </p>
+        <p>{restaurant.location?.display_address?.join(' ')}</p>
+      </div>
+      <div className="recap-button">
+        <button
+          className="button rounded-full text-white"
+          onClick={(e) => handleMeeting(e)}
+        >
+          Letsfkngoooo
+        </button>
+      </div>
     </div>
   );
 }
