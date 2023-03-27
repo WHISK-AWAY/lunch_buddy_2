@@ -10,10 +10,7 @@ export default function BuddyCard(props) {
   const { buddy, myTagList, selectBuddy } = props;
 
   return (
-    <div
-      key={buddy.id}
-      className="buddy_card relative w-4/5 md:w-3/5 flex flex-col md:flex-row justify-between shrink items-center gap-6 p-4 bg-light-gray shadow-md rounded-xl"
-    >
+    <div className="buddy_card relative w-4/5 md:w-3/5 flex flex-col md:flex-row justify-between shrink items-center gap-6 p-4 bg-light-gray shadow-md rounded-xl">
       <div className="buddy_avatar shrink-0 grow-0 justify-center items-center md:self-start relative top-2">
         <img
           className="bg-white object-cover aspect-square w-32 h-32 rounded-[100%] z-10 p-1 relative self-end drop-shadow-md"
