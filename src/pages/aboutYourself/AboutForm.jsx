@@ -44,10 +44,14 @@ const AboutForm = () => {
 
   const tagsInState = useSelector((state) => state.tags.tags);
   useEffect(() => {
-    setSocialTags(getTagsByCategory('social', tagsInState));
-    setProfessionalTags(getTagsByCategory('professional', tagsInState));
-    setDietaryTags(getTagsByCategory('dietary restriction', tagsInState));
-    setCuisineTags(getTagsByCategory('cuisine', tagsInState));
+    if (tagsInState.length > 0) {
+      setSocialTags(getTagsByCategory('social', tagsInState || []));
+      setProfessionalTags(getTagsByCategory('professional', tagsInState || []));
+      setDietaryTags(
+        getTagsByCategory('dietary restriction', tagsInState || [])
+      );
+      setCuisineTags(getTagsByCategory('cuisine', tagsInState || []));
+    }
   }, [tagsInState]);
 
   // Handles creation of new user based on user inputs
@@ -87,7 +91,7 @@ const AboutForm = () => {
         Tell us about yourself
       </h1>
       <Bio setBio={setBio} bio={bio} />
-      <div className="lg:flex">
+      <div className="lg:flex mr-4">
         <TagSelect tags={socialTags} setter={setSocialTags} category="social" />
         <TagSelect
           tags={professionalTags}

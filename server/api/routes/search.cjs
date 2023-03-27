@@ -1,20 +1,25 @@
 const router = require('express').Router();
-const { User, Tag } = require('../../db/index.cjs');
+const { User, Tag, Category } = require('../../db/index.cjs');
 const { requireToken } = require('../authMiddleware.cjs');
 const { Op } = require('sequelize');
 const geolib = require('geolib');
+const dotenv = require('dotenv').config();
+const axios = require('axios');
+
+const { SAFE_USER_FIELDS } = require('../../constants.cjs');
+const YELP_API_KEY = process.env.YELP_API_KEY;
+
+const milesToMeters = (miles) => {
+  const metersPerMile = 1609.344;
+  const meters = miles * metersPerMile;
+  return meters;
+};
 
 router.get('/', requireToken, async (req, res, next) => {
   try {
     if (req.user.lastLat === null || req.user.lastLong === null) {
       res.status(400).send('No coordinates provided');
     }
-
-    const milesToMeters = (miles) => {
-      const metersPerMile = 1609.344;
-      const meters = miles * metersPerMile;
-      return meters;
-    };
 
     //will need to pass radius in query later, for now set to 5miles as a default value
     const searchRadius = +req.query.radius || 5;
@@ -30,16 +35,9 @@ router.get('/', requireToken, async (req, res, next) => {
     const usersInRange = await User.findAll({
       include: {
         model: Tag,
+        include: { model: Category },
       },
-      attributes: [
-        'firstName',
-        'lastName',
-        'fullName',
-        'id',
-        'gender',
-        'avatarUrl',
-        'aboutMe',
-      ],
+      attributes: SAFE_USER_FIELDS,
       where: {
         status: 'active',
         id: { [Op.ne]: [+req.user.id] },
@@ -58,7 +56,9 @@ router.get('/', requireToken, async (req, res, next) => {
       },
     });
 
-    const myUser = await User.findByPk(req.user.id, { include: Tag });
+    const myUser = await User.findByPk(req.user.id, {
+      include: { model: Tag, include: { model: Category } },
+    });
 
     const myUserTags = myUser.tags.map((tag) => {
       return tag.id;
@@ -101,5 +101,77 @@ router.get('/', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
+router.get('/restaurants', requireToken, async (req, res, next) => {
+  try {
+    const YELP_BASE_URL = 'https://api.yelp.com/v3/businesses/search';
+    const { latitude, longitude, radius, open_now, categories } = req.query;
+
+    const params = {
+      latitude,
+      longitude,
+      radius: parseInt(milesToMeters(radius)),
+      open_now,
+      categories: categories.join(','),
+    };
+
+    let yelpRes = await axios.get(YELP_BASE_URL, {
+      headers: {
+        Authorization: 'Bearer ' + YELP_API_KEY,
+        accept: 'application/json',
+      },
+      params,
+    });
+
+    // if we didn't return anything with the first try, try again w/no categories
+    if (!yelpRes.data?.businesses?.length) {
+      console.log('No category-specific results -- trying again...');
+      delete params.categories;
+      yelpRes = await axios.get(YELP_BASE_URL, {
+        headers: {
+          Authorization: 'Bearer ' + YELP_API_KEY,
+          accept: 'application/json',
+        },
+        params,
+      });
+    }
+
+    console.log(
+      `Yelp rate limit: ${yelpRes.headers['ratelimit-remaining']} remaining of ${yelpRes.headers['ratelimit-dailylimit']}`
+    );
+
+    res.status(200).json(yelpRes.data);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get(
+  '/restaurants/:yelpBusinessId',
+  requireToken,
+  async (req, res, next) => {
+    try {
+      const YELP_BY_BIZ_ID = 'https://api.yelp.com/v3/businesses/';
+
+      const yelpRes = await axios.get(
+        YELP_BY_BIZ_ID + req.params.yelpBusinessId,
+        {
+          headers: {
+            Authorization: 'Bearer ' + YELP_API_KEY,
+            accept: 'application/json',
+          },
+        }
+      );
+
+      console.log(
+        `Yelp rate limit: ${yelpRes.headers['ratelimit-remaining']} remaining of ${yelpRes.headers['ratelimit-dailylimit']}`
+      );
+
+      res.status(200).json(yelpRes.data);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 module.exports = router;
