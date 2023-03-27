@@ -77,8 +77,12 @@ const seed = async () => {
       }
     );
 
-    const cuisineData = tagList.cuisines.map((cuisine) => {
-      return { tagName: cuisine, categoryId: cuisinePreference.id };
+    const cuisineData = tagList.cuisineObjects.map((cuisine) => {
+      return {
+        tagName: cuisine.tagName,
+        yelpAlias: cuisine.yelpAlias,
+        categoryId: cuisinePreference.id,
+      };
     });
 
     const seededTags = await Tag.bulkCreate(
@@ -143,6 +147,7 @@ const seed = async () => {
 
     const seededMeeting = await Meeting.bulkCreate(meetingData, {
       validate: true,
+      individualHooks: true,
     });
 
     console.log('Meetings seeding successful');

@@ -97,5 +97,35 @@ const cuisines = [
   'seafood',
   'halal',
 ];
+const cuisineObjects = [
+  { yelpAlias: 'african', tagName: 'African' },
+  { yelpAlias: 'latin', tagName: 'Latin American' },
+  { yelpAlias: 'mexican', tagName: 'Mexican' },
+  { yelpAlias: 'bbq', tagName: 'Barbeque' },
+  { yelpAlias: 'indian', tagName: 'Indian' },
+  { yelpAlias: 'thai', tagName: 'Thai' },
+  { yelpAlias: 'chinese', tagName: 'Chinese' },
+  { yelpAlias: 'japanese', tagName: 'Japanese' },
+  { yelpAlias: 'sushi', tagName: 'Sushi' },
+  { yelpAlias: 'greek', tagName: 'Greek' },
+  { yelpAlias: 'mediterranean', tagName: 'Mediterranean' },
+  { yelpAlias: 'french', tagName: 'French' },
+  { yelpAlias: 'italian', tagName: 'Italian' },
+  { yelpAlias: 'panasian', tagName: 'Asian' },
+  { yelpAlias: 'southern', tagName: 'Southern' },
+  { yelpAlias: 'portuguese', tagName: 'Portuguese' },
+  { yelpAlias: 'spanish', tagName: 'Spanish' },
+  { yelpAlias: 'cuban', tagName: 'Cuban' },
+  { yelpAlias: 'german', tagName: 'German' },
+  { yelpAlias: 'british', tagName: 'British' },
+  { yelpAlias: 'seafood', tagName: 'Seafood' },
+  { yelpAlias: 'halal', tagName: 'Halal' },
+];
 
-module.exports = { activities, professions, dietaryRestrictions, cuisines };
+module.exports = {
+  activities,
+  professions,
+  dietaryRestrictions,
+  cuisines,
+  cuisineObjects,
+};

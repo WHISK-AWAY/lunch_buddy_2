@@ -30,7 +30,9 @@ export { default as messagesSlice, selectMessages } from './messagesSlice';
 export {
   default as searchSlice,
   selectSearch,
+  selectRestaurants,
   findBuddies,
+  findRestaurants,
   resetSearchState,
 } from './searchSlice';
 

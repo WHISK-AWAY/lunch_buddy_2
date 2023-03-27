@@ -46,7 +46,7 @@ router.get(
       const userId = +req.params.userId;
 
       const user = await User.findByPk(userId, {
-        include: [Tag],
+        include: { model: Tag, include: Category },
         attributes: {
           exclude: ['password', 'avgRating', 'reportCount', 'strikeCount'],
         },
@@ -193,144 +193,149 @@ router.put(
      * Update user profile (normal profile fields)
      * If updating tags, *include full collection* of ids (not just adds)
      */
+    try {
+      const userId = +req.params.userId;
 
-    const userId = +req.params.userId;
+      // big destructure to filter out unwanted fields from user-provided inputs
+      const {
+        firstName,
+        lastName,
+        email,
+        password,
+        age,
+        gender,
+        address1,
+        address2,
+        city,
+        state,
+        zip,
+        avatarUrl,
+        aboutMe,
+        tags,
+        isVerified,
+        role,
+        status,
+      } = req.body;
 
-    // big destructure to filter out unwanted fields from user-provided inputs
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      age,
-      gender,
-      address1,
-      address2,
-      city,
-      state,
-      zip,
-      avatarUrl,
-      aboutMe,
-      tags,
-      isVerified,
-      role,
-      status,
-    } = req.body;
+      const updatePackage = {
+        firstName,
+        lastName,
+        email,
+        password,
+        age,
+        gender,
+        address1,
+        address2,
+        city,
+        state,
+        zip,
+        avatarUrl,
+        aboutMe,
+        tags,
+        isVerified,
+        role,
+        status,
+      };
 
-    const updatePackage = {
-      firstName,
-      lastName,
-      email,
-      password,
-      age,
-      gender,
-      address1,
-      address2,
-      city,
-      state,
-      zip,
-      avatarUrl,
-      aboutMe,
-      tags,
-      isVerified,
-      role,
-      status,
-    };
+      // iterate over update package & strip out any missing fields
 
-    // iterate over update package & strip out any missing fields
+      for (let key of Object.keys(updatePackage)) {
+        if (updatePackage[key] === undefined || updatePackage[key] === null)
+          delete updatePackage[key];
+      }
 
-    for (let key of Object.keys(updatePackage)) {
-      if (updatePackage[key] === undefined || updatePackage[key] === null)
-        delete updatePackage[key];
-    }
+      // reject if non-admin attempting to change admin-only fields
+      if (
+        (updatePackage.isVerified !== undefined &&
+          updatePackage.isVerified !== req.user.isVerified) ||
+        updatePackage.role === 'admin' ||
+        (updatePackage.status !== undefined &&
+          !['active', 'inactive'].includes(updatePackage.status))
+      ) {
+        if (req.user.role !== 'admin')
+          return res
+            .status(403)
+            .send('Requested changes require admin privileges');
+      }
 
-    // reject if non-admin attempting to change admin-only fields
-    if (
-      (updatePackage.isVerified !== undefined &&
-        updatePackage.isVerified !== req.user.isVerified) ||
-      updatePackage.role === 'admin' ||
-      (updatePackage.status !== undefined &&
-        !['active', 'inactive'].includes(updatePackage.status))
-    ) {
-      if (req.user.role !== 'admin')
-        return res
-          .status(403)
-          .send('Requested changes require admin privileges');
-    }
+      /**
+       * Check that tag collection meets minimum requirements per-category
+       * (only need to do this if tags were passed in)
+       */
 
-    /**
-     * Check that tag collection meets minimum requirements per-category
-     * (only need to do this if tags were passed in)
-     */
-
-    // convert passed-in tag IDs to tag collection grouped by category
-    if (updatePackage.tags && updatePackage.tags.length > 0) {
-      const tagCollection = await Category.findAll({
-        include: {
-          model: Tag,
-          where: {
-            id: {
-              [Op.in]: tags,
+      // convert passed-in tag IDs to tag collection grouped by category
+      if (updatePackage.tags && updatePackage.tags.length > 0) {
+        const tagCollection = await Category.findAll({
+          include: {
+            model: Tag,
+            where: {
+              id: {
+                [Op.in]: tags,
+              },
             },
           },
+        });
+
+        // check that required categories are all present
+        let cats = tagCollection.map((cat) => cat.categoryName);
+        if (
+          !cats.includes('professional') ||
+          !cats.includes('social') ||
+          !cats.includes('cuisine')
+        ) {
+          return res
+            .status(400)
+            .send('Cannot update user: missing required tag category');
+        }
+
+        // iterate over category groups & check for minimum length
+        for (let i = 0; i < tagCollection.length; i++) {
+          let currentCat = tagCollection[i].categoryName;
+          let currentTagCount = tagCollection[i].tags.length;
+          let meetsReq = true;
+
+          if (currentCat === 'social' && currentTagCount < MINIMUM_SOCIAL)
+            meetsReq = false;
+          if (
+            currentCat === 'professional' &&
+            currentTagCount < MINIMUM_PROFESSIONAL
+          )
+            meetsReq = false;
+          if (currentCat === 'cuisine' && currentTagCount < MINIMUM_CUISINE)
+            meetsReq = false;
+
+          if (!meetsReq)
+            return res
+              .status(400)
+              .send('Cannot update user: minimum tag requirements not met');
+        }
+      }
+
+      // find requested user
+      const userToUpdate = await User.findByPk(userId, {
+        include: [Tag],
+        attributes: { exclude: ['password'] },
+      });
+
+      if (!userToUpdate)
+        return res
+          .status(404)
+          .send(`Cannot update: no such user id: ${userId}`);
+
+      // make requested changes
+      await userToUpdate.update(updatePackage);
+
+      // return updated user
+      const updatedUser = await User.findByPk(userToUpdate.id, {
+        attributes: {
+          exclude: ['password', 'avgRating', 'reportCount', 'strikeCount'],
         },
       });
 
-      // check that required categories are all present
-      let cats = tagCollection.map((cat) => cat.categoryName);
-      if (
-        !cats.includes('professional') ||
-        !cats.includes('social') ||
-        !cats.includes('cuisine')
-      ) {
-        return res
-          .status(400)
-          .send('Cannot update user: missing required tag category');
-      }
-
-      // iterate over category groups & check for minimum length
-      for (let i = 0; i < tagCollection.length; i++) {
-        let currentCat = tagCollection[i].categoryName;
-        let currentTagCount = tagCollection[i].tags.length;
-        let meetsReq = true;
-
-        if (currentCat === 'social' && currentTagCount < MINIMUM_SOCIAL)
-          meetsReq = false;
-        if (
-          currentCat === 'professional' &&
-          currentTagCount < MINIMUM_PROFESSIONAL
-        )
-          meetsReq = false;
-        if (currentCat === 'cuisine' && currentTagCount < MINIMUM_CUISINE)
-          meetsReq = false;
-
-        if (!meetsReq)
-          return res
-            .status(400)
-            .send('Cannot update user: minimum tag requirements not met');
-      }
+      res.status(200).json(updatedUser);
+    } catch (err) {
+      next(err);
     }
-
-    // find requested user
-    const userToUpdate = await User.findByPk(userId, {
-      include: [Tag],
-      attributes: { exclude: ['password'] },
-    });
-
-    if (!userToUpdate)
-      return res.status(404).send(`Cannot update: no such user id: ${userId}`);
-
-    // make requested changes
-    await userToUpdate.update(updatePackage);
-
-    // return updated user
-    const updatedUser = await User.findByPk(userToUpdate.id, {
-      attributes: {
-        exclude: ['password', 'avgRating', 'reportCount', 'strikeCount'],
-      },
-    });
-
-    res.status(200).json(updatedUser);
   }
 );
 

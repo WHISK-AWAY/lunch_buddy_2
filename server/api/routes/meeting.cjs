@@ -16,11 +16,13 @@ router.post('/', requireToken, async (req, res, next) => {
       const [newMeeting, wasCreated] = await Meeting.findOrCreate({
         where: {
           userId: req.user.id,
-          isClosed: false,
+          // isClosed: false,
+          meetingStatus: 'confirmed',
         },
-        defaults: bodyKeys,
+        defaults: { ...bodyKeys, meetingStatus: 'pending' },
       });
       if (wasCreated === false) {
+        console.log('conflict:', newMeeting);
         res.status(409).send('user is already in a meeting');
       } else {
         res.status(200).json(newMeeting);

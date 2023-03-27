@@ -1,6 +1,8 @@
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import MockResponsive from './components/MockResponsive';
+
 import {
   MeetingSetup,
   BuddyList,
@@ -10,19 +12,20 @@ import {
   AboutForm,
   SignInForm,
   RegisterForm,
+  UserAccount,
 } from './pages';
 
 function App() {
   return (
-    <>
+    <div className="font-tenor">
       <NavBar />
       <Routes>
         <Route path="/" element={<MockResponsive />} />
         <Route path="/login" element={<SignInForm />} />
+        <Route path="/account" element={<UserAccount />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/register/aboutyourself" element={<AboutForm />} />
-        <Route path="/test" element={<MeetingSetup />}></Route>
-        <Route path="/match" element={<RestaurantSuggestions />}></Route>
+        <Route path="/match" element={<MeetingSetup />}></Route>
         <Route path="/match/results" element={<BuddyList />}></Route>
         <Route
           path="/match/restaurants"
@@ -30,7 +33,7 @@ function App() {
         ></Route>
         <Route path="/match/confirm" element={<MeetingRecap />}></Route>
       </Routes>
-    </>
+    </div>
   );
 }
 

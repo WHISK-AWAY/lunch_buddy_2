@@ -11,6 +11,15 @@ const Tag = db.define('tag', {
     },
     unique: true,
   },
+  yelpAlias: {
+    type: Sequelize.STRING,
+    allowNull: true,
+    validate: {
+      notEmpty: false,
+      notNull: false,
+    },
+    unique: true,
+  },
 });
 
 module.exports = Tag;
