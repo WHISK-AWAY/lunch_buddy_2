@@ -17,7 +17,7 @@ export default function RestaurantCard({ restaurant, chooseRestaurant }) {
           onClick={(e) => chooseRestaurant(e, restaurant)}
           className="button-round rounded-full w-12 aspect-square absolute -top-4 -left-4 flex justify-center items-center"
         >
-          <img src={plus} />
+          <img src={plus} className="w-8 aspect-square" />
         </button>
       </div>
       <div className="info-wrapper">
