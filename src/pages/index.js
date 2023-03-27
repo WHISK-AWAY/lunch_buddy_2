@@ -7,3 +7,4 @@ export { default as AboutForm } from './aboutYourself/AboutForm';
 export { default as SignInForm } from './signIn/SignInForm';
 export { default as RegisterForm } from './register/RegisterForm';
 export { default as EditUserForm } from './EditUser/EditUserForm';
+export { default as Feedback } from './Feedback/Feedback';
