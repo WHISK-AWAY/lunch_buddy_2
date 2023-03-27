@@ -15,6 +15,10 @@ app.use(volleyball);
 // TODO: tighten this up - all-permissive at the moment
 app.use(cors());
 
+app.get('/', (req, res, next) => {
+  res.send('backend is running');
+});
+
 // Start of API routes
 app.use('/api', require('./api/index.cjs'));
 

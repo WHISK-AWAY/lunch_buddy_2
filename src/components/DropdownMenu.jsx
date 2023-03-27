@@ -17,23 +17,33 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
   }
 
   return (
-    <div className="h-screen absolute -bottom-screen bg-white w-screen opacity-95">
-      <h2 className="text-red-400 ml-7 mt-2 text-lg">Hello, Name</h2>
-      <ul className="flex flex-col items-center">
-        <DropDownItem handleClick={handleClick}>Account</DropDownItem>
-        <DropDownItem handleClick={handleClick}>New Meeting</DropDownItem>
-        <DropDownItem handleClick={handleClick}>Messages</DropDownItem>
+    <div className="h-fit absolute -bottom-screen bg-white w-screen opacity-95">
+      <ul className="flex flex-col items-center ">
         {!authUser.firstName ? (
           <>
+            {/* NAV LINKS WHEN NOT SIGNED IN */}
             <DropDownItem handleClick={handleClick} linkTo="/register">
-              Sign Up
+              SIGN UP
             </DropDownItem>
             <DropDownItem handleClick={handleClick} linkTo="/login">
-              Login
+              LOG IN
+            </DropDownItem>
+            <DropDownItem handleClick={handleClick} linkTo="/">
+              HOME
             </DropDownItem>
           </>
         ) : (
-          <DropDownItem handleClick={handleLogout}>Logout</DropDownItem>
+          <>
+            {/* NAV LINKS WHEN SIGNED IN */}
+            <DropDownItem handleClick={handleClick} linkTo="/account">
+              ACCOUNT
+            </DropDownItem>
+            <DropDownItem handleClick={handleClick} linkTo="/match">
+              NEW MEETING
+            </DropDownItem>
+            <DropDownItem handleClick={handleClick}>MESSAGES</DropDownItem>
+            <DropDownItem handleClick={handleLogout}>LOG OUT</DropDownItem>
+          </>
         )}
       </ul>
     </div>

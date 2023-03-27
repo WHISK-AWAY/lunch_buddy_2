@@ -40,9 +40,7 @@ const TagSelect = ({ setter, tags = [], category }) => {
               <button
                 key={idx}
                 className={`border border-black rounded-full px-4 h-7 lg:h-auto flex grow gap-4 items-center hover:bg-slate-100 text-sm sm:text-base ${
-                  tag.clicked
-                    ? 'bg-gradient-to-r from-orange-300 to-red-400 text-white transition-all'
-                    : ''
+                  tag.clicked ? 'button text-white transition-all' : ''
                 }`}
                 onClick={() => handleTagClick(idx, setter)}
               >

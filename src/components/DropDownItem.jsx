@@ -5,10 +5,13 @@ const DropDownItem = (props) => {
   return (
     <li
       onClick={props.handleClick}
-      className="border-b border-black w-full text-center h-16 border-collapse"
+      className="transition-all border-b border-primary-gray w-full text-center h-16 border-collapse hover:bg-label/20 hover:ease-in duration-400 "
+      style={{
+        transitionDelay: '0.1s',
+      }}
     >
       <Link to={props.linkTo}>
-        <div className="mt-8">{props.children}</div>
+        <div className="mt-5">{props.children.toUpperCase()}</div>
       </Link>
     </li>
   );
