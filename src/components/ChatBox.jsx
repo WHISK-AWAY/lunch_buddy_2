@@ -83,6 +83,7 @@ export default function ChatBox() {
       </div>
     );
   }
+  console.log('testestest', meeting);
 
   return (
     <div className="flex overflow-hidden h-[calc(100vh_-_48px)] orange-linear-bg">
@@ -98,7 +99,9 @@ export default function ChatBox() {
         <div className="lg:bg-[#c4c4c4] lg:bg-opacity-20 lg:h-full lg:rounded-xl lg:m-8 overflow-y-auto grow">
           <div className="">
             <h2 className="text-center font-tenor pt-4 text-lg">
-              {meeting.buddy.firstName}
+              {meeting.user.firstName === auth.firstName
+                ? meeting.buddy.firstName
+                : meeting.user.firstName}
             </h2>
             <h2 className="text-center text-gray-500">
               {monthToday}-{dayOfMonth}-{yearToday}
