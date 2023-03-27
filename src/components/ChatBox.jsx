@@ -64,10 +64,11 @@ export default function ChatBox() {
       onMessageSubmit(e);
     }
   };
+  // checks if user is logge in
   if (!auth.id) {
     return <h1>Please login and find a buddy to use the chat feature</h1>;
   }
-
+  // checks if user has a buddy
   if (meeting.buddyId === undefined) {
     return (
       <div className=" text-center">
@@ -75,7 +76,6 @@ export default function ChatBox() {
       </div>
     );
   }
-  console.log('testestest', meeting);
 
   return (
     <div className="flex overflow-hidden h-[calc(100vh_-_48px)] orange-linear-bg">
