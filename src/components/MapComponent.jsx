@@ -41,5 +41,11 @@ export default function MapComponent({ center, zoom, points }) {
     }
   }, [points]);
 
-  return <div className="h-96 w-96" ref={ref} id="map" />;
+  return (
+    <div
+      className="w-96 aspect-square rounded-lg shadow-md lg:w-full lg:max-h-full"
+      ref={ref}
+      id="map"
+    />
+  );
 }

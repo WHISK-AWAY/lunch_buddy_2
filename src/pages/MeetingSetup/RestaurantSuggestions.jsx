@@ -57,37 +57,42 @@ export default function RestaurantSuggestions(props) {
   const center = { lat: +user.lastLat, lng: +user.lastLong };
 
   return (
-    <div id="restaurant-results-page">
-      <h1>Restaurant Results</h1>
-      <Wrapper apiKey={MAPS_API_KEY}>
-        <MapComponent center={center} zoom={12} points={restaurants} />
-      </Wrapper>
-      <div className="rest-card-wrapper flex flex-col gap-5">
-        {restaurants.businesses?.slice(0, 15).map((restaurant) => {
-          return (
-            <RestaurantCard
-              key={restaurant.id}
-              restaurant={restaurant}
-              chooseRestaurant={chooseRestaurant}
-            />
-          );
-          // return (
-          //   <div key={restaurant.id} className="restaurant-card">
-          //     <h2>{restaurant.name}</h2>
-          //     <img src={restaurant.image_url} alt="" />
-          //     <p>Rating: {restaurant.rating}</p>
-          //     <p>Reviews: {restaurant.review_count.toLocaleString()}</p>
-          //     <button
-          //       onClick={(e) => chooseRestaurant(e, restaurant)}
-          //       className="button"
-          //     >
-          //       Select
-          //     </button>
-          //   </div>
-          // );
-        })}
+    <div
+      id="restaurant-page"
+      className="w-screen h-[calc(100vh_-_75px)] flex flex-col justify-start items-center overflow-hidden lg:flex-row lg:justify-between lg:items-start bg-fixed"
+    >
+      <div
+        id="lg-map-container"
+        className="overflow-hidden hidden h-[calc(100vh_-_75px)] lg:block lg:basis-1/2 p-8"
+      >
+        <Wrapper apiKey={MAPS_API_KEY}>
+          <MapComponent center={center} zoom={14} points={restaurants} />
+        </Wrapper>
       </div>
-      <Link to="/match/confirm">To Meeting Recap Page</Link>
+      <div
+        id="restaurant-results-wrapper"
+        className="flex flex-col w-full lg:basis-1/2 px-[5%] justify-start items-center gap-16 pt-16 h-full overflow-auto"
+      >
+        <h1 className="text-2xl text-headers font-semibold">
+          Restaurant Results
+        </h1>
+        <div id="sm-map-wrapper" className="lg:hidden">
+          <Wrapper apiKey={MAPS_API_KEY}>
+            <MapComponent center={center} zoom={15} points={restaurants} />
+          </Wrapper>
+        </div>
+        <div className="rest-card-wrapper flex flex-col gap-5">
+          {restaurants.businesses?.slice(0, 15).map((restaurant) => {
+            return (
+              <RestaurantCard
+                key={restaurant.id}
+                restaurant={restaurant}
+                chooseRestaurant={chooseRestaurant}
+              />
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
