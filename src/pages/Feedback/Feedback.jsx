@@ -11,7 +11,7 @@ const Feedback = () => {
 
   return (
     <div className="flex">
-      <div className="flex flex-col items-center mt-12 font-tenor text-center max-w-lg mx-auto lg:w-1/2">
+      <div className="flex flex-col items-center mt-24 font-tenor text-center max-w-lg mx-auto lg:w-1/2">
         <Rating />
         {!showReport && (
           <div className="w-4/5">
