@@ -29,7 +29,7 @@ export default function BuddyList(props) {
     }
 
     if (!searchRadius || !timeSlot) {
-      console.warn('uh oh');
+      console.warn('searchRadius/timeSlot missing');
     } else {
       dispatch(findBuddies({ searchRadius }));
     }
@@ -57,7 +57,14 @@ export default function BuddyList(props) {
         AVAILABLE BUDDIES
       </h1>
       {buddiesList.searchResults?.map((buddy) => {
-        return <BuddyCard key={buddy.id} buddy={buddy} myTagList={myTagList} />;
+        return (
+          <BuddyCard
+            key={buddy.id}
+            buddy={buddy}
+            myTagList={myTagList}
+            selectBuddy={selectBuddy}
+          />
+        );
       })}
       <Link to="/match/restaurants">To Restaurant Suggestion Page</Link>
     </div>

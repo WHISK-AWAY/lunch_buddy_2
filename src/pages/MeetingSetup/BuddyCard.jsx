@@ -4,8 +4,10 @@ import plus from '../../assets/icons/plus-white.svg';
 
 const MAX_BUDDY_TAGS = 3;
 
-export default function BuddyCard({ buddy, myTagList }) {
+export default function BuddyCard(props) {
   const [tagExpand, setTagExpand] = useState(false);
+
+  const { buddy, myTagList, selectBuddy } = props;
 
   return (
     <div
