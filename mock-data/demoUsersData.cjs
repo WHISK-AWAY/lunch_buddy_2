@@ -25,7 +25,7 @@ const demoUsers = [
     lastName: 'Linscott',
     email: 'llinscott1@gmail.com',
     password: 'VtBW9r43wf4e453L',
-    age: 22,
+    age: 23,
     gender: 'F',
     address1: '35359 Forest Crossing',
     address2: null,
@@ -34,7 +34,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 11228,
-    avatarUrl: '/assets/demoUserImg/F2.jpg',
+    avatarUrl: '/assets/demoUserImg/F16.jpg',
     aboutMe:
       'I am a UX designer who loves to paint, take photos, and spend time with my family and friends on the weekends.',
     isVerified: false,
@@ -55,7 +55,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 11228,
-    avatarUrl: '/assets/demoUserImg/F11.jpg',
+    avatarUrl: '/assets/demoUserImg/F5.jpg',
     aboutMe:
       'I am a teacher who loves to spend my free time reading, writing, and practicing mindfulness.',
     isVerified: false,
@@ -67,7 +67,7 @@ const demoUsers = [
     lastName: 'Reddyhoff',
     email: 'dreddyhoff3@gmail.com',
     password: '3ukaWNfefer4534543j',
-    age: 54,
+    age: 34,
     gender: 'M',
     address1: '60 Loftsgordon Terrace',
     address2: null,
@@ -76,7 +76,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 10451,
-    avatarUrl: '/assets/demoUserImg/M5.jpg',
+    avatarUrl: '/assets/demoUserImg/M2.jpg',
     aboutMe:
       'Hey, my name is Oliver and I am a web developer who loves to ride my bike, play guitar, and experiment with new recipes in the kitchen.',
     isVerified: true,
@@ -139,7 +139,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 11228,
-    avatarUrl: '/assets/demoUserImg/M10.jpg',
+    avatarUrl: '/assets/demoUserImg/M9.jpg',
     aboutMe:
       'Hi, my name is James, a social media manager who enjoys hiking with my dog, practicing yoga, and trying out new recipes in the kitchen.',
     isVerified: true,
@@ -286,7 +286,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 10451,
-    avatarUrl: '/assets/demoUserImg/F10.jpg',
+    avatarUrl: '/assets/demoUserImg/F25.jpg',
     aboutMe:
       'Hi, I am Cathy, a veterinarian who loves to knit, read books, and travel to new places whenever possible.',
     isVerified: true,
