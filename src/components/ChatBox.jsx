@@ -11,28 +11,20 @@ const socket = io.connect('http://localhost:3333');
 export default function ChatBox() {
   const dispatch = useDispatch();
   const [newMessage, setNewMessage] = useState('');
-
-  //   const [meeting, setMeeting] = useState('');
-  // currently the room is hard coded but I'd like it to be a mixture of the meeting id user id and buddy id or something of that sor
   const meeting = useSelector((state) => state.meetings.meeting);
   const auth = useSelector((state) => state.auth.user);
-  //   console.log(auth);
   const today = new Date();
   const dayOfMonth = today.getUTCDate();
   const monthToday = today.getMonth();
   const yearToday = today.getUTCFullYear();
-  //   const curDate = new Date();
-  //   setMeeting(meetingState);
 
   useEffect(() => {
-    // if (meeting.messages === undefined) {
     const asyncStart = async () => {
       const token = localStorage.getItem('token');
       const disMeeting = await dispatch(getActiveMeeting(token));
       socket.emit('joinRoom', disMeeting.payload.id);
     };
     asyncStart();
-    // }
     setTimeout(() => {
       const scrollAnchor = document.getElementById('scroll-here');
       scrollAnchor?.scrollIntoView();
@@ -95,7 +87,6 @@ export default function ChatBox() {
         />
       </div>
       <div className="flex flex-col h-[calc(100vh_-_72px)] w-full lg:w-3/5 ">
-        {/* GREY BOX THAT HOLDS MESSAGES */}
         <div className="lg:bg-[#c4c4c4] lg:bg-opacity-20 lg:h-full lg:rounded-xl lg:m-8 overflow-y-auto grow">
           <div className="">
             <h2 className="text-center font-tenor pt-4 text-lg">
