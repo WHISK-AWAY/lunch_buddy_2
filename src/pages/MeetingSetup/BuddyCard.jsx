@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import chevronRight from '../../assets/icons/chevron-right.svg';
 import plus from '../../assets/icons/plus-white.svg';
 
-const MAX_BUDDY_TAGS = 3;
+const MAX_BUDDY_TAGS_SHOWING = 3;
 
 export default function BuddyCard(props) {
   const [tagExpand, setTagExpand] = useState(false);
@@ -48,7 +48,7 @@ export default function BuddyCard(props) {
                 </div>
               );
             })
-            .slice(0, MAX_BUDDY_TAGS)}
+            .slice(0, MAX_BUDDY_TAGS_SHOWING)}
         </div>
         <div className="tag-expand-button">
           {' '}

@@ -11,7 +11,7 @@ import {
 } from '../../redux/slices';
 import { BuddyCard } from '../index';
 
-const MAX_BUDDY_TAGS = 3;
+const MAX_BUDDY_TAGS_SHOWING = 3;
 
 export default function BuddyList(props) {
   const dispatch = useDispatch();
@@ -24,6 +24,10 @@ export default function BuddyList(props) {
   const { searchRadius, timeSlot } = location.state;
 
   useEffect(() => {
+    // return to login if no token exists
+    if (!window.localStorage.getItem('token')) navigate('/login');
+
+    // populate auth state
     if (!auth.user?.id) {
       dispatch(tryToken());
     }
@@ -47,8 +51,17 @@ export default function BuddyList(props) {
 
   const myTagList = user.tags?.map((tag) => tag.id) || [];
 
-  if (!buddiesList || buddiesList?.isLoading || !user.id || user.isLoading)
+  /**
+   * TODO: make sure this set of guards is doing what we intend / sending the correct feedback
+   */
+  if (!buddiesList || buddiesList?.isLoading || !user || user.isLoading)
     return <h1>Loading...</h1>;
+  if (buddiesList.error || user.error)
+    return (
+      <h1>
+        An error occurred. Back to <Link to="/">home</Link>
+      </h1>
+    );
   if (buddiesList.searchResults.length === 0) return <h1>No friends :(</h1>;
 
   return (
