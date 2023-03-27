@@ -97,7 +97,9 @@ export default function ChatBox() {
         {/* GREY BOX THAT HOLDS MESSAGES */}
         <div className="lg:bg-[#c4c4c4] lg:bg-opacity-20 lg:h-full lg:rounded-xl lg:m-8 overflow-y-auto grow">
           <div className="">
-            <h2 className="text-center font-tenor pt-4 text-lg">Buddy</h2>
+            <h2 className="text-center font-tenor pt-4 text-lg">
+              {meeting.buddy.firstName}
+            </h2>
             <h2 className="text-center text-gray-500">
               {monthToday}-{dayOfMonth}-{yearToday}
             </h2>
