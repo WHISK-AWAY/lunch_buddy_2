@@ -10,7 +10,6 @@ const NavBar = () => {
   const dispatch = useDispatch();
 
   const authUser = useSelector(selectAuthUser);
-  console.log('auth user fname boolean', !!authUser.firstName);
 
   // Turns off scroll when showing menu
   document.body.style.overflow = expandMenu ? 'hidden' : 'auto';
