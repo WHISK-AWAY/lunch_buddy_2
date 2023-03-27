@@ -9,7 +9,7 @@ import {
   selectAuth,
   tryToken,
 } from '../../redux/slices';
-import BuddyCard from './BuddyCard';
+import { BuddyCard } from '../index';
 
 const MAX_BUDDY_TAGS = 3;
 
