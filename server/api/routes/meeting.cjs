@@ -100,6 +100,7 @@ router.post('/active/messages', requireToken, async (req, res, next) => {
     const meeting = await Meeting.findOne({
       where: {
         isClosed: false,
+        meetingStatus: 'confirmed',
         [Op.or]: [{ userId: req.user.id }, { buddyId: req.user.id }],
       },
     });
