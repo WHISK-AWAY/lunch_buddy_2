@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 // import { Loader } from '@googlemaps/js-api-loader';
 import { Wrapper } from '@googlemaps/react-wrapper';
 import MapComponent from '../../components/MapComponent';
@@ -18,7 +18,10 @@ const MAPS_API_KEY = import.meta.env.VITE_MAPS_API_KEY;
 
 export default function RestaurantSuggestions(props) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const location = useLocation();
+
   const search = useSelector(selectSearch);
   const user = useSelector(selectUser);
   const auth = useSelector(selectAuth);
@@ -33,7 +36,7 @@ export default function RestaurantSuggestions(props) {
 
   useEffect(() => {
     if (user.id && !restaurants.length)
-      dispatch(findRestaurants({ searchRadius }));
+      dispatch(findRestaurants({ searchRadius, buddy }));
   }, [dispatch, user]);
 
   if (!restaurants) return <h1>No restaurants found :(</h1>;
@@ -44,14 +47,19 @@ export default function RestaurantSuggestions(props) {
     JSON.stringify(search.search?.restaurants)
   );
 
+  function chooseRestaurant(e, restaurant) {
+    e.preventDefault();
+    localStorage.removeItem('restaurantResults');
+    navigate('/match/confirm', { state: { timeSlot, buddy, restaurant } });
+  }
+
   const center = { lat: +user.lastLat, lng: +user.lastLong };
-  // console.log('restaurants:', restaurants);
 
   return (
     <div id="restaurant-results-page">
       <h1>Restaurant Results</h1>
       <Wrapper apiKey={MAPS_API_KEY}>
-        <MapComponent center={center} zoom={14} points={restaurants} />
+        <MapComponent center={center} zoom={12} points={restaurants} />
       </Wrapper>
       {restaurants.businesses?.slice(0, 15).map((restaurant) => {
         return (
@@ -60,6 +68,12 @@ export default function RestaurantSuggestions(props) {
             <img src={restaurant.image_url} alt="" />
             <p>Rating: {restaurant.rating}</p>
             <p>Reviews: {restaurant.review_count.toLocaleString()}</p>
+            <button
+              onClick={(e) => chooseRestaurant(e, restaurant)}
+              className="button"
+            >
+              Select
+            </button>
           </div>
         );
       })}

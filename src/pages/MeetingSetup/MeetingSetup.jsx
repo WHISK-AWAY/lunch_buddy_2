@@ -71,7 +71,7 @@ export default function MeetingSetup(props) {
     return accum;
   }, {});
 
-  if (!timeSlot) setTimeSlot(timeSlots[0].dateObj);
+  if (!timeSlot) setTimeSlot(timeSlots[0]);
 
   function handleSearchSubmit(e) {
     e.preventDefault();
@@ -79,7 +79,9 @@ export default function MeetingSetup(props) {
     // hang on to selected time slot -- we'll need it a couple screens from now
     window.localStorage.setItem('meetingTimeslot', JSON.stringify(timeSlot));
 
-    navigate('/match/results', { state: { searchRadius, timeSlot } });
+    navigate('/match/results', {
+      state: { searchRadius, timeSlot },
+    });
   }
 
   function handleTimeslot(timeOption) {
@@ -89,7 +91,7 @@ export default function MeetingSetup(props) {
   return (
     <div
       id="search-params-page"
-      className="font-tenor lg:bg-none w-screen flex flex-row-reverse justify-center items-center h-[calc(100vh_-_69px)] overflow-hidden bg-fixed bg-gradient-to-t from-[#FF8A00]/10 to-[#FFFFFF] text-primary-gray"
+      className="lg:bg-none w-screen flex flex-row-reverse justify-center items-center h-[calc(100vh_-_75px)] overflow-hidden bg-fixed bg-gradient-to-t from-[#FF8A00]/10 to-[#FFFFFF] text-primary-gray"
     >
       <div className="lg:basis-1/2 flex flex-col justify-center items-center">
         <div id="search-params-container" className="">
@@ -138,7 +140,11 @@ export default function MeetingSetup(props) {
                         e.preventDefault();
                         handleTimeslot(timeOption);
                       }}
-                      className=" bg-white rounded-full px-3 py-1 border-[1px] border-primary-gray"
+                      className={` rounded-full px-3 py-1 border-primary-gray ${
+                        timeOption.startTime === timeSlot?.startTime
+                          ? 'button text-white'
+                          : 'bg-white border'
+                      }`}
                     >
                       {`${timeOption.startTime} - ${timeOption.endTime}`}
                     </button>
@@ -154,10 +160,7 @@ export default function MeetingSetup(props) {
 
         <p className="text-xs">
           back to{' '}
-          <Link
-            className="text-label text-inherit"
-            to="/match/results"
-          >
+          <Link className="text-label text-inherit" to="/match/results">
             search results
           </Link>
         </p>

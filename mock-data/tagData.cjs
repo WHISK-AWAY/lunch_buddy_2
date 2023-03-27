@@ -113,7 +113,7 @@ const cuisineObjects = [
   { yelpAlias: 'italian', tagName: 'Italian' },
   { yelpAlias: 'panasian', tagName: 'Asian' },
   { yelpAlias: 'southern', tagName: 'Southern' },
-  { yelpAlias: 'portugese', tagName: 'Portuguese' },
+  { yelpAlias: 'portuguese', tagName: 'Portuguese' },
   { yelpAlias: 'spanish', tagName: 'Spanish' },
   { yelpAlias: 'cuban', tagName: 'Cuban' },
   { yelpAlias: 'german', tagName: 'German' },

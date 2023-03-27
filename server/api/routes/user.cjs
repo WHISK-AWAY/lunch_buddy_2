@@ -46,7 +46,7 @@ router.get(
       const userId = +req.params.userId;
 
       const user = await User.findByPk(userId, {
-        include: { model: Tag, include: { model: Category } },
+        include: { model: Tag, include: Category },
         attributes: {
           exclude: ['password', 'avgRating', 'reportCount', 'strikeCount'],
         },

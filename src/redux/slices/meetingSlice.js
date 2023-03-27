@@ -4,13 +4,18 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export const createMeeting = createAsyncThunk(
   'meeting/createMeeting',
-  async ({ token, newMeeting }, { rejectWithValue }) => {
+  async ({ newMeeting }, { rejectWithValue }) => {
     try {
+      const token = window.localStorage.getItem('token');
+
+      if (!token) throw new Error('No token found in local storage...');
+
       const { data } = axios.post(API_URL + '/api/meeting', newMeeting, {
         headers: {
           authorization: token,
         },
       });
+
       return data;
     } catch (error) {
       console.log(error);
@@ -45,17 +50,33 @@ export const getMeeting = createAsyncThunk(
   async ({ token, meetingId, userId }, { rejectWithValue }) => {
     try {
       let route;
+
+      if (!token) token = window.localStorage.getItem('token');
       if (!token) throw new Error('No token provided');
+
       if (userId !== undefined) {
         route = API_URL + `/api/user/${userId}/meeting/${meetingId}`;
       } else {
         route = API_URL + `/api/meeting/${meetingId}`;
       }
+
       const { data } = await axios.get(route, {
         headers: {
           authorization: token,
         },
       });
+
+      if (data.yelpBusinessId) {
+        const yelpRes = await axios.get(
+          API_URL + `/api/search/restaurants/${data.yelpBusinessId}`,
+          {
+            headers: {
+              authorization: token,
+            },
+          }
+        );
+        data.restaurant = yelpRes.data;
+      }
 
       return data;
     } catch (error) {

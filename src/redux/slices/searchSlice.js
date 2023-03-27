@@ -37,16 +37,44 @@ export const findBuddies = createAsyncThunk(
 
 export const findRestaurants = createAsyncThunk(
   'search/findRestaurants',
-  async (searchParams, { rejectWithValue }) => {
+  async (searchParams, { rejectWithValue, getState }) => {
     try {
       const { token, user } = await checkToken();
+      const { buddy, searchRadius } = searchParams;
 
+      if (!buddy || !searchRadius) throw new Error('Missing search parameters');
+
+      // figure out overlap of user & buddy tags
+      const currentState = getState();
+
+      // pull cuisine tags from buddy
+      const buddyCuisineTags = buddy.tags
+        .filter((tag) => tag.category.categoryName === 'cuisine')
+        .map((tag) => tag.yelpAlias);
+
+      // pull cuisine tags from user
+      const userCuisineTags = currentState.user.user.tags
+        .filter((tag) => tag.category.categoryName === 'cuisine')
+        .map((tag) => tag.yelpAlias);
+
+      let overlappingCuisineTags = userCuisineTags.filter((tag) =>
+        buddyCuisineTags.includes(tag)
+      );
+
+      // if we don't have any common food interests, just use our own for search
+      if (!overlappingCuisineTags.length) {
+        overlappingCuisineTags = userCuisineTags;
+      }
+
+      // package up search parameters for Yelp API
       const params = {};
       params.latitude = user.lastLat;
       params.longitude = user.lastLong;
-      params.radius = searchParams.searchRadius;
+      params.radius = searchRadius;
       params.open_now = true;
+      params.categories = overlappingCuisineTags;
 
+      // we send the request to our own backend -- cannot reach Yelp from frontend
       const res = await axios.get(API_URL + '/api/search/restaurants', {
         params,
         headers: {

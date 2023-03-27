@@ -18,7 +18,7 @@ import {
 
 function App() {
   return (
-    <React.Fragment>
+    <div className="font-tenor">
       <NavBar />
       <Routes>
         <Route path="/" element={<Homepage />} />
@@ -34,7 +34,7 @@ function App() {
         ></Route>
         <Route path="/match/confirm" element={<MeetingRecap />}></Route>
       </Routes>
-    </React.Fragment>
+    </div>
   );
 }
 

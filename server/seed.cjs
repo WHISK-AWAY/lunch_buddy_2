@@ -77,11 +77,7 @@ const seed = async () => {
       }
     );
 
-    /**
-     * TODO: update for yelp alias here
-     */
     const cuisineData = tagList.cuisineObjects.map((cuisine) => {
-      console.log(cuisine);
       return {
         tagName: cuisine.tagName,
         yelpAlias: cuisine.yelpAlias,
@@ -151,6 +147,7 @@ const seed = async () => {
 
     const seededMeeting = await Meeting.bulkCreate(meetingData, {
       validate: true,
+      individualHooks: true,
     });
 
     console.log('Meetings seeding successful');
