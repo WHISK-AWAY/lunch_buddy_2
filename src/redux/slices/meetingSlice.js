@@ -10,7 +10,7 @@ export const createMeeting = createAsyncThunk(
 
       if (!token) throw new Error('No token found in local storage...');
 
-      const { data } = axios.post(API_URL + '/api/meeting', newMeeting, {
+      const { data } = await axios.post(API_URL + '/api/meeting', newMeeting, {
         headers: {
           authorization: token,
         },
@@ -28,7 +28,7 @@ export const updateMeeting = createAsyncThunk(
   'meeting/updateMeeting',
   async ({ token, meetingId, meetingUpdates }, { rejectWithValue }) => {
     try {
-      const { data } = axios.put(
+      const { data } = await axios.put(
         API_URL + `/api/meeting/${meetingId}`,
         meetingUpdates,
         {
@@ -90,7 +90,7 @@ export const deleteMeeting = createAsyncThunk(
   'meeting/deleteMeeting',
   async ({ token, meetingId }, { rejectWithValue }) => {
     try {
-      const res = axios.delete(API_URL + `/api/meeting/${meetingId}`, {
+      const res = await axios.delete(API_URL + `/api/meeting/${meetingId}`, {
         headers: {
           authorization: token,
         },
@@ -107,7 +107,7 @@ export const getMeetingMessages = createAsyncThunk(
   'meeting/getMessages',
   async ({ token, meetingId }, { rejectWithValue }) => {
     try {
-      const { data } = axios.get(
+      const { data } = await axios.get(
         API_URL + `/api/meeting/${meetingId}/messages`,
         {
           headers: {
@@ -127,7 +127,7 @@ export const addMessage = createAsyncThunk(
   'meeting/addMessage',
   async ({ token, meetingId, newMessage }, { rejectWithValue }) => {
     try {
-      const { data } = axios.post(
+      const { data } = await axios.post(
         API_URL + `/api/meeting/${meetingId}/messages`,
         newMessage,
         {
@@ -148,7 +148,7 @@ export const addRating = createAsyncThunk(
   'meeting/addRating',
   async ({ token, meetingId, newRating }, { rejectWithValue }) => {
     try {
-      const { data } = axios.post(
+      const { data } = await axios.post(
         API_URL + `/api/meeting/${meetingId}/rating`,
         newRating,
         {
@@ -169,7 +169,7 @@ export const upholdRating = createAsyncThunk(
   'meeting/upholdRating',
   async ({ token, ratingId, decision }, { rejectWithValue }) => {
     try {
-      const { data } = axios.put(
+      const { data } = await axios.put(
         API_URL + `/api/rating/${ratingId}`,
         { reportIsUpheld: decision },
         {
