@@ -13,7 +13,7 @@ const demoUsers = [
     lastLat: 34.0522,
     lastLong: -118.2437,
     zip: 10451,
-    avatarURL: '/assets/demoUserImg.jpg',
+    avatarURL: '/assets/demoUserImg.svg',
     aboutMe:
       'As a journalist, I spend my days writing and researching stories. But when I am off, you can find me at the beach, practicing yoga, or trying out new restaurants in town.',
     isVerified: true,
@@ -34,7 +34,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 11228,
-    avatarURL: '/assets/demoUserImg.jpg',
+    avatarURL: '/assets/demoUserImg.svg',
     aboutMe:
       'I am a UX designer who loves to paint, take photos, and spend time with my family and friends on the weekends.',
     isVerified: false,
@@ -55,7 +55,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 11228,
-    avatarURL: '/assets/demoUserImg.jpg',
+    avatarURL: '/assets/demoUserImg.svg',
     aboutMe:
       'I am a teacher who loves to spend my free time reading, writing, and practicing mindfulness.',
     isVerified: false,
@@ -76,7 +76,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 10451,
-    avatarURL: '/assets/demoUserImg.jpg',
+    avatarURL: '/assets/demoUserImg.svg',
     aboutMe:
       'Hey, my name is Oliver and I am a web developer who loves to ride my bike, play guitar, and experiment with new recipes in the kitchen.',
     isVerified: true,
@@ -97,7 +97,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 11005,
-    avatarURL: '/assets/demoUserImg.jpg',
+    avatarURL: '/assets/demoUserImg.svg',
     aboutMe:
       'My name is Lucas, and I work as a photographer. In my spare time, you can find me hiking, camping, and exploring new places with my camera.',
     isVerified: true,
@@ -118,7 +118,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 11005,
-    avatarURL: '/assets/demoUserImg.jpg',
+    avatarURL: '/assets/demoUserImg.svg',
     aboutMe:
       'I am a writer by profession and love to spend my free time reading books, traveling, and practicing yoga.',
     isVerified: true,
@@ -139,7 +139,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 11228,
-    avatarURL: '/assets/demoUserImg.jpg',
+    avatarURL: '/assets/demoUserImg.svg',
     aboutMe:
       'Hi, my name is James, a social media manager who enjoys hiking with my dog, practicing yoga, and trying out new recipes in the kitchen.',
     isVerified: true,
@@ -160,7 +160,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 11228,
-    avatarURL: '/assets/demoUserImg.jpg',
+    avatarURL: '/assets/demoUserImg.svg',
     aboutMe:
       'As a nurse, I spend my days taking care of others. But when I am off, you can find me at the gym or cooking up a storm in the kitchen.',
     isVerified: true,
@@ -181,7 +181,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 11228,
-    avatarURL: '/assets/demoUserImg.jpg',
+    avatarURL: '/assets/demoUserImg.svg',
     aboutMe:
       'I am a lawyer who loves to unwind with a good game of tennis or a hike in the mountains.',
     isVerified: true,
@@ -202,7 +202,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 11005,
-    avatarURL: '/assets/demoUserImg.jpg',
+    avatarURL: '/assets/demoUserImg.svg',
     aboutMe:
       'My name is Hana, and I work as a marketer. I am also an avid traveler and enjoy exploring new cultures and cuisines.',
     isVerified: false,
@@ -223,7 +223,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 10311,
-    avatarURL: '/assets/demoUserImg.jpg',
+    avatarURL: '/assets/demoUserImg.svg',
     aboutMe:
       'As an accountant, numbers are my bread and butter. But when I am not crunching numbers, I like to go camping and fishing with my family.',
     isVerified: true,
@@ -244,7 +244,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 10311,
-    avatarURL: '/assets/demoUserImg.jpg',
+    avatarURL: '/assets/demoUserImg.svg',
     aboutMe:
       'My name is Derick and I work as a scientist. In my free time, I like to go running, watch movies, and tinker with electronics.',
     isVerified: false,
@@ -265,7 +265,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 11228,
-    avatarURL: '/assets/demoUserImg.jpg',
+    avatarURL: '/assets/demoUserImg.svg',
     aboutMe:
       'My name is Dallis, and I am a graphic designer who loves to paint and explore new coffee shops in my spare time.',
     isVerified: true,
@@ -286,7 +286,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 10451,
-    avatarURL: '/assets/demoUserImg.jpg',
+    avatarURL: '/assets/demoUserImg.svg',
     aboutMe:
       'Hi, I am Cathy, a veterinarian who loves to knit, read books, and travel to new places whenever possible.',
     isVerified: true,
@@ -307,7 +307,7 @@ const demoUsers = [
     lastLat: null,
     lastLong: null,
     zip: 10451,
-    avatarURL: '/assets/demoUserImg.jpg',
+    avatarURL: '/assets/demoUserImg.svg',
     aboutMe:
       'Hi, I am Killian! I work as a software engineer during the day and enjoy hiking and photography on the weekends.',
     isVerified: true,
