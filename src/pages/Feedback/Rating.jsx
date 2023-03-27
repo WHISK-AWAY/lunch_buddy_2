@@ -11,7 +11,7 @@ const Rating = () => {
           <span
             key={idx}
             onClick={() => setStarRating(idx + 1)}
-            className={`text-2xl ${
+            className={`text-3xl ${
               idx < starRating ? 'text-label' : 'text-[#ccc]'
             }`}
           >
