@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import {
   getActiveMeeting,
@@ -66,7 +67,15 @@ export default function ChatBox() {
   };
   // checks if user is logge in
   if (!auth.id) {
-    return <h1>Please login and find a buddy to use the chat feature</h1>;
+    return (
+      <h1>
+        Please{' '}
+        <Link to="/login" className="text-blue-400">
+          login
+        </Link>{' '}
+        and find a buddy to use the chat feature
+      </h1>
+    );
   }
   // checks if user has a buddy
   if (meeting.buddyId === undefined) {
@@ -81,7 +90,7 @@ export default function ChatBox() {
     <div className="flex overflow-hidden h-[calc(100vh_-_48px)] orange-linear-bg">
       <div className="lg:w-2/5">
         <img
-          src="src/assets/bgImg/chatView.jpg"
+          src="assets/bgImg/chatView.jpg"
           alt="Two People eating a bowl of food with chopsticks!"
           className="hidden lg:block object-cover h-full w-full"
         />
@@ -107,8 +116,10 @@ export default function ChatBox() {
               <>
                 <div>
                   {meeting.messages.map((message) => {
-                    const url = meeting.buddy.avatarUrl;
-                    console.log(url);
+                    const url =
+                      meeting.user.firstName === auth.firstName
+                        ? meeting.buddy.avatarUrl
+                        : meeting.user.avatarUrl;
                     return (
                       <div key={message.id} className="flex">
                         {message.senderId !== auth.id && (
