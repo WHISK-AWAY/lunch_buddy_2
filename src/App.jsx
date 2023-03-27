@@ -13,6 +13,7 @@ import {
   SignInForm,
   RegisterForm,
   UserAccount,
+  Homepage
 } from './pages';
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
     <React.Fragment>
       <NavBar />
       <Routes>
-        <Route path="/" element={<MockResponsive />} />
+        <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<SignInForm />} />
         <Route path="/account" element={<UserAccount />} />
         <Route path="/register" element={<RegisterForm />} />
