@@ -117,6 +117,7 @@ export default function ChatBox() {
                 <div>
                   {meeting.messages.map((message) => {
                     const url = meeting.buddy.avatarUrl;
+                    console.log(url);
                     return (
                       <div key={message.id} className="flex">
                         {message.senderId !== auth.id && (
