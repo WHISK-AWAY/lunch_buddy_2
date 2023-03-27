@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
 import { listOfStates } from '../../utilities/registerHelpers';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  checkUserCreated,
+  fetchUser,
+  updateUser,
+} from '../../redux/slices/userSlice';
 
-const inputs = JSON.parse(localStorage.getItem('registerForm')) || {
+const inputs = {
   firstName: '',
   lastName: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
   address1: '',
   address2: '',
   city: '',
@@ -21,8 +24,6 @@ const inputs = JSON.parse(localStorage.getItem('registerForm')) || {
 const requiredFields = [
   'firstName',
   'LastName',
-  'email',
-  'password',
   'address1',
   'city',
   'state',
@@ -33,39 +34,66 @@ const requiredFields = [
 
 const EditUserForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [formInputs, setFormInputs] = useState(inputs);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   if (token) {
-  //     navigate('/');
-  //   }
-  // }, []);
+  const authUser = useSelector((state) => state.auth.user);
+  const userInfo = useSelector((state) => state.user.user);
 
-  const handleSubmit = (e) => {
-    //   e.preventDefault();
-    //   const missingFields = [];
-    //   for (let field of requiredFields) {
-    //     if (formInputs[field] === '') {
-    //       missingFields.push(field);
-    //     }
-    //   }
-    //   if (missingFields.length > 0) {
-    //     console.log(missingFields.join(','));
-    //     alert(`Missing required fields: ${missingFields.join(', ')}`);
-    //   } else {
-    //     localStorage.setItem('registerForm', JSON.stringify(formInputs));
-    //     console.log(formInputs);
-    //     navigate('/register/aboutyourself');
-    //   }
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/');
+    }
+  }, []);
+
+  useEffect(() => {
+    async function getUser() {
+      await dispatch(fetchUser(authUser.id));
+    }
+    if (authUser.id) {
+      getUser();
+    }
+  }, [authUser]);
+
+  useEffect(() => {
+    if (userInfo.id) {
+      for (let key in formInputs) {
+        setFormInputs((prev) => ({ ...prev, [key]: userInfo[key] }));
+      }
+    }
+    // setFormInputs(userInfo);
+  }, [userInfo]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const missingFields = [];
+    for (let field of requiredFields) {
+      if (formInputs[field] === '') {
+        missingFields.push(field);
+      }
+    }
+    if (missingFields.length > 0) {
+      alert(`Missing required fields: ${missingFields.join(', ')}`);
+    } else {
+      await dispatch(updateUser(formInputs));
+    }
+
+    const asyncError = await dispatch(checkUserCreated());
+    if (asyncError.payload.error) {
+      console.log('async error', typeof asyncError.payload.error);
+      alert(`Error: ${asyncError.payload.error}`);
+    } else {
+      navigate('/');
+    }
   };
   return (
     <div className="h-screen flex justify-center lg:grow items-center">
       <div className="w-full xs:w-4/5 sm:w-3/5 md:w-1/2">
         <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8">
           <h1 className="text-center text-2xl mb-6 text-red-400 font-bold font-sans col-span-full">
-            Sign Up
+            Edit Information
           </h1>
           <div className="relative col-span-3 w-full">
             <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
@@ -94,7 +122,7 @@ const EditUserForm = () => {
               }
             />
           </div>
-          <div className="relative col-span-full">
+          {/* <div className="relative col-span-full">
             <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
               Email
             </label>
@@ -134,7 +162,7 @@ const EditUserForm = () => {
                 }))
               }
             />
-          </div>
+          </div> */}
           <div className="relative col-span-4">
             <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
               Address 1
