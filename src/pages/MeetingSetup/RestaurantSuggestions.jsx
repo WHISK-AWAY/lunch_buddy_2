@@ -59,7 +59,7 @@ export default function RestaurantSuggestions(props) {
     <div id="restaurant-results-page">
       <h1>Restaurant Results</h1>
       <Wrapper apiKey={MAPS_API_KEY}>
-        <MapComponent center={center} zoom={14} points={restaurants} />
+        <MapComponent center={center} zoom={12} points={restaurants} />
       </Wrapper>
       {restaurants.businesses?.slice(0, 15).map((restaurant) => {
         return (
