@@ -115,6 +115,7 @@ export default function ChatBox() {
                           <img
                             className="self-center mr-3 w-10 h-10 rounded-full"
                             src={url}
+                            alt="buddy profile image"
                           ></img>
                         )}
                         <p
