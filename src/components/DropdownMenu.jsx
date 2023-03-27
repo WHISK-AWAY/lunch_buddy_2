@@ -35,8 +35,12 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
         ) : (
           <>
             {/* NAV LINKS WHEN SIGNED IN */}
-            <DropDownItem handleClick={handleClick}>ACCOUNT</DropDownItem>
-            <DropDownItem handleClick={handleClick}>NEW MEETING</DropDownItem>
+            <DropDownItem handleClick={handleClick} linkTo="/account">
+              ACCOUNT
+            </DropDownItem>
+            <DropDownItem handleClick={handleClick} linkTo="/match">
+              NEW MEETING
+            </DropDownItem>
             <DropDownItem handleClick={handleClick}>MESSAGES</DropDownItem>
             <DropDownItem handleClick={handleLogout}>LOG OUT</DropDownItem>
           </>
