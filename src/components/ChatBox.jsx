@@ -16,6 +16,7 @@ export default function ChatBox() {
   // currently the room is hard coded but I'd like it to be a mixture of the meeting id user id and buddy id or something of that sor
   const meeting = useSelector((state) => state.meetings.meeting);
   const auth = useSelector((state) => state.auth.user);
+  //   console.log(auth);
   const today = new Date();
   const dayOfMonth = today.getUTCDate();
   const monthToday = today.getMonth();
@@ -71,6 +72,17 @@ export default function ChatBox() {
       onMessageSubmit(e);
     }
   };
+  if (!auth.id) {
+    return <h1>Please login and find a buddy to use the chat feature</h1>;
+  }
+
+  if (meeting.buddyId === undefined) {
+    return (
+      <div className=" text-center">
+        Please find a buddy to access the chat feature
+      </div>
+    );
+  }
 
   return (
     <div className="flex overflow-hidden h-[calc(100vh_-_48px)] orange-linear-bg">
@@ -91,12 +103,14 @@ export default function ChatBox() {
             </h2>
           </div>
           <div className="grow m-1 p-5 overflow-y-auto">
-            {!meeting.messages ? (
-              <div className="text-center">No Messages</div>
+            {meeting?.messages < 1 || meeting?.messages === undefined ? (
+              <div className=" text-center">
+                Don't be shy! Be the first to talk to your buddy
+              </div>
             ) : (
               <>
                 <div>
-                  {meeting?.messages?.map((message) => {
+                  {meeting.messages.map((message) => {
                     const url = meeting.buddy.avatarUrl;
                     return (
                       <div key={message.id} className="flex">
