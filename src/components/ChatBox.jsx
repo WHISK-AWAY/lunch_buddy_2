@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
-import sendIcon from '../assets/icons/send.svg';
 import {
   getActiveMeeting,
   addMessageActiveMeeting,
@@ -16,6 +15,7 @@ export default function ChatBox() {
   //   const [meeting, setMeeting] = useState('');
   // currently the room is hard coded but I'd like it to be a mixture of the meeting id user id and buddy id or something of that sor
   const meeting = useSelector((state) => state.meetings.meeting);
+  const auth = useSelector((state) => state.auth.user);
   const today = new Date();
   const dayOfMonth = today.getUTCDate();
   const monthToday = today.getMonth();
@@ -97,17 +97,18 @@ export default function ChatBox() {
               <>
                 <div>
                   {meeting?.messages?.map((message) => {
+                    const url = meeting.buddy.avatarUrl;
                     return (
                       <div key={message.id} className="flex">
-                        {message.senderId === 1 && (
+                        {message.senderId !== auth.id && (
                           <img
                             className="self-center mr-3 w-10 h-10 rounded-full"
-                            src="https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cmFuZG9tfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+                            src={url}
                           ></img>
                         )}
                         <p
                           className={` py-2 px-4  min-w-[60px] text-center my-2  break-words font-poppins  font-light  text-sm ${
-                            message.senderId === 8
+                            message.senderId === auth.id
                               ? 'bg-sender-message ml-auto text-white rounded-l-full rounded-tr-full  '
                               : 'bg-buddy-message rounded-r-full rounded-tl-full '
                           }`}
