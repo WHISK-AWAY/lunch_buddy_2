@@ -56,7 +56,7 @@ export default function BuddyList(props) {
    */
   if (!buddiesList || buddiesList?.isLoading || !user || user.isLoading)
     return <h1>Loading...</h1>;
-  if (buddiesList.error || user.error)
+  if (buddiesList.error || user.error || auth.error)
     return (
       <h1>
         An error occurred. Back to <Link to="/">home</Link>
