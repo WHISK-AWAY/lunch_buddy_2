@@ -84,10 +84,6 @@ export default function MeetingSetup(props) {
     });
   }
 
-  function handleTimeslot(timeOption) {
-    setTimeSlot(timeOption);
-  }
-  // bg-gradient-to-tr from-headers/20 to-white
   return (
     <div
       id="search-params-page"
@@ -96,7 +92,6 @@ export default function MeetingSetup(props) {
       <div className="lg:basis-1/2 flex flex-col justify-center items-center">
         <div id="search-params-container" className="">
           <form
-            action="/"
             onSubmit={handleSearchSubmit}
             className="flex flex-col gap-5 mb-5 items-center"
           >
@@ -138,7 +133,7 @@ export default function MeetingSetup(props) {
                       key={timeOption.dateObj}
                       onClick={(e) => {
                         e.preventDefault();
-                        handleTimeslot(timeOption);
+                        setTimeSlot(timeOption);
                       }}
                       className={`rounded-full px-3 py-1 ${
                         timeOption.startTime === timeSlot?.startTime
