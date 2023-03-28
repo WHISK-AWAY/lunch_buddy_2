@@ -45,6 +45,24 @@ export const updateMeeting = createAsyncThunk(
   }
 );
 
+// export const getActiveMeeting = createAsyncThunk(
+//   'meeting/active/messages',
+//   async (token, { rejectWithValue }) => {
+//     try {
+//       const { data } = await axios.get(
+//         API_URL + `/api/meeting/active/messages`,
+//         {
+//           headers: { authorization: token },
+//         }
+//       );
+//       return data;
+//     } catch (err) {
+//       console.log(err);
+//       return rejectWithValue(err);
+//     }
+//   }
+// );
+
 export const getMeeting = createAsyncThunk(
   'meeting/getOne',
   async ({ token, meetingId, userId }, { rejectWithValue }) => {
@@ -99,24 +117,6 @@ export const deleteMeeting = createAsyncThunk(
     } catch (error) {
       console.log(error);
       return rejectWithValue(error);
-    }
-  }
-);
-
-export const getActiveMeeting = createAsyncThunk(
-  'meeting/active/messages',
-  async (token, { rejectWithValue }) => {
-    try {
-      const { data } = await axios.get(
-        API_URL + `/api/meeting/active/messages`,
-        {
-          headers: { authorization: token },
-        }
-      );
-      return data;
-    } catch (err) {
-      console.log(err);
-      return rejectWithValue(err);
     }
   }
 );
@@ -254,7 +254,7 @@ const meetingSlice = createSlice({
       })
       .addCase(createMeeting.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // Update a meeting
@@ -268,7 +268,7 @@ const meetingSlice = createSlice({
       })
       .addCase(updateMeeting.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // Get a single meeting (Already includes the messages)
@@ -284,7 +284,7 @@ const meetingSlice = createSlice({
       })
       .addCase(getMeeting.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.payload.response.data;
       })
       .addCase(getActiveMeeting.fulfilled, (state, action) => {
         state.meeting = action.payload;
@@ -296,7 +296,7 @@ const meetingSlice = createSlice({
       })
       .addCase(getActiveMeeting.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // Delete a meeting
@@ -315,7 +315,7 @@ const meetingSlice = createSlice({
       })
       .addCase(deleteMeeting.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // Get a messages for a particular meeting
@@ -330,7 +330,7 @@ const meetingSlice = createSlice({
       })
       .addCase(getMeetingMessages.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // Add a message
@@ -357,7 +357,7 @@ const meetingSlice = createSlice({
       })
       .addCase(addMessageActiveMeeting.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // Add a rating to a meeting
