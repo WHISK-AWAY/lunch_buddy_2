@@ -9,7 +9,7 @@ const socket = io.connect(PORT);
 
 export default function ChatBox() {
   // used later for getting proper params
-  // const {meetingId} = useParams();
+  const { meetingId } = useParams();
   const dispatch = useDispatch();
   const [newMessage, setNewMessage] = useState('');
   const meeting = useSelector((state) => state.meetings.meeting);
@@ -22,11 +22,11 @@ export default function ChatBox() {
   useEffect(() => {
     const asyncStart = async () => {
       const token = localStorage.getItem('token');
-      // hard coded until useParams
+
       const disMeeting = await dispatch(
         getMeetingMessages({
           token: token,
-          meetingId: 48,
+          meetingId,
         })
       );
       socket.emit('joinRoom', disMeeting.payload.id);
@@ -48,7 +48,7 @@ export default function ChatBox() {
           dispatch(
             getMeetingMessages({
               token: token,
-              meetingId: 48,
+              meetingId,
             })
           );
         }, 500);
@@ -70,7 +70,7 @@ export default function ChatBox() {
       const message = await dispatch(
         addMessage({
           token,
-          meetingId: 48,
+          meetingId,
           newMessage: newMessage,
         })
       );
