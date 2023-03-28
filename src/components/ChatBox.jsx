@@ -44,7 +44,6 @@ export default function ChatBox() {
       const asyncEvent = async () => {
         const token = localStorage.getItem('token');
         setTimeout(() => {
-          // hard coded until useParams
           dispatch(
             getMeetingMessages({
               token: token,
