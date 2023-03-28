@@ -182,7 +182,7 @@ const EditUserForm = () => {
             <input
               className={`${
                 inputValidator.firstName ? invalidClass : null
-              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
               value={formInputs.firstName}
               onChange={(e) =>
                 setFormInputs((prev) => ({
@@ -199,7 +199,7 @@ const EditUserForm = () => {
             <input
               className={`${
                 inputValidator.lastName ? invalidClass : null
-              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
               value={formInputs.lastName}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, lastName: e.target.value }))
@@ -254,7 +254,7 @@ const EditUserForm = () => {
             <input
               className={`${
                 inputValidator.address1 ? invalidClass : null
-              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
               value={formInputs.address1}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, address1: e.target.value }))
@@ -266,7 +266,7 @@ const EditUserForm = () => {
               Address 2
             </label>
             <input
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray"
+              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]"
               value={formInputs.address2}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, address2: e.target.value }))
@@ -280,7 +280,7 @@ const EditUserForm = () => {
             <input
               className={`${
                 inputValidator.lastName ? invalidClass : null
-              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
               value={formInputs.city}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, city: e.target.value }))
@@ -313,7 +313,7 @@ const EditUserForm = () => {
             <input
               className={`${
                 inputValidator.zip ? invalidClass : null
-              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
               value={formInputs.zip}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, zip: e.target.value }))
@@ -327,7 +327,7 @@ const EditUserForm = () => {
             <input
               className={`${
                 inputValidator.age ? invalidClass : null
-              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
               type="number"
               value={formInputs.age}
               onChange={(e) =>
@@ -341,7 +341,7 @@ const EditUserForm = () => {
               Gender
             </label>
             <select
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray bg-white"
+              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray bg-white text-xs"
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, gender: e.target.value }))
               }
