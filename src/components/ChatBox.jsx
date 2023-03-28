@@ -1,15 +1,18 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import {
   getActiveMeeting,
   addMessageActiveMeeting,
 } from '../redux/slices/meetingSlice';
+const PORT = import.meta.env.SOCKET_URL || 'http://localhost:3333';
 
-const socket = io.connect('http://localhost:3333');
+const socket = io.connect(PORT);
 
 export default function ChatBox() {
+  // used later for getting proper params
+  useParams();
   const dispatch = useDispatch();
   const [newMessage, setNewMessage] = useState('');
   const meeting = useSelector((state) => state.meetings.meeting);
@@ -54,7 +57,10 @@ export default function ChatBox() {
     if (newMessage === '') return;
     else {
       const token = localStorage.getItem('token');
-      dispatch(addMessageActiveMeeting({ token, newMessage }));
+      const message = await dispatch(
+        addMessageActiveMeeting({ token, newMessage })
+      );
+      console.log(message);
       socket.emit('message-event', meeting.id);
       setNewMessage('');
     }
