@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthUser, logOut } from '../redux/slices/authSlice';
 import DropDownItem from './DropDownItem';
 import Homepage from '../pages/Homepage/Homepage';
+import { useNavigate } from 'react-router-dom';
 
 const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const authUser = useSelector(selectAuthUser);
 
@@ -15,6 +17,7 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
   function handleLogout() {
     setExpandMenu(false);
     dispatch(logOut());
+    navigate('/');
   }
 
   return (
