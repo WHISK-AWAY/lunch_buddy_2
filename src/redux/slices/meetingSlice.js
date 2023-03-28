@@ -198,6 +198,8 @@ const meetingSlice = createSlice({
   reducers: {
     resetMeetingStatus: (state) => {
       state.status = {};
+      state.meetings = [];
+      state.meeting = {};
       state.error = '';
       state.isLoading = false;
     },
