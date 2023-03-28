@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
 import { listOfStates } from '../../utilities/registerHelpers';
 import { INVALID_CLASS } from '../../utilities/invalidInputClass';
@@ -141,7 +141,7 @@ const RegisterForm = () => {
         className="lg:basis-1/2 flex flex-col justify-center items-center  basis-full overflow-auto h-full pb-16 pt-24"
       >
         <div className="h-full lg:w-4/5 md:w-3/5 w-4/5">
-          <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8 pb-16">
+          <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8 pb-6">
             <h1 className="text-center text-2xl mb-6 text-headers font-bold font-sans col-span-full">
               SIGN UP
             </h1>
@@ -298,6 +298,7 @@ const RegisterForm = () => {
                 onChange={(e) =>
                   setFormInputs((prev) => ({ ...prev, state: e.target.value }))
                 }
+                defaultValue={inputs.state}
               >
                 {listOfStates.map((state) => {
                   return (
@@ -355,19 +356,24 @@ const RegisterForm = () => {
                 onChange={(e) =>
                   setFormInputs((prev) => ({ ...prev, gender: e.target.value }))
                 }
+                defaultValue={inputs.gender}
               >
                 <option value="M">Male</option>
                 <option value="F">Female</option>
                 <option value="Other">Other</option>
-                <option value="DidNotDisclose" selected>
-                  Prefer Not To Say
-                </option>
+                <option value="DidNotDisclose">Prefer Not To Say</option>
               </select>
             </div>
             <div className="col-span-full md:w-3/5 md:mx-auto">
               <FormButton handleSubmit={handleSubmit}>CONTINUE</FormButton>
             </div>
           </form>
+          <p className="text-center">
+            already have an account?{' '}
+            <Link to="/login">
+              <span className="text-headers hover:underline">sign in</span>
+            </Link>
+          </p>
         </div>
       </div>
       <div
