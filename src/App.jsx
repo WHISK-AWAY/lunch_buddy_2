@@ -21,7 +21,7 @@ function App() {
     <div className="font-tenor">
       <NavBar />
       <Routes>
-        <Route path="/chat" element={<ChatBox />}></Route>
+        <Route path="/meeting/:meetingId/chat" element={<ChatBox />}></Route>
         {/* <Route path="/" element={<MockResponsive />} /> */}
         <Route path="/login" element={<SignInForm />} />
         <Route path="/account" element={<UserAccount />} />
