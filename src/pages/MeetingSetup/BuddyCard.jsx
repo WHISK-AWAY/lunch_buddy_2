@@ -27,9 +27,11 @@ export default function BuddyCard(props) {
       <div className="buddy-info flex flex-col gap-4 shrink grow-0 basis-4/5">
         <div className="buddy-header-wrapper flex flex-col gap-1">
           <div className="buddy_name text-headers font-semibold self-center text-lg">
-            {buddy.fullName.toUpperCase()}
+            <p>{buddy.fullName.toUpperCase()}</p>
           </div>
-          <div className="buddy-location self-center text-sm">{`${buddy.city}, ${buddy.state}`}</div>
+          <div className="buddy-location self-center text-sm">
+            <p>{`${buddy.city}, ${buddy.state}`}</p>
+          </div>
         </div>
         <div className="buddy_bio w-full text-center">{buddy.aboutMe}</div>
         <div className="taglist-wrapper flex flex-row flex-nowrap justify-start w-full">
@@ -59,7 +61,7 @@ export default function BuddyCard(props) {
                     key={tag.id}
                     className="buddy_tag grow text-center rounded-full text-sm px-3 py-1 button text-white"
                   >
-                    {tag.tagName}
+                    <p>{tag.tagName}</p>
                   </div>
                 );
               })}
@@ -71,7 +73,7 @@ export default function BuddyCard(props) {
                     key={tag.id}
                     className="buddy_tag grow text-center rounded-full text-sm px-3 py-1 bg-white border border-primary-gray"
                   >
-                    {tag.tagName}
+                    <p>{tag.tagName}</p>
                   </div>
                 );
               })}
