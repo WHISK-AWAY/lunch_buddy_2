@@ -1,7 +1,9 @@
 export { default as MeetingSetup } from './MeetingSetup/MeetingSetup';
 export { default as BuddyList } from './MeetingSetup/BuddyList';
+export { default as BuddyCard } from './MeetingSetup/BuddyCard';
 export { default as MeetingRecap } from './MeetingSetup/MeetingRecap';
 export { default as RestaurantSuggestions } from './MeetingSetup/RestaurantSuggestions';
+export { default as RestaurantCard } from './MeetingSetup/RestaurantCard';
 export { default as UserAccount } from './UserAccount/UserAccount';
 export { default as NavBar } from '../components/NavBar';
 export { default as AboutForm } from './aboutYourself/AboutForm';

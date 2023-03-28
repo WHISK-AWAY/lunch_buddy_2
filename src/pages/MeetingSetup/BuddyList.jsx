@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -9,6 +9,7 @@ import {
   selectAuth,
   tryToken,
 } from '../../redux/slices';
+import { BuddyCard } from '../index';
 
 const MAX_BUDDY_TAGS = 3;
 
@@ -28,7 +29,7 @@ export default function BuddyList(props) {
     }
 
     if (!searchRadius || !timeSlot) {
-      console.warn('uh oh');
+      console.warn('searchRadius/timeSlot missing');
     } else {
       dispatch(findBuddies({ searchRadius }));
     }
@@ -51,44 +52,20 @@ export default function BuddyList(props) {
   if (buddiesList.searchResults.length === 0) return <h1>No friends :(</h1>;
 
   return (
-    <div id="buddies-list-page">
-      <ul>
-        {buddiesList.searchResults?.map((buddy) => {
-          return (
-            <div key={buddy.id} className="buddy_card">
-              <button
-                className="select_buddy"
-                onClick={() => selectBuddy(buddy)}
-              >
-                +
-              </button>
-              <div className="buddy_avatar">
-                <img src={buddy.avatarUrl}></img>
-              </div>
-              <div className="buddy_name">{buddy.fullName}</div>
-              <div className="buddy_bio">{buddy.aboutMe}</div>
-              <div className="buddy_tags_container">
-                {/* Filter buddy tags for those overlapping our own, 
-                up to a limit set by MAX_BUDDY_TAGS constant.
-                
-                Should we instead list them all & hide the extras (> 1 row) under
-                an expandy-thingy?
-                */}
-                {buddy.tags
-                  .filter((tag) => myTagList.includes(tag.id))
-                  .map((tag) => {
-                    return (
-                      <div key={tag.id} className="buddy_tag">
-                        {tag.tagName}
-                      </div>
-                    );
-                  })
-                  .slice(0, MAX_BUDDY_TAGS)}
-              </div>
-            </div>
-          );
-        })}
-      </ul>
+    <div className="buddies-list-page flex flex-col items-center gap-10 md:gap-8 pt-8 text-primary-gray">
+      <h1 className="text-headers font-fredericka text-3xl pb-10 pt-20">
+        AVAILABLE BUDDIES
+      </h1>
+      {buddiesList.searchResults?.map((buddy) => {
+        return (
+          <BuddyCard
+            key={buddy.id}
+            buddy={buddy}
+            myTagList={myTagList}
+            selectBuddy={selectBuddy}
+          />
+        );
+      })}
       <Link to="/match/restaurants">To Restaurant Suggestion Page</Link>
     </div>
   );

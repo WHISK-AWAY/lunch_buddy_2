@@ -140,10 +140,10 @@ export default function MeetingSetup(props) {
                         e.preventDefault();
                         handleTimeslot(timeOption);
                       }}
-                      className={` rounded-full px-3 py-1 border-primary-gray ${
+                      className={`rounded-full px-3 py-1 ${
                         timeOption.startTime === timeSlot?.startTime
                           ? 'button text-white'
-                          : 'bg-white border'
+                          : 'bg-white border border-primary-gray'
                       }`}
                     >
                       {`${timeOption.startTime} - ${timeOption.endTime}`}

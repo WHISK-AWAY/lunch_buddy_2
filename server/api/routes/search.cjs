@@ -6,6 +6,7 @@ const geolib = require('geolib');
 const dotenv = require('dotenv').config();
 const axios = require('axios');
 
+const { SAFE_USER_FIELDS } = require('../../constants.cjs');
 const YELP_API_KEY = process.env.YELP_API_KEY;
 
 const milesToMeters = (miles) => {
@@ -36,15 +37,7 @@ router.get('/', requireToken, async (req, res, next) => {
         model: Tag,
         include: { model: Category },
       },
-      attributes: [
-        'firstName',
-        'lastName',
-        'fullName',
-        'id',
-        'gender',
-        'avatarUrl',
-        'aboutMe',
-      ],
+      attributes: SAFE_USER_FIELDS,
       where: {
         status: 'active',
         id: { [Op.ne]: [+req.user.id] },

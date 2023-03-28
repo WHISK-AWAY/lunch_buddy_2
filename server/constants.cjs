@@ -9,6 +9,9 @@ const SAFE_USER_FIELDS = [
   'lastName',
   'gender',
   'aboutMe',
+  'city',
+  'state',
+  'avatarUrl',
 ];
 
 module.exports = { SAFE_USER_FIELDS };
