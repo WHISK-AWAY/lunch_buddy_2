@@ -18,6 +18,7 @@ const Homepage = () => {
       >
         <div
           id="bg-img-container"
+          alt="two women holding coffee smiling at each other"
           className=" bg-[url('/assets/bgImg/connect.jpg')] self-right md:h-screen md:w-full md:bg-cover bg-cover h-[60svh] bg-no-repeat md:self-start sm:bg-right "
           data-aos="fade-up"
           data-aos-delay="400"
@@ -54,6 +55,7 @@ const Homepage = () => {
       >
         <div
           id="bg-img-container"
+          alt="dark plate on the table with toast on the bed of spinach, avocado slices and eggs on top"
           className="md:w-1/2 bg-[url('/assets/bgImg/explore.jpg')] h-[70svh] md:h-screen bg-no-repeat bg-cover bg-left self-end w-full pl-6 md:self-end"
           data-aos="fade-right"
           data-aos-delay="300"
@@ -89,6 +91,7 @@ const Homepage = () => {
       >
         <div
           id="bg-img-container"
+          alt="two women giggling while sitting at the table in the cafe"
           className="bg-[url('/assets/bgImg/expand.jpg')] h-[65svh] md:h-screen md:w-full bg-no-repeat bg-cover self-right sm:bg-right "
           data-aos="zoom-in-right"
           data-aos-delay="300"
@@ -125,6 +128,7 @@ const Homepage = () => {
       >
         <div
           id="bg-img-container"
+          alt="lady sitting at the table with her feet on the chair with a bowl of pasta, holding her phone in the left hand"
           className="md:w-1/2 bg-[url('/assets/bgImg/join.jpg')] md:h-screen bg-no-repeat bg-right w-full bg-cover self-end h-[60svh]"
           data-aos="fade-left"
           data-aos-delay="300"
