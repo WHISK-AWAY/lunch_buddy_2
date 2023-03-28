@@ -12,7 +12,6 @@ export default function ChatBox() {
   // const {meetingId} = useParams();
   const dispatch = useDispatch();
   const [newMessage, setNewMessage] = useState('');
-  const [errorOccurred, setErrorOccurred] = useState(false);
   const meeting = useSelector((state) => state.meetings.meeting);
   const auth = useSelector((state) => state.auth.user);
   const today = new Date();
@@ -76,10 +75,7 @@ export default function ChatBox() {
         })
       );
       if (message?.error?.message) {
-        setErrorOccurred(true);
-        setTimeout(() => {
-          setErrorOccurred(false);
-        }, 2000);
+        alert('An error has occurred. Please try again later.');
       } else {
         socket.emit('message-event', meeting.id);
         setNewMessage('');
@@ -177,7 +173,7 @@ export default function ChatBox() {
         </div>
         <form
           id="form"
-          className="w-11/12  self-center h-16 lg:flex gap-3 bg-transparent"
+          className="w-11/12  self-center h-12 lg:flex gap-3 bg-transparent"
         >
           <textarea
             type="text"
