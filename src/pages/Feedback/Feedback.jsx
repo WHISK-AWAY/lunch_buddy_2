@@ -39,7 +39,7 @@ const Feedback = () => {
               (user.id !== meetingFromDispatch.userId &&
                 user.id !== meetingFromDispatch.buddyId))
           ) {
-            // navigate('/');
+            navigate('/');
           }
         }
       }
@@ -81,13 +81,13 @@ const Feedback = () => {
     }
   };
 
-  // const userReviews = meeting?.ratings?.reduce((acc, rating) => {
-  //   acc[rating.userId] = true;
-  //   return acc;
-  // }, {});
-  // if (userReviews && userReviews[user.id]) {
-  //   return <p>This user has already reviewed</p>;
-  // }
+  const userReviews = meeting?.ratings?.reduce((acc, rating) => {
+    acc[rating.userId] = true;
+    return acc;
+  }, {});
+  if (userReviews && userReviews[user.id]) {
+    return <p>This user has already reviewed</p>;
+  }
 
   return (
     <div className="flex">
