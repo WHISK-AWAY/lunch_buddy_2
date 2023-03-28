@@ -6,7 +6,6 @@ import { fetchUser, selectUser } from '../../redux/slices/userSlice';
 import squaresSolid from '../../assets/icons/squares-solid.svg';
 import pencil from '../../assets/icons/pencil.svg';
 
-
 const UserAccount = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,7 +17,6 @@ const UserAccount = () => {
   const [socialTags, setSocialTags] = useState([]);
   const [dietaryTags, setDietaryTags] = useState([]);
   const [cuisineTags, setCuisineTags] = useState([]);
-
 
   useEffect(() => {
     dispatch(tryToken());
@@ -43,14 +41,6 @@ const UserAccount = () => {
     }
   }, [dispatch, auth]);
 
-
-  useEffect(() => {
-    if (token && auth.user.id) {
-      dispatch(fetchUser(auth.user.id));
-    }
-  }, [dispatch, auth]);
-
-
   const tags = user.tags;
 
   useEffect(() => {
@@ -73,8 +63,8 @@ const UserAccount = () => {
     setCuisineTags(cuisine || []);
   }, [user]);
 
-
-  if (!tags) return <p>Loading tags...</p>;
+  if (auth.user.isLoading) return <p>Loading user info...</p>;
+  if (!auth.user?.id || !user.id) return <p>User login check failed...</p>;
 
   return (
     <div
@@ -107,7 +97,9 @@ const UserAccount = () => {
         </div>
 
         <div className="px-8 py-7 overflow-auto">
-        <p className="pt-12 flex items-center justify-center text-sm">{user.city.toUpperCase()}, {user.state}</p>
+          <p className="pt-12 flex items-center justify-center text-sm">
+            {user.city.toUpperCase()}, {user.state}
+          </p>
           <div id="about-me" className="pt-7 text-justify text-primary-gray">
             <p>{auth.user.aboutMe}</p>
           </div>
@@ -203,7 +195,8 @@ const UserAccount = () => {
           </div>
         </div>
       </div>
-      <div id="bg-img"
+      <div
+        id="bg-img"
         className="bg-cover
           bg-[url('/assets/bgImg/accView.jpg')] basis-1/2 hidden lg:block h-full"
       ></div>
