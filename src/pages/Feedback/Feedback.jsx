@@ -51,24 +51,9 @@ const Feedback = () => {
         console.log('meeting.ratings', meetingFromDispatch.payload.ratings);
 
         if (meetingFromDispatch.meta.requestStatus === 'fulfilled') {
-          console.log('checkuser.id', user.id);
-          // console.log('user left review?', userReviews[user?.id]);
-          console.log(
-            'user in meeting?',
-            user.id !== meetingFromDispatch.userId &&
-              user.id !== meetingFromDispatch.buddyId
-          );
-          console.log(
-            'meeting not Confirmed?',
-            meetingFromDispatch.payload.meetingStatus !== 'confirmed'
-          );
-          console.log(
-            'meetingFromDispatch.payload',
-            meetingFromDispatch.payload
-          );
           if (
             user.id &&
-            (meetingFromDispatch.payload.meetingStatus !== 'confirmed' ||
+            (meetingFromDispatch.payload.meetingStatus !== 'closed' ||
               meetingFromDispatch.payload.isClosed ||
               (user.id !== meetingFromDispatch.userId &&
                 user.id !== meetingFromDispatch.buddyId))
@@ -80,6 +65,15 @@ const Feedback = () => {
     }
     fetchMeeting();
   }, [user]);
+
+  const userReviews = meeting?.ratings?.reduce((acc, rating) => {
+    console.log('reducer rating', rating.userId);
+    acc[rating.userId] = true;
+    return acc;
+  }, {});
+  if (userReviews && userReviews[user.id]) {
+    return <p>This user has already reviewed</p>;
+  }
 
   async function submitRating(e) {
     e.preventDefault();
