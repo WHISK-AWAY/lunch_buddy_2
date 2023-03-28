@@ -11,7 +11,7 @@ const Homepage = () => {
     offset: 0,
   });
   return (
-    <div className="flex md:w-screen w-full flex-col scroll-smooth gap-20 text-primary-gray  md:py-16 md:gap-56 h-fit">
+    <div className="flex md:w-screen w-full flex-col scroll-smooth gap-20 text-primary-gray  md:py-16 md:gap-56 h-fit overflow-hidden">
       <div
         id="connect-section"
         className="flex md:flex-row flex-col md:w-full md:h-screen md:pl-20 pr-6 py-6 sm:p-6"
@@ -98,7 +98,7 @@ const Homepage = () => {
           <h1
             id="expand-header"
             className="w-fit self-end flex flex-col sm:self-center justify-start md:text-3xl text-xl align-top md:self-center md:justify-center md:items-center py-1"
-            data-aos="fade-up"
+            data-aos="zoom-in"
             data-aos-delay="700"
           >
             EXPAND
