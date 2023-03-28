@@ -44,13 +44,13 @@ export default function MeetingRecap(props) {
   }
 
   return (
-    <div className="recap-card h-[calc(100vh_-_75px)] w-screen flex flex-col gap-12 items-center orange-linear-bg lg:bg-none lg:bg-white lg:flex-row lg:items-start bg-fixed text-primary-gray overflow-hidden">
+    <div className="recap-card h-[calc(100vh_-_75px)] w-screen flex flex-col gap-12 items-center orange-linear-bg lg:bg-none lg:bg-white lg:flex-row lg:items-center bg-fixed text-primary-gray overflow-hidden">
       <div className="recap-image hidden bg-left lg:block lg:h-full lg:basis-1/2 bg-[url('/assets/bgImg/meetingConfView.jpg')] bg-cover overflow-hidden"></div>
-      <div className="recap-info flex flex-col basis-full h-full pt-16 lg:basis-1/2 gap-12 items-center overflow-auto">
+      <div className="recap-info flex flex-col basis-full h-full pt-16 lg:basis-1/2 gap-12 items-center overflow-auto lg:justify-center">
         <div className="recap-header text-headers text-xl font-semibold">
           <h1>MEETING RECAP</h1>
         </div>
-        <div className="recap-body flex flex-col items-center">
+        <div className="recap-body flex flex-col items-center gap-1">
           <div className="buddy-avatar-container rounded-full mb-6">
             <img
               src={buddy.avatarUrl}
@@ -58,7 +58,7 @@ export default function MeetingRecap(props) {
               className="bg-white object-cover aspect-square w-32 h-32 rounded-full z-10 p-1 drop-shadow-md"
             />
           </div>
-          <h2 className="text-lg font-semibold">
+          <h2 className="text-lg font-semibold text-headers">
             {buddy.fullName.toUpperCase()}
           </h2>
           <p>
