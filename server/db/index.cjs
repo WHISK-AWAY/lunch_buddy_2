@@ -5,6 +5,7 @@ const Message = require('./models/Message.cjs');
 const Rating = require('./models/Rating.cjs');
 const Tag = require('./models/Tag.cjs');
 const User = require('./models/User.cjs');
+const Notification = require('./models/Notification.cjs');
 
 /**
  * ASSOCIATIONS
@@ -19,6 +20,13 @@ Category.hasMany(Tag);
 User.hasOne(Meeting);
 Meeting.belongsTo(User, { as: 'user', foreignKey: 'userId' });
 Meeting.belongsTo(User, { as: 'buddy', foreignKey: 'buddyId' });
+
+Meeting.hasMany(Notification);
+Notification.belongsTo(Meeting);
+
+User.hasOne(Notification);
+Notification.belongsTo(User, { as: 'user', foreignKey: 'userId' });
+Notification.belongsTo(User, { as: 'buddy', foreignKey: 'buddyId' });
 
 /**
  * TODO: I commented out the senderId in messages model --
@@ -78,4 +86,5 @@ module.exports = {
   Rating,
   Tag,
   User,
+  Notification,
 };
