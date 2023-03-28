@@ -8,13 +8,13 @@ const {
 const { Op } = require('sequelize');
 
 router.post('/', requireToken, async (req, res, next) => {
-  const { buddyId, lunchDate, yelpBusinessId } = req.body;
-  const bodyKeys = { buddyId, lunchDate, yelpBusinessId };
-  for (let key in bodyKeys) {
-    if (bodyKeys[key] === undefined || bodyKeys[key] === null)
-      delete bodyKeys[key];
-  }
   try {
+    const { buddyId, lunchDate, yelpBusinessId } = req.body;
+    const bodyKeys = { buddyId, lunchDate, yelpBusinessId };
+    for (let key in bodyKeys) {
+      if (bodyKeys[key] === undefined || bodyKeys[key] === null)
+        delete bodyKeys[key];
+    }
     if (buddyId === undefined) {
       res.status(404).send('please provide a buddyId');
     } else {

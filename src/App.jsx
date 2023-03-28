@@ -14,6 +14,7 @@ import {
   SignInForm,
   RegisterForm,
   UserAccount,
+  Homepage,
 } from './pages';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
     <div className="font-tenor">
       <NavBar />
       <Routes>
+        <Route path="/" element={<Homepage />} />
         <Route path="/meeting/:meetingId/chat" element={<ChatBox />}></Route>
         {/* <Route path="/" element={<MockResponsive />} /> */}
         <Route path="/login" element={<SignInForm />} />

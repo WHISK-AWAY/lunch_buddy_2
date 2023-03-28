@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: {
+    files: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+    transform: (content) => content.replace(/taos:/g, ''),
+  },
   theme: {
     fontFamily: {
       fredericka: ['Fredericka the Great', 'cursive'],
@@ -32,10 +35,19 @@ module.exports = {
       transitionProperty: {
         height: 'height',
       },
+      screens: {
+        '3xl': '1900px',
+      },
     },
   },
+  safelist: [
+    '!duration-0',
+    '!delay-0',
+    'html.js :where([class*="taos:"]:not(.taos-init))',
+  ],
   plugins: [
     require('@tailwindcss/forms')({ strategy: 'class' }),
+    require('taos/plugin'),
     // ...
   ],
 };
