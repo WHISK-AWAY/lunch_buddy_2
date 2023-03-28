@@ -52,7 +52,7 @@ export const getMeeting = createAsyncThunk(
       const token = localStorage.getItem('token');
       let route;
 
-      if (!token) token = window.localStorage.getItem('token');
+      // if (!token) token = window.localStorage.getItem('token');
       if (!token) throw new Error('No token provided');
 
       if (userId !== undefined) {
