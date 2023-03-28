@@ -101,7 +101,6 @@ const RegisterForm = () => {
     }
     setInputValidator(tempValidator);
     setFormInputs(tempFields);
-    console.log('tempValidator:', tempValidator);
 
     if (
       missingFields.length > 0 &&
