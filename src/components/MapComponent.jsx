@@ -4,9 +4,6 @@ import { default as mapPinBlue } from '../assets/icons/map-pin-blue.png';
 export default function MapComponent({ center, zoom, points }) {
   const ref = useRef();
 
-  center = center || defaultProps.center;
-  zoom = zoom || defaultProps.zoom;
-
   useEffect(() => {
     const map = new window.google.maps.Map(ref.current, {
       center,
