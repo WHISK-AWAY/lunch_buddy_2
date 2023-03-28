@@ -2,19 +2,17 @@ import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
-import {
-  getActiveMeeting,
-  addMessageActiveMeeting,
-} from '../redux/slices/meetingSlice';
+import { getMeetingMessages, addMessage } from '../redux/slices/meetingSlice';
 const PORT = import.meta.env.SOCKET_URL || 'http://localhost:3333';
 
 const socket = io.connect(PORT);
 
 export default function ChatBox() {
   // used later for getting proper params
-  useParams();
+  // const {meetingId} = useParams();
   const dispatch = useDispatch();
   const [newMessage, setNewMessage] = useState('');
+  const [errorAccoured, setErrorAccoured] = useState(false);
   const meeting = useSelector((state) => state.meetings.meeting);
   const auth = useSelector((state) => state.auth.user);
   const today = new Date();
@@ -25,7 +23,13 @@ export default function ChatBox() {
   useEffect(() => {
     const asyncStart = async () => {
       const token = localStorage.getItem('token');
-      const disMeeting = await dispatch(getActiveMeeting(token));
+      // hard coded until useParams
+      const disMeeting = await dispatch(
+        getMeetingMessages({
+          token: token,
+          meetingId: 48,
+        })
+      );
       socket.emit('joinRoom', disMeeting.payload.id);
     };
     asyncStart();
@@ -41,12 +45,18 @@ export default function ChatBox() {
       const asyncEvent = async () => {
         const token = localStorage.getItem('token');
         setTimeout(() => {
-          dispatch(getActiveMeeting(token));
+          // hard coded until useParams
+          dispatch(
+            getMeetingMessages({
+              token: token,
+              meetingId: 48,
+            })
+          );
         }, 500);
         setTimeout(() => {
           const scrollAnchor = document.getElementById('scroll-here');
           scrollAnchor.scrollIntoView();
-        }, 1000);
+        }, 800);
       };
       asyncEvent();
     });
@@ -57,12 +67,23 @@ export default function ChatBox() {
     if (newMessage === '') return;
     else {
       const token = localStorage.getItem('token');
+      // harded coded until reqParmas
       const message = await dispatch(
-        addMessageActiveMeeting({ token, newMessage })
+        addMessage({
+          token,
+          meetingId: 48,
+          newMessage: newMessage,
+        })
       );
-      console.log(message);
-      socket.emit('message-event', meeting.id);
-      setNewMessage('');
+      if (message?.error?.message) {
+        setErrorAccoured(true);
+        setTimeout(() => {
+          setErrorAccoured(false);
+        }, 2000);
+      } else {
+        socket.emit('message-event', meeting.id);
+        setNewMessage('');
+      }
     }
   };
 
@@ -71,12 +92,12 @@ export default function ChatBox() {
       onMessageSubmit(e);
     }
   };
-  // checks if user is logge in
+  // checks if user is logged in
   if (!auth.id) {
     return (
       <h1>
         Please{' '}
-        <Link to="/login" className="text-blue-400">
+        <Link to="/login" style={{ color: '#0000EE' }}>
           login
         </Link>{' '}
         and find a buddy to use the chat feature
@@ -153,6 +174,14 @@ export default function ChatBox() {
               </>
             )}
           </div>
+        </div>
+        <div
+          id="errormessage"
+          className="fixed right-80 bottom-24 text-red-500"
+          style={{ visibility: errorAccoured ? 'visible' : 'hidden' }}
+        >
+          {' '}
+          Error please try again later
         </div>
         <form
           id="form"
