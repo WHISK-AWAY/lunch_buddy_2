@@ -10,7 +10,35 @@ const Notification = db.define('notification', {
     validate: {
       notNull: true,
       notEmpty: true,
-      isIn: [NOTIFICATION_TYPES],
+      isIn: [
+        [
+          'meetingRequested',
+          'meetingAccepted',
+          'meetingRejected',
+          'meetingCancelled',
+          'ratingRequested',
+        ],
+      ],
+    },
+  },
+  isRead: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+    validate: {
+      notNull: true,
+      notEmpty: true,
+      isIn: [[true, false]],
+    },
+  },
+  isComplete: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+    validate: {
+      notNull: true,
+      notEmpty: true,
+      isIn: [[true, false]],
     },
   },
 });

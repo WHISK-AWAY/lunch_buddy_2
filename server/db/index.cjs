@@ -25,8 +25,8 @@ Meeting.hasMany(Notification);
 Notification.belongsTo(Meeting);
 
 User.hasOne(Notification);
-Notification.belongsTo(User, { as: 'user', foreignKey: 'userId' });
-Notification.belongsTo(User, { as: 'buddy', foreignKey: 'buddyId' });
+Notification.belongsTo(User, { as: 'to', foreignKey: 'toUserId' });
+Notification.belongsTo(User, { as: 'from', foreignKey: 'fromUserId' });
 
 /**
  * TODO: I commented out the senderId in messages model --
