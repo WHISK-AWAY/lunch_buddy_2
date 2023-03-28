@@ -8,11 +8,13 @@ import {
   tryToken,
 } from '../../redux/slices/authSlice';
 import { selectAuthStatus } from '../../redux/slices/authSlice';
+import { INVALID_CLASS } from '../../utilities/InvalidInputClass';
 
 const inputs = {
   email: '',
   password: '',
 };
+
 
 const SignInForm = () => {
   const navigate = useNavigate();
