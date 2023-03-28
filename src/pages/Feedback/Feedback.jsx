@@ -33,11 +33,9 @@ const Feedback = () => {
 
         if (meetingFromDispatch.meta.requestStatus === 'fulfilled') {
           if (
-            user.id &&
-            (meetingFromDispatch.payload.meetingStatus !== 'closed' ||
-              meetingFromDispatch.payload.isClosed ||
-              (user.id !== meetingFromDispatch.userId &&
-                user.id !== meetingFromDispatch.buddyId))
+            meetingFromDispatch.payload.isClosed ||
+            (user.id !== meetingFromDispatch.userId &&
+              user.id !== meetingFromDispatch.buddyId)
           ) {
             navigate('/');
           }
