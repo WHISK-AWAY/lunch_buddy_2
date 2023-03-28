@@ -98,46 +98,11 @@ router.delete('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
     next(err);
   }
 });
-router.post(
-  '/active/messages',
-  requireToken,
-  sameUserOrAdmin,
-  async (req, res, next) => {
-    try {
-      let correctRecip;
-      const meeting = await Meeting.findOne({
-        where: {
-          isClosed: false,
-          meetingStatus: 'confirmed',
-          [Op.or]: [{ userId: req.user.id }, { buddyId: req.user.id }],
-        },
-      });
-      if (meeting === undefined || !meeting) {
-        res.status(404).send('User is not in a meeting that is confirmed');
-      }
-      console.log(typeof req.user.id);
-      if (req.user.id === meeting.userId || req.user.id === meeting.buddyId) {
-        if (req.user.id === meeting.userId) correctRecip = meeting.buddyId;
-        else correctRecip = meeting.userId;
-        const newMessage = await Message.create({
-          recipientId: correctRecip,
-          meetingId: meeting.id,
-          message: req.body.message,
-          senderId: req.user.id,
-        });
-        res.status(200).json(newMessage);
-      } else {
-        res.status(404).send(`User is not in meeting`);
-      }
-    } catch (err) {
-      next(err);
-    }
-  }
-);
-// to get the currently active meeting for said user
-router.get('/active/messages', requireToken, async (req, res, next) => {
+
+// want to check if user is logged in and user is in meeting
+router.get('/:meetingId/messages', requireToken, async (req, res, next) => {
   try {
-    const meeting = await Meeting.findOne({
+    const meeting = await Meeting.findByPk(req.params.meetingId, {
       include: [
         {
           association: 'user',
@@ -151,40 +116,6 @@ router.get('/active/messages', requireToken, async (req, res, next) => {
           model: Message,
         },
       ],
-      where: {
-        isClosed: false,
-        meetingStatus: 'confirmed',
-        [Op.or]: [{ userId: req.user.id }, { buddyId: req.user.id }],
-      },
-    });
-    if (meeting) {
-      if (
-        req.user.id === meeting.userId ||
-        req.user.id === meeting.buddyId ||
-        req.user.role === 'admin'
-      ) {
-        res.json(meeting);
-      } else {
-        res.status(403).send('User is not found in meeting that is confirmed');
-      }
-    } else {
-      res
-        .status(404)
-        .send(
-          `Meeting not found in a meeting that's currently active/confirmed `
-        );
-    }
-  } catch (err) {
-    next(err);
-  }
-});
-// want to check if user is logged in and user is in meeting
-router.get('/:meetingId/messages', requireToken, async (req, res, next) => {
-  try {
-    const meeting = await Meeting.findByPk(req.params.meetingId, {
-      include: {
-        model: Message,
-      },
     });
     if (meeting) {
       if (
@@ -203,20 +134,29 @@ router.get('/:meetingId/messages', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
 router.post('/:meetingId/messages', requireToken, async (req, res, next) => {
   try {
     let correctRecip;
     const meeting = await Meeting.findByPk(req.params.meetingId);
+    // console.log('testestest', meeting.buddyId);
     if (req.user.id === meeting.userId || req.user.id === meeting.buddyId) {
-      if (req.user.id === meeting.userId) correctRecip = meeting.buddyId;
-      else correctRecip = meeting.userId;
+      if (req.user.id === meeting.userId) {
+        correctRecip = meeting.buddyId;
+      } else {
+        correctRecip = meeting.userId;
+      }
       const newMessage = await Message.create({
         recipientId: correctRecip,
         meetingId: req.params.meetingId,
         message: req.body.message,
         senderId: req.user.id,
       });
-      res.status(200).json(newMessage);
+      if (newMessage) {
+        res.status(200).json(newMessage);
+      } else {
+        res.status(404).send('message failed on creation');
+      }
     } else {
       res.status(404).send(`User is not in meeting ${req.params.meetingId}`);
     }
