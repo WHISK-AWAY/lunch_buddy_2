@@ -11,7 +11,7 @@ const Homepage = () => {
     offset: 0,
   });
   return (
-    <div className="flex md:w-screen w-full flex-col scroll-smooth gap-20 text-primary-gray pb-16 md:py-16 md:gap-56 h-fit overflow-hidden">
+    <div className="flex md:w-screen w-full flex-col scroll-smooth gap-20 text-primary-gray pb-16 md:py-16 md:gap-56 h-fit overflow-hidden sm:gap-28 sm:py-16 py-20">
       <div
         id="connect-section"
         className="flex md:flex-row flex-col md:w-full md:h-screen md:pl-20 pr-6 py-6 sm:p-6"
@@ -66,14 +66,13 @@ const Homepage = () => {
             className="w-fit self-start sm:self-center md:text-3xl text-xl py-4"
             data-aos="fade-up"
             data-aos-delay="500"
-
           >
             EXPLORE
           </h1>
           <span
             className="w-4/5 self-start md:self-center leading-4 md:text-sm sm:w-11/12 justify-center md:text-center sm:self-center text-xs text-justify pb-3 md:w-4/5"
             data-aos="zoom-in"
-            data-aos-delay="700"
+            data-aos-delay="400"
             data-aos-duration="2500"
           >
             discover new and exciting dining experiences, embark on a culinary
@@ -101,7 +100,8 @@ const Homepage = () => {
             id="expand-header"
             className="w-fit self-end flex flex-col sm:self-center justify-start md:text-3xl text-xl align-top md:self-center md:justify-center md:items-center py-1"
             data-aos="zoom-in"
-            data-aos-delay="700"
+            data-aos-delay="500"
+            data-aos-duration="2000"
           >
             EXPAND
           </h1>
@@ -110,6 +110,7 @@ const Homepage = () => {
             className="w-11/12 md:self-center md:text-center md:text-sm text-xs sm:text-center self-end text-right"
             data-aos="zoom-in-left"
             data-aos-delay="300"
+            data-aos-duration="2000"
           >
             expand your network for growth and opportunities
           </span>
@@ -135,7 +136,7 @@ const Homepage = () => {
             id="join-header"
             className="w-fit md:self-center  flex flex-col  md:text-3xl text-xl text-start pb-1"
             data-aos="fade-down"
-            data-aos-delay="600"
+            data-aos-delay="400"
           >
             JOIN
           </h1>
@@ -143,7 +144,7 @@ const Homepage = () => {
           <span
             className="w-4/5 md:self-center flex flex-col items-center justify-center md:w-11/12 sm:self-center sm:w-11/12 text-xs pb-5"
             data-aos="fade-up"
-            data-aos-delay="400"
+            data-aos-delay="200"
             // data-aos-duration="1000"
           >
             LUNCHbuddy and never eat lunch alone
@@ -152,8 +153,8 @@ const Homepage = () => {
             to={'/register'}
             className="border-2 self-center border-orange-400 rounded-3xl px-10 py-1 text-xs md:text-sm "
             data-aos="fade-in"
-            data-aos-delay="1500"
-            data-aos-duration="2000"
+            data-aos-delay="1200"
+            data-aos-duration="2900"
           >
             sign up
           </Link>
