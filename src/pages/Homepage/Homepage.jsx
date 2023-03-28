@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { selectAuth } from '../../redux/slices';
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // You can also use <link> for styles
 import FormButton from '../../components/FormButton';
 import { Link } from 'react-router-dom';
 
 const Homepage = () => {
+  const auth = useSelector(selectAuth);
   // bg-[url('/assets/bg_img/homepage13.jpg')] h-[calc(100vh_-_5rem)] w-screen bg-no-repeat bg-right bg-cover "
   AOS.init({
     duration: 2000,
@@ -156,13 +159,13 @@ const Homepage = () => {
             LUNCHbuddy and never eat lunch alone
           </span>
           <Link
-            to={'/register'}
+            to={auth.user?.id ? '/match' : '/register'}
             className="border-2 self-center border-orange-400 rounded-3xl px-10 py-1 text-xs md:text-sm "
             data-aos="fade-in"
             data-aos-delay="1200"
             data-aos-duration="2900"
           >
-            sign up
+            {auth.user?.id ? 'find buddy' : 'sign up'}
           </Link>
         </div>
       </div>
@@ -171,4 +174,3 @@ const Homepage = () => {
 };
 
 export default Homepage;
-
