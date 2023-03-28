@@ -15,6 +15,7 @@ export default function BuddyCard(props) {
         <img
           className="bg-white object-cover aspect-square w-32 h-32 rounded-[100%] z-10 p-1 relative self-end drop-shadow-md"
           src={buddy.avatarUrl}
+          alt="A buddy's avatar image"
         />
         <button
           className="select_buddy button-round rounded-full w-16 aspect-square absolute -top-7 -right-3 md:-left-6 flex justify-center items-center"
