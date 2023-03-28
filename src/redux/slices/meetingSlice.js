@@ -47,11 +47,11 @@ export const updateMeeting = createAsyncThunk(
 
 export const getMeeting = createAsyncThunk(
   'meeting/getOne',
-  async ({ token, meetingId, userId }, { rejectWithValue }) => {
+  async ({ meetingId, userId }, { rejectWithValue }) => {
     try {
+      const token = localStorage.getItem('token');
       let route;
 
-      if (!token) token = window.localStorage.getItem('token');
       if (!token) throw new Error('No token provided');
 
       if (userId !== undefined) {
@@ -97,7 +97,6 @@ export const deleteMeeting = createAsyncThunk(
       });
       return { res, meetingId };
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error);
     }
   }
@@ -146,8 +145,11 @@ export const addMessage = createAsyncThunk(
 
 export const addRating = createAsyncThunk(
   'meeting/addRating',
-  async ({ token, meetingId, newRating }, { rejectWithValue }) => {
+  async ({ meetingId, newRating }, { rejectWithValue }) => {
     try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('Must be logged in to leave a rating');
+
       const { data } = await axios.post(
         API_URL + `/api/meeting/${meetingId}/rating`,
         newRating,
@@ -159,7 +161,6 @@ export const addRating = createAsyncThunk(
       );
       return data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error);
     }
   }
@@ -247,6 +248,7 @@ const meetingSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getMeeting.rejected, (state, action) => {
+        console.log('ERROR PAYLOAD', action.payload);
         state.isLoading = false;
         state.error = action.payload.response.data;
       })

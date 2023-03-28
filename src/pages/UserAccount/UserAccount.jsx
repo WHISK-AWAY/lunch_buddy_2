@@ -41,6 +41,12 @@ const UserAccount = () => {
     }
   }, [dispatch, auth]);
 
+  useEffect(() => {
+    if (token && auth.user.id) {
+      dispatch(fetchUser(auth.user.id));
+    }
+  }, [dispatch, auth]);
+
   const tags = user.tags;
 
   useEffect(() => {
@@ -80,7 +86,7 @@ const UserAccount = () => {
           <div id="user-avatar" className=" flex justify-center relative">
             {/*ADD LINK TO EDIT ACC*/}
             <Link
-              to=""
+              to="/edituser"
               className="w-14 h-14 rounded-full bg-primary-gray/20 absolute -right-5 top-7 z-0"
             >
               <img
