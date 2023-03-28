@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthUser, logOut } from '../redux/slices/authSlice';
 import DropDownItem from './DropDownItem';
+import Homepage from '../pages/Homepage/Homepage';
 
 const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
   const dispatch = useDispatch();
@@ -38,6 +39,9 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
           ) : (
             <>
               {/* NAV LINKS WHEN SIGNED IN */}
+              <DropDownItem handleClick={handleClick} linkTo="/">
+                HOME
+              </DropDownItem>
               <DropDownItem handleClick={handleClick} linkTo="/account">
                 ACCOUNT
               </DropDownItem>
