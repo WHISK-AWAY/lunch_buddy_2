@@ -69,7 +69,8 @@ const UserAccount = () => {
     setCuisineTags(cuisine || []);
   }, [user]);
 
-  if (!tags) return <p>Loading tags...</p>;
+  if (auth.user.isLoading) return <p>Loading user info...</p>;
+  if (!auth.user?.id || !user.id) return <p>User login check failed...</p>;
 
   return (
     <div

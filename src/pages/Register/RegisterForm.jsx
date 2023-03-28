@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
 import { listOfStates } from '../../utilities/registerHelpers';
+import { INVALID_CLASS } from '../../utilities/invalidInputClass';
 
 // setting a couple defaults here so we keep the starting value if we proceed without changing
 const inputs = JSON.parse(localStorage.getItem('registerForm')) || {
@@ -32,9 +33,6 @@ const requiredFields = [
   'age',
   'gender',
 ];
-
-const invalidClass =
-  'border-1 border-red-500 placeholder:text-xs placeholder:leading-tight';
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -143,7 +141,7 @@ const RegisterForm = () => {
         className="lg:basis-1/2 flex flex-col justify-center items-center  basis-full overflow-auto h-full pb-16 pt-24"
       >
         <div className="h-full lg:w-4/5 md:w-3/5 w-4/5">
-          <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8 pb-16">
+          <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8 pb-6">
             <h1 className="text-center text-2xl mb-6 text-headers font-bold font-sans col-span-full">
               SIGN UP
             </h1>
@@ -153,7 +151,7 @@ const RegisterForm = () => {
               </label>
               <input
                 className={`${
-                  inputValidator.firstName ? invalidClass : null
+                  inputValidator.firstName ? INVALID_CLASS : null
                 }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
                 placeholder={
                   inputValidator.firstName ? 'Enter first name' : null
@@ -173,7 +171,7 @@ const RegisterForm = () => {
               </label>
               <input
                 className={`${
-                  inputValidator.lastName ? invalidClass : null
+                  inputValidator.lastName ? INVALID_CLASS : null
                 }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
                 placeholder={inputValidator.lastName ? 'Enter last name' : null}
                 value={formInputs.lastName}
@@ -194,7 +192,7 @@ const RegisterForm = () => {
                 type="email"
                 required={true}
                 className={`${
-                  inputValidator.email ? invalidClass : null
+                  inputValidator.email ? INVALID_CLASS : null
                 }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
                 placeholder={inputValidator.email ? 'Enter email' : null}
                 value={formInputs.email}
@@ -210,7 +208,7 @@ const RegisterForm = () => {
               <input
                 type="password"
                 className={`${
-                  inputValidator.password ? invalidClass : null
+                  inputValidator.password ? INVALID_CLASS : null
                 }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
                 placeholder={inputValidator.password ? 'Enter password' : null}
                 value={formInputs.password}
@@ -229,7 +227,7 @@ const RegisterForm = () => {
               <input
                 type="password"
                 className={`${
-                  inputValidator.confirmPassword ? invalidClass : null
+                  inputValidator.confirmPassword ? INVALID_CLASS : null
                 }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
                 placeholder={
                   inputValidator.confirmPassword ? 'Confirm password' : null
@@ -249,7 +247,7 @@ const RegisterForm = () => {
               </label>
               <input
                 className={`${
-                  inputValidator.address1 ? invalidClass : null
+                  inputValidator.address1 ? INVALID_CLASS : null
                 }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
                 placeholder={inputValidator.address1 ? 'Enter address' : null}
                 value={formInputs.address1}
@@ -282,7 +280,7 @@ const RegisterForm = () => {
               </label>
               <input
                 className={`${
-                  inputValidator.city ? invalidClass : null
+                  inputValidator.city ? INVALID_CLASS : null
                 }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
                 placeholder={inputValidator.city ? 'Enter city' : null}
                 value={formInputs.city}
@@ -300,6 +298,7 @@ const RegisterForm = () => {
                 onChange={(e) =>
                   setFormInputs((prev) => ({ ...prev, state: e.target.value }))
                 }
+                defaultValue={inputs.state}
               >
                 {listOfStates.map((state) => {
                   return (
@@ -322,7 +321,7 @@ const RegisterForm = () => {
                 minLength="5"
                 maxLength="9"
                 className={`${
-                  inputValidator.zip ? invalidClass : null
+                  inputValidator.zip ? INVALID_CLASS : null
                 }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
                 placeholder={inputValidator.zip ? 'Enter zip' : null}
                 value={formInputs.zip}
@@ -338,7 +337,7 @@ const RegisterForm = () => {
               <input
                 type="number"
                 className={`${
-                  inputValidator.age ? invalidClass : null
+                  inputValidator.age ? INVALID_CLASS : null
                 }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-xs focus:border-primary-gray active:border-primary-gray active:ring-primary-gray focus:ring-primary-gray outline-0 focus:bg-white`}
                 value={formInputs.age || 18}
                 min={18}
@@ -357,19 +356,24 @@ const RegisterForm = () => {
                 onChange={(e) =>
                   setFormInputs((prev) => ({ ...prev, gender: e.target.value }))
                 }
+                defaultValue={inputs.gender}
               >
                 <option value="M">Male</option>
                 <option value="F">Female</option>
                 <option value="Other">Other</option>
-                <option value="DidNotDisclose" selected>
-                  Prefer Not To Say
-                </option>
+                <option value="DidNotDisclose">Prefer Not To Say</option>
               </select>
             </div>
             <div className="col-span-full md:w-3/5 md:mx-auto">
               <FormButton handleSubmit={handleSubmit}>CONTINUE</FormButton>
             </div>
           </form>
+          <p className="text-center">
+            already have an account?{' '}
+            <Link to="/login">
+              <span className="text-headers hover:underline">sign in</span>
+            </Link>
+          </p>
         </div>
       </div>
       <div

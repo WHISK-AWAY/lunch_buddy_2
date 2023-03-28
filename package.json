@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "vite ",
     "build": "vite build",
     "preview": "vite preview --host",
     "api": "nodemon ./server/server.cjs",
-    "seed": "node ./server/seed.cjs"
+    "seed": "node ./server/seed.cjs",
+    "socketIo": "nodemon ./server/socketServer.cjs"
   },
   "dependencies": {
     "@googlemaps/react-wrapper": "^1.1.35",
@@ -29,6 +30,9 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.9.0",
     "sequelize": "^6.29.3",
+    "taos": "^1.0.2",
+    "socket.io": "^4.6.1",
+    "socket.io-client": "^4.6.1",
     "volleyball": "^1.5.1"
   },
   "devDependencies": {
@@ -36,8 +40,10 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",
+    "aos": "^3.0.0-beta.6",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.21",
+    "swiper": "^9.1.1",
     "tailwindcss": "^3.2.7",
     "vite": "^4.2.0"
   }
