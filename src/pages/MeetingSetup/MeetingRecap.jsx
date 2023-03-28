@@ -20,6 +20,17 @@ export default function MeetingRecap(props) {
     dispatch(resetMeetingStatus());
   }, []);
 
+  // kick back out to match screen if we attempt to navigate directly to this page via url bar, etc
+  if (
+    !location.state ||
+    !location.state?.buddy ||
+    !location.state?.lunchDate ||
+    !location.state?.yelpBusinessId
+  ) {
+    navigate('/match');
+    return <h1>Returning to buddy find start...</h1>;
+  }
+
   const { buddy, timeSlot, restaurant } = location.state;
 
   const newMeeting = {
