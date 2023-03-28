@@ -45,24 +45,6 @@ export const updateMeeting = createAsyncThunk(
   }
 );
 
-// export const getActiveMeeting = createAsyncThunk(
-//   'meeting/active/messages',
-//   async (token, { rejectWithValue }) => {
-//     try {
-//       const { data } = await axios.get(
-//         API_URL + `/api/meeting/active/messages`,
-//         {
-//           headers: { authorization: token },
-//         }
-//       );
-//       return data;
-//     } catch (err) {
-//       console.log(err);
-//       return rejectWithValue(err);
-//     }
-//   }
-// );
-
 export const getMeeting = createAsyncThunk(
   'meeting/getOne',
   async ({ token, meetingId, userId }, { rejectWithValue }) => {
@@ -145,28 +127,8 @@ export const addMessage = createAsyncThunk(
   'meeting/addMessage',
   async ({ token, meetingId, newMessage }, { rejectWithValue }) => {
     try {
-      const { data } = axios.post(
-        API_URL + `/api/meeting/${meetingId}/messages`,
-        newMessage,
-        {
-          headers: {
-            authorization: token,
-          },
-        }
-      );
-      return data;
-    } catch (error) {
-      console.log(error);
-      return rejectWithValue(error);
-    }
-  }
-);
-export const addMessageActiveMeeting = createAsyncThunk(
-  'meeting/active/addMessage',
-  async ({ token, newMessage }, { rejectWithValue }) => {
-    try {
       const { data } = await axios.post(
-        API_URL + `/api/meeting/active/messages`,
+        API_URL + `/api/meeting/${meetingId}/messages`,
         { message: newMessage },
         {
           headers: {
@@ -286,19 +248,6 @@ const meetingSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload.response.data;
       })
-      .addCase(getActiveMeeting.fulfilled, (state, action) => {
-        state.meeting = action.payload;
-        state.isLoading = false;
-        state.error = '';
-      })
-      .addCase(getActiveMeeting.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getActiveMeeting.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload.response.data;
-      })
-
       // Delete a meeting
       .addCase(deleteMeeting.fulfilled, (state, action) => {
         // payload comes in form {res, meetingId}
@@ -321,7 +270,8 @@ const meetingSlice = createSlice({
       // Get a messages for a particular meeting
       .addCase(getMeetingMessages.fulfilled, (state, action) => {
         // Payload includes messages for this particular meeting
-        state.meeting.messages = action.payload;
+        console.log(action.payload);
+        state.meeting = action.payload;
         state.isLoading = false;
         state.error = '';
       })
@@ -344,22 +294,8 @@ const meetingSlice = createSlice({
       })
       .addCase(addMessage.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
-      })
-      // add message for active meeting with user
-      .addCase(addMessageActiveMeeting.fulfilled, (state, action) => {
-        state.meeting.messages.push(action.payload);
-        state.isLoading = false;
-        state.error = '';
-      })
-      .addCase(addMessageActiveMeeting.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(addMessageActiveMeeting.rejected, (state, action) => {
-        state.isLoading = false;
         state.error = action.payload.response.data;
       })
-
       // Add a rating to a meeting
       .addCase(addRating.fulfilled, (state) => {
         state.isLoading = false;
@@ -370,7 +306,7 @@ const meetingSlice = createSlice({
       })
       .addCase(addRating.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // No payload returned, thunk updates the rating
@@ -383,7 +319,7 @@ const meetingSlice = createSlice({
       })
       .addCase(upholdRating.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       });
   },
 });
