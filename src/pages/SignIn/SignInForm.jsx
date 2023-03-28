@@ -15,10 +15,10 @@ const inputs = {
   password: '',
 };
 
-
 const SignInForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isInvalid, setIsInvalid] = useState(false);
 
   const [formInputs, setFormInputs] = useState(inputs);
 
@@ -31,14 +31,65 @@ const SignInForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const tempFields = { ...formInputs };
+    const tempValidator = Object.keys(inputs).reduce((accumulator, field) => {
+      accumulator[field] = false;
+      return accumulator;
+    }, {});
+
+    for (let field in inputs) {
+      if (formInputs[field] === '') {
+        tempValidator[field] = true;
+      }
+      if (
+        formInputs[field] !== '' &&
+        field === 'email' &&
+        !validateEmail(formInputs.email)
+      ) {
+        tempFields.email = '';
+        tempValidator[field] = true;
+      }
+      if (
+        formInputs[field] !== '' &&
+        field === 'password' &&
+        !validatePassword(formInputs.password)
+      ) {
+        tempFields.password = '';
+        tempValidator[field] = true;
+      }
+    }
+
+    setFormInputs(tempFields);
+
+    console.log('tempValidator', tempValidator);
+    if (Object.values(tempValidator).some((field) => field)) {
+      console.log('tempValidator1', tempValidator);
+      setIsInvalid(true);
+      return;
+    }
+
     await dispatch(requestLogin(formInputs));
+
     const authState = await dispatch(successfulLogin());
     if (authState.payload.error) {
-      alert(authState.payload.error);
+      setFormInputs(inputs);
+      setIsInvalid(true);
+      console.log(authState.payload.error);
     } else {
       dispatch(tryToken());
       navigate('/');
     }
+  };
+
+  const validateEmail = (email) => {
+    // from https://www.w3docs.com/snippets/javascript/how-to-validate-an-e-mail-using-javascript.html
+    let valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return valid.test(email);
+  };
+
+  const validatePassword = (password) => {
+    return formInputs.password.length >= 8;
   };
 
   return (
@@ -57,10 +108,13 @@ const SignInForm = () => {
                 Email
               </label>
               <input
-                className="w-full px-4 py-2 rounded-lg focus:outline-none border border-primary-gray"
+                className={`${
+                  isInvalid ? INVALID_CLASS : null
+                } w-full px-4 py-2 rounded-lg focus:outline-none border border-primary-gray`}
                 type="text"
                 name="email"
                 value={formInputs.email}
+                placeholder={isInvalid ? 'Invalid credentials' : null}
                 onChange={(e) =>
                   setFormInputs((prev) => ({ ...prev, email: e.target.value }))
                 }
@@ -74,10 +128,13 @@ const SignInForm = () => {
                 Password
               </label>
               <input
-                className="w-full px-4 py-2 rounded-lg focus:outline-none border border-primary-gray"
+                className={`${
+                  isInvalid ? INVALID_CLASS : null
+                } w-full px-4 py-2 rounded-lg focus:outline-none border border-primary-gray`}
                 type="password"
                 name="password"
                 value={formInputs.password}
+                placeholder={isInvalid ? 'Invalid credentials' : null}
                 onChange={(e) =>
                   setFormInputs((prev) => ({
                     ...prev,
