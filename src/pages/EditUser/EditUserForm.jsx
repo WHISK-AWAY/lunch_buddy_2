@@ -23,7 +23,7 @@ const inputs = {
 
 const requiredFields = [
   'firstName',
-  'LastName',
+  'lastName',
   'address1',
   'city',
   'state',
@@ -32,14 +32,45 @@ const requiredFields = [
   'gender',
 ];
 
+const invalidClass =
+  'border-1 border-red-500 placeholder:text-xs placeholder:leading-tight';
+
 const EditUserForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [formInputs, setFormInputs] = useState(inputs);
+  const [inputValidator, setInputValidator] = useState(
+    requiredFields.reduce((accumulator, field) => {
+      accumulator[field] = false;
+      return accumulator;
+    }, {})
+  );
 
   const authUser = useSelector((state) => state.auth.user);
   const userInfo = useSelector((state) => state.user.user);
+
+  const validateZip = (zip) => {
+    const valid = /^\d+$/;
+    return valid.test(zip);
+  };
+
+  const validateEmail = (email) => {
+    // from https://www.w3docs.com/snippets/javascript/how-to-validate-an-e-mail-using-javascript.html
+    let valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return valid.test(email);
+  };
+
+  const validatePassword = (password) => {
+    return (
+      formInputs.password.length >= 8 &&
+      formInputs.password === formInputs.confirmPassword
+    );
+  };
+
+  const validateAge = () => {
+    return formInputs.age >= 18;
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -68,26 +99,75 @@ const EditUserForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const missingFields = [];
+
+    const tempFields = { ...formInputs };
+    const tempValidator = requiredFields.reduce((accumulator, field) => {
+      accumulator[field] = false;
+      return accumulator;
+    }, {});
+
     for (let field of requiredFields) {
       if (formInputs[field] === '') {
         missingFields.push(field);
+        tempValidator[field] = true;
+      }
+      if (
+        formInputs[field] !== '' &&
+        field === 'email' &&
+        !validateEmail(formInputs.email)
+      ) {
+        tempFields.email = '';
+        tempValidator[field] = true;
+        missingFields.push(field);
+      }
+      if (
+        formInputs[field] !== '' &&
+        field === 'password' &&
+        !validatePassword()
+      ) {
+        tempFields.password = '';
+        tempFields.confirmPassword = '';
+        missingFields.push('password', 'confirmPassword');
+        tempValidator[field] = true;
+        tempValidator.confirmPassword = true;
+      }
+      if (
+        formInputs[field] !== '' &&
+        field === 'zip' &&
+        !validateZip(formInputs.zip)
+      ) {
+        tempFields.zip = '';
+        missingFields.push(field);
+        tempValidator[field] = true;
+      }
+      if (!validateAge()) {
+        missingFields.push('age');
+        tempValidator.age = true;
+        tempFields.age = '';
       }
     }
-    if (missingFields.length > 0) {
-      alert(`Missing required fields: ${missingFields.join(', ')}`);
+    setInputValidator(tempValidator);
+    setFormInputs(tempFields);
+
+    if (
+      missingFields.length > 0 &&
+      Object.values(tempValidator).some((field) => field)
+    ) {
+      console.log(missingFields.join(','));
     } else {
       await dispatch(updateUser(formInputs));
-    }
-
-    const asyncError = await dispatch(checkUserCreated());
-    if (asyncError.payload.error) {
-      console.log('async error', typeof asyncError.payload.error);
-      alert(`Error: ${asyncError.payload.error}`);
-    } else {
-      navigate('/');
+      const asyncError = await dispatch(checkUserCreated());
+      if (asyncError.payload.error) {
+        console.log('async error', typeof asyncError.payload.error);
+        console.log(`Error: ${asyncError.payload.error}`);
+      } else {
+        navigate('/');
+      }
     }
   };
+
   return (
     <div className="h-screen flex justify-center lg:grow items-center">
       <div className="w-full xs:w-4/5 sm:w-3/5 md:w-1/2">
@@ -100,7 +180,9 @@ const EditUserForm = () => {
               First Name
             </label>
             <input
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
+              className={`${
+                inputValidator.firstName ? invalidClass : null
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
               value={formInputs.firstName}
               onChange={(e) =>
                 setFormInputs((prev) => ({
@@ -115,7 +197,9 @@ const EditUserForm = () => {
               Last Name
             </label>
             <input
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
+              className={`${
+                inputValidator.lastName ? invalidClass : null
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
               value={formInputs.lastName}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, lastName: e.target.value }))
@@ -168,7 +252,9 @@ const EditUserForm = () => {
               Address 1
             </label>
             <input
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
+              className={`${
+                inputValidator.address1 ? invalidClass : null
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
               value={formInputs.address1}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, address1: e.target.value }))
@@ -192,7 +278,9 @@ const EditUserForm = () => {
               City
             </label>
             <input
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
+              className={`${
+                inputValidator.lastName ? invalidClass : null
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
               value={formInputs.city}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, city: e.target.value }))
@@ -223,7 +311,9 @@ const EditUserForm = () => {
               Zip
             </label>
             <input
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
+              className={`${
+                inputValidator.zip ? invalidClass : null
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
               value={formInputs.zip}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, zip: e.target.value }))
@@ -235,12 +325,15 @@ const EditUserForm = () => {
               Age
             </label>
             <input
+              className={`${
+                inputValidator.age ? invalidClass : null
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
               type="number"
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
               value={formInputs.age}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, age: e.target.value }))
               }
+              placeholder="18+"
             />
           </div>
           <div className="relative col-span-2">
