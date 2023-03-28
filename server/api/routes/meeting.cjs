@@ -26,7 +26,6 @@ router.post('/', requireToken, async (req, res, next) => {
         defaults: { ...bodyKeys, meetingStatus: 'pending' },
       });
       if (wasCreated === false) {
-        console.log('conflict:', newMeeting);
         res.status(409).send('user is already in a meeting');
       } else {
         res.status(200).json(newMeeting);
@@ -144,7 +143,6 @@ router.post('/:meetingId/messages', requireToken, async (req, res, next) => {
 });
 // want to check if user is logged in and user is in meeting
 router.post('/:meetingId/rating', requireToken, async (req, res, next) => {
-  console.log('req body', req.body);
   try {
     const { isReport, reportComment } = req.body;
     const bodyKeys = { isReport, reportComment };
