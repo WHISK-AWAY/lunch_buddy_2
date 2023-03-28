@@ -12,7 +12,7 @@ export default function ChatBox() {
   // const {meetingId} = useParams();
   const dispatch = useDispatch();
   const [newMessage, setNewMessage] = useState('');
-  const [errorAccoured, setErrorAccoured] = useState(false);
+  const [errorOccurred, setErrorOccurred] = useState(false);
   const meeting = useSelector((state) => state.meetings.meeting);
   const auth = useSelector((state) => state.auth.user);
   const today = new Date();
@@ -76,9 +76,9 @@ export default function ChatBox() {
         })
       );
       if (message?.error?.message) {
-        setErrorAccoured(true);
+        setErrorOccurred(true);
         setTimeout(() => {
-          setErrorAccoured(false);
+          setErrorOccurred(false);
         }, 2000);
       } else {
         socket.emit('message-event', meeting.id);
@@ -134,7 +134,7 @@ export default function ChatBox() {
               {monthToday}-{dayOfMonth}-{yearToday}
             </h2>
           </div>
-          <div className="grow m-1 p-5 overflow-y-auto">
+          <div className="grow m-1 p-5 overflow-y-auto h-[calc(100svh_-180px)]">
             {meeting?.messages < 1 || meeting?.messages === undefined ? (
               <div className=" text-center">
                 Don't be shy! Be the first to talk to your buddy
@@ -177,16 +177,8 @@ export default function ChatBox() {
         </div>
         <form
           id="form"
-          className="w-11/12  self-center mb-2 lg:flex gap-3 bg-transparent"
+          className="w-11/12  self-center h-16 lg:flex gap-3 bg-transparent"
         >
-          <div
-            id="errormessage"
-            className="fixed text-red-500 right-80  bottom-24"
-            style={{ visibility: errorAccoured ? 'visible' : 'hidden' }}
-          >
-            {' '}
-            Error please try again later
-          </div>
           <textarea
             type="text"
             className=" border border-black w-full rounded-2xl h-16 py-2 px-6"
