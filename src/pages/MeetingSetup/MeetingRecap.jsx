@@ -20,10 +20,6 @@ export default function MeetingRecap(props) {
     dispatch(resetMeetingStatus());
   }, []);
 
-  useEffect(() => {
-    if (meetings.meeting.id && !meetings.error) navigate('/');
-  }, [dispatch, meetings]);
-
   const { buddy, timeSlot, restaurant } = location.state;
 
   const newMeeting = {
@@ -34,6 +30,7 @@ export default function MeetingRecap(props) {
 
   function handleMeeting() {
     dispatch(createMeeting({ newMeeting }));
+    navigate('/');
   }
 
   return (
