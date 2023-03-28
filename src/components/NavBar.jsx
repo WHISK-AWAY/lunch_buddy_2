@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import menuIcon from '../assets/icons/menu.svg';
 import bellIcon from '../assets/icons/notification.svg';
 import DropdownMenu from './DropdownMenu';
 import { selectAuthUser, tryToken } from '../redux/slices/authSlice';
 import { fetchUser, updateUser } from '../redux/slices/userSlice';
-import navbarTest from '../assets/icons/navbar-test.svg';
+import navbarIcon from '../assets/icons/navbar-icon.svg';
 import xIcon from '../assets/icons/x-icon.svg';
-
 
 const NavBar = () => {
   const [expandMenu, setExpandMenu] = useState(false);
@@ -51,7 +49,7 @@ const NavBar = () => {
         <button className="h-8 flex justify-center items-center pt-1">
           <img
             className="w-8"
-            src={navbarTest}
+            src={expandMenu ? xIcon : navbarIcon}
             alt="Three lined menu icon button"
             onClick={() => setExpandMenu((prev) => !prev)}
           />
@@ -112,8 +110,7 @@ const NavBar = () => {
       </nav>
       {/* DROPDOWN MENU, HIDDEN UNTIL CLICKED */}
 
-        <DropdownMenu expandMenu={expandMenu} setExpandMenu={setExpandMenu} />
-
+      <DropdownMenu expandMenu={expandMenu} setExpandMenu={setExpandMenu} />
     </header>
   );
 };
