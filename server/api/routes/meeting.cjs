@@ -104,6 +104,10 @@ router.post('/active/messages', requireToken, async (req, res, next) => {
         [Op.or]: [{ userId: req.user.id }, { buddyId: req.user.id }],
       },
     });
+    if (meeting === undefined) {
+      res.status(404).send('User is not in a meeting that is confirmed');
+    }
+    console.log(typeof req.user.id);
     if (req.user.id === meeting.userId || req.user.id === meeting.buddyId) {
       if (req.user.id === meeting.userId) correctRecip = meeting.buddyId;
       else correctRecip = meeting.userId;
@@ -140,6 +144,7 @@ router.get('/active/messages', requireToken, async (req, res, next) => {
       ],
       where: {
         isClosed: false,
+        meetingStatus: 'confirmed',
         [Op.or]: [{ userId: req.user.id }, { buddyId: req.user.id }],
       },
     });
@@ -151,13 +156,13 @@ router.get('/active/messages', requireToken, async (req, res, next) => {
       ) {
         res.json(meeting);
       } else {
-        res.status(403).send('User is not found in meeting');
+        res.status(403).send('User is not found in meeting that is confirmed');
       }
     } else {
       res
         .status(404)
         .send(
-          `Meeting not found with id ${req.params.meetingId} that's currently active `
+          `Meeting not found with id ${req.params.meetingId} that's currently active/confirmed `
         );
     }
   } catch (err) {
