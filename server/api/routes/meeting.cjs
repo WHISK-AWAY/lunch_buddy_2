@@ -100,47 +100,40 @@ router.delete('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
 });
 
 // want to check if user is logged in and user is in meeting
-router.get(
-  '/:meetingId/messages',
-  requireToken,
-  sameUserOrAdmin,
-  async (req, res, next) => {
-    try {
-      const meeting = await Meeting.findByPk(req.params.meetingId, {
-        include: [
-          {
-            association: 'user',
-            attributes: ['firstName', 'lastName', 'fullName', 'avatarUrl'],
-          },
-          {
-            association: 'buddy',
-            attributes: ['firstName', 'lastName', 'fullName', 'avatarUrl'],
-          },
-          {
-            model: Message,
-          },
-        ],
-      });
-      if (meeting) {
-        if (
-          req.user.id === meeting.userId ||
-          req.user.id === meeting.buddyId ||
-          req.user.role === 'admin'
-        ) {
-          res.json(meeting);
-        } else {
-          res.status(403).send('User is not found in meeting');
-        }
+router.get('/:meetingId/messages', requireToken async (req, res, next) => {
+  try {
+    const meeting = await Meeting.findByPk(req.params.meetingId, {
+      include: [
+        {
+          association: 'user',
+          attributes: ['firstName', 'lastName', 'fullName', 'avatarUrl'],
+        },
+        {
+          association: 'buddy',
+          attributes: ['firstName', 'lastName', 'fullName', 'avatarUrl'],
+        },
+        {
+          model: Message,
+        },
+      ],
+    });
+    if (meeting) {
+      if (
+        req.user.id === meeting.userId ||
+        req.user.id === meeting.buddyId ||
+        req.user.role === 'admin'
+      ) {
+        res.json(meeting);
       } else {
-        res
-          .status(404)
-          .send('Meeting not found with id ' + req.params.meetingId);
+        res.status(403).send('User is not found in meeting');
       }
-    } catch (err) {
-      next(err);
+    } else {
+      res.status(404).send('Meeting not found with id ' + req.params.meetingId);
     }
+  } catch (err) {
+    next(err);
   }
-);
+});
 
 router.post('/:meetingId/messages', requireToken, async (req, res, next) => {
   try {
