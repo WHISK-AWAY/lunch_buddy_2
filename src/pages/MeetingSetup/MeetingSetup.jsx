@@ -152,13 +152,6 @@ export default function MeetingSetup(props) {
             </button>
           </form>
         </div>
-
-        <p className="text-xs">
-          back to{' '}
-          <Link className="text-label text-inherit" to="/match/results">
-            search results
-          </Link>
-        </p>
       </div>
       <div
         id="bg-img"
