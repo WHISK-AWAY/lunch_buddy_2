@@ -64,7 +64,15 @@ router.put('/:meetingId', requireToken, async (req, res, next) => {
 router.get('/:meetingId', requireToken, async (req, res, next) => {
   try {
     const meeting = await Meeting.findByPk(req.params.meetingId, {
-      include: [{ model: Message }, { model: Rating }],
+      include: [
+        { model: Message },
+        {
+          model: Rating,
+          attributes: {
+            exclude: ['rating', 'isReport', 'reportComment', 'reportIsUpheld'],
+          },
+        },
+      ],
     });
     if (meeting) {
       res.json(meeting);
