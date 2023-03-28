@@ -8,7 +8,7 @@ import {
   tryToken,
 } from '../../redux/slices/authSlice';
 import { selectAuthStatus } from '../../redux/slices/authSlice';
-import { INVALID_CLASS } from '../../utilities/InvalidInputClass';
+import { INVALID_CLASS } from '../../utilities/invalidInputClass';
 
 const inputs = {
   email: '',

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
 import { listOfStates } from '../../utilities/registerHelpers';
-import { INVALID_CLASS } from '../../utilities/InvalidInputClass'
- 
+import { INVALID_CLASS } from '../../utilities/invalidInputClass';
+
 // setting a couple defaults here so we keep the starting value if we proceed without changing
 const inputs = JSON.parse(localStorage.getItem('registerForm')) || {
   firstName: '',
