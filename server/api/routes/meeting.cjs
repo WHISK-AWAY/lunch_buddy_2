@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const { Meeting, Message, Rating } = require('../../db/index.cjs');
-const { requireToken, isAdmin } = require('../authMiddleware.cjs');
+const {
+  requireToken,
+  isAdmin,
+  sameUserOrAdmin,
+} = require('../authMiddleware.cjs');
 const { Op } = require('sequelize');
 
 router.post('/', requireToken, async (req, res, next) => {
@@ -94,37 +98,42 @@ router.delete('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
     next(err);
   }
 });
-router.post('/active/messages', requireToken, async (req, res, next) => {
-  try {
-    let correctRecip;
-    const meeting = await Meeting.findOne({
-      where: {
-        isClosed: false,
-        meetingStatus: 'confirmed',
-        [Op.or]: [{ userId: req.user.id }, { buddyId: req.user.id }],
-      },
-    });
-    if (meeting === undefined) {
-      res.status(404).send('User is not in a meeting that is confirmed');
-    }
-    console.log(typeof req.user.id);
-    if (req.user.id === meeting.userId || req.user.id === meeting.buddyId) {
-      if (req.user.id === meeting.userId) correctRecip = meeting.buddyId;
-      else correctRecip = meeting.userId;
-      const newMessage = await Message.create({
-        recipientId: correctRecip,
-        meetingId: meeting.id,
-        message: req.body.message,
-        senderId: req.user.id,
+router.post(
+  '/active/messages',
+  requireToken,
+  sameUserOrAdmin,
+  async (req, res, next) => {
+    try {
+      let correctRecip;
+      const meeting = await Meeting.findOne({
+        where: {
+          isClosed: false,
+          meetingStatus: 'confirmed',
+          [Op.or]: [{ userId: req.user.id }, { buddyId: req.user.id }],
+        },
       });
-      res.status(200).json(newMessage);
-    } else {
-      res.status(404).send(`User is not in meeting`);
+      if (meeting === undefined || !meeting) {
+        res.status(404).send('User is not in a meeting that is confirmed');
+      }
+      console.log(typeof req.user.id);
+      if (req.user.id === meeting.userId || req.user.id === meeting.buddyId) {
+        if (req.user.id === meeting.userId) correctRecip = meeting.buddyId;
+        else correctRecip = meeting.userId;
+        const newMessage = await Message.create({
+          recipientId: correctRecip,
+          meetingId: meeting.id,
+          message: req.body.message,
+          senderId: req.user.id,
+        });
+        res.status(200).json(newMessage);
+      } else {
+        res.status(404).send(`User is not in meeting`);
+      }
+    } catch (err) {
+      next(err);
     }
-  } catch (err) {
-    next(err);
   }
-});
+);
 // to get the currently active meeting for said user
 router.get('/active/messages', requireToken, async (req, res, next) => {
   try {
@@ -162,7 +171,7 @@ router.get('/active/messages', requireToken, async (req, res, next) => {
       res
         .status(404)
         .send(
-          `Meeting not found with id ${req.params.meetingId} that's currently active/confirmed `
+          `Meeting not found in a meeting that's currently active/confirmed `
         );
     }
   } catch (err) {
