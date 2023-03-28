@@ -33,7 +33,9 @@ export default function BuddyCard(props) {
             <p>{`${buddy.city}, ${buddy.state}`}</p>
           </div>
         </div>
-        <div className="buddy_bio w-full text-center">{buddy.aboutMe}</div>
+        <div className="buddy_bio w-full text-center">
+          <p>{buddy.aboutMe}</p>
+        </div>
         <div className="taglist-wrapper flex flex-row flex-nowrap justify-start w-full">
           <div className="tag-expand-button self-start shrink-0 pr-5">
             <button
