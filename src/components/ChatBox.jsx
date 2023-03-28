@@ -66,7 +66,6 @@ export default function ChatBox() {
     if (newMessage === '') return;
     else {
       const token = localStorage.getItem('token');
-      // harded coded until reqParmas
       const message = await dispatch(
         addMessage({
           token,
