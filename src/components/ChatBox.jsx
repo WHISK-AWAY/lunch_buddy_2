@@ -175,18 +175,18 @@ export default function ChatBox() {
             )}
           </div>
         </div>
-        <div
-          id="errormessage"
-          className="fixed right-80 bottom-24 text-red-500"
-          style={{ visibility: errorAccoured ? 'visible' : 'hidden' }}
-        >
-          {' '}
-          Error please try again later
-        </div>
         <form
           id="form"
           className="w-11/12  self-center mb-2 lg:flex gap-3 bg-transparent"
         >
+          <div
+            id="errormessage"
+            className="fixed text-red-500 right-80  bottom-24"
+            style={{ visibility: errorAccoured ? 'visible' : 'hidden' }}
+          >
+            {' '}
+            Error please try again later
+          </div>
           <textarea
             type="text"
             className=" border border-black w-full rounded-2xl h-16 py-2 px-6"
