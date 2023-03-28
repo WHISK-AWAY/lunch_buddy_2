@@ -17,7 +17,7 @@ export default function MeetingRecap(props) {
 
   useEffect(() => {
     // on load, make sure meeting state is cleared
-    dispatch(resetMeetingStatus);
+    dispatch(resetMeetingStatus());
   }, []);
 
   useEffect(() => {
