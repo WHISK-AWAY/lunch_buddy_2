@@ -135,7 +135,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className=" flex justify-center lg:grow items-center h-[calc(100vh_-_75px)] overflow-hidden text-primary-gray">
+    <div className="flex justify-center lg:grow items-center h-[calc(100vh_-_75px)] overflow-hidden text-primary-gray">
       <div
         id="form-container"
         className="lg:basis-1/2 flex flex-col justify-center items-center  basis-full overflow-auto h-full pb-16 pt-24"
@@ -152,7 +152,7 @@ const RegisterForm = () => {
               <input
                 className={`${
                   inputValidator.firstName ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={
                   inputValidator.firstName ? 'Enter first name' : null
                 }
@@ -172,7 +172,7 @@ const RegisterForm = () => {
               <input
                 className={`${
                   inputValidator.lastName ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={inputValidator.lastName ? 'Enter last name' : null}
                 value={formInputs.lastName}
                 onChange={(e) =>
@@ -193,7 +193,7 @@ const RegisterForm = () => {
                 required={true}
                 className={`${
                   inputValidator.email ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={inputValidator.email ? 'Enter email' : null}
                 value={formInputs.email}
                 onChange={(e) =>
@@ -209,7 +209,7 @@ const RegisterForm = () => {
                 type="password"
                 className={`${
                   inputValidator.password ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={inputValidator.password ? 'Enter password' : null}
                 value={formInputs.password}
                 onChange={(e) =>
@@ -228,7 +228,7 @@ const RegisterForm = () => {
                 type="password"
                 className={`${
                   inputValidator.confirmPassword ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={
                   inputValidator.confirmPassword ? 'Confirm password' : null
                 }
@@ -248,7 +248,7 @@ const RegisterForm = () => {
               <input
                 className={`${
                   inputValidator.address1 ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={inputValidator.address1 ? 'Enter address' : null}
                 value={formInputs.address1}
                 onChange={(e) =>
@@ -264,7 +264,7 @@ const RegisterForm = () => {
                 Address 2
               </label>
               <input
-                className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray"
+                className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]"
                 value={formInputs.address2}
                 onChange={(e) =>
                   setFormInputs((prev) => ({
@@ -281,7 +281,7 @@ const RegisterForm = () => {
               <input
                 className={`${
                   inputValidator.city ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={inputValidator.city ? 'Enter city' : null}
                 value={formInputs.city}
                 onChange={(e) =>
@@ -322,7 +322,7 @@ const RegisterForm = () => {
                 maxLength="9"
                 className={`${
                   inputValidator.zip ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={inputValidator.zip ? 'Enter zip' : null}
                 value={formInputs.zip}
                 onChange={(e) =>
@@ -338,7 +338,7 @@ const RegisterForm = () => {
                 type="number"
                 className={`${
                   inputValidator.age ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-xs focus:border-primary-gray active:border-primary-gray active:ring-primary-gray focus:ring-primary-gray outline-0 focus:bg-white`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem] focus:border-primary-gray active:border-primary-gray active:ring-primary-gray focus:ring-primary-gray outline-0 focus:bg-white`}
                 value={formInputs.age || 18}
                 min={18}
                 max={119}
