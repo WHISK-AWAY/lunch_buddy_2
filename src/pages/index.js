@@ -7,6 +7,8 @@ export { default as RestaurantCard } from './MeetingSetup/RestaurantCard';
 export { default as UserAccount } from './UserAccount/UserAccount';
 export { default as NavBar } from '../components/NavBar';
 export { default as AboutForm } from './aboutYourself/AboutForm';
+export { default as Feedback } from './Feedback/Feedback';
+export { default as EditUserForm } from './EditUser/EditUserForm';
 export { default as SignInForm } from './SignIn/SignInForm';
 export { default as RegisterForm } from './Register/RegisterForm';
 export { default as Homepage } from './Homepage/Homepage';

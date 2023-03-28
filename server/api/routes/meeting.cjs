@@ -27,7 +27,6 @@ router.post('/', requireToken, async (req, res, next) => {
         defaults: { ...bodyKeys, meetingStatus: 'pending' },
       });
       if (wasCreated === false) {
-        console.log('conflict:', newMeeting);
         res.status(409).send('user is already in a meeting');
       } else {
         res.status(200).json(newMeeting);
@@ -63,12 +62,19 @@ router.put('/:meetingId', requireToken, async (req, res, next) => {
   }
 });
 // only admins can get full past meeting info
-router.get('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
+router.get('/:meetingId', requireToken, async (req, res, next) => {
   try {
     const meeting = await Meeting.findByPk(req.params.meetingId, {
-      include: Message,
+      include: [
+        { model: Message },
+        {
+          model: Rating,
+          attributes: {
+            exclude: ['rating', 'isReport', 'reportComment', 'reportIsUpheld'],
+          },
+        },
+      ],
     });
-
     if (meeting) {
       res.json(meeting);
     } else {
@@ -187,27 +193,28 @@ router.post('/:meetingId/rating', requireToken, async (req, res, next) => {
         res
           .status(409)
           .send(`please change report to true or remove reportComment`);
-      } else if (req.user.id === meeting.userId) correctRecip = meeting.buddyId;
-      else {
+      } else if (req.user.id === meeting.userId) {
+        correctRecip = meeting.buddyId;
+      } else {
         correctRecip = meeting.userId;
-        const [rating, wasCreated] = await Rating.findOrCreate({
-          where: {
-            meetingId: req.params.meetingId,
-            userId: req.user.id,
-          },
-          defaults: {
-            userId: req.user.id,
-            buddyId: correctRecip,
-            rating: req.body.rating,
-            isReport: bodyKeys['isReport'],
-            reportComment: bodyKeys['reportComment'],
-          },
-        });
-        if (wasCreated === false) {
-          res.status(409).send(`User already created a rating`);
-        } else {
-          res.status(200).json(rating);
-        }
+      }
+      const [rating, wasCreated] = await Rating.findOrCreate({
+        where: {
+          meetingId: req.params.meetingId,
+          userId: req.user.id,
+        },
+        defaults: {
+          userId: req.user.id,
+          buddyId: correctRecip,
+          rating: req.body.rating,
+          isReport: bodyKeys['isReport'],
+          reportComment: bodyKeys['reportComment'],
+        },
+      });
+      if (wasCreated === false) {
+        res.status(409).send(`User already created a rating`);
+      } else {
+        res.status(200).json(rating);
       }
     } else {
       res.status(404).send(`User is not in meeting ${req.params.meetingId}`);

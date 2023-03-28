@@ -13,6 +13,8 @@ import {
   AboutForm,
   SignInForm,
   RegisterForm,
+  EditUserForm,
+  Feedback,
   UserAccount,
   Homepage,
 } from './pages';
@@ -36,6 +38,9 @@ function App() {
           element={<RestaurantSuggestions />}
         ></Route>
         <Route path="/match/confirm" element={<MeetingRecap />}></Route>
+        {/* THESE ROUTE NAMES WILL BE CHANGED JUST A PLACEHOLDER */}
+        <Route path="edituser" element={<EditUserForm />} />
+        <Route path="meeting/:meetingId/feedback" element={<Feedback />} />
       </Routes>
     </div>
   );
