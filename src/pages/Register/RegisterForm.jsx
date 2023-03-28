@@ -118,7 +118,7 @@ const RegisterForm = () => {
 
   const validateZip = (zip) => {
     const valid = /^\d+$/;
-    return valid.test(zip);
+    return valid.test(zip) && zip.length === 5;
   };
 
   const validateEmail = (email) => {
@@ -127,7 +127,7 @@ const RegisterForm = () => {
     return valid.test(email);
   };
 
-  const validatePassword = (password) => {
+  const validatePassword = () => {
     return (
       formInputs.password.length >= 8 &&
       formInputs.password === formInputs.confirmPassword
