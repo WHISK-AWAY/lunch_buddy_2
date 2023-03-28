@@ -1,6 +1,11 @@
 const router = require('express').Router();
 const { Meeting, Message, Rating } = require('../../db/index.cjs');
-const { requireToken, isAdmin } = require('../authMiddleware.cjs');
+const {
+  requireToken,
+  isAdmin,
+  sameUserOrAdmin,
+} = require('../authMiddleware.cjs');
+const { Op } = require('sequelize');
 
 router.post('/', requireToken, async (req, res, next) => {
   try {
@@ -93,13 +98,24 @@ router.delete('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
     next(err);
   }
 });
+
 // want to check if user is logged in and user is in meeting
 router.get('/:meetingId/messages', requireToken, async (req, res, next) => {
   try {
     const meeting = await Meeting.findByPk(req.params.meetingId, {
-      include: {
-        model: Message,
-      },
+      include: [
+        {
+          association: 'user',
+          attributes: ['firstName', 'lastName', 'fullName', 'avatarUrl'],
+        },
+        {
+          association: 'buddy',
+          attributes: ['firstName', 'lastName', 'fullName', 'avatarUrl'],
+        },
+        {
+          model: Message,
+        },
+      ],
     });
     if (meeting) {
       if (
@@ -118,20 +134,28 @@ router.get('/:meetingId/messages', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
 router.post('/:meetingId/messages', requireToken, async (req, res, next) => {
   try {
     let correctRecip;
     const meeting = await Meeting.findByPk(req.params.meetingId);
     if (req.user.id === meeting.userId || req.user.id === meeting.buddyId) {
-      if (req.user.id === meeting.userId) correctRecip = meeting.buddyId;
-      else correctRecip = meeting.userId;
+      if (req.user.id === meeting.userId) {
+        correctRecip = meeting.buddyId;
+      } else {
+        correctRecip = meeting.userId;
+      }
       const newMessage = await Message.create({
         recipientId: correctRecip,
         meetingId: req.params.meetingId,
         message: req.body.message,
         senderId: req.user.id,
       });
-      res.status(200).json(newMessage);
+      if (newMessage) {
+        res.status(200).json(newMessage);
+      } else {
+        res.status(404).send('message failed on creation');
+      }
     } else {
       res.status(404).send(`User is not in meeting ${req.params.meetingId}`);
     }

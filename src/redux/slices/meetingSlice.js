@@ -129,7 +129,7 @@ export const addMessage = createAsyncThunk(
     try {
       const { data } = await axios.post(
         API_URL + `/api/meeting/${meetingId}/messages`,
-        newMessage,
+        { message: newMessage },
         {
           headers: {
             authorization: token,
@@ -218,7 +218,7 @@ const meetingSlice = createSlice({
       })
       .addCase(createMeeting.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // Update a meeting
@@ -232,7 +232,7 @@ const meetingSlice = createSlice({
       })
       .addCase(updateMeeting.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // Get a single meeting (Already includes the messages)
@@ -248,9 +248,8 @@ const meetingSlice = createSlice({
       })
       .addCase(getMeeting.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.payload.response.data;
       })
-
       // Delete a meeting
       .addCase(deleteMeeting.fulfilled, (state, action) => {
         // payload comes in form {res, meetingId}
@@ -267,13 +266,14 @@ const meetingSlice = createSlice({
       })
       .addCase(deleteMeeting.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // Get a messages for a particular meeting
       .addCase(getMeetingMessages.fulfilled, (state, action) => {
         // Payload includes messages for this particular meeting
-        state.meeting.messages = action.payload;
+        console.log(action.payload);
+        state.meeting = action.payload;
         state.isLoading = false;
         state.error = '';
       })
@@ -282,7 +282,7 @@ const meetingSlice = createSlice({
       })
       .addCase(getMeetingMessages.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // Add a message
@@ -296,9 +296,8 @@ const meetingSlice = createSlice({
       })
       .addCase(addMessage.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
-
       // Add a rating to a meeting
       .addCase(addRating.fulfilled, (state) => {
         state.isLoading = false;
@@ -309,7 +308,7 @@ const meetingSlice = createSlice({
       })
       .addCase(addRating.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // No payload returned, thunk updates the rating
@@ -322,7 +321,7 @@ const meetingSlice = createSlice({
       })
       .addCase(upholdRating.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       });
   },
 });
