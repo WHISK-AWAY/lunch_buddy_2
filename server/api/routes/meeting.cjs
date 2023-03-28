@@ -100,7 +100,7 @@ router.delete('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
 });
 
 // want to check if user is logged in and user is in meeting
-router.get('/:meetingId/messages', requireToken async (req, res, next) => {
+router.get('/:meetingId/messages', requireToken, async (req, res, next) => {
   try {
     const meeting = await Meeting.findByPk(req.params.meetingId, {
       include: [
