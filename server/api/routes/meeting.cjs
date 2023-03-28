@@ -32,6 +32,7 @@ router.post('/', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
 router.put('/:meetingId', requireToken, async (req, res, next) => {
   const { isClosed, lunchDate, yelpBusinessId } = req.body;
   const bodyKeys = { isClosed, lunchDate, yelpBusinessId };
@@ -57,6 +58,7 @@ router.put('/:meetingId', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
 // only admins can get full past meeting info
 router.get('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
   try {
@@ -73,6 +75,7 @@ router.get('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
     next(err);
   }
 });
+
 // only admins can remove past meetings
 router.delete('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
   try {
@@ -93,6 +96,7 @@ router.delete('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
     next(err);
   }
 });
+
 // want to check if user is logged in and user is in meeting
 router.get('/:meetingId/messages', requireToken, async (req, res, next) => {
   try {
@@ -118,6 +122,7 @@ router.get('/:meetingId/messages', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
 router.post('/:meetingId/messages', requireToken, async (req, res, next) => {
   try {
     let correctRecip;
@@ -139,6 +144,7 @@ router.post('/:meetingId/messages', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
 // want to check if user is logged in and user is in meeting
 router.post('/:meetingId/rating', requireToken, async (req, res, next) => {
   try {
