@@ -7,19 +7,28 @@ const ReportForm = ({
   setReportInput,
   validationMessage,
   submitReport,
+  noReportText,
+  setNoReportText,
 }) => {
+  console.log('noReport text', noReportText);
+
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className={`w-full flex flex-col items-center`}>
       <textarea
         name="report"
         placeholder="Please give reason for reporting"
         cols="30"
         rows="3"
         value={reportInput}
-        onChange={(e) => setReportInput(e.target.value)}
-        className="border border-black rounded-3xl w-11/12 p-4 placeholder:text-slate-500"
+        onChange={(e) => {
+          setReportInput(e.target.value);
+          setNoReportText((prev) => !!prev);
+        }}
+        className={`border border-black rounded-3xl w-11/12 p-4 placeholder:text-slate-500 ${
+          noReportText ? 'placeholder:text-headers' : ''
+        }`}
       />
-      {/* PASS IN CLICK HANDLER TO SUBMIT REPORT BUTTON THAT TAKES IN PARAMS AS ARG */}
+
       <div className="w-4/5">
         <FormButton handleSubmit={(e) => submitReport(e)}>
           SUBMIT REPORT

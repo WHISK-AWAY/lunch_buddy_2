@@ -11,11 +11,11 @@ const Feedback = () => {
   const [reportInput, setReportInput] = useState('');
   const [starRating, setStarRating] = useState(0);
   const [noRating, setNoRating] = useState(false);
+  const [noReportText, setNoReportText] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const meeting = useSelector((state) => state.meetings.meeting);
-  console.log(meeting, 'MEEETING');
   const user = useSelector((state) => state.auth.user);
 
   const token = localStorage.getItem('token');
@@ -24,25 +24,6 @@ const Feedback = () => {
   }
 
   const { meetingId } = useParams();
-
-  useEffect(() => {
-    const userReviews = meeting?.ratings?.reduce((acc, rating) => {
-      console.log('reducer rating', rating.userId);
-      acc[rating.userId] = true;
-      return acc;
-    }, {});
-    console.log('userReviews', userReviews);
-    if (userReviews && user && userReviews[user?.id]) {
-      console.log('they already reviewed');
-    }
-  }, [meeting]);
-
-  // useEffect(() => {
-  //   async function fetchMeeting() {
-  //     await dispatch(getMeeting({ meetingId }));
-  //   }
-  //   fetchMeeting();
-  // }, []);
 
   useEffect(() => {
     async function fetchMeeting() {
@@ -66,15 +47,6 @@ const Feedback = () => {
     fetchMeeting();
   }, [user]);
 
-  const userReviews = meeting?.ratings?.reduce((acc, rating) => {
-    console.log('reducer rating', rating.userId);
-    acc[rating.userId] = true;
-    return acc;
-  }, {});
-  if (userReviews && userReviews[user.id]) {
-    return <p>This user has already reviewed</p>;
-  }
-
   async function submitRating(e) {
     e.preventDefault();
     if (starRating === 0) {
@@ -93,6 +65,9 @@ const Feedback = () => {
 
   const submitReport = async (e) => {
     e.preventDefault();
+    if (!reportInput) {
+      return setNoReportText(true);
+    }
     const createdReport = await dispatch(
       addRating({
         meetingId,
@@ -105,6 +80,14 @@ const Feedback = () => {
       navigate('/');
     }
   };
+
+  // const userReviews = meeting?.ratings?.reduce((acc, rating) => {
+  //   acc[rating.userId] = true;
+  //   return acc;
+  // }, {});
+  // if (userReviews && userReviews[user.id]) {
+  //   return <p>This user has already reviewed</p>;
+  // }
 
   return (
     <div className="flex">
@@ -132,6 +115,8 @@ const Feedback = () => {
             reportInput={reportInput}
             setReportInput={setReportInput}
             submitReport={submitReport}
+            noReportText={noReportText}
+            setNoReportText={setNoReportText}
           />
         )}
       </div>
