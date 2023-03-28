@@ -29,6 +29,9 @@ module.exports = {
       transitionProperty: {
         height: 'height',
       },
+      screens: {
+        '3xl': '1900px',
+      },
     },
   },
   plugins: [
