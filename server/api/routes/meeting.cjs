@@ -139,7 +139,6 @@ router.post('/:meetingId/messages', requireToken, async (req, res, next) => {
   try {
     let correctRecip;
     const meeting = await Meeting.findByPk(req.params.meetingId);
-    // console.log('testestest', meeting.buddyId);
     if (req.user.id === meeting.userId || req.user.id === meeting.buddyId) {
       if (req.user.id === meeting.userId) {
         correctRecip = meeting.buddyId;
