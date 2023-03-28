@@ -52,7 +52,6 @@ export const getMeeting = createAsyncThunk(
       const token = localStorage.getItem('token');
       let route;
 
-      // if (!token) token = window.localStorage.getItem('token');
       if (!token) throw new Error('No token provided');
 
       if (userId !== undefined) {
@@ -149,7 +148,7 @@ export const addRating = createAsyncThunk(
   async ({ meetingId, newRating }, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem('token');
-      if (!token) throw Error('Must be logged in to leave a rating');
+      if (!token) throw new Error('Must be logged in to leave a rating');
 
       const { data } = await axios.post(
         API_URL + `/api/meeting/${meetingId}/rating`,
