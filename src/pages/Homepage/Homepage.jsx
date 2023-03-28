@@ -64,11 +64,16 @@ const Homepage = () => {
             id="explore-header"
             className="w-fit self-start sm:self-center md:text-3xl text-xl py-4"
             data-aos="fade-up"
-            data-aos-delay="700"
+            data-aos-delay="500"
           >
             EXPLORE
           </h1>
-          <span className="w-4/5 self-start md:self-center leading-4 md:text-sm sm:w-11/12 justify-center md:text-center sm:self-center text-xs text-justify pb-3 md:w-4/5">
+          <span
+            className="w-4/5 self-start md:self-center leading-4 md:text-sm sm:w-11/12 justify-center md:text-center sm:self-center text-xs text-justify pb-3 md:w-4/5"
+            data-aos="zoom-in"
+            data-aos-delay="700"
+            data-aos-duration="2000"
+          >
             discover new and exciting dining experiences, embark on a culinary
             journey, explore diverse flavors and cuisines in your area
           </span>
@@ -99,7 +104,11 @@ const Homepage = () => {
             EXPAND
           </h1>
 
-          <span className="w-11/12 md:self-center md:text-center md:text-sm text-xs sm:text-center self-end text-right">
+          <span
+            className="w-11/12 md:self-center md:text-center md:text-sm text-xs sm:text-center self-end text-right"
+            data-aos="zoom-in-left"
+            data-aos-delay="300"
+          >
             expand your network for growth and opportunities
           </span>
         </div>
@@ -112,8 +121,9 @@ const Homepage = () => {
         <div
           id="bg-img-container"
           className="md:w-1/2 bg-[url('/assets/bgImg/join.jpg')] md:h-screen bg-no-repeat bg-right w-full bg-cover self-end h-[60svh]"
-          data-aos="zoom-in-right"
-          data-aos-delay="300"
+          data-aos="fade-left"
+          data-aos-delay="100"
+          duration="300"
         ></div>
         <div
           id="join-text-section"
@@ -122,18 +132,25 @@ const Homepage = () => {
           <h1
             id="join-header"
             className="w-fit md:self-center  flex flex-col  md:text-3xl text-xl text-start pb-1"
-            data-aos="fade-up"
-            data-aos-delay="900"
+            data-aos="fade-down"
+            data-aos-delay="600"
           >
             JOIN
           </h1>
 
-          <span className="w-4/5 md:self-center flex flex-col items-center justify-center md:w-11/12 sm:self-center sm:w-11/12 text-xs pb-5">
+          <span
+            className="w-4/5 md:self-center flex flex-col items-center justify-center md:w-11/12 sm:self-center sm:w-11/12 text-xs pb-5"
+            data-aos="fade-up"
+            data-aos-delay="600"
+          >
             LUNCHbuddy and never eat lunch alone
           </span>
           <Link
             to={'/register'}
             className="border-2 self-center border-orange-400 rounded-3xl px-10 py-1 text-xs md:text-sm "
+            data-aos="fade-in"
+            data-aos-delay="900"
+            duration="400"
           >
             sign up
           </Link>
