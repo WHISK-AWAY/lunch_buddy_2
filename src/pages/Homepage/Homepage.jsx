@@ -11,7 +11,7 @@ const Homepage = () => {
     offset: 0,
   });
   return (
-    <div className="flex md:w-screen w-full flex-col scroll-smooth gap-20 text-primary-gray  md:py-16 md:gap-56 h-fit overflow-hidden">
+    <div className="flex md:w-screen w-full flex-col scroll-smooth gap-20 text-primary-gray pb-16 md:py-16 md:gap-56 h-fit overflow-hidden">
       <div
         id="connect-section"
         className="flex md:flex-row flex-col md:w-full md:h-screen md:pl-20 pr-6 py-6 sm:p-6"
@@ -39,6 +39,7 @@ const Homepage = () => {
             className="w-4/5  self-end text-justify text-xs leading-4 md:text-sm md:w-4/5 md:self-center md:text-center sm:w-11/12"
             data-aos="fade-in"
             data-aos-delay="1300"
+            duration="500"
           >
             explore seamless way to connect with like-minded people in your
             area, build meaningful relationships
@@ -65,6 +66,7 @@ const Homepage = () => {
             className="w-fit self-start sm:self-center md:text-3xl text-xl py-4"
             data-aos="fade-up"
             data-aos-delay="500"
+
           >
             EXPLORE
           </h1>
@@ -72,7 +74,7 @@ const Homepage = () => {
             className="w-4/5 self-start md:self-center leading-4 md:text-sm sm:w-11/12 justify-center md:text-center sm:self-center text-xs text-justify pb-3 md:w-4/5"
             data-aos="zoom-in"
             data-aos-delay="700"
-            data-aos-duration="2000"
+            data-aos-duration="2500"
           >
             discover new and exciting dining experiences, embark on a culinary
             journey, explore diverse flavors and cuisines in your area
@@ -122,8 +124,8 @@ const Homepage = () => {
           id="bg-img-container"
           className="md:w-1/2 bg-[url('/assets/bgImg/join.jpg')] md:h-screen bg-no-repeat bg-right w-full bg-cover self-end h-[60svh]"
           data-aos="fade-left"
-          data-aos-delay="100"
-          duration="300"
+          data-aos-delay="300"
+          data-aos-duration="1500"
         ></div>
         <div
           id="join-text-section"
@@ -141,7 +143,8 @@ const Homepage = () => {
           <span
             className="w-4/5 md:self-center flex flex-col items-center justify-center md:w-11/12 sm:self-center sm:w-11/12 text-xs pb-5"
             data-aos="fade-up"
-            data-aos-delay="600"
+            data-aos-delay="400"
+            // data-aos-duration="1000"
           >
             LUNCHbuddy and never eat lunch alone
           </span>
@@ -149,8 +152,8 @@ const Homepage = () => {
             to={'/register'}
             className="border-2 self-center border-orange-400 rounded-3xl px-10 py-1 text-xs md:text-sm "
             data-aos="fade-in"
-            data-aos-delay="900"
-            duration="400"
+            data-aos-delay="1500"
+            data-aos-duration="2000"
           >
             sign up
           </Link>
@@ -162,20 +165,3 @@ const Homepage = () => {
 
 export default Homepage;
 
-// return (
-//   <div className="flex w-screen flex-col">
-//     <div
-//       className="delay-[300ms] duration-[600ms] taos:translate-y-[500px] taos:opacity-0 w-1/2  bg-[url('/assets/bgImg/bg1.jpg')] h-screen bg-no-repeat bg-contain self-start bg-left "
-//       data-taos-offset="1000"
-//     ></div>
-//     <div
-//       className="w-1/2  bg-[url('/assets/bgImg/bg5.jpg')] h-screen bg-no-repeat bg-right bg-contain self-end delay-[300ms] duration-[600ms] taos:translate-y-[-100%] taos:invisible"
-//       data-taos-offset="500"
-//     ></div>
-//     <div
-//       className="w-1/2 bg-[url('/assets/bgImg/bg4.jpg')] h-screen bg-no-repeat bg-contain self-start delay-[300ms] duration-[600ms] taos:translate-x-[100%] taos:invisible"
-//       data-taos-offset="400"
-//     ></div>
-//     <div className="w-1/2 bg-[url('/assets/bgImg/bg6.jpg')] h-screen bg-no-repeat bg-right bg-contain self-end"></div>
-//   </div>
-// );
