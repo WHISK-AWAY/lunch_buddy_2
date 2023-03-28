@@ -21,6 +21,7 @@ const Homepage = () => {
           className=" bg-[url('/assets/bgImg/connect.jpg')] self-right md:h-screen md:w-full md:bg-cover bg-cover h-[60svh] bg-no-repeat md:self-start sm:bg-right "
           data-aos="fade-up"
           data-aos-delay="400"
+          duration="1000"
           // data-aos-anchor-placement="center-center"
         ></div>
         <div
@@ -54,8 +55,9 @@ const Homepage = () => {
         <div
           id="bg-img-container"
           className="md:w-1/2 bg-[url('/assets/bgImg/explore.jpg')] h-[70svh] md:h-screen bg-no-repeat bg-cover bg-left self-end w-full pl-6 md:self-end"
-          data-aos="fade-down"
+          data-aos="fade-right"
           data-aos-delay="300"
+          data-aos-duration="1500"
         ></div>
         <div
           id="explore-text-section"
