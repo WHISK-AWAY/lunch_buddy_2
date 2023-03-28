@@ -6,7 +6,6 @@ import { fetchUser, selectUser } from '../../redux/slices/userSlice';
 import squaresSolid from '../../assets/icons/squares-solid.svg';
 import pencil from '../../assets/icons/pencil.svg';
 
-
 const UserAccount = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,7 +17,6 @@ const UserAccount = () => {
   const [socialTags, setSocialTags] = useState([]);
   const [dietaryTags, setDietaryTags] = useState([]);
   const [cuisineTags, setCuisineTags] = useState([]);
-
 
   useEffect(() => {
     dispatch(tryToken());
@@ -43,13 +41,11 @@ const UserAccount = () => {
     }
   }, [dispatch, auth]);
 
-
   useEffect(() => {
     if (token && auth.user.id) {
       dispatch(fetchUser(auth.user.id));
     }
   }, [dispatch, auth]);
-
 
   const tags = user.tags;
 
@@ -73,7 +69,6 @@ const UserAccount = () => {
     setCuisineTags(cuisine || []);
   }, [user]);
 
-
   if (!tags) return <p>Loading tags...</p>;
 
   return (
@@ -90,7 +85,7 @@ const UserAccount = () => {
           <div id="user-avatar" className=" flex justify-center relative">
             {/*ADD LINK TO EDIT ACC*/}
             <Link
-              to=""
+              to="/edituser"
               className="w-14 h-14 rounded-full bg-primary-gray/20 absolute -right-5 top-7 z-0"
             >
               <img
@@ -107,7 +102,9 @@ const UserAccount = () => {
         </div>
 
         <div className="px-8 py-7 overflow-auto">
-        <p className="pt-12 flex items-center justify-center text-sm">{user.city.toUpperCase()}, {user.state}</p>
+          <p className="pt-12 flex items-center justify-center text-sm">
+            {user.city.toUpperCase()}, {user.state}
+          </p>
           <div id="about-me" className="pt-7 text-justify text-primary-gray">
             <p>{auth.user.aboutMe}</p>
           </div>
@@ -203,7 +200,8 @@ const UserAccount = () => {
           </div>
         </div>
       </div>
-      <div id="bg-img"
+      <div
+        id="bg-img"
         className="bg-cover
           bg-[url('/assets/bgImg/accView.jpg')] basis-1/2 hidden lg:block h-full"
       ></div>

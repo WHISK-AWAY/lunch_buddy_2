@@ -47,8 +47,9 @@ export const updateMeeting = createAsyncThunk(
 
 export const getMeeting = createAsyncThunk(
   'meeting/getOne',
-  async ({ token, meetingId, userId }, { rejectWithValue }) => {
+  async ({ meetingId, userId }, { rejectWithValue }) => {
     try {
+      const token = localStorage.getItem('token');
       let route;
 
       if (!token) token = window.localStorage.getItem('token');
@@ -97,7 +98,6 @@ export const deleteMeeting = createAsyncThunk(
       });
       return { res, meetingId };
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error);
     }
   }
@@ -146,9 +146,12 @@ export const addMessage = createAsyncThunk(
 
 export const addRating = createAsyncThunk(
   'meeting/addRating',
-  async ({ token, meetingId, newRating }, { rejectWithValue }) => {
+  async ({ meetingId, newRating }, { rejectWithValue }) => {
     try {
-      const { data } = axios.post(
+      const token = localStorage.getItem('token');
+      if (!token) throw Error('Must be logged in to leave a rating');
+
+      const { data } = await axios.post(
         API_URL + `/api/meeting/${meetingId}/rating`,
         newRating,
         {
@@ -159,7 +162,6 @@ export const addRating = createAsyncThunk(
       );
       return data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error);
     }
   }
@@ -169,7 +171,7 @@ export const upholdRating = createAsyncThunk(
   'meeting/upholdRating',
   async ({ token, ratingId, decision }, { rejectWithValue }) => {
     try {
-      const { data } = axios.put(
+      const { data } = await axios.put(
         API_URL + `/api/rating/${ratingId}`,
         { reportIsUpheld: decision },
         {
@@ -245,8 +247,9 @@ const meetingSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getMeeting.rejected, (state, action) => {
+        console.log('ERROR PAYLOAD', action.payload);
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.payload.response.data;
       })
 
       // Delete a meeting
@@ -307,7 +310,7 @@ const meetingSlice = createSlice({
       })
       .addCase(addRating.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // No payload returned, thunk updates the rating

@@ -51,7 +51,7 @@ router.get(
           exclude: ['password', 'avgRating', 'reportCount', 'strikeCount'],
         },
       });
-
+      console.log('user<><>', user);
       if (!user) return res.status(404).send(`No such user id: ${userId}`);
       res.status(200).json(user);
     } catch (err) {

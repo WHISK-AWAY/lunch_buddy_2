@@ -11,5 +11,3 @@ export { default as SignInForm } from './signIn/SignInForm';
 export { default as RegisterForm } from './register/RegisterForm';
 export { default as EditUserForm } from './EditUser/EditUserForm';
 export { default as Feedback } from './Feedback/Feedback';
-export { default as SignInForm } from './SignIn/SignInForm';
-export { default as RegisterForm } from './Register/RegisterForm';

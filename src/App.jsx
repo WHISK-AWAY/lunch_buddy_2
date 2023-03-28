@@ -36,7 +36,7 @@ function App() {
         <Route path="/match/confirm" element={<MeetingRecap />}></Route>
         {/* THESE ROUTE NAMES WILL BE CHANGED JUST A PLACEHOLDER */}
         <Route path="edituser" element={<EditUserForm />} />
-        <Route path="feedback" element={<Feedback />} />
+        <Route path="meeting/:meetingId/feedback" element={<Feedback />} />
       </Routes>
     </div>
   );

@@ -37,9 +37,12 @@ const NavBar = () => {
   }, []);
 
   useEffect(() => {
-    if (authUser.firstName) {
-      dispatch(fetchUser(authUser.id));
+    async function runDispatch() {
+      if (authUser.firstName) {
+        await dispatch(fetchUser(authUser.id));
+      }
     }
+    runDispatch();
   }, [authUser]);
 
   return (
