@@ -5,7 +5,7 @@ const DropDownItem = (props) => {
   return (
     <li
       onClick={props.handleClick}
-      className="transition-all border-b border-primary-gray w-full text-center border-collapse hover:bg-label/20 hover:ease-in duration-400 "
+      className="transition-all border-b border-primary-gray w-full text-center border-collapse hover:bg-orange-700/20 hover:ease-in-out duration-500 "
       style={{
         transitionDelay: '0.1s',
       }}

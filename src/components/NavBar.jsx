@@ -6,6 +6,9 @@ import bellIcon from '../assets/icons/notification.svg';
 import DropdownMenu from './DropdownMenu';
 import { selectAuthUser, tryToken } from '../redux/slices/authSlice';
 import { fetchUser, updateUser } from '../redux/slices/userSlice';
+import navbarTest from '../assets/icons/navbar-test.svg';
+import xIcon from '../assets/icons/x-icon.svg';
+
 
 const NavBar = () => {
   const [expandMenu, setExpandMenu] = useState(false);
@@ -48,7 +51,7 @@ const NavBar = () => {
         <button className="h-8 flex justify-center items-center pt-1">
           <img
             className="w-8"
-            src={menuIcon}
+            src={navbarTest}
             alt="Three lined menu icon button"
             onClick={() => setExpandMenu((prev) => !prev)}
           />
@@ -98,7 +101,7 @@ const NavBar = () => {
               <Link to="/">
                 <h1 className="text-2xl">
                   LUNCH
-                  <span className="font-clicker text-xl font-thin text-black">
+                  <span className="font-clicker text-xl font-thin text-primary-gray">
                     buddy
                   </span>
                 </h1>
@@ -108,9 +111,9 @@ const NavBar = () => {
         </ul>
       </nav>
       {/* DROPDOWN MENU, HIDDEN UNTIL CLICKED */}
-      {expandMenu && (
+
         <DropdownMenu expandMenu={expandMenu} setExpandMenu={setExpandMenu} />
-      )}
+
     </header>
   );
 };
