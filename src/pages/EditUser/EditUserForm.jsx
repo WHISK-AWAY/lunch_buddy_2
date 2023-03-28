@@ -173,10 +173,10 @@ const EditUserForm = () => {
       <div className="w-full xs:w-4/5 sm:w-3/5 md:w-1/2">
         <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8">
           <h1 className="text-center text-2xl mb-6 text-red-400 font-bold font-sans col-span-full">
-            Edit Information
+            EDIT
           </h1>
           <div className="relative col-span-3 w-full">
-            <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
+            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
               First Name
             </label>
             <input
@@ -193,7 +193,7 @@ const EditUserForm = () => {
             />
           </div>
           <div className="relative col-span-3 w-full">
-            <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
+            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
               Last Name
             </label>
             <input
@@ -247,8 +247,8 @@ const EditUserForm = () => {
               }
             />
           </div> */}
-          <div className="relative col-span-4">
-            <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
+          <div className="relative col-span-4 text-primary-gray">
+            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
               Address 1
             </label>
             <input
@@ -262,11 +262,11 @@ const EditUserForm = () => {
             />
           </div>
           <div className="relative col-span-2">
-            <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
+            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
               Address 2
             </label>
             <input
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
+              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray"
               value={formInputs.address2}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, address2: e.target.value }))
@@ -274,7 +274,7 @@ const EditUserForm = () => {
             />
           </div>
           <div className="relative col-span-4">
-            <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
+            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
               City
             </label>
             <input
@@ -288,11 +288,11 @@ const EditUserForm = () => {
             />
           </div>
           <div className="relative col-span-2">
-            <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
+            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
               State
             </label>
             <select
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700 text-sm"
+              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-xs bg-white"
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, state: e.target.value }))
               }
@@ -307,7 +307,7 @@ const EditUserForm = () => {
             </select>
           </div>
           <div className="relative col-span-2">
-            <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
+            <label className="text-red-400 font-semibold block text-xs  absolute -top-3 left-3 bg-white px-1">
               Zip
             </label>
             <input
@@ -321,7 +321,7 @@ const EditUserForm = () => {
             />
           </div>
           <div className="relative col-span-2">
-            <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
+            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
               Age
             </label>
             <input
@@ -337,11 +337,11 @@ const EditUserForm = () => {
             />
           </div>
           <div className="relative col-span-2">
-            <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
+            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
               Gender
             </label>
             <select
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
+              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray bg-white"
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, gender: e.target.value }))
               }
@@ -353,7 +353,7 @@ const EditUserForm = () => {
             </select>
           </div>
           <div className="col-span-full md:w-3/5 md:mx-auto">
-            <FormButton handleSubmit={handleSubmit}>Continue</FormButton>
+            <FormButton handleSubmit={handleSubmit}>CONTINUE</FormButton>
           </div>
         </form>
       </div>
