@@ -8,8 +8,10 @@ import { fetchUser, updateUser } from '../redux/slices/userSlice';
 import navbarIcon from '../assets/icons/navbar-icon.svg';
 import xIcon from '../assets/icons/x-icon.svg';
 import {
+  cancelMeeting,
   fetchAllNotifications,
   selectUnreadNotifications,
+  updateNotificationStatus,
 } from '../redux/slices/notificationSlice';
 
 const NavBar = () => {
@@ -39,6 +41,24 @@ const NavBar = () => {
     dispatch(updateUser({ status: newStatus }));
   }
 
+  function handleUpdateNotif() {
+    dispatch(
+      updateNotificationStatus({
+        userId: authUser.id,
+        notificationId: 39,
+        updates: { isAcknowledged: true },
+      })
+    );
+  }
+  function handleCancel() {
+    dispatch(
+      cancelMeeting({
+        userId: authUser.id,
+        meetingId: 4,
+      })
+    );
+  }
+
   useEffect(() => {
     dispatch(tryToken());
   }, []);
@@ -64,6 +84,8 @@ const NavBar = () => {
             onClick={() => setExpandMenu((prev) => !prev)}
           />
         </button>
+        <button onClick={handleUpdateNotif}>CLICK TO TEST UPDATE NOTIF</button>
+        <button onClick={handleCancel}>CLICK TO TEST CANCEL</button>
         <ul className="flex items-center justify-center gap-8 text-center">
           {/* BUTTONS THAT SHOW ONLY WHEN SIGNED IN */}
           {authUser?.firstName ? (

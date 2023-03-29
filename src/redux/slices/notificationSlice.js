@@ -25,11 +25,46 @@ export const fetchAllNotifications = createAsyncThunk(
 
 export const updateNotificationStatus = createAsyncThunk(
   'notification/updateStatus',
-  async ({ userId, notificationId }, { rejectWithValue, getState }) => {
+  async (
+    { userId, notificationId, updates },
+    { rejectWithValue, getState }
+  ) => {
     try {
       const { data } = await axios.put(
         API_URL + `/api/user/${userId}/notifications/${notificationId}`,
-        { userId, notificationId },
+        updates,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+// While this is a user route, it will trigger a notification so it should be called from this slice
+export const cancelMeeting = createAsyncThunk(
+  'notification/cancelMeeting',
+  async ({ userId, meetingId }, { rejectWithValue, getState }) => {
+    console.log('userId', userId);
+    try {
+      await axios.put(
+        API_URL + `/api/user/${userId}/meeting/${meetingId}/cancel`,
+        { isClosed: true, meetingStatus: 'closed' },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      // Puts in the put request which causes a notification to trigger, so repull the data
+      const { data } = await axios.get(
+        API_URL + `/api/user/${userId}/notifications`,
         {
           headers: {
             Authorization: token,
@@ -90,6 +125,26 @@ const notificationSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(updateNotificationStatus.rejected, (state, action) => {
+        state.error = action.payload.response.data;
+        state.isLoading = false;
+      })
+
+      // Cancel meeting notification
+      .addCase(cancelMeeting.fulfilled, (state, action) => {
+        state.notifications = action.payload;
+        // reassign notification in array of notifications to show the updated notif
+        state.notification = state.notifications.find(
+          (notification) => notification.id === action.payload.id
+        );
+
+        state.error = '';
+        state.isLoading = false;
+      })
+      .addCase(cancelMeeting.pending, (state, action) => {
+        state.error = '';
+        state.isLoading = true;
+      })
+      .addCase(cancelMeeting.rejected, (state, action) => {
         state.error = action.payload.response.data;
         state.isLoading = false;
       });
