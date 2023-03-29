@@ -89,30 +89,33 @@ Meeting.beforeUpdate((meeting) => {
     meeting.isClosed = true;
 });
 
-// Create new notifications when meeting is created
-Meeting.afterCreate((meeting) => {
-  if (meeting.meetingStatus === 'pending') {
-    meeting.createNotification({
-      notificationType: 'meetingInvite',
-      meetingId: meeting.id,
-      fromUserId: meeting.userId,
-      toUserId: meeting.buddyId,
-    });
+// Create new notification when meeting is created
+Meeting.afterCreate(async (meeting) => {
+  // delay for a moment to prevent fkey violation before meeting is fully created
+  setTimeout(() => {
+    if (meeting.meetingStatus === 'pending') {
+      meeting.createNotification({
+        notificationType: 'meetingInvite',
+        meetingId: meeting.id,
+        fromUserId: meeting.userId,
+        toUserId: meeting.buddyId,
+      });
 
-    meeting.createNotification({
-      notificationType: 'ratingRequested',
-      meetingId: meeting.id,
-      fromUserId: meeting.userId,
-      toUserId: meeting.buddyId,
-    });
+      meeting.createNotification({
+        notificationType: 'ratingRequested',
+        meetingId: meeting.id,
+        fromUserId: meeting.userId,
+        toUserId: meeting.buddyId,
+      });
 
-    meeting.createNotification({
-      notificationType: 'ratingRequested',
-      meetingId: meeting.id,
-      fromUserId: meeting.buddyId,
-      toUserId: meeting.userId,
-    });
-  }
+      meeting.createNotification({
+        notificationType: 'ratingRequested',
+        meetingId: meeting.id,
+        fromUserId: meeting.buddyId,
+        toUserId: meeting.userId,
+      });
+    }
+  }, 3000);
 });
 
 // Create new notification when meeting status is updated
