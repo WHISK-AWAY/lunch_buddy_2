@@ -15,11 +15,12 @@ const SAFE_USER_FIELDS = [
 ];
 
 const NOTIFICATION_TYPES = [
-  'meetingRequested',
-  'meetingAccepted',
-  'meetingRejected',
+  'meetingInvite',
+  'inviteAccepted',
+  'inviteRejected',
   'meetingCancelled',
   'ratingRequested',
+  'newMessage',
 ];
 
 module.exports = { SAFE_USER_FIELDS, NOTIFICATION_TYPES };

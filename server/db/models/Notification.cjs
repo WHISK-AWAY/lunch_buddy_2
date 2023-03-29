@@ -10,15 +10,7 @@ const Notification = db.define('notification', {
     validate: {
       notNull: true,
       notEmpty: true,
-      isIn: [
-        [
-          'meetingRequested',
-          'meetingAccepted',
-          'meetingRejected',
-          'meetingCancelled',
-          'ratingRequested',
-        ],
-      ],
+      isIn: [NOTIFICATION_TYPES],
     },
   },
   isRead: {
