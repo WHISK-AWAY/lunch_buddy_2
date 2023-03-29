@@ -6,7 +6,7 @@ const token = window.localStorage.getItem('token');
 
 export const fetchAllNotifications = createAsyncThunk(
   'notification/fetchAll',
-  async (userId, { rejectWithValue, getState }) => {
+  async ({ userId }, { rejectWithValue, getState }) => {
     try {
       const { data } = await axios.get(
         API_URL + `/api/user/${userId}/notifications`,
@@ -98,7 +98,9 @@ const notificationSlice = createSlice({
 
 export const selectUnreadNotifications = (state) => {
   const allNotifications = state.notifications.notifications;
-  allNotifications.filter((notification) => !notification.read);
+  return allNotifications.filter(
+    (notification) => !notification.isAcknowledged
+  );
 };
 
 export const {} = notificationSlice.actions;

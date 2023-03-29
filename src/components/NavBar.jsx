@@ -7,6 +7,10 @@ import { selectAuthUser, tryToken } from '../redux/slices/authSlice';
 import { fetchUser, updateUser } from '../redux/slices/userSlice';
 import navbarIcon from '../assets/icons/navbar-icon.svg';
 import xIcon from '../assets/icons/x-icon.svg';
+import {
+  fetchAllNotifications,
+  selectUnreadNotifications,
+} from '../redux/slices/notificationSlice';
 
 const NavBar = () => {
   const [expandMenu, setExpandMenu] = useState(false);
@@ -14,6 +18,8 @@ const NavBar = () => {
 
   const authUser = useSelector(selectAuthUser);
   const userState = useSelector((state) => state.user.user);
+  const notifications = useSelector(selectUnreadNotifications);
+  console.log('notifications', notifications);
 
   // THIS VARIABLE WILL HIDE OR SHOW THE DOT INDICATING NOTIFICATIONS
   const hasNotifications = true;
@@ -41,6 +47,7 @@ const NavBar = () => {
     async function runDispatch() {
       if (authUser.firstName) {
         await dispatch(fetchUser(authUser.id));
+        await dispatch(fetchAllNotifications({ userId: authUser.id }));
       }
     }
     runDispatch();
