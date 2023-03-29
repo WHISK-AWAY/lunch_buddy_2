@@ -15,10 +15,10 @@ const SAFE_USER_FIELDS = [
 ];
 
 const NOTIFICATION_TYPES = [
-  'meetingInvite',
-  'inviteAccepted',
-  'inviteRejected',
-  'meetingCancelled',
+  'meetingInvite', // done
+  'inviteAccepted', // done, but refactor needed
+  'inviteRejected', // done (in user meeting cancel route)
+  'meetingCancelled', // done (in user meeting cancel route)
   'ratingRequested',
   'newMessage',
 ];
