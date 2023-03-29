@@ -404,5 +404,6 @@ router.put(
 
 // split off Meeting section of User route into separate module
 router.use('/:userId/meeting', require('./userMeeting.cjs'));
+router.use('/:userId/notifications', require('./userNotifications.cjs'));
 
 module.exports = router;

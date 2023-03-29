@@ -6,7 +6,7 @@ const token = window.localStorage.getItem('token');
 
 export const fetchAllNotifications = createAsyncThunk(
   'notification/fetchAll',
-  async (userId, { rejectWithValue, getState }) => {
+  async ({ userId }, { rejectWithValue, getState }) => {
     try {
       const { data } = await axios.get(
         API_URL + `/api/user/${userId}/notifications`,
@@ -25,11 +25,35 @@ export const fetchAllNotifications = createAsyncThunk(
 
 export const updateNotificationStatus = createAsyncThunk(
   'notification/updateStatus',
-  async ({ userId, notificationId }, { rejectWithValue, getState }) => {
+  async (
+    { userId, notificationId, updates },
+    { rejectWithValue, getState }
+  ) => {
     try {
       const { data } = await axios.put(
         API_URL + `/api/user/${userId}/notifications/${notificationId}`,
-        { userId, notificationId },
+        updates,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+// While this is a user route, it will trigger a notification so it should be called from this slice
+export const cancelMeeting = createAsyncThunk(
+  'notification/cancelMeeting',
+  async ({ userId, meetingId }, { rejectWithValue, getState }) => {
+    try {
+      await axios.put(
+        API_URL + `/api/user/${userId}/meeting/${meetingId}/cancel`,
+        { isClosed: true, meetingStatus: 'closed' },
         {
           headers: {
             Authorization: token,
@@ -92,13 +116,29 @@ const notificationSlice = createSlice({
       .addCase(updateNotificationStatus.rejected, (state, action) => {
         state.error = action.payload.response.data;
         state.isLoading = false;
+      })
+
+      // Cancel meeting notification
+      .addCase(cancelMeeting.fulfilled, (state, action) => {
+        state.error = '';
+        state.isLoading = false;
+      })
+      .addCase(cancelMeeting.pending, (state, action) => {
+        state.error = '';
+        state.isLoading = true;
+      })
+      .addCase(cancelMeeting.rejected, (state, action) => {
+        state.error = action.payload.response.data;
+        state.isLoading = false;
       });
   },
 });
 
 export const selectUnreadNotifications = (state) => {
   const allNotifications = state.notifications.notifications;
-  allNotifications.filter((notification) => !notification.read);
+  return allNotifications?.filter(
+    (notification) => !notification.isAcknowledged
+  );
 };
 
 export const {} = notificationSlice.actions;

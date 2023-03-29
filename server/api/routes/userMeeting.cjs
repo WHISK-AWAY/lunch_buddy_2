@@ -146,15 +146,15 @@ router.put(
      * set meeting status to 'closed'
      */
     try {
+      const userId = +req.params.userId;
+
       const meeting = await Meeting.findOne({
         where: {
-          [Op.or]: [
-            { userId: req.params.userId },
-            { buddyId: req.params.userId },
-          ],
+          [Op.or]: [{ userId: userId }, { buddyId: userId }],
           id: req.params.meetingId,
         },
       });
+
       if (!meeting) {
         return res
           .status(404)
@@ -166,7 +166,24 @@ router.put(
       ) {
         res.status(403).send('You are unable to edit this meeting.');
       } else {
-        const updatedMeeting = await meeting.update({ isClosed: true });
+        // determine notification type based on pre-updated meeting status + sender
+        let notificationType;
+        if (meeting.status === 'confirmed' || meeting.userId === userId) {
+          notificationType = 'meetingCancelled';
+        } else {
+          notificationType = 'inviteRejected';
+        }
+        const updatedMeeting = await meeting.update({
+          meetingStatus: 'cancelled',
+        });
+
+        await meeting.createNotification({
+          toUserId:
+            meeting.userId === userId ? meeting.buddyId : meeting.userId,
+          fromUserId: userId,
+          notificationType,
+        });
+
         res.status(200).json(updatedMeeting);
       }
     } catch (error) {

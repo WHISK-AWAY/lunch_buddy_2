@@ -55,14 +55,11 @@ const Meeting = db.define('meeting', {
     allowNull: false,
     defaultValue: 'pending',
     validate: {
-      isIn: [['pending', 'confirmed', 'closed']],
+      isIn: [['pending', 'confirmed', 'closed', 'cancelled']],
     },
   },
 });
 
-Meeting.beforeUpdate((meeting) => {
-  if (meeting.meetingStatus === 'closed') meeting.isClosed = true;
-  if (meeting.isClosed) meeting.meetingStatus = 'closed';
-});
+
 
 module.exports = Meeting;
