@@ -135,10 +135,7 @@ const notificationSlice = createSlice({
 });
 
 export const selectUnreadNotifications = (state) => {
-  const allNotifications = state.notifications.notifications;
-  return allNotifications?.filter(
-    (notification) => !notification.isAcknowledged
-  );
+  return state.notifications.notifications;
 };
 
 export const {} = notificationSlice.actions;

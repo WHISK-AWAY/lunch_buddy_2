@@ -54,4 +54,14 @@ export {
   fetchUserMeetings,
 } from './userSlice';
 
+<<<<<<< HEAD
 export { default as notificationSlice } from './notificationSlice';
+=======
+// NOTIFICATIONS
+export {
+  default as notificationSlice,
+  fetchAllNotifications,
+  updateNotificationStatus,
+  selectUnreadNotifications,
+} from './notificationSlice';
+>>>>>>> notifications

@@ -97,8 +97,22 @@ Meeting.afterCreate(async (meeting) => {
       meeting.createNotification({
         notificationType: 'meetingInvite',
         meetingId: meeting.id,
-        toUserId: meeting.userId,
+        fromUserId: meeting.userId,
+        toUserId: meeting.buddyId,
+      });
+
+      meeting.createNotification({
+        notificationType: 'ratingRequested',
+        meetingId: meeting.id,
+        fromUserId: meeting.userId,
+        toUserId: meeting.buddyId,
+      });
+
+      meeting.createNotification({
+        notificationType: 'ratingRequested',
+        meetingId: meeting.id,
         fromUserId: meeting.buddyId,
+        toUserId: meeting.userId,
       });
     }
   }, 3000);

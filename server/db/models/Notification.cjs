@@ -13,6 +13,7 @@ const Notification = db.define('notification', {
       isIn: [NOTIFICATION_TYPES],
     },
   },
+
   isAcknowledged: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
