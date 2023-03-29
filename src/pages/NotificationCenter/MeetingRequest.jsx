@@ -29,7 +29,7 @@ export default function MeetingRequest({ notification }) {
   return (
     <div
       id="meeting-card"
-      className="flex flex-col w-full h-fit bg-gray-100/80 mx-3 my-3 rounded-2xl py-2"
+      className="flex flex-col w-full h-fit bg-gray-100/80 rounded-2xl drop-shadow-sm"
     >
       <div id="img-section" className="px-2">
         <img
