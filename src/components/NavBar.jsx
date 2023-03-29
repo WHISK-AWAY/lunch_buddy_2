@@ -7,6 +7,7 @@ import { selectAuthUser, tryToken } from '../redux/slices/authSlice';
 import { fetchUser, updateUser } from '../redux/slices/userSlice';
 import navbarIcon from '../assets/icons/navbar-icon.svg';
 import xIcon from '../assets/icons/x-icon.svg';
+import NotificationBody from '../pages/NotificationCenter/NotificationBody';
 
 const NavBar = () => {
   const [expandMenu, setExpandMenu] = useState(false);
@@ -20,6 +21,23 @@ const NavBar = () => {
 
   // Turns off scroll when showing menu
   document.body.style.overflow = expandMenu ? 'hidden' : 'auto';
+
+
+ const [showNotificationBody, setShowNotificationBody] = useState(false);
+
+  const handleNotificationClick = (event) => {
+    event.preventDefault();
+    setShowNotificationBody((prev) => !prev);
+
+    console.log('click');
+  };
+
+  document.body.style.overflow = showNotificationBody ? 'hidden' : 'auto';
+    // const handleOutsideClick = () => {
+    //   if (showNotificationBody) {
+    //     setShowNotificationBody(false);
+    //   }
+    // };
 
   function handleToggleStatus() {
     let newStatus;
@@ -45,6 +63,8 @@ const NavBar = () => {
     }
     runDispatch();
   }, [authUser]);
+
+
 
   return (
     <header className="relative z-40 text-primary-gray">
@@ -90,8 +110,9 @@ const NavBar = () => {
                 >
                   <img
                     className="w-7 h-full"
-                    src={bellIcon}
+                    src={showNotificationBody ? bellIcon : bellIcon}
                     alt="Notification bell icon"
+                    onClick={handleNotificationClick}
                   />
                 </button>
               </li>
@@ -114,6 +135,11 @@ const NavBar = () => {
       {/* DROPDOWN MENU, HIDDEN UNTIL CLICKED */}
 
       <DropdownMenu expandMenu={expandMenu} setExpandMenu={setExpandMenu} />
+      {showNotificationBody && (
+        <div className="notification-body">
+          <NotificationBody />
+        </div>
+      )}
     </header>
   );
 };
