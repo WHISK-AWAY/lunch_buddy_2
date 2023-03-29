@@ -11,7 +11,7 @@ const { SAFE_USER_FIELDS } = require('../../constants.cjs');
  * GET /api/user/:userId/notifications
  * Pull all notifications addressed to requested user
  */
-router.use('/', requireToken, sameUserOrAdmin, async (req, res, next) => {
+router.get('/', requireToken, sameUserOrAdmin, async (req, res, next) => {
   try {
     const userId = +req.params.userId;
     const notifications = await Notification.findAll({
@@ -30,11 +30,24 @@ router.use('/', requireToken, sameUserOrAdmin, async (req, res, next) => {
 
 router.put('/:notificationId', async (req, res, next) => {
   try {
-    // update stuff
+    const { userId, notificationId } = req.params;
+    const { isAcknowledged } = req.body;
+    const updatedNotification = await Notification.findByPk(notificationId, {
+      include: [
+        { model: User, as: 'toUser', attributes: SAFE_USER_FIELDS },
+        { model: User, as: 'fromUser', attributes: SAFE_USER_FIELDS },
+        { model: Meeting },
+      ],
+    });
+
+    await updatedNotification.update({ isAcknowledged });
+
+    res.status(200).send(updatedNotification);
   } catch (err) {
     next(err);
   }
 });
+
 /**
  * Situations:
  * User sends invite to buddy
