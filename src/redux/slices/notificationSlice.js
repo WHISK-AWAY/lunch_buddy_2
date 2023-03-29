@@ -97,8 +97,7 @@ const notificationSlice = createSlice({
 });
 
 export const selectUnreadNotifications = (state) => {
-  const allNotifications = state.notifications.notifications;
-  allNotifications.filter((notification) => !notification.read);
+  return state.notifications.notifications;
 };
 
 export const {} = notificationSlice.actions;
