@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../database.cjs');
 
-const NOTIFICATION_TYPES = require('../../constants.cjs');
+const { NOTIFICATION_TYPES } = require('../../constants.cjs');
 
 const Notification = db.define('notification', {
   notificationType: {
@@ -13,17 +13,7 @@ const Notification = db.define('notification', {
       isIn: [NOTIFICATION_TYPES],
     },
   },
-  isRead: {
-    type: Sequelize.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
-    validate: {
-      notNull: true,
-      notEmpty: true,
-      isIn: [[true, false]],
-    },
-  },
-  isComplete: {
+  isAcknowledged: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
     defaultValue: false,
