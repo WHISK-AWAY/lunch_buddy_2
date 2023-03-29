@@ -90,15 +90,18 @@ Meeting.beforeUpdate((meeting) => {
 });
 
 // Create new notification when meeting is created
-Meeting.afterCreate((meeting) => {
-  if (meeting.meetingStatus === 'pending') {
-    meeting.createNotification({
-      notificationType: 'meetingInvite',
-      meetingId: meeting.id,
-      toUserId: meeting.userId,
-      fromUserId: meeting.buddyId,
-    });
-  }
+Meeting.afterCreate(async (meeting) => {
+  // delay for a moment to prevent fkey violation before meeting is fully created
+  setTimeout(() => {
+    if (meeting.meetingStatus === 'pending') {
+      meeting.createNotification({
+        notificationType: 'meetingInvite',
+        meetingId: meeting.id,
+        toUserId: meeting.userId,
+        fromUserId: meeting.buddyId,
+      });
+    }
+  }, 3000);
 });
 
 // Create new notification when meeting status is updated
