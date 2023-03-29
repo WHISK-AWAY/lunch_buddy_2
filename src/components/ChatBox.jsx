@@ -40,7 +40,7 @@ export default function ChatBox() {
 
   useEffect(() => {
     // REMOVE .OFF WHEN DEPLOYING OR ELSE WILL NEVER SEND MSG
-    socket.off('recieve-message').on('recieve-message', (d) => {
+    socket.on('recieve-message', (d) => {
       const asyncEvent = async () => {
         const token = localStorage.getItem('token');
         setTimeout(() => {
