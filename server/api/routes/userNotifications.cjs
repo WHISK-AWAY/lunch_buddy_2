@@ -10,11 +10,6 @@ const { SAFE_USER_FIELDS } = require('../../constants.cjs');
 /**
  * GET /api/user/:userId/notifications
  * Pull all notifications addressed to requested user
- * An actionable meeting is one where something must be responded to, e.g., meeting has been requested
- * but neither confirmed nor rejected; or meeting has been confirmed but not rated by user; or meeting
- * has been accepted but not marked as read by user, etc.
- *
- * TODO: add token middleware (leaving out for ease of testing)
  */
 router.use('/', requireToken, sameUserOrAdmin, async (req, res, next) => {
   try {
