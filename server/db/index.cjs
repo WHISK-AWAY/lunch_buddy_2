@@ -89,14 +89,28 @@ Meeting.beforeUpdate((meeting) => {
     meeting.isClosed = true;
 });
 
-// Create new notification when meeting is created
+// Create new notifications when meeting is created
 Meeting.afterCreate((meeting) => {
   if (meeting.meetingStatus === 'pending') {
     meeting.createNotification({
       notificationType: 'meetingInvite',
       meetingId: meeting.id,
-      toUserId: meeting.userId,
+      fromUserId: meeting.userId,
+      toUserId: meeting.buddyId,
+    });
+
+    meeting.createNotification({
+      notificationType: 'ratingRequested',
+      meetingId: meeting.id,
+      fromUserId: meeting.userId,
+      toUserId: meeting.buddyId,
+    });
+
+    meeting.createNotification({
+      notificationType: 'ratingRequested',
+      meetingId: meeting.id,
       fromUserId: meeting.buddyId,
+      toUserId: meeting.userId,
     });
   }
 });

@@ -32,25 +32,30 @@ router.get('/', requireToken, sameUserOrAdmin, async (req, res, next) => {
  * PUT /api/user/:userId/notifications/:notificationId
  * Pull all notifications addressed to requested user
  */
-router.put('/:notificationId', async (req, res, next) => {
-  try {
-    const { userId, notificationId } = req.params;
-    const { isAcknowledged } = req.body;
-    const updatedNotification = await Notification.findByPk(notificationId, {
-      include: [
-        { model: User, as: 'toUser', attributes: SAFE_USER_FIELDS },
-        { model: User, as: 'fromUser', attributes: SAFE_USER_FIELDS },
-        { model: Meeting },
-      ],
-    });
+router.put(
+  '/:notificationId',
+  requireToken,
+  sameUserOrAdmin,
+  async (req, res, next) => {
+    try {
+      const { userId, notificationId } = req.params;
+      const { isAcknowledged } = req.body;
+      const updatedNotification = await Notification.findByPk(notificationId, {
+        include: [
+          { model: User, as: 'toUser', attributes: SAFE_USER_FIELDS },
+          { model: User, as: 'fromUser', attributes: SAFE_USER_FIELDS },
+          { model: Meeting },
+        ],
+      });
 
-    await updatedNotification.update({ isAcknowledged });
+      await updatedNotification.update({ isAcknowledged });
 
-    res.status(200).send(updatedNotification);
-  } catch (err) {
-    next(err);
+      res.status(200).send(updatedNotification);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 /**
  * Situations:

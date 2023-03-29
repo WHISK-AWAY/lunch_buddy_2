@@ -184,6 +184,14 @@ router.put(
           notificationType,
         });
 
+        // clear out now-outdated notifications
+
+        // const oldNotifications = await Notification.findAll({
+        //   where: {
+        //     toUser:
+        //   }
+        // })
+
         res.status(200).json(updatedMeeting);
       }
     } catch (error) {
