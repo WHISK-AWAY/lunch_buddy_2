@@ -50,7 +50,6 @@ export const updateNotificationStatus = createAsyncThunk(
 export const cancelMeeting = createAsyncThunk(
   'notification/cancelMeeting',
   async ({ userId, meetingId }, { rejectWithValue, getState }) => {
-    console.log('userId', userId);
     try {
       await axios.put(
         API_URL + `/api/user/${userId}/meeting/${meetingId}/cancel`,
@@ -132,10 +131,6 @@ const notificationSlice = createSlice({
       // Cancel meeting notification
       .addCase(cancelMeeting.fulfilled, (state, action) => {
         state.notifications = action.payload;
-        // reassign notification in array of notifications to show the updated notif
-        state.notification = state.notifications.find(
-          (notification) => notification.id === action.payload.id
-        );
 
         state.error = '';
         state.isLoading = false;

@@ -21,7 +21,6 @@ const NavBar = () => {
   const authUser = useSelector(selectAuthUser);
   const userState = useSelector((state) => state.user.user);
   const notifications = useSelector(selectUnreadNotifications);
-  console.log('notifications', notifications);
 
   // THIS VARIABLE WILL HIDE OR SHOW THE DOT INDICATING NOTIFICATIONS
   const hasNotifications = true;
@@ -54,7 +53,7 @@ const NavBar = () => {
     dispatch(
       cancelMeeting({
         userId: authUser.id,
-        meetingId: 4,
+        meetingId: 12,
       })
     );
   }
