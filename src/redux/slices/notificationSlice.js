@@ -60,16 +60,6 @@ export const cancelMeeting = createAsyncThunk(
           },
         }
       );
-
-      // Puts in the put request which causes a notification to trigger, so repull the data
-      const { data } = await axios.get(
-        API_URL + `/api/user/${userId}/notifications`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
       return data;
     } catch (error) {
       rejectWithValue(error);
@@ -130,8 +120,6 @@ const notificationSlice = createSlice({
 
       // Cancel meeting notification
       .addCase(cancelMeeting.fulfilled, (state, action) => {
-        state.notifications = action.payload;
-
         state.error = '';
         state.isLoading = false;
       })
@@ -148,7 +136,7 @@ const notificationSlice = createSlice({
 
 export const selectUnreadNotifications = (state) => {
   const allNotifications = state.notifications.notifications;
-  return allNotifications.filter(
+  return allNotifications?.filter(
     (notification) => !notification.isAcknowledged
   );
 };
