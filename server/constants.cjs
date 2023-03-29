@@ -20,7 +20,7 @@ const NOTIFICATION_TYPES = [
   'inviteRejected', // done (in user meeting cancel route)
   'meetingCancelled', // done (in user meeting cancel route)
   'ratingRequested', // done (Meeting.afterCreate)
-  'newMessage',
+  'newMessage', // not done -- if this is still needed, can do this as Message.afterCreate()
 ];
 
 module.exports = { SAFE_USER_FIELDS, NOTIFICATION_TYPES };
