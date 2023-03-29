@@ -69,10 +69,10 @@ Meeting.beforeUpdate((meeting) => {
 Meeting.afterCreate((meeting) => {
   if (meeting.meetingStatus === 'pending') {
     meeting.createNotification({
-      notificationType: 'meetingRequested',
+      notificationType: 'meetingInvite',
       meetingId: meeting.id,
-      userId: meeting.userId,
-      buddyId: meeting.buddyId,
+      toUserId: meeting.userId,
+      fromUserId: meeting.buddyId,
     });
   }
 });
