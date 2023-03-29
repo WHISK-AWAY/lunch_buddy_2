@@ -60,30 +60,6 @@ const Meeting = db.define('meeting', {
   },
 });
 
-Meeting.beforeUpdate((meeting) => {
-  if (meeting.meetingStatus === 'closed') meeting.isClosed = true;
-  if (meeting.isClosed) meeting.meetingStatus = 'closed';
-});
 
-// Create new notification when meeting is created
-Meeting.afterCreate((meeting) => {
-  if (meeting.meetingStatus === 'pending') {
-    meeting.createNotification({
-      notificationType: 'meetingInvite',
-      meetingId: meeting.id,
-      toUserId: meeting.userId,
-      fromUserId: meeting.buddyId,
-    });
-  }
-});
-
-// Create new notification when meeting status is updated
-Meeting.afterUpdate((meeting) => {
-  // not sure what I have access to here -- how do I know which fields were changed and what they were changed from/to?
-  console.log(meeting);
-});
-
-// Create new notification when pulling a meeting whose status is closed and a rating does not exist
-// (not sure how to pull this one off just yet - PB)
 
 module.exports = Meeting;

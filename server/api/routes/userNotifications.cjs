@@ -28,6 +28,10 @@ router.get('/', requireToken, sameUserOrAdmin, async (req, res, next) => {
   }
 });
 
+/**
+ * PUT /api/user/:userId/notifications/:notificationId
+ * Pull all notifications addressed to requested user
+ */
 router.put('/:notificationId', async (req, res, next) => {
   try {
     const { userId, notificationId } = req.params;

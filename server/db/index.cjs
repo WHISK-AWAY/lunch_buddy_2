@@ -79,6 +79,65 @@ User.prototype.strikeCount = async function () {
   return count || 0;
 };
 
+/**
+ * HOOKS
+ */
+
+Meeting.beforeUpdate((meeting) => {
+  if (meeting.meetingStatus === 'closed') meeting.isClosed = true;
+  if (meeting.isClosed) meeting.meetingStatus = 'closed';
+});
+
+// Create new notification when meeting is created
+Meeting.afterCreate((meeting) => {
+  if (meeting.meetingStatus === 'pending') {
+    meeting.createNotification({
+      notificationType: 'meetingInvite',
+      meetingId: meeting.id,
+      toUserId: meeting.userId,
+      fromUserId: meeting.buddyId,
+    });
+  }
+});
+
+// Create new notification when meeting status is updated
+Meeting.afterUpdate((meeting, options) => {
+  // not sure what I have access to here -- how do I know which fields were changed and what they were changed from/to?
+  console.log('afterUpdate meeting', meeting);
+  console.log('afterUpdate options', options);
+});
+
+Notification.afterUpdate(async (notification) => {
+  // Create new notification when meeting request becomes acknowledged
+  if (
+    notification.changed().includes('isAcknowledged') &&
+    notification.isAcknowledged &&
+    notification.notificationType === 'meetingInvite'
+  ) {
+    const meeting = await Meeting.findByPk(notification.meetingId);
+    let notificationType =
+      meeting.meetingStatus === 'confirmed'
+        ? 'inviteAccepted'
+        : 'inviteRejected';
+    meeting.createNotification({
+      toUserId: notification.fromUserId,
+      fromUserId: notification.toUserId,
+      notificationType,
+    });
+  }
+});
+
+/**
+ * Situations:
+ * User sends invite to buddy
+ * Buddy responds (up or down)
+ * User acknowledges response
+ * Someone cancels
+ * Other person acknowledges cancellation
+ * User rating requested
+ * User rating completed
+ */
+
 module.exports = {
   Category,
   Meeting,
