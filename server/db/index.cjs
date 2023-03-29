@@ -84,8 +84,9 @@ User.prototype.strikeCount = async function () {
  */
 
 Meeting.beforeUpdate((meeting) => {
-  if (meeting.meetingStatus === 'closed') meeting.isClosed = true;
   if (meeting.isClosed) meeting.meetingStatus = 'closed';
+  if (['cancelled', 'closed'].includes(meeting.meetingStatus))
+    meeting.isClosed = true;
 });
 
 // Create new notification when meeting is created
@@ -101,11 +102,36 @@ Meeting.afterCreate((meeting) => {
 });
 
 // Create new notification when meeting status is updated
-Meeting.afterUpdate((meeting, options) => {
-  // not sure what I have access to here -- how do I know which fields were changed and what they were changed from/to?
-  console.log('afterUpdate meeting', meeting);
-  console.log('afterUpdate options', options);
-});
+// I backed off from this approach, but don't want to lose the code *just* yet
+// Meeting.afterUpdate(async (meeting) => {
+//   // when meeting status becomes 'cancelled', (via PUT /api/user/:userId/meeting/:meetingId/cancel)
+//   // send cancellation notice if it was acknowledged
+//   // send rejection notice if it was pending
+//   if (
+//     meeting.changed().includes('meetingStatus') &&
+//     meeting.meetingStatus === 'cancelled'
+//   ) {
+//     console.log('meeting status changed:', meeting._previousDataValues);
+//     // if was pending, send inviteRejected
+//     await meeting.createNotification({
+//       toUserId: notification.fromUserId,
+//       fromUserId: notification.toUserId,
+//       notificationType,
+//     });
+//     // if was confirmed, send meetingCancelled
+//     const inviteNotification = await Notification.findOne({
+//       where: {
+//         meetingId: meeting.id,
+//         notificationType: 'meetingInvite',
+//         isAcknowledged: true,
+//       },
+//     });
+//     // console.log('invite notification found: ', inviteNotification);
+//     if (inviteNotification !== null)
+//       await inviteNotification.update({ isAcknowledged: true });
+//     console.log('ok we did it');
+//   }
+// });
 
 Notification.afterUpdate(async (notification) => {
   // Create new notification when meeting request becomes acknowledged
