@@ -84,7 +84,7 @@ User.prototype.strikeCount = async function () {
  */
 
 Meeting.beforeUpdate((meeting) => {
-  if (meeting.isClosed) meeting.meetingStatus = 'closed';
+  // if (meeting.isClosed) meeting.meetingStatus = 'closed';
   if (['cancelled', 'closed'].includes(meeting.meetingStatus))
     meeting.isClosed = true;
 });

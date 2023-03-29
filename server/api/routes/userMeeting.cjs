@@ -136,6 +136,22 @@ router.put(
 );
 
 router.put(
+  '/:meetingId/confirm',
+  requireToken,
+  sameUserOrAdmin,
+  async (req, res, next) => {
+    try {
+      const meetingToUpdate = await Meeting.findByPk(+req.params.meetingId);
+      await meetingToUpdate.update({ meetingStatus: 'confirmed' });
+
+      res.status(200).json(meetingToUpdate);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.put(
   '/:meetingId/cancel',
   requireToken,
   sameUserOrAdmin,
