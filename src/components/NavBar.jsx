@@ -8,6 +8,12 @@ import { fetchUser, updateUser } from '../redux/slices/userSlice';
 import navbarIcon from '../assets/icons/navbar-icon.svg';
 import xIcon from '../assets/icons/x-icon.svg';
 import NotificationBody from '../pages/NotificationCenter/NotificationBody';
+import {
+  cancelMeeting,
+  fetchAllNotifications,
+  selectUnreadNotifications,
+  updateNotificationStatus,
+} from '../redux/slices/notificationSlice';
 
 const NavBar = () => {
   const [expandMenu, setExpandMenu] = useState(false);
@@ -15,6 +21,7 @@ const NavBar = () => {
 
   const authUser = useSelector(selectAuthUser);
   const userState = useSelector((state) => state.user.user);
+  const notifications = useSelector(selectUnreadNotifications);
 
   // THIS VARIABLE WILL HIDE OR SHOW THE DOT INDICATING NOTIFICATIONS
   const hasNotifications = true;
@@ -46,6 +53,28 @@ const NavBar = () => {
     dispatch(updateUser({ status: newStatus }));
   }
 
+  async function handleUpdateNotif() {
+    await dispatch(
+      updateNotificationStatus({
+        userId: authUser.id,
+        notificationId: 23,
+        updates: { isAcknowledged: true },
+      })
+    );
+  }
+  async function handleCancel() {
+    await dispatch(
+      cancelMeeting({
+        userId: authUser.id,
+        meetingId: 23,
+      })
+    );
+
+    await handleUpdateNotif();
+
+    await dispatch(fetchAllNotifications({ userId: authUser.id }));
+  }
+
   useEffect(() => {
     dispatch(tryToken());
   }, []);
@@ -54,6 +83,7 @@ const NavBar = () => {
     async function runDispatch() {
       if (authUser.firstName) {
         await dispatch(fetchUser(authUser.id));
+        await dispatch(fetchAllNotifications({ userId: authUser.id }));
       }
     }
     runDispatch();
@@ -72,6 +102,8 @@ const NavBar = () => {
             onClick={() => setExpandMenu((prev) => !prev)}
           />
         </button>
+        <button onClick={handleUpdateNotif}>CLICK TO TEST UPDATE NOTIF</button>
+        <button onClick={handleCancel}>CLICK TO TEST CANCEL</button>
         <ul className="flex items-center justify-center gap-8 text-center">
           {/* BUTTONS THAT SHOW ONLY WHEN SIGNED IN */}
           {authUser?.firstName ? (

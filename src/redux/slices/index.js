@@ -53,3 +53,5 @@ export {
   removeBan,
   fetchUserMeetings,
 } from './userSlice';
+
+export { default as notificationSlice } from './notificationSlice';

@@ -5,6 +5,7 @@ const Message = require('./models/Message.cjs');
 const Rating = require('./models/Rating.cjs');
 const Tag = require('./models/Tag.cjs');
 const User = require('./models/User.cjs');
+const Notification = require('./models/Notification.cjs');
 
 /**
  * ASSOCIATIONS
@@ -16,9 +17,16 @@ Tag.belongsToMany(User, { through: 'user_tags' });
 Tag.belongsTo(Category);
 Category.hasMany(Tag);
 
-User.hasOne(Meeting);
 Meeting.belongsTo(User, { as: 'user', foreignKey: 'userId' });
 Meeting.belongsTo(User, { as: 'buddy', foreignKey: 'buddyId' });
+User.hasOne(Meeting);
+
+Meeting.hasMany(Notification);
+Notification.belongsTo(Meeting);
+
+Notification.belongsTo(User, { as: 'toUser', foreignKey: 'toUserId' });
+Notification.belongsTo(User, { as: 'fromUser', foreignKey: 'fromUserId' });
+// User.hasMany(Notification);
 
 /**
  * TODO: I commented out the senderId in messages model --
@@ -71,6 +79,95 @@ User.prototype.strikeCount = async function () {
   return count || 0;
 };
 
+/**
+ * HOOKS
+ */
+
+Meeting.beforeUpdate((meeting) => {
+  if (meeting.isClosed) meeting.meetingStatus = 'closed';
+  if (['cancelled', 'closed'].includes(meeting.meetingStatus))
+    meeting.isClosed = true;
+});
+
+// Create new notification when meeting is created
+Meeting.afterCreate((meeting) => {
+  if (meeting.meetingStatus === 'pending') {
+    meeting.createNotification({
+      notificationType: 'meetingInvite',
+      meetingId: meeting.id,
+      toUserId: meeting.userId,
+      fromUserId: meeting.buddyId,
+    });
+  }
+});
+
+// Create new notification when meeting status is updated
+// I backed off from this approach, but don't want to lose the code *just* yet
+// Meeting.afterUpdate(async (meeting) => {
+//   // when meeting status becomes 'cancelled', (via PUT /api/user/:userId/meeting/:meetingId/cancel)
+//   // send cancellation notice if it was acknowledged
+//   // send rejection notice if it was pending
+//   if (
+//     meeting.changed().includes('meetingStatus') &&
+//     meeting.meetingStatus === 'cancelled'
+//   ) {
+//     console.log('meeting status changed:', meeting._previousDataValues);
+//     // if was pending, send inviteRejected
+//     await meeting.createNotification({
+//       toUserId: notification.fromUserId,
+//       fromUserId: notification.toUserId,
+//       notificationType,
+//     });
+//     // if was confirmed, send meetingCancelled
+//     const inviteNotification = await Notification.findOne({
+//       where: {
+//         meetingId: meeting.id,
+//         notificationType: 'meetingInvite',
+//         isAcknowledged: true,
+//       },
+//     });
+//     // console.log('invite notification found: ', inviteNotification);
+//     if (inviteNotification !== null)
+//       await inviteNotification.update({ isAcknowledged: true });
+//     console.log('ok we did it');
+//   }
+// });
+
+Notification.afterUpdate(async (notification) => {
+  // Create new notification when meeting request becomes acknowledged
+  /**
+   * TODO: change this into a Meeting.afterUpdate -- so that the front end needs only to
+   * send an update of meeting status, and the notifications can be auto-acknowledged/generated
+   */
+  if (
+    notification.changed().includes('isAcknowledged') &&
+    notification.isAcknowledged &&
+    notification.notificationType === 'meetingInvite'
+  ) {
+    const meeting = await Meeting.findByPk(notification.meetingId);
+    let notificationType =
+      meeting.meetingStatus === 'confirmed'
+        ? 'inviteAccepted'
+        : 'inviteRejected';
+    meeting.createNotification({
+      toUserId: notification.fromUserId,
+      fromUserId: notification.toUserId,
+      notificationType,
+    });
+  }
+});
+
+/**
+ * Situations:
+ * User sends invite to buddy
+ * Buddy responds (up or down)
+ * User acknowledges response
+ * Someone cancels
+ * Other person acknowledges cancellation
+ * User rating requested
+ * User rating completed
+ */
+
 module.exports = {
   Category,
   Meeting,
@@ -78,4 +175,5 @@ module.exports = {
   Rating,
   Tag,
   User,
+  Notification,
 };
