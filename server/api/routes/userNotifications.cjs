@@ -23,7 +23,17 @@ router.use('/', requireToken, sameUserOrAdmin, async (req, res, next) => {
       ],
     });
     res.status(200).json(notifications);
-  } catch (err) {}
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/:notificationId', async (req, res, next) => {
+  try {
+    // update stuff
+  } catch (err) {
+    next(err);
+  }
 });
 /**
  * Situations:
