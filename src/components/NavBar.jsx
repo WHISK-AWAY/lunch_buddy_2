@@ -33,11 +33,6 @@ const NavBar = () => {
   };
 
   document.body.style.overflow = showNotificationBody ? 'hidden' : 'auto';
-    // const handleOutsideClick = () => {
-    //   if (showNotificationBody) {
-    //     setShowNotificationBody(false);
-    //   }
-    // };
 
   function handleToggleStatus() {
     let newStatus;
@@ -140,6 +135,7 @@ const NavBar = () => {
           <NotificationBody />
         </div>
       )}
+    
     </header>
   );
 };
