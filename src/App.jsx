@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import MockResponsive from './components/MockResponsive';
 import ChatBox from './components/ChatBox';
+import toast, { Toaster } from 'react-hot-toast';
 
 import {
   MeetingSetup,
@@ -22,6 +23,7 @@ import {
 function App() {
   return (
     <div className="font-tenor">
+      <Toaster />
       <NavBar />
       <Routes>
         <Route path="/" element={<Homepage />} />
