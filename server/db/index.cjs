@@ -17,16 +17,16 @@ Tag.belongsToMany(User, { through: 'user_tags' });
 Tag.belongsTo(Category);
 Category.hasMany(Tag);
 
-User.hasOne(Meeting);
 Meeting.belongsTo(User, { as: 'user', foreignKey: 'userId' });
 Meeting.belongsTo(User, { as: 'buddy', foreignKey: 'buddyId' });
+User.hasOne(Meeting);
 
 Meeting.hasMany(Notification);
 Notification.belongsTo(Meeting);
 
-User.hasOne(Notification);
-Notification.belongsTo(User, { as: 'to', foreignKey: 'toUserId' });
-Notification.belongsTo(User, { as: 'from', foreignKey: 'fromUserId' });
+Notification.belongsTo(User, { as: 'toUser', foreignKey: 'toUserId' });
+Notification.belongsTo(User, { as: 'fromUser', foreignKey: 'fromUserId' });
+// User.hasMany(Notification);
 
 /**
  * TODO: I commented out the senderId in messages model --
