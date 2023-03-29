@@ -109,6 +109,10 @@ Meeting.afterUpdate((meeting, options) => {
 
 Notification.afterUpdate(async (notification) => {
   // Create new notification when meeting request becomes acknowledged
+  /**
+   * TODO: change this into a Meeting.afterUpdate -- so that the front end needs only to
+   * send an update of meeting status, and the notifications can be auto-acknowledged/generated
+   */
   if (
     notification.changed().includes('isAcknowledged') &&
     notification.isAcknowledged &&
