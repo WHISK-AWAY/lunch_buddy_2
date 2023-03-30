@@ -134,6 +134,44 @@ Meeting.afterCreate(async (meeting) => {
   }, 3000);
 });
 
+Meeting.afterUpdate(async (meeting) => {
+  console.log('prev value:', meeting.meetingStatus?._previousValue);
+  if (
+    meeting.changed().includes('meetingStatus') &&
+    meeting.meetingStatus === 'confirmed'
+  ) {
+    await meeting.createNotification({
+      toUserId: meeting.userId,
+      fromUserId: meeting.buddyId,
+      notificationType: 'inviteAccepted',
+    });
+  }
+});
+
+// Notification.afterUpdate(async (notification) => {
+//   // Create new notification when meeting request becomes acknowledged
+//   /**
+//    * TODO: change this into a Meeting.afterUpdate -- so that the front end needs only to
+//    * send an update of meeting status, and the notifications can be auto-acknowledged/generated
+//    */
+//   if (
+//     notification.changed().includes('isAcknowledged') &&
+//     notification.isAcknowledged &&
+//     notification.notificationType === 'meetingInvite'
+//   ) {
+//     const meeting = await Meeting.findByPk(notification.meetingId);
+//     let notificationType =
+//       meeting.meetingStatus === 'confirmed'
+//         ? 'inviteAccepted'
+//         : 'inviteRejected';
+//     meeting.createNotification({
+//       toUserId: notification.fromUserId,
+//       fromUserId: notification.toUserId,
+//       notificationType,
+//     });
+//   }
+// });
+
 // Create new notification when meeting status is updated
 // I backed off from this approach, but don't want to lose the code *just* yet
 // Meeting.afterUpdate(async (meeting) => {
@@ -165,30 +203,6 @@ Meeting.afterCreate(async (meeting) => {
 //     console.log('ok we did it');
 //   }
 // });
-
-Notification.afterUpdate(async (notification) => {
-  // Create new notification when meeting request becomes acknowledged
-  /**
-   * TODO: change this into a Meeting.afterUpdate -- so that the front end needs only to
-   * send an update of meeting status, and the notifications can be auto-acknowledged/generated
-   */
-  if (
-    notification.changed().includes('isAcknowledged') &&
-    notification.isAcknowledged &&
-    notification.notificationType === 'meetingInvite'
-  ) {
-    const meeting = await Meeting.findByPk(notification.meetingId);
-    let notificationType =
-      meeting.meetingStatus === 'confirmed'
-        ? 'inviteAccepted'
-        : 'inviteRejected';
-    meeting.createNotification({
-      toUserId: notification.fromUserId,
-      fromUserId: notification.toUserId,
-      notificationType,
-    });
-  }
-});
 
 /**
  * Situations:
