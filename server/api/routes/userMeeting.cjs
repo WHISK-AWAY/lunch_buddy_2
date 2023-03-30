@@ -184,10 +184,12 @@ router.put(
       } else {
         // determine notification type based on pre-updated meeting status + sender
         let notificationType;
-        if (meeting.status === 'confirmed' || meeting.userId === userId) {
+        if (meeting.meetingStatus === 'confirmed') {
           notificationType = 'meetingCancelled';
+          console.log('cancelling confirmed meeting');
         } else {
           notificationType = 'inviteRejected';
+          console.log('rejecting pending meeting');
         }
         const updatedMeeting = await meeting.update({
           meetingStatus: 'cancelled',

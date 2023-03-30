@@ -85,8 +85,10 @@ User.prototype.strikeCount = async function () {
 
 Meeting.beforeUpdate((meeting) => {
   // if (meeting.isClosed) meeting.meetingStatus = 'closed';
-  if (['cancelled', 'closed'].includes(meeting.meetingStatus))
+  if (['cancelled', 'closed'].includes(meeting.meetingStatus)) {
+    console.log('closing meeting...');
     meeting.isClosed = true;
+  }
 });
 
 // Create new notification when meeting is created
