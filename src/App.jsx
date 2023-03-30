@@ -17,6 +17,7 @@ import {
   Feedback,
   UserAccount,
   Homepage,
+  PageNotFound,
 } from './pages';
 
 function App() {
@@ -25,8 +26,6 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="/meeting/:meetingId/chat" element={<ChatBox />}></Route>
-        {/* <Route path="/" element={<MockResponsive />} /> */}
         <Route path="/login" element={<SignInForm />} />
         <Route path="/account" element={<UserAccount />} />
         <Route path="/register" element={<RegisterForm />} />
@@ -38,9 +37,13 @@ function App() {
           element={<RestaurantSuggestions />}
         ></Route>
         <Route path="/match/confirm" element={<MeetingRecap />}></Route>
+        <Route path="/meeting/:meetingId/chat" element={<ChatBox />}></Route>
+        <Route path="meeting/:meetingId/feedback" element={<Feedback />} />
         {/* THESE ROUTE NAMES WILL BE CHANGED JUST A PLACEHOLDER */}
         <Route path="edituser" element={<EditUserForm />} />
-        <Route path="meeting/:meetingId/feedback" element={<Feedback />} />
+
+        {/* Page not found */}
+        <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </div>
   );
