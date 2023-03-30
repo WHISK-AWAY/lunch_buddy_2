@@ -9,6 +9,7 @@ const { Op } = require('sequelize');
 
 router.post('/', requireToken, async (req, res, next) => {
   try {
+    const userId = +req.user.id;
     const { buddyId, lunchDate, yelpBusinessId } = req.body;
     const bodyKeys = { buddyId, lunchDate, yelpBusinessId };
     for (let key in bodyKeys) {
@@ -20,14 +21,18 @@ router.post('/', requireToken, async (req, res, next) => {
     } else {
       const [newMeeting, wasCreated] = await Meeting.findOrCreate({
         where: {
-          userId: req.user.id,
+          [Op.or]: [{ userId: userId }, { buddyId: userId }],
           // isClosed: false,
           meetingStatus: 'confirmed',
         },
-        defaults: { ...bodyKeys, meetingStatus: 'pending' },
+        defaults: { ...bodyKeys, meetingStatus: 'pending', userId: userId },
       });
       if (wasCreated === false) {
-        res.status(409).send('user is already in a meeting');
+        res
+          .status(409)
+          .send(
+            'Cannot create meeting: user already has confirmed meeting with this buddy'
+          );
       } else {
         res.status(200).json(newMeeting);
       }
