@@ -16,6 +16,11 @@ import {
 } from '../../redux/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 
+// user tag minimums
+const MINIMUM_SOCIAL = 10;
+const MINIMUM_PROFESSIONAL = 1;
+const MINIMUM_CUISINE = 5;
+
 const AboutForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,18 +29,16 @@ const AboutForm = () => {
 
   const [bio, setBio] = useState('' || localStorage.getItem('aboutBio'));
 
-  const [socialTags, setSocialTags] = useState(
-    [] || localStorage.getItem('social')
-  );
+  const [socialTags, setSocialTags] = useState([]);
   const [professionalTags, setProfessionalTags] = useState([]);
   const [dietaryTags, setDietaryTags] = useState([]);
   const [cuisineTags, setCuisineTags] = useState([]);
 
   const [minTags, setMinTags] = useState({
-    Social: { minimum: 10, show: false, numClicked: 0 },
-    Professional: { minimum: 3, show: false, numClicked: 0 },
+    Social: { minimum: MINIMUM_SOCIAL, show: false, numClicked: 0 },
+    Professional: { minimum: MINIMUM_PROFESSIONAL, show: false, numClicked: 0 },
     Dietary: { minimum: 0, show: false, numClicked: 0 },
-    Cuisine: { minimum: 5, show: false, numClicked: 0 },
+    Cuisine: { minimum: MINIMUM_CUISINE, show: false, numClicked: 0 },
   });
 
   const [validBio, setValidBio] = useState(true);
@@ -80,7 +83,6 @@ const AboutForm = () => {
   // Handles creation of new user based on user inputs
   async function handleSubmit() {
     setValidBio(!!bio);
-    console.log(!!bio);
 
     for (let category in minTags) {
       const minTagsCopy = { ...minTags[category] };
