@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Link } from 'react-router-dom';
 import { getMeeting, selectMeetings } from '../../redux/slices';
@@ -7,7 +7,7 @@ import {
   updateMeeting,
 } from '../../redux/slices/meetingSlice';
 import FormButton from '../../components/FormButton';
-import { updateNotificationStatus } from '../../redux/slices';
+import { updateNotificationStatus, cancelMeeting } from '../../redux/slices';
 import { fetchAllNotifications } from '../../redux/slices';
 import axios from 'axios';
 
@@ -16,6 +16,7 @@ export default function MeetingRequest({ notification }) {
   const meetings = useSelector(selectMeetings);
 
   const token = window.localStorage.getItem('token');
+  const [accepted, setAccepted] = useState(false);
 
   useEffect(() => {
     dispatch(
@@ -49,12 +50,29 @@ export default function MeetingRequest({ notification }) {
       { headers: { authorization: token } }
     );
 
-    dispatch(fetchAllNotifications({ userId: notification.toUser.id }));
+    setTimeout(() => {
+      dispatch(fetchAllNotifications({ userId: notification.toUser.id }));
+    }, 500);
     // console.log('userID', notification.userId);
     // console.log('meeetingID', notification.meetingId);
   };
 
-  const handleReject = () => {};
+  const handleReject = () => {
+    dispatch(
+      updateNotificationStatus({
+        userId: notification.toUserId,
+        notificationId: notification.id,
+        updates: { isAcknowledged: true },
+      })
+    );
+
+    dispatch(
+      cancelMeeting({
+        userId: notification.toUserId,
+        meetingId: notification.meetingId,
+      })
+    );
+  };
 
   // console.log('not', notification);
   return (
@@ -83,10 +101,10 @@ export default function MeetingRequest({ notification }) {
         <p>{notification.meeting?.yelpBusinessId && yelpBusinessAddress}</p>
         <div
           id="btn-container"
-          className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5"
+          className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 jjustify-center items-center"
         >
           <FormButton handleSubmit={handleAccept}>ACCEPT </FormButton>
-          <FormButton onClick={handleReject}>REJECT </FormButton>
+          <FormButton handleSubmit={handleReject}>REJECT </FormButton>
         </div>
       </div>
     </div>
