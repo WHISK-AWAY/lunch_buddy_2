@@ -1,5 +1,10 @@
 const router = require('express').Router();
-const { Meeting, Message, Rating } = require('../../db/index.cjs');
+const {
+  Meeting,
+  Message,
+  Rating,
+  Notification,
+} = require('../../db/index.cjs');
 const {
   requireToken,
   isAdmin,
@@ -223,6 +228,21 @@ router.post('/:meetingId/rating', requireToken, async (req, res, next) => {
       if (wasCreated === false) {
         res.status(409).send(`User already created a rating`);
       } else {
+        // acknowledge related ratingRequested notification
+        const ratingNotification = await Notification.update(
+          { isAcknowledged: true },
+          {
+            where: {
+              meetingId: meeting.id,
+              toUserId: req.user.id,
+              notificationType: 'ratingRequested',
+            },
+          }
+        );
+        console.log(
+          'acknowledging rating request notification:',
+          ratingNotification
+        );
         res.status(200).json(rating);
       }
     } else {
