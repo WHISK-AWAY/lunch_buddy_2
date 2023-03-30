@@ -135,9 +135,9 @@ Meeting.afterCreate(async (meeting) => {
 });
 
 Meeting.afterUpdate(async (meeting) => {
-  console.log('prev value:', meeting.meetingStatus?._previousValue);
   if (
     meeting.changed().includes('meetingStatus') &&
+    meeting._previousDataValues?.meetingStatus === 'pending' &&
     meeting.meetingStatus === 'confirmed'
   ) {
     await meeting.createNotification({
@@ -145,6 +145,20 @@ Meeting.afterUpdate(async (meeting) => {
       fromUserId: meeting.buddyId,
       notificationType: 'inviteAccepted',
     });
+  }
+});
+
+Rating.afterCreate(async (rating) => {
+  const { buddyId, meetingId } = rating;
+  const oppositeRating = await Rating.findOne({
+    where: { userId: buddyId, meetingId: meetingId },
+  });
+  // if we find an opposing rating, that means everyone's weighed in & it's time to close
+  if (oppositeRating) {
+    await Meeting.update(
+      { meetingStatus: 'closed', isClosed: true },
+      { where: { id: meetingId } }
+    );
   }
 });
 
