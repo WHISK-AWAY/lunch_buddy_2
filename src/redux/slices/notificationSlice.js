@@ -2,12 +2,11 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
-const token = window.localStorage.getItem('token');
-
 export const fetchAllNotifications = createAsyncThunk(
   'notification/fetchAll',
   async ({ userId }, { rejectWithValue, getState }) => {
     try {
+      const token = window.localStorage.getItem('token');
       const { data } = await axios.get(
         API_URL + `/api/user/${userId}/notifications`,
         {
@@ -31,6 +30,8 @@ export const updateNotificationStatus = createAsyncThunk(
     { rejectWithValue, getState }
   ) => {
     try {
+      const token = window.localStorage.getItem('token');
+
       const { data } = await axios.put(
         API_URL + `/api/user/${userId}/notifications/${notificationId}`,
         updates,
@@ -52,6 +53,8 @@ export const cancelMeeting = createAsyncThunk(
   'notification/cancelMeeting',
   async ({ userId, meetingId }, { rejectWithValue, getState }) => {
     try {
+      const token = window.localStorage.getItem('token');
+
       const { data } = await axios.put(
         API_URL + `/api/user/${userId}/meeting/${meetingId}/cancel`,
         { isClosed: true, meetingStatus: 'closed' },
