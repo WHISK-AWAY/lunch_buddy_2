@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { getMeetingMessages, addMessage } from '../redux/slices/meetingSlice';
-const PORT = import.meta.env.SOCKET_URL || 'http://localhost:3333';
+const PORT = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3333';
 
 const socket = io.connect(PORT);
 
@@ -40,7 +40,7 @@ export default function ChatBox() {
 
   useEffect(() => {
     // REMOVE .OFF WHEN DEPLOYING OR ELSE WILL NEVER SEND MSG
-    socket.off('recieve-message').on('recieve-message', (d) => {
+    socket.on('recieve-message', (d) => {
       const asyncEvent = async () => {
         const token = localStorage.getItem('token');
         setTimeout(() => {
