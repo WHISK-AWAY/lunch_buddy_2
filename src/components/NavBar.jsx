@@ -52,28 +52,6 @@ const NavBar = () => {
     dispatch(updateUser({ status: newStatus }));
   }
 
-  async function handleUpdateNotif() {
-    await dispatch(
-      updateNotificationStatus({
-        userId: authUser.id,
-        notificationId: 23,
-        updates: { isAcknowledged: true },
-      })
-    );
-  }
-  async function handleCancel() {
-    await dispatch(
-      cancelMeeting({
-        userId: authUser.id,
-        meetingId: 23,
-      })
-    );
-
-    await handleUpdateNotif();
-
-    await dispatch(fetchAllNotifications({ userId: authUser.id }));
-  }
-
   useEffect(() => {
     dispatch(tryToken());
   }, []);
@@ -102,8 +80,6 @@ const NavBar = () => {
             onClick={() => setExpandMenu((prev) => !prev)}
           />
         </button>
-        <button onClick={handleUpdateNotif}>CLICK TO TEST UPDATE NOTIF</button>
-        <button onClick={handleCancel}>CLICK TO TEST CANCEL</button>
         <ul className="flex items-center justify-center gap-8 text-center">
           {/* BUTTONS THAT SHOW ONLY WHEN SIGNED IN */}
           {authUser?.firstName ? (
