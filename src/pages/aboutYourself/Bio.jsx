@@ -10,7 +10,10 @@ const Bio = ({ setBio, bio, validBio }) => {
         className={`w-full px-4 rounded-2xl focus:outline-none border border-slate-700 h-24 py-4 ${
           validBio ? '' : 'border-headers'
         }`}
-        onChange={(e) => setBio(e.target.value)}
+        onChange={(e) => {
+          localStorage.setItem('aboutBio', e.target.value);
+          setBio(e.target.value);
+        }}
         value={bio}
         placeholder={validBio ? '' : 'Please enter bio'}
       />
