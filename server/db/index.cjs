@@ -116,6 +116,20 @@ Meeting.afterCreate(async (meeting) => {
         fromUserId: meeting.buddyId,
         toUserId: meeting.userId,
       });
+
+      meeting.createNotification({
+        notificationType: 'currentMeeting',
+        meetingId: meeting.id,
+        fromUserId: meeting.buddyId,
+        toUserId: meeting.userId,
+      });
+
+      meeting.createNotification({
+        notificationType: 'currentMeeting',
+        meetingId: meeting.id,
+        fromUserId: meeting.userId,
+        toUserId: meeting.buddyId,
+      });
     }
   }, 3000);
 });
