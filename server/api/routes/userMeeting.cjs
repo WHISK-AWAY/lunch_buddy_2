@@ -1,6 +1,6 @@
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 const router = require('express').Router({ mergeParams: true });
-const { Meeting, User } = require('../../db/index.cjs');
+const { Meeting, User, Notification } = require('../../db/index.cjs');
 const { requireToken, sameUserOrAdmin } = require('../authMiddleware.cjs');
 const validUser = require('../validUserMiddleware.cjs');
 
@@ -200,13 +200,25 @@ router.put(
           notificationType,
         });
 
-        // clear out now-outdated notifications
-
-        // const oldNotifications = await Notification.findAll({
-        //   where: {
-        //     toUser:
-        //   }
-        // })
+        // find & close any open (future) rating requests related to this meeting
+        const [notificationsToClose, notifications] = await Notification.update(
+          { isAcknowledged: true },
+          {
+            include: {
+              model: Meeting,
+              where: {
+                lunchDate: {
+                  [Op.gt]: new Date(),
+                },
+              },
+            },
+            where: {
+              meetingId: meeting.id,
+              isAcknowledged: false,
+              notificationType: 'ratingRequested',
+            },
+          }
+        );
 
         res.status(200).json(updatedMeeting);
       }
