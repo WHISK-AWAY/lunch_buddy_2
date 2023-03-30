@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { clearNotificationState } from '../redux/slices';
 import { selectAuthUser, logOut } from '../redux/slices/authSlice';
 import DropDownItem from './DropDownItem';
 import Homepage from '../pages/Homepage/Homepage';
@@ -16,6 +17,7 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
 
   function handleLogout() {
     setExpandMenu(false);
+    dispatch(clearNotificationState());
     dispatch(logOut());
     navigate('/');
   }

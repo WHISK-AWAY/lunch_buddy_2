@@ -54,7 +54,6 @@ export default function RestaurantSuggestions(props) {
     navigate('/match/confirm', { state: { timeSlot, buddy, restaurant } });
   }
 
-  console.log('biddy',buddy);
   const center = { lat: +user.lastLat, lng: +user.lastLong };
 
   return (
@@ -75,7 +74,7 @@ export default function RestaurantSuggestions(props) {
         className="flex flex-col w-full lg:basis-1/2 px-[5%] justify-start items-center gap-16 pt-16 h-full overflow-auto"
       >
         <h1 className="text-2xl text-headers font-semibold">
-          RESTAURANT SUGGESTIONS  
+          RESTAURANT SUGGESTIONS
         </h1>
         <div id="sm-map-wrapper" className="lg:hidden">
           <Wrapper apiKey={MAPS_API_KEY}>

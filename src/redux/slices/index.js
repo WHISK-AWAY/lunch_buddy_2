@@ -53,3 +53,13 @@ export {
   removeBan,
   fetchUserMeetings,
 } from './userSlice';
+
+// NOTIFICATIONS
+export {
+  default as notificationSlice,
+  fetchAllNotifications,
+  updateNotificationStatus,
+  selectUnreadNotifications,
+  cancelMeeting,
+  clearNotificationState,
+} from './notificationSlice';

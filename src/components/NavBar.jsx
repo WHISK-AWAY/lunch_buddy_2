@@ -7,6 +7,13 @@ import { selectAuthUser, tryToken } from '../redux/slices/authSlice';
 import { fetchUser, updateUser } from '../redux/slices/userSlice';
 import navbarIcon from '../assets/icons/navbar-icon.svg';
 import xIcon from '../assets/icons/x-icon.svg';
+import NotificationBody from '../pages/NotificationCenter/NotificationBody';
+import {
+  cancelMeeting,
+  fetchAllNotifications,
+  selectUnreadNotifications,
+  updateNotificationStatus,
+} from '../redux/slices/notificationSlice';
 
 const NavBar = () => {
   const [expandMenu, setExpandMenu] = useState(false);
@@ -14,12 +21,24 @@ const NavBar = () => {
 
   const authUser = useSelector(selectAuthUser);
   const userState = useSelector((state) => state.user.user);
+  const notifications = useSelector(selectUnreadNotifications);
 
   // THIS VARIABLE WILL HIDE OR SHOW THE DOT INDICATING NOTIFICATIONS
-  const hasNotifications = true;
+  const hasNotifications = notifications?.length > 0;
 
   // Turns off scroll when showing menu
   document.body.style.overflow = expandMenu ? 'hidden' : 'auto';
+
+  const [showNotificationBody, setShowNotificationBody] = useState(false);
+
+  const handleNotificationClick = (event) => {
+    event.preventDefault();
+    setShowNotificationBody((prev) => !prev);
+
+    console.log('click');
+  };
+
+  document.body.style.overflow = showNotificationBody ? 'hidden' : 'auto';
 
   function handleToggleStatus() {
     let newStatus;
@@ -33,6 +52,28 @@ const NavBar = () => {
     dispatch(updateUser({ status: newStatus }));
   }
 
+  async function handleUpdateNotif() {
+    await dispatch(
+      updateNotificationStatus({
+        userId: authUser.id,
+        notificationId: 23,
+        updates: { isAcknowledged: true },
+      })
+    );
+  }
+  async function handleCancel() {
+    await dispatch(
+      cancelMeeting({
+        userId: authUser.id,
+        meetingId: 23,
+      })
+    );
+
+    await handleUpdateNotif();
+
+    await dispatch(fetchAllNotifications({ userId: authUser.id }));
+  }
+
   useEffect(() => {
     dispatch(tryToken());
   }, []);
@@ -41,9 +82,13 @@ const NavBar = () => {
     async function runDispatch() {
       if (authUser.firstName) {
         await dispatch(fetchUser(authUser.id));
+        await dispatch(fetchAllNotifications({ userId: authUser.id }));
       }
     }
     runDispatch();
+    setInterval(() => {
+      runDispatch();
+    }, 60000);
   }, [authUser]);
 
   return (
@@ -57,6 +102,8 @@ const NavBar = () => {
             onClick={() => setExpandMenu((prev) => !prev)}
           />
         </button>
+        <button onClick={handleUpdateNotif}>CLICK TO TEST UPDATE NOTIF</button>
+        <button onClick={handleCancel}>CLICK TO TEST CANCEL</button>
         <ul className="flex items-center justify-center gap-8 text-center">
           {/* BUTTONS THAT SHOW ONLY WHEN SIGNED IN */}
           {authUser?.firstName ? (
@@ -90,8 +137,9 @@ const NavBar = () => {
                 >
                   <img
                     className="w-7 h-full"
-                    src={bellIcon}
+                    src={showNotificationBody ? bellIcon : bellIcon}
                     alt="Notification bell icon"
+                    onClick={handleNotificationClick}
                   />
                 </button>
               </li>
@@ -114,6 +162,11 @@ const NavBar = () => {
       {/* DROPDOWN MENU, HIDDEN UNTIL CLICKED */}
 
       <DropdownMenu expandMenu={expandMenu} setExpandMenu={setExpandMenu} />
+      {showNotificationBody && (
+        <div className="notification-body">
+          <NotificationBody />
+        </div>
+      )}
     </header>
   );
 };

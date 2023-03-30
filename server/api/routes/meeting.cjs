@@ -1,5 +1,10 @@
 const router = require('express').Router();
-const { Meeting, Message, Rating } = require('../../db/index.cjs');
+const {
+  Meeting,
+  Message,
+  Rating,
+  Notification,
+} = require('../../db/index.cjs');
 const {
   requireToken,
   isAdmin,
@@ -9,6 +14,7 @@ const { Op } = require('sequelize');
 
 router.post('/', requireToken, async (req, res, next) => {
   try {
+    const userId = +req.user.id;
     const { buddyId, lunchDate, yelpBusinessId } = req.body;
     const bodyKeys = { buddyId, lunchDate, yelpBusinessId };
     for (let key in bodyKeys) {
@@ -20,14 +26,18 @@ router.post('/', requireToken, async (req, res, next) => {
     } else {
       const [newMeeting, wasCreated] = await Meeting.findOrCreate({
         where: {
-          userId: req.user.id,
+          [Op.or]: [{ userId: userId }, { buddyId: userId }],
           // isClosed: false,
           meetingStatus: 'confirmed',
         },
-        defaults: { ...bodyKeys, meetingStatus: 'pending' },
+        defaults: { ...bodyKeys, meetingStatus: 'pending', userId: userId },
       });
       if (wasCreated === false) {
-        res.status(409).send('user is already in a meeting');
+        res
+          .status(409)
+          .send(
+            'Cannot create meeting: user already has confirmed meeting with this buddy'
+          );
       } else {
         res.status(200).json(newMeeting);
       }
@@ -36,6 +46,7 @@ router.post('/', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
 router.put('/:meetingId', requireToken, async (req, res, next) => {
   const { isClosed, lunchDate, yelpBusinessId } = req.body;
   const bodyKeys = { isClosed, lunchDate, yelpBusinessId };
@@ -61,6 +72,7 @@ router.put('/:meetingId', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
 // only admins can get full past meeting info
 router.get('/:meetingId', requireToken, async (req, res, next) => {
   try {
@@ -84,6 +96,7 @@ router.get('/:meetingId', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
 // only admins can remove past meetings
 router.delete('/:meetingId', requireToken, isAdmin, async (req, res, next) => {
   try {
@@ -169,6 +182,7 @@ router.post('/:meetingId/messages', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
 // want to check if user is logged in and user is in meeting
 router.post('/:meetingId/rating', requireToken, async (req, res, next) => {
   try {
@@ -214,6 +228,21 @@ router.post('/:meetingId/rating', requireToken, async (req, res, next) => {
       if (wasCreated === false) {
         res.status(409).send(`User already created a rating`);
       } else {
+        // acknowledge related ratingRequested notification
+        const ratingNotification = await Notification.update(
+          { isAcknowledged: true },
+          {
+            where: {
+              meetingId: meeting.id,
+              toUserId: req.user.id,
+              notificationType: 'ratingRequested',
+            },
+          }
+        );
+        console.log(
+          'acknowledging rating request notification:',
+          ratingNotification
+        );
         res.status(200).json(rating);
       }
     } else {

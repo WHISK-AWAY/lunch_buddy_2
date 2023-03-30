@@ -61,7 +61,7 @@ export default function MeetingSetup(props) {
   timeSlots = timeSlots.map((time) => {
     const times = [time, new Date(time.getTime() + 60 * 60 * 1000)];
     const accum = {};
-    accum.dateObj = time;
+    accum.dateObj = time.toISOString();
     accum.startTime = times[0]
       .toLocaleTimeString([], { timeStyle: 'short' })
       .slice(0, -3);
@@ -70,7 +70,6 @@ export default function MeetingSetup(props) {
       .slice(0, -3);
     return accum;
   }, {});
-
   if (!timeSlot) setTimeSlot(timeSlots[0]);
 
   function handleSearchSubmit(e) {

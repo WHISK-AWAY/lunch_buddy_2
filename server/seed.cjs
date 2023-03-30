@@ -204,9 +204,10 @@ const seed = async () => {
       validate: true,
     });
 
-    console.log('Ratings seeding successful');
-
-    db.close();
+    setTimeout(() => {
+      db.close();
+      console.log('Ratings seeding successful');
+    }, 4000);
   } catch (err) {
     console.log('Seeding failed', err);
     db.close();
