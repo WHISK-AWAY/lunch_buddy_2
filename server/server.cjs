@@ -8,12 +8,17 @@ const PORT = process.env.PORT_NUMBER || 3000;
 const bodyParser = require('body-parser');
 
 // Body parsing middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '25mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-app.use(bodyParser.json({ limit: '10mb' }));
-app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
-
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+    limit: '50mb',
+    parameterLimit: 50000,
+  })
+);
 app.use(volleyball);
 
 // TODO: tighten this up - all-permissive at the moment
