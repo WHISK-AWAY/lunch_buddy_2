@@ -17,7 +17,7 @@ const NotificationBody = () => {
   // console.log('hey');
   return (
     <div className="flex flex-col">
-      <div className="absolute z-40 bg-primary-gray/30 self-end lg:h-[46rem] lg:w-[35rem] rounded-l-md px-3 py-3">
+      <div className="absolute z-40 bg-primary-gray/60 self-end lg:h-[46rem] lg:w-[35rem] rounded-l-3xl px-3 py-3">
         <ul>
           {notifications?.map((notification) => {
             return (
