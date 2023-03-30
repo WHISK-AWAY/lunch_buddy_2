@@ -24,7 +24,7 @@ const NavBar = () => {
   const notifications = useSelector(selectUnreadNotifications);
 
   // THIS VARIABLE WILL HIDE OR SHOW THE DOT INDICATING NOTIFICATIONS
-  const hasNotifications = true;
+  const hasNotifications = notifications?.length > 0;
 
   // Turns off scroll when showing menu
   document.body.style.overflow = expandMenu ? 'hidden' : 'auto';
@@ -88,7 +88,7 @@ const NavBar = () => {
     runDispatch();
     setInterval(() => {
       runDispatch();
-    }, 20000000);
+    }, 60000);
   }, [authUser]);
 
   return (
