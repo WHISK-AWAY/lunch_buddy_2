@@ -48,7 +48,7 @@ router.put(
         ],
       });
 
-      await updatedNotification.update({ isAcknowledged });
+      await updatedNotification.update({ isAcknowledged: true });
 
       res.status(200).send(updatedNotification);
     } catch (err) {
