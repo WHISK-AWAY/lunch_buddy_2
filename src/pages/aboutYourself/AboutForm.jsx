@@ -109,8 +109,8 @@ const AboutForm = () => {
           category="Cuisine"
         />
       </div>
-      <div className="sm:max-w-lg sm:min-w-[40%] w-full px-6">
-        <FormButton handleSubmit={handleSubmit}>Submit</FormButton>
+      <div className="sm:max-w-lg sm:min-w-[20%] w-full px-6">
+        <FormButton handleSubmit={handleSubmit}>SUBMIT</FormButton>
       </div>
     </div>
   );
