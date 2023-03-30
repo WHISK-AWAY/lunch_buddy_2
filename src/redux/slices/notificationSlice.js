@@ -96,10 +96,9 @@ const notificationSlice = createSlice({
       // Fetch all notifications
       .addCase(fetchAllNotifications.fulfilled, (state, action) => {
         state.notifications = action.payload.filter((notification) => {
-          return (
-            notification.notificationType !== 'ratingRequested' ||
-            new Date(notification.meeting.lunchDate) < Date.now()
-          );
+          return true;
+          // notification.notificationType !== 'ratingRequested' ||
+          // new Date(notification.meeting.lunchDate) < Date.now()
         });
         state.isLoading = false;
         state.error = '';

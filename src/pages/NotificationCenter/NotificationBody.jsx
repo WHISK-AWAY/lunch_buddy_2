@@ -5,6 +5,7 @@ import { selectUnreadNotifications } from '../../redux/slices';
 
 // import NewMessage from './NewMessage';
 import MeetingRequest from './MeetingRequest';
+import RatingRequest from './RatingRequest';
 // import MeetingAccepted from './MeetingAccepted';
 // import MeetingRejected from './MeetingRejected';
 // import RatingRequest from './RatingRequest';
@@ -24,6 +25,9 @@ const NotificationBody = () => {
               <li key={notification.id}>
                 {notification.notificationType === 'meetingInvite' && (
                   <MeetingRequest notification={notification} />
+                )}
+                {notification.notificationType === 'ratingRequested' && (
+                  <RatingRequest notification={notification} />
                 )}
               </li>
             );
