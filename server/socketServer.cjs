@@ -1,8 +1,15 @@
-const io = require('socket.io')(3333, {
+const http = require('http');
+const express = require('express');
+const socketio = require('socket.io');
+
+const app = express();
+const server = http.createServer(app);
+const io = socketio(server, {
   cors: {
     origin: '*',
   },
 });
+
 io.on('connection', async (socket) => {
   socket.on('message-event', (room) => {
     if (room === '') {
@@ -19,3 +26,7 @@ io.on('connection', async (socket) => {
     }
   });
 });
+
+server.listen(process.env.SOCKET_BACKEND_PORT || 3333, () =>
+  console.log('socket server online')
+);
