@@ -70,7 +70,6 @@ export default function MeetingSetup(props) {
       .slice(0, -3);
     return accum;
   }, {});
-  console.log('timeslots:', timeSlots);
   if (!timeSlot) setTimeSlot(timeSlots[0]);
 
   function handleSearchSubmit(e) {
