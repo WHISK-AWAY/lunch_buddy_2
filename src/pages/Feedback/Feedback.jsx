@@ -5,6 +5,7 @@ import ReportForm from './ReportForm';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { addRating, getMeeting } from '../../redux/slices/meetingSlice';
+import { fetchAllNotifications } from '../../redux/slices';
 
 const Feedback = () => {
   const [showReport, setShowReport] = useState(false);
@@ -75,6 +76,10 @@ const Feedback = () => {
     if (createdReport.meta.requestStatus === 'rejected') {
       alert(`Error when sending report`);
     } else if (createdReport.meta.requestStatus === 'fulfilled') {
+      dispatch(fetchAllNotifications({ userId: user.id }));
+      // setTimeout(() => {
+      //   console.log('timeout');
+      // }, 1000);
       navigate('/');
     }
   };

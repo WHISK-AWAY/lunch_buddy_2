@@ -38,10 +38,6 @@ export default function RatingRequest({ notification }) {
     // );
 
     navigate(`/meeting/${notification.meetingId}/feedback`);
-
-    // setTimeout(() => {
-    //   dispatch(fetchAllNotifications({ userId: notification.toUser.id }));
-    // }, 500);
   };
 
   // console.log('meetingsss', meetings);
