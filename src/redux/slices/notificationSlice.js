@@ -52,7 +52,7 @@ export const cancelMeeting = createAsyncThunk(
   'notification/cancelMeeting',
   async ({ userId, meetingId }, { rejectWithValue, getState }) => {
     try {
-      await axios.put(
+      const { data } = await axios.put(
         API_URL + `/api/user/${userId}/meeting/${meetingId}/cancel`,
         { isClosed: true, meetingStatus: 'closed' },
         {
