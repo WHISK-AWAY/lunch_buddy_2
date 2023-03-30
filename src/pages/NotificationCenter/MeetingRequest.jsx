@@ -26,8 +26,8 @@ export default function MeetingRequest({ notification }) {
         userId: notification.toUser.id,
       })
     );
-    if (notification.meeting.yelpBusinessId)
-      dispatch(getBusinessInfo(notification.meeting.yelpBusinessId));
+    // if (notification.meeting.yelpBusinessId)
+    // dispatch(getBusinessInfo(notification.meeting.yelpBusinessId));
   }, [notification]);
 
   const yelpBusinessId = notification.meeting.yelpBusinessId;
@@ -103,7 +103,7 @@ export default function MeetingRequest({ notification }) {
         <p>{notification.meeting?.yelpBusinessId && yelpBusinessAddress}</p>
         <div
           id="btn-container"
-          className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 jjustify-center items-center"
+          className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 justify-center items-center"
         >
           <FormButton handleSubmit={handleAccept}>ACCEPT </FormButton>
           <FormButton handleSubmit={handleReject}>REJECT </FormButton>
