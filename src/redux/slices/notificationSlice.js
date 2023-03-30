@@ -40,7 +40,6 @@ export const updateNotificationStatus = createAsyncThunk(
           },
         }
       );
-      console.log('hello from thunk');
       return data;
     } catch (error) {
       rejectWithValue(error);
@@ -103,11 +102,14 @@ const notificationSlice = createSlice({
 
         // reassign notification in array of notifications to show the updated notif
         const allNotifications = state.notifications;
-        const indexOfUpdatedNotification = allNotifications.findIndex(
-          (notification) => notification.id === action.payload.id
-        );
-        allNotifications[indexOfUpdatedNotification] = action.payload;
+        // const indexOfUpdatedNotification = allNotifications.findIndex(
+        //   (notification) => notification.id === action.payload.id
+        // );
+        // allNotifications[indexOfUpdatedNotification] = action.payload;
 
+        state.notifications = allNotifications.filter((notification) => {
+          return notification.id !== action.payload.id;
+        });
         state.error = '';
         state.isLoading = false;
       })
@@ -122,6 +124,10 @@ const notificationSlice = createSlice({
 
       // Cancel meeting notification
       .addCase(cancelMeeting.fulfilled, (state, action) => {
+        const allNotifications = state.notifications;
+        state.notifications = allNotifications.filter((notification) => {
+          return notification.id !== action.payload.id;
+        });
         state.error = '';
         state.isLoading = false;
       })

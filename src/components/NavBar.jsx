@@ -29,8 +29,7 @@ const NavBar = () => {
   // Turns off scroll when showing menu
   document.body.style.overflow = expandMenu ? 'hidden' : 'auto';
 
-
- const [showNotificationBody, setShowNotificationBody] = useState(false);
+  const [showNotificationBody, setShowNotificationBody] = useState(false);
 
   const handleNotificationClick = (event) => {
     event.preventDefault();
@@ -87,9 +86,10 @@ const NavBar = () => {
       }
     }
     runDispatch();
+    setInterval(() => {
+      runDispatch();
+    }, 20000000);
   }, [authUser]);
-
-
 
   return (
     <header className="relative z-40 text-primary-gray">
@@ -167,7 +167,6 @@ const NavBar = () => {
           <NotificationBody />
         </div>
       )}
-    
     </header>
   );
 };
