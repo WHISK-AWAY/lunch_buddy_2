@@ -102,34 +102,6 @@ Meeting.afterCreate(async (meeting) => {
         fromUserId: meeting.userId,
         toUserId: meeting.buddyId,
       });
-
-      meeting.createNotification({
-        notificationType: 'ratingRequested',
-        meetingId: meeting.id,
-        fromUserId: meeting.userId,
-        toUserId: meeting.buddyId,
-      });
-
-      meeting.createNotification({
-        notificationType: 'ratingRequested',
-        meetingId: meeting.id,
-        fromUserId: meeting.buddyId,
-        toUserId: meeting.userId,
-      });
-
-      meeting.createNotification({
-        notificationType: 'currentMeeting',
-        meetingId: meeting.id,
-        fromUserId: meeting.buddyId,
-        toUserId: meeting.userId,
-      });
-
-      meeting.createNotification({
-        notificationType: 'currentMeeting',
-        meetingId: meeting.id,
-        fromUserId: meeting.userId,
-        toUserId: meeting.buddyId,
-      });
     }
   }, 3000);
 });
@@ -144,6 +116,34 @@ Meeting.afterUpdate(async (meeting) => {
       toUserId: meeting.userId,
       fromUserId: meeting.buddyId,
       notificationType: 'inviteAccepted',
+    });
+
+    await meeting.createNotification({
+      notificationType: 'ratingRequested',
+      meetingId: meeting.id,
+      fromUserId: meeting.userId,
+      toUserId: meeting.buddyId,
+    });
+
+    await meeting.createNotification({
+      notificationType: 'ratingRequested',
+      meetingId: meeting.id,
+      fromUserId: meeting.buddyId,
+      toUserId: meeting.userId,
+    });
+
+    await meeting.createNotification({
+      notificationType: 'currentMeeting',
+      meetingId: meeting.id,
+      fromUserId: meeting.buddyId,
+      toUserId: meeting.userId,
+    });
+
+    await meeting.createNotification({
+      notificationType: 'currentMeeting',
+      meetingId: meeting.id,
+      fromUserId: meeting.userId,
+      toUserId: meeting.buddyId,
     });
   }
 });
