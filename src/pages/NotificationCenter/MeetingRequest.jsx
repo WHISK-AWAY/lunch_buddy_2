@@ -10,6 +10,7 @@ import FormButton from '../../components/FormButton';
 import { updateNotificationStatus, cancelMeeting } from '../../redux/slices';
 import { fetchAllNotifications } from '../../redux/slices';
 import axios from 'axios';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export default function MeetingRequest({ notification }) {
   const dispatch = useDispatch();
@@ -44,11 +45,14 @@ export default function MeetingRequest({ notification }) {
       })
     );
 
-    await axios.put(
-      `/api/user/${notification.toUser.id}/meeting/${notification.meeting.id}/confirm`,
+    const res = await axios.put(
+      API_URL +
+        `/api/user/${notification.toUser.id}/meeting/${notification.meeting.id}/confirm`,
       {},
       { headers: { authorization: token } }
     );
+
+    console.log('axios response: ', res);
 
     setTimeout(() => {
       dispatch(fetchAllNotifications({ userId: notification.toUser.id }));
