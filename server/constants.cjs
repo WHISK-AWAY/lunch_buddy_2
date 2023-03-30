@@ -20,6 +20,7 @@ const NOTIFICATION_TYPES = [
   'inviteRejected', // done (in user meeting cancel route)
   'meetingCancelled', // done (in user meeting cancel route)
   'ratingRequested', // done (Meeting.afterCreate)
+  'currentMeeting', //  not done - this will provide a link to chat & cancel functions. need to make sure to acknowledge this for both users upon cancellation or after meeting end time
   'newMessage', // not done -- if this is still needed, can do this as Message.afterCreate()
 ];
 
