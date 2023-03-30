@@ -52,8 +52,6 @@ export default function MeetingRequest({ notification }) {
       { headers: { authorization: token } }
     );
 
-    console.log('axios response: ', res);
-
     setTimeout(() => {
       dispatch(fetchAllNotifications({ userId: notification.toUser.id }));
     }, 500);
