@@ -205,7 +205,7 @@ router.put(
         // find & close any open (future) rating requests related to this meeting
         // this should only apply to meetings that have yet to occur --
         // we should still require ratings for meetings that would have already occurred
-        const [notificationsToClose, notifications] = await Notification.update(
+        const ratingNotificationsToClose = await Notification.update(
           { isAcknowledged: true },
           {
             include: {
@@ -220,6 +220,19 @@ router.put(
               meetingId: meeting.id,
               isAcknowledged: false,
               notificationType: 'ratingRequested',
+            },
+          }
+        );
+        const currentMeetingNotifications = await Notification.update(
+          { isAcknowledged: true },
+          {
+            include: {
+              model: Meeting,
+            },
+            where: {
+              meetingId: meeting.id,
+              isAcknowledged: false,
+              notificationType: 'currentMeeting',
             },
           }
         );
