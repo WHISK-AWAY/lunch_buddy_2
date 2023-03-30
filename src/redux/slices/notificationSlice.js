@@ -78,7 +78,16 @@ const initialState = {
 const notificationSlice = createSlice({
   name: 'notifications',
   initialState,
-  reducers: {},
+  reducers: {
+    clearNotificationState: (state) => {
+      return {
+        notifications: [],
+        notification: {},
+        isLoading: false,
+        error: '',
+      };
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Fetch all notifications
@@ -146,6 +155,6 @@ export const selectUnreadNotifications = (state) => {
   return state.notifications.notifications;
 };
 
-export const {} = notificationSlice.actions;
+export const { clearNotificationState } = notificationSlice.actions;
 
 export default notificationSlice.reducer;
