@@ -203,6 +203,8 @@ router.put(
         });
 
         // find & close any open (future) rating requests related to this meeting
+        // this should only apply to meetings that have yet to occur --
+        // we should still require ratings for meetings that would have already occurred
         const [notificationsToClose, notifications] = await Notification.update(
           { isAcknowledged: true },
           {
