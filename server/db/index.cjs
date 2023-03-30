@@ -1,4 +1,5 @@
 const db = require('./database.cjs');
+const { Op } = require('sequelize');
 const Category = require('./models/Category.cjs');
 const Meeting = require('./models/Meeting.cjs');
 const Message = require('./models/Message.cjs');
@@ -158,6 +159,16 @@ Rating.afterCreate(async (rating) => {
     await Meeting.update(
       { meetingStatus: 'closed', isClosed: true },
       { where: { id: meetingId } }
+    );
+
+    await Notification.update(
+      { isAcknowledged: true },
+      {
+        where: {
+          notificationType: { [Op.in]: ['currentMeeting', 'inviteAccepted'] },
+          meetingId: meetingId,
+        },
+      }
     );
   }
 });
