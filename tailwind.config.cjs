@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const plugin = require('tailwindcss/plugin');
+
 module.exports = {
   content: {
     files: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -48,6 +51,21 @@ module.exports = {
   plugins: [
     require('@tailwindcss/forms')({ strategy: 'class' }),
     require('taos/plugin'),
-    // ...
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        '.scrollbar-hide': {
+        
+          '-ms-overflow-style': 'none',
+
+    
+          'scrollbar-width': 'none',
+
+  
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        },
+      });
+    }),
   ],
 };

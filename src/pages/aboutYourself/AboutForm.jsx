@@ -87,8 +87,8 @@ const AboutForm = () => {
 
   return (
     <div className=" flex flex-col items-center justify-center w-screen mx-2">
-      <h1 className="my-8 text-lg font-bold text-red-400">
-        Tell us about yourself
+      <h1 className="my-8 text-lg font-bold text-headers">
+        TELL US ABOUT YOURSELF
       </h1>
       <Bio setBio={setBio} bio={bio} />
       <div className="lg:flex mr-4">
@@ -109,8 +109,8 @@ const AboutForm = () => {
           category="Cuisine"
         />
       </div>
-      <div className="sm:max-w-lg sm:min-w-[40%] w-full px-6">
-        <FormButton handleSubmit={handleSubmit}>Submit</FormButton>
+      <div className="sm:max-w-lg sm:min-w-[20%] w-full px-6">
+        <FormButton handleSubmit={handleSubmit}>SUBMIT</FormButton>
       </div>
     </div>
   );

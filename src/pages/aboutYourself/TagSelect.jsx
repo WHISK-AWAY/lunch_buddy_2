@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import chevronRight from '../../assets/icons/chevron-right.svg';
 import plus from '../../assets/icons/plus.svg';
-import minus from '../../assets/icons/minus.svg';
+import minusWhite from '../../assets/icons/minus-white.svg';
 
 const TagSelect = ({ setter, tags = [], category }) => {
   const [tagExpand, setTagExpand] = useState(true);
@@ -15,8 +15,8 @@ const TagSelect = ({ setter, tags = [], category }) => {
 
   return (
     <div className="sm:px-8 lg:w-1/4">
-      <div className="text-red-400 mr-auto">
-        <h2 className="ml-2">{category}</h2>
+      <div className="text-headers mr-auto">
+        <h2 className="ml-2">{category.toUpperCase()}</h2>
       </div>
       <div className="flex gap-x-1 my-4">
         <button
@@ -24,8 +24,7 @@ const TagSelect = ({ setter, tags = [], category }) => {
           onClick={() => setTagExpand((prev) => !prev)}
         >
           <img
-            className={`w-6 transition-all ${tagExpand ? '' : 'rotate-90'}`}
-            // src={tagExpand ? chevronRight : chevronDown}
+            className={`w-5 transition-all ${tagExpand ? '' : 'rotate-90'}`}
             src={chevronRight}
             alt="Expand/Retract Arrow"
           />
@@ -39,15 +38,17 @@ const TagSelect = ({ setter, tags = [], category }) => {
             return (
               <button
                 key={idx}
-                className={`border border-black rounded-full px-4 h-7 lg:h-auto flex grow gap-4 items-center hover:bg-slate-100 text-sm sm:text-base ${
-                  tag.clicked ? 'button text-white transition-all' : ''
+                className={`border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex grow gap-4 items-center hover:bg-slate-100 text-xs ${
+                  tag.clicked
+                    ? 'button text-white transition-all border-transparent'
+                    : ''
                 }`}
                 onClick={() => handleTagClick(idx, setter)}
               >
-                <p className="grow">{tag.tagName}</p>
+                <p className="grow text-xs">{tag.tagName}</p>
                 <img
-                  className="w-6"
-                  src={tag.clicked ? minus : plus}
+                  className="w-5"
+                  src={tag.clicked ? minusWhite : plus}
                   alt="Toggle tag icon"
                 />
               </button>
