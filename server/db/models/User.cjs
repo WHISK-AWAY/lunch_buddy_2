@@ -181,7 +181,7 @@ const User = db.define('user', {
     },
   },
   avatarUrl: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     allowNull: false,
     defaultValue: '/assets/defaultAvatar.svg',
     validate: {

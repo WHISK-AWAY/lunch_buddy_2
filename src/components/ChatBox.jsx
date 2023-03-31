@@ -111,7 +111,7 @@ export default function ChatBox() {
     <div className="flex overflow-hidden h-[calc(100vh_-_48px)] orange-linear-bg">
       <div className="lg:w-2/5">
         <img
-          src="assets/bgImg/chatView.jpg"
+          src="/assets/bgImg/chatView.jpg"
           alt="Two People eating a bowl of food with chopsticks!"
           className="hidden lg:block object-cover h-full w-full"
         />
