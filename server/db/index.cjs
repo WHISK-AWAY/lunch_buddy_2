@@ -84,6 +84,7 @@ User.prototype.strikeCount = async function () {
  * HOOKS
  */
 
+// Mark meeting as isClosed if status changes to cancelled or closed
 Meeting.beforeUpdate((meeting) => {
   // if (meeting.isClosed) meeting.meetingStatus = 'closed';
   if (['cancelled', 'closed'].includes(meeting.meetingStatus)) {
@@ -107,6 +108,8 @@ Meeting.afterCreate(async (meeting) => {
   }, 3000);
 });
 
+// Close out relevant notifications when a meeting is closed
+// Generate relevant notifications when a meeting is confirmed
 Meeting.afterUpdate(async (meeting) => {
   if (meeting.isClosed) {
     console.log('updating notifications due to closed meeting...');
@@ -162,6 +165,7 @@ Meeting.afterUpdate(async (meeting) => {
   }
 });
 
+// Close out meeting after both people have submitted ratings
 Rating.afterCreate(async (rating) => {
   const { buddyId, meetingId } = rating;
   const oppositeRating = await Rating.findOne({
