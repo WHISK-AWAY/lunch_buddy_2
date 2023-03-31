@@ -101,14 +101,10 @@ export default function ChatBox() {
 
   useEffect(() => {
     if (messageEl) {
-      const observer = new MutationObserver(() => {
-        messageEl.current.scroll({
-          top: messageEl.current.scrollHeight,
-          behavior: 'smooth',
-        });
+      messageEl.current.addEventListener('DOMNodeInserted', (event) => {
+        const { currentTarget: target } = event;
+        target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
       });
-      observer.observe(messageEl.current, { childList: true });
-      return () => observer.disconnect();
     }
   }, []);
 
@@ -142,6 +138,7 @@ export default function ChatBox() {
 
   return (
     <div className="flex overflow-hidden h-[calc(100vh_-_65px)] lg:bg-none orange-linear-bg text-primary-gray w-screen">
+      {' '}
       <div
         id="bg-img"
         src="assets/bgImg/chatView.jpg"
@@ -162,8 +159,8 @@ export default function ChatBox() {
           className="basis-4/6 lg:bg-[#c4c4c4] lg:bg-opacity-20 lg:rounded-3xl grow overflow-y-auto scroll-smooth w-full lg:w-11/12 lg:pl-4"
         >
           <div
-            className="h-full grow overflow-y-auto scrollbar-hide"
             ref={messageEl}
+            className="h-full grow overflow-y-auto scrollbar-hide"
           >
             {meeting?.messages < 1 || meeting?.messages === undefined ? (
               <div className="text-center text-sm pt-4">
