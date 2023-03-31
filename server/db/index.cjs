@@ -89,16 +89,6 @@ Meeting.beforeUpdate((meeting) => {
   if (['cancelled', 'closed'].includes(meeting.meetingStatus)) {
     console.log('closing meeting...');
     meeting.isClosed = true;
-
-    Notification.update(
-      { isAcknowledged: true },
-      {
-        where: {
-          notificationType: { [Op.in]: ['currentMeeting', 'inviteAccepted'] },
-          meetingId: meeting.id,
-        },
-      }
-    );
   }
 });
 
@@ -118,9 +108,8 @@ Meeting.afterCreate(async (meeting) => {
 });
 
 Meeting.afterUpdate(async (meeting) => {
-  console.log('hello from afterUpdate hook');
   if (meeting.isClosed) {
-    console.log('have notifications to update...');
+    console.log('updating notifications due to closed meeting...');
     const notifUpdates = await Notification.update(
       { isAcknowledged: true },
       {
@@ -173,23 +162,6 @@ Meeting.afterUpdate(async (meeting) => {
   }
 });
 
-Meeting.afterUpdate(async (meeting) => {
-  console.log('!!!!!!!!!!!!!!!!!!!!!what changed:', meeting);
-  if (meeting.isClosed) {
-    console.log('have notifications to update...');
-    await Notification.update(
-      { isAcknowledged: true },
-      {
-        where: {
-          notificationType: { [Op.in]: ['currentMeeting', 'inviteAccepted'] },
-          meetingId: meeting.id,
-        },
-        individualHooks: true,
-      }
-    );
-  }
-});
-
 Rating.afterCreate(async (rating) => {
   const { buddyId, meetingId } = rating;
   const oppositeRating = await Rating.findOne({
@@ -201,16 +173,6 @@ Rating.afterCreate(async (rating) => {
       { meetingStatus: 'closed', isClosed: true },
       { where: { id: meetingId }, individualHooks: true }
     );
-
-    // await Notification.update(
-    //   { isAcknowledged: true },
-    //   {
-    //     where: {
-    //       notificationType: { [Op.in]: ['currentMeeting', 'inviteAccepted'] },
-    //       meetingId: meetingId,
-    //     },
-    //   }
-    // );
   }
 });
 
