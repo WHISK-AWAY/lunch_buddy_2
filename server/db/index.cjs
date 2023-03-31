@@ -1,4 +1,5 @@
 const db = require('./database.cjs');
+const { Op } = require('sequelize');
 const Category = require('./models/Category.cjs');
 const Meeting = require('./models/Meeting.cjs');
 const Message = require('./models/Message.cjs');
@@ -83,6 +84,7 @@ User.prototype.strikeCount = async function () {
  * HOOKS
  */
 
+// Mark meeting as isClosed if status changes to cancelled or closed
 Meeting.beforeUpdate((meeting) => {
   // if (meeting.isClosed) meeting.meetingStatus = 'closed';
   if (['cancelled', 'closed'].includes(meeting.meetingStatus)) {
@@ -106,7 +108,22 @@ Meeting.afterCreate(async (meeting) => {
   }, 3000);
 });
 
+// Close out relevant notifications when a meeting is closed
+// Generate relevant notifications when a meeting is confirmed
 Meeting.afterUpdate(async (meeting) => {
+  if (meeting.isClosed) {
+    console.log('updating notifications due to closed meeting...');
+    const notifUpdates = await Notification.update(
+      { isAcknowledged: true },
+      {
+        where: {
+          notificationType: { [Op.in]: ['currentMeeting', 'inviteAccepted'] },
+          meetingId: meeting.id,
+        },
+      }
+    );
+  }
+
   if (
     meeting.changed().includes('meetingStatus') &&
     meeting._previousDataValues?.meetingStatus === 'pending' &&
@@ -148,6 +165,7 @@ Meeting.afterUpdate(async (meeting) => {
   }
 });
 
+// Close out meeting after both people have submitted ratings
 Rating.afterCreate(async (rating) => {
   const { buddyId, meetingId } = rating;
   const oppositeRating = await Rating.findOne({
@@ -157,77 +175,10 @@ Rating.afterCreate(async (rating) => {
   if (oppositeRating) {
     await Meeting.update(
       { meetingStatus: 'closed', isClosed: true },
-      { where: { id: meetingId } }
+      { where: { id: meetingId }, individualHooks: true }
     );
   }
 });
-
-// Notification.afterUpdate(async (notification) => {
-//   // Create new notification when meeting request becomes acknowledged
-//   /**
-//    * TODO: change this into a Meeting.afterUpdate -- so that the front end needs only to
-//    * send an update of meeting status, and the notifications can be auto-acknowledged/generated
-//    */
-//   if (
-//     notification.changed().includes('isAcknowledged') &&
-//     notification.isAcknowledged &&
-//     notification.notificationType === 'meetingInvite'
-//   ) {
-//     const meeting = await Meeting.findByPk(notification.meetingId);
-//     let notificationType =
-//       meeting.meetingStatus === 'confirmed'
-//         ? 'inviteAccepted'
-//         : 'inviteRejected';
-//     meeting.createNotification({
-//       toUserId: notification.fromUserId,
-//       fromUserId: notification.toUserId,
-//       notificationType,
-//     });
-//   }
-// });
-
-// Create new notification when meeting status is updated
-// I backed off from this approach, but don't want to lose the code *just* yet
-// Meeting.afterUpdate(async (meeting) => {
-//   // when meeting status becomes 'cancelled', (via PUT /api/user/:userId/meeting/:meetingId/cancel)
-//   // send cancellation notice if it was acknowledged
-//   // send rejection notice if it was pending
-//   if (
-//     meeting.changed().includes('meetingStatus') &&
-//     meeting.meetingStatus === 'cancelled'
-//   ) {
-//     console.log('meeting status changed:', meeting._previousDataValues);
-//     // if was pending, send inviteRejected
-//     await meeting.createNotification({
-//       toUserId: notification.fromUserId,
-//       fromUserId: notification.toUserId,
-//       notificationType,
-//     });
-//     // if was confirmed, send meetingCancelled
-//     const inviteNotification = await Notification.findOne({
-//       where: {
-//         meetingId: meeting.id,
-//         notificationType: 'meetingInvite',
-//         isAcknowledged: true,
-//       },
-//     });
-//     // console.log('invite notification found: ', inviteNotification);
-//     if (inviteNotification !== null)
-//       await inviteNotification.update({ isAcknowledged: true });
-//     console.log('ok we did it');
-//   }
-// });
-
-/**
- * Situations:
- * User sends invite to buddy
- * Buddy responds (up or down)
- * User acknowledges response
- * Someone cancels
- * Other person acknowledges cancellation
- * User rating requested
- * User rating completed
- */
 
 module.exports = {
   Category,

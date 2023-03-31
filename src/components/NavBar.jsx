@@ -52,28 +52,6 @@ const NavBar = () => {
     dispatch(updateUser({ status: newStatus }));
   }
 
-  async function handleUpdateNotif() {
-    await dispatch(
-      updateNotificationStatus({
-        userId: authUser.id,
-        notificationId: 23,
-        updates: { isAcknowledged: true },
-      })
-    );
-  }
-  async function handleCancel() {
-    await dispatch(
-      cancelMeeting({
-        userId: authUser.id,
-        meetingId: 23,
-      })
-    );
-
-    await handleUpdateNotif();
-
-    await dispatch(fetchAllNotifications({ userId: authUser.id }));
-  }
-
   useEffect(() => {
     dispatch(tryToken());
   }, []);

@@ -1,6 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearNotificationState } from '../redux/slices';
+import {
+  clearNotificationState,
+  selectUnreadNotifications,
+} from '../redux/slices';
 import { selectAuthUser, logOut } from '../redux/slices/authSlice';
 import DropDownItem from './DropDownItem';
 import Homepage from '../pages/Homepage/Homepage';
@@ -10,6 +13,11 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const authUser = useSelector(selectAuthUser);
+  const notifications = useSelector(selectUnreadNotifications);
+
+  const currentMeetingNotification = notifications?.filter(
+    (notification) => notification.notificationType === 'currentMeeting'
+  )[0];
 
   function handleClick() {
     setExpandMenu(false);
@@ -53,7 +61,14 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
               <DropDownItem handleClick={handleClick} linkTo="/match">
                 NEW MEETING
               </DropDownItem>
-              <DropDownItem handleClick={handleClick}>MESSAGES</DropDownItem>
+              {currentMeetingNotification && (
+                <DropDownItem
+                  handleClick={handleClick}
+                  linkTo={`/meeting/${currentMeetingNotification.meetingId}/chat`}
+                >
+                  MESSAGES
+                </DropDownItem>
+              )}
               <DropDownItem handleClick={handleLogout}>LOG OUT</DropDownItem>
             </>
           )}
