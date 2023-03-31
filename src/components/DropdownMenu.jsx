@@ -5,11 +5,14 @@ import { selectAuthUser, logOut } from '../redux/slices/authSlice';
 import DropDownItem from './DropDownItem';
 import Homepage from '../pages/Homepage/Homepage';
 import { useNavigate } from 'react-router-dom';
+import { selectUnreadActiveMeeting } from '../redux/slices/notificationSlice';
 
 const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const authUser = useSelector(selectAuthUser);
+
+  const activeMeeting = useSelector(selectUnreadActiveMeeting);
 
   function handleClick() {
     setExpandMenu(false);
@@ -50,9 +53,18 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
               <DropDownItem handleClick={handleClick} linkTo="/account">
                 ACCOUNT
               </DropDownItem>
-              <DropDownItem handleClick={handleClick} linkTo="/match">
-                NEW MEETING
-              </DropDownItem>
+              {!activeMeeting ? (
+                <DropDownItem handleClick={handleClick} linkTo="/match">
+                  NEW MEETING
+                </DropDownItem>
+              ) : (
+                <DropDownItem
+                  handleClick={handleClick}
+                  linkTo="/meeting/current"
+                >
+                  CURRENT MEETING
+                </DropDownItem>
+              )}
               <DropDownItem handleClick={handleClick}>MESSAGES</DropDownItem>
               <DropDownItem handleClick={handleLogout}>LOG OUT</DropDownItem>
             </>

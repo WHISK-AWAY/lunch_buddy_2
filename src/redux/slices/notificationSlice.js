@@ -165,14 +165,6 @@ export const selectUnreadNotifications = (state) => {
 export const selectUnreadActiveMeeting = (state) => {
   const allNotifications = state.notifications.notifications;
   return allNotifications.find((notification) => {
-    // console.log(
-    //   '<><><><><><><><><><><><><><><>',
-    //   notification.notificationType === 'currentMeeting'
-    // );
-    // console.log(
-    //   '<><><><><><><><><><><><><><><> ACK????',
-    //   !notification.isAcknowledged
-    // );
     return (
       notification.notificationType === 'currentMeeting' &&
       !notification.isAcknowledged

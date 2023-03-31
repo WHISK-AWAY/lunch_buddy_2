@@ -24,6 +24,8 @@ const CurrentMeeting = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const meeting = useSelector((state) => state.meetings);
+
   const [buddy, setBuddy] = useState({});
 
   const currentNotif = useSelector(selectUnreadActiveMeeting);
@@ -56,6 +58,10 @@ const CurrentMeeting = () => {
       }
     }
   }, [currentMeeting]);
+
+  if (meeting.isLoading) {
+    return <h1>loading...</h1>;
+  }
 
   return (
     <div className="recap-card h-[calc(100vh_-_75px)] w-screen flex flex-col gap-12 items-center orange-linear-bg lg:bg-none lg:bg-white lg:flex-row lg:items-center bg-fixed text-primary-gray overflow-hidden">
