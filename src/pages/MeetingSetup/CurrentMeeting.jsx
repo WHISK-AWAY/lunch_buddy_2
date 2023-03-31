@@ -25,9 +25,6 @@ const CurrentMeeting = () => {
   const navigate = useNavigate();
 
   const [buddy, setBuddy] = useState({});
-  console.log('BUDDDDYYYY', buddy);
-
-  const allNotifs = useSelector(selectUnreadNotifications);
 
   const currentNotif = useSelector(selectUnreadActiveMeeting);
 
@@ -78,7 +75,7 @@ const CurrentMeeting = () => {
           <h2 className="text-lg font-semibold text-headers">
             {buddy.fullName}
           </h2>
-          <p>{currentMeeting?.time}</p>
+          <p>{currentMeeting?.lunchDate?.replace(/^[^T]*/, '').slice(1, -8)}</p>
           <p className="font-semibold">
             <a href={currentMeeting?.restaurant?.url} target="_blank">
               {currentMeeting?.restaurant.name.toUpperCase()}
