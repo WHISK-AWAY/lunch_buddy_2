@@ -197,7 +197,6 @@ const userSlice = createSlice({
         state.error = '';
       })
       .addCase(fetchUser.pending, (state, { payload }) => {
-        state.user = {};
         state.isLoading = true;
         state.error = '';
       })
