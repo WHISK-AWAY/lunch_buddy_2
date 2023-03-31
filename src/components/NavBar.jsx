@@ -15,6 +15,8 @@ import {
   updateNotificationStatus,
 } from '../redux/slices/notificationSlice';
 
+const NOTIFICATION_UPDATE_INTERVAL = 240000;
+
 const NavBar = () => {
   const [expandMenu, setExpandMenu] = useState(false);
   const dispatch = useDispatch();
@@ -66,7 +68,7 @@ const NavBar = () => {
     runDispatch();
     setInterval(() => {
       runDispatch();
-    }, 60000);
+    }, NOTIFICATION_UPDATE_INTERVAL);
   }, [authUser]);
 
   return (
