@@ -40,6 +40,30 @@ const NavBar = () => {
     console.log('click');
   };
 
+  const root = document.querySelector('#root');
+
+  function closeDropdown() {
+    setExpandMenu(false);
+    root.removeEventListener('click', closeDropdown);
+  }
+
+  useEffect(() => {
+    if (expandMenu) {
+      root.addEventListener('click', closeDropdown);
+    }
+  }, [expandMenu]);
+
+  function closeNotificationBody() {
+    setShowNotificationBody(false);
+    root.removeEventListener('click', closeNotificationBody);
+  }
+
+  useEffect(() => {
+    if (showNotificationBody) {
+      root.addEventListener('click', closeNotificationBody);
+    }
+  }, [showNotificationBody]);
+
   document.body.style.overflow = showNotificationBody ? 'hidden' : 'auto';
 
   function handleToggleStatus() {
