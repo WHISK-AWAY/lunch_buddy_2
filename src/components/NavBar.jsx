@@ -70,8 +70,8 @@ const NavBar = () => {
   }, [authUser]);
 
   return (
-    <header className="relative z-40 text-primary-gray h-[65px] border-b border-primary-gray">
-      <nav className="flex p-4 justify-between bg-slate-50">
+    <header className="relative z-40 text-primary-gray h-[65px]">
+      <nav className="flex p-4 justify-between border-b border-primary-gray  bg-slate-50">
         <button className="h-8 flex justify-center items-center pt-1">
           <img
             className="w-8"
