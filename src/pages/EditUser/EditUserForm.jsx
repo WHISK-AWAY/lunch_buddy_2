@@ -163,7 +163,7 @@ const EditUserForm = () => {
         console.log('async error', typeof asyncError.payload.error);
         console.log(`Error: ${asyncError.payload.error}`);
       } else {
-        navigate('/');
+        navigate('/account');
       }
     }
   };
