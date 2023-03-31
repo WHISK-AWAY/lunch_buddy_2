@@ -34,12 +34,20 @@ const AboutForm = () => {
   const [dietaryTags, setDietaryTags] = useState([]);
   const [cuisineTags, setCuisineTags] = useState([]);
 
-  const [minTags, setMinTags] = useState({
-    Social: { minimum: MINIMUM_SOCIAL, show: false, numClicked: 0 },
-    Professional: { minimum: MINIMUM_PROFESSIONAL, show: false, numClicked: 0 },
-    Dietary: { minimum: 0, show: false, numClicked: 0 },
-    Cuisine: { minimum: MINIMUM_CUISINE, show: false, numClicked: 0 },
-  });
+  const [minTags, setMinTags] = useState(
+    JSON.parse(localStorage.getItem('minTags')) || {
+      Social: { minimum: MINIMUM_SOCIAL, show: false, numClicked: 0 },
+      Professional: {
+        minimum: MINIMUM_PROFESSIONAL,
+        show: false,
+        numClicked: 0,
+      },
+      Dietary: { minimum: 0, show: false, numClicked: 0 },
+      Cuisine: { minimum: MINIMUM_CUISINE, show: false, numClicked: 0 },
+    }
+  );
+
+  console.log(minTags);
 
   const [validBio, setValidBio] = useState(true);
 
@@ -80,13 +88,17 @@ const AboutForm = () => {
     }
   }, [tagsInState]);
 
+  useEffect(() => {
+    localStorage.setItem('minTags', JSON.stringify(minTags));
+  }, [minTags]);
+
   // Handles creation of new user based on user inputs
   async function handleSubmit() {
     setValidBio(!!bio);
 
     for (let category in minTags) {
       const minTagsCopy = { ...minTags[category] };
-
+      console.log(minTags[category].numClicked, minTags[category].minimum);
       setMinTags((prev) => ({
         ...prev,
         [category]: {
