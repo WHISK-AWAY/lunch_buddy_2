@@ -1,28 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   getMeeting,
   selectActiveMeeting,
 } from '../../redux/slices/meetingSlice';
-import {
-  createMeeting,
-  selectMeetings,
-  resetMeetingStatus,
-  fetchUserMeetings,
-  fetchUser,
-} from '../../redux/slices';
+import { resetMeetingStatus } from '../../redux/slices';
 import {
   cancelMeeting,
-  fetchAllNotifications,
   selectUnreadActiveMeeting,
-  selectUnreadNotifications,
+  updateNotificationStatus,
 } from '../../redux/slices/notificationSlice';
 import { selectAuthUser } from '../../redux/slices/authSlice';
 
 const CurrentMeeting = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const meeting = useSelector((state) => state.meetings);
 
@@ -98,14 +90,21 @@ const CurrentMeeting = () => {
           </button>
           <button
             className="px-5 py-2 w-11/12 lg:py-2 rounded-full button text-white text-md"
-            onClick={() =>
+            onClick={() => {
               dispatch(
                 cancelMeeting({
                   userId: buddy.id,
                   meetingId: currentMeeting.id,
                 })
-              )
-            }
+              );
+              dispatch(
+                updateNotificationStatus({
+                  userId: authUser.id,
+                  notificationId: currentNotif.id,
+                  updates: { isAcknowledged: true },
+                })
+              );
+            }}
           >
             Cancel
           </button>
