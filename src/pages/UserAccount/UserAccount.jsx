@@ -84,7 +84,6 @@ const UserAccount = () => {
           </h1>
 
           <div id="user-avatar" className=" flex justify-center relative">
-            {/*ADD LINK TO EDIT ACC*/}
             <Link
               to="/edituser"
               className="w-14 h-14 rounded-full bg-primary-gray/20 absolute -right-5 top-7 z-0"
@@ -102,7 +101,7 @@ const UserAccount = () => {
           </div>
         </div>
 
-        <div className="px-8 py-7 overflow-auto">
+        <div className="px-8 py-7 overflow-auto scrollbar-hide">
           <p className="pt-12 flex items-center justify-center text-sm">
             {user.city.toUpperCase()}, {user.state}
           </p>
