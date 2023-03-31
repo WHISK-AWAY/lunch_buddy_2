@@ -2,7 +2,11 @@ import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
-import { getMeetingMessages, addMessage } from '../redux/slices/meetingSlice';
+import {
+  getMeetingMessages,
+  addMessage,
+  getMeeting,
+} from '../redux/slices/meetingSlice';
 import paperPlane from '../assets/icons/paper-plane.svg';
 
 const PORT = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3333';
@@ -39,6 +43,12 @@ export default function ChatBox() {
       scrollAnchor?.scrollIntoView();
     }, 500);
   }, []);
+
+  useEffect(() => {
+    if (auth.user?.id) {
+      dispatch(getMeeting({ meetingId: +meetingId, userId: auth.user?.id }));
+    }
+  }, [auth]);
 
   useEffect(() => {
     // REMOVE .OFF WHEN DEPLOYING OR ELSE WILL NEVER SEND MSG
@@ -85,8 +95,8 @@ export default function ChatBox() {
 
   const buddyName =
     meeting.user?.firstName === auth.firstName
-      ? meeting.buddy.firstName
-      : meeting.user.firstName;
+      ? meeting.buddy?.firstName
+      : meeting.user?.firstName;
 
   const el = document.getElementById('msg-feed');
   if (el) {
@@ -152,9 +162,9 @@ export default function ChatBox() {
                   {meeting.messages.map((message, idx) => {
                     const prevSenderId = meeting.messages[idx + 1]?.senderId;
                     const url =
-                      meeting.user.firstName === auth.firstName
+                      meeting.user?.firstName === auth.firstName
                         ? meeting.buddy.avatarUrl
-                        : meeting.user.avatarUrl;
+                        : meeting.user?.avatarUrl;
                     return (
                       <div key={message.id} className="flex py-1">
                         <div className="w-14">
