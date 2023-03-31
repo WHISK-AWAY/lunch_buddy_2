@@ -24,6 +24,7 @@ export default function ChatBox() {
   const dayOfMonth = today.getUTCDate();
   const monthToday = today.getMonth();
   const yearToday = today.getUTCFullYear();
+  const messageEl = useRef(null);
 
   useEffect(() => {
     const asyncStart = async () => {
@@ -98,10 +99,19 @@ export default function ChatBox() {
       ? meeting.buddy?.firstName
       : meeting.user?.firstName;
 
-  const el = document.getElementById('msg-feed');
-  if (el) {
-    el.scrollTop = el.scrollHeight;
-  }
+  useEffect(() => {
+    if (messageEl) {
+      const observer = new MutationObserver(() => {
+        messageEl.current.scroll({
+          top: messageEl.current.scrollHeight,
+          behavior: 'smooth',
+        });
+      });
+      observer.observe(messageEl.current, { childList: true });
+      return () => observer.disconnect();
+    }
+  }, []);
+
   const handleEnterClick = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       onMessageSubmit(e);
@@ -143,15 +153,18 @@ export default function ChatBox() {
         className="flex flex-col w-full lg:basis-1/2 overflow-hidden justify-between h-[calc(100vh_-_65px)] items-center ml-4 lg:ml-0"
       >
         <div id="header" className="basis-1/12 shrink-0 grow-0">
-          <h2 className="text-center font-tenor pt-4 text-lg">
+          <h2 className="text-center font-tenor pt-6 text-lg">
             {buddyName.toUpperCase()}
           </h2>
         </div>
         <div
           id="msg-feed"
-          className="basis-4/6 lg:bg-[#c4c4c4] lg:bg-opacity-20 lg:h- lg:rounded-3xl grow overflow-y-auto scroll-smooth w-full lg:w-11/12 lg:pl-4"
+          className="basis-4/6 lg:bg-[#c4c4c4] lg:bg-opacity-20 lg:rounded-3xl grow overflow-y-auto scroll-smooth w-full lg:w-11/12 lg:pl-4"
         >
-          <div className="h-full grow overflow-y-auto scrollbar-hide">
+          <div
+            className="h-full grow overflow-y-auto scrollbar-hide"
+            ref={messageEl}
+          >
             {meeting?.messages < 1 || meeting?.messages === undefined ? (
               <div className="text-center text-sm pt-4">
                 don't be shy! be the first to talk to your buddy
