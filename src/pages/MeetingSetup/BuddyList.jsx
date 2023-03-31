@@ -37,8 +37,6 @@ export default function BuddyList(props) {
     }
   }, [dispatch]);
 
-  console.log('timeslot@buddylist:', timeSlot);
-
   useEffect(() => {
     if (auth.user?.id && !user.id) dispatch(fetchUser(auth.user.id));
   }, [dispatch, auth]);
