@@ -180,6 +180,21 @@ Rating.afterCreate(async (rating) => {
   }
 });
 
+// Send out message notification when message is created
+Message.afterCreate(async (message) => {
+  const { recipientId, senderId, meetingId } = message;
+  setTimeout(() => {
+    Notification.findOrCreate({
+      where: {
+        toUserId: recipientId,
+        fromUserId: senderId,
+        meetingId: meetingId,
+        notificationType: 'newMessage',
+      },
+    });
+  }, 2000);
+});
+
 module.exports = {
   Category,
   Meeting,
