@@ -98,10 +98,14 @@ const RegisterForm = () => {
         missingFields.push(field);
         tempValidator[field] = true;
       }
+      if (formInputs[field] !== '' && field === 'age' && !validateAge()) {
+        tempFields.age = 18;
+        missingFields.push(field);
+        tempValidator[field] = true;
+      }
     }
     setInputValidator(tempValidator);
     setFormInputs(tempFields);
-    console.log('tempValidator:', tempValidator);
 
     if (
       missingFields.length > 0 &&
@@ -118,7 +122,7 @@ const RegisterForm = () => {
 
   const validateZip = (zip) => {
     const valid = /^\d+$/;
-    return valid.test(zip);
+    return valid.test(zip) && zip.length === 5;
   };
 
   const validateEmail = (email) => {
@@ -127,11 +131,15 @@ const RegisterForm = () => {
     return valid.test(email);
   };
 
-  const validatePassword = (password) => {
+  const validatePassword = () => {
     return (
       formInputs.password.length >= 8 &&
       formInputs.password === formInputs.confirmPassword
     );
+  };
+
+  const validateAge = () => {
+    return +formInputs.age >= 18 && +formInputs.age < 120;
   };
 
   return (
@@ -335,13 +343,11 @@ const RegisterForm = () => {
                 Age
               </label>
               <input
-                type="number"
+                type="text"
                 className={`${
                   inputValidator.age ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem] focus:border-primary-gray active:border-primary-gray active:ring-primary-gray focus:ring-primary-gray outline-0 focus:bg-white`}
-                value={formInputs.age || 18}
-                min={18}
-                max={119}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-xs focus:border-primary-gray active:border-primary-gray active:ring-primary-gray focus:ring-primary-gray outline-0 focus:bg-white`}
+                value={+formInputs.age}
                 onChange={(e) =>
                   setFormInputs((prev) => ({ ...prev, age: e.target.value }))
                 }
