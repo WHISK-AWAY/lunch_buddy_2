@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { getMeetingMessages, addMessage } from '../redux/slices/meetingSlice';
+import paperPlane from '../assets/icons/paper-plane.svg';
+
 const PORT = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3333';
 
 const socket = io.connect(PORT);
@@ -54,7 +56,7 @@ export default function ChatBox() {
         setTimeout(() => {
           const scrollAnchor = document.getElementById('scroll-here');
           scrollAnchor.scrollIntoView();
-        }, 800);
+        }, 100);
       };
       asyncEvent();
     });
@@ -80,6 +82,11 @@ export default function ChatBox() {
       }
     }
   };
+
+  const buddyName =
+    meeting.user.firstName === auth.firstName
+      ? meeting.buddy.firstName
+      : meeting.user.firstName;
 
   const handleEnterClick = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -107,54 +114,61 @@ export default function ChatBox() {
     );
   }
 
+  // h-[calc(100svh_-180px)]
+
   return (
-    <div className="flex overflow-hidden h-[calc(100vh_-_48px)] orange-linear-bg">
-      <div className="lg:w-2/5">
-        <img
-          src="assets/bgImg/chatView.jpg"
-          alt="Two People eating a bowl of food with chopsticks!"
-          className="hidden lg:block object-cover h-full w-full"
-        />
-      </div>
-      <div className="flex flex-col h-[calc(100vh_-_72px)] w-full lg:w-3/5 ">
-        <div className="lg:bg-[#c4c4c4] lg:bg-opacity-20 lg:h-full lg:rounded-xl lg:m-8 overflow-y-auto grow">
-          <div className="">
-            <h2 className="text-center font-tenor pt-4 text-lg">
-              {meeting.user.firstName === auth.firstName
-                ? meeting.buddy.firstName
-                : meeting.user.firstName}
-            </h2>
-            <h2 className="text-center text-gray-500">
-              {monthToday}-{dayOfMonth}-{yearToday}
-            </h2>
-          </div>
-          <div className="grow m-1 p-5 overflow-y-auto h-[calc(100svh_-180px)]">
+    <div className="flex overflow-hidden h-[calc(100vh_-_65px)] lg:bg-none orange-linear-bg text-primary-gray w-screen">
+      <div
+        id="bg-img"
+        src="assets/bgImg/chatView.jpg"
+        alt="Two people eating a bowl of food with chopsticks"
+        className="bg-cover bg-[url('/assets/bgImg/chatView.jpg')] basis-1/2 hidden lg:block h-full"
+      ></div>
+      <div
+        id="chat-container"
+        className="flex flex-col w-full lg:basis-1/2 overflow-hidden justify-between h-[calc(100vh_-_65px)] items-center ml-3"
+      >
+        <div id="header" className="basis-1/12 shrink-0 grow-0">
+          <h2 className="text-center font-tenor pt-4 text-lg">
+            {buddyName.toUpperCase()}
+          </h2>
+        </div>
+        <div
+          id="msg-feed"
+          className="basis-4/6 lg:bg-[#c4c4c4] lg:bg-opacity-20 lg:h- lg:rounded-3xl grow overflow-y-auto scroll-smooth w-full lg:w-11/12 lg:pl-4"
+        >
+          <div className="h-full grow overflow-y-auto scrollbar-hide">
             {meeting?.messages < 1 || meeting?.messages === undefined ? (
-              <div className=" text-center">
+              <div className="text-center">
                 Don't be shy! Be the first to talk to your buddy
               </div>
             ) : (
               <>
                 <div>
-                  {meeting.messages.map((message) => {
+                  {meeting.messages.map((message, idx) => {
+                    const prevSenderId = meeting.messages[idx + 1]?.senderId;
                     const url =
                       meeting.user.firstName === auth.firstName
                         ? meeting.buddy.avatarUrl
                         : meeting.user.avatarUrl;
                     return (
-                      <div key={message.id} className="flex">
-                        {message.senderId !== auth.id && (
-                          <img
-                            className="self-center mr-3 w-10 h-10 rounded-full"
-                            src={url}
-                            alt="buddy profile image"
-                          ></img>
-                        )}
+                      <div key={message.id} className="flex py-1">
+                        <div className="w-14">
+                          {message.senderId !== auth.id &&
+                            prevSenderId !== message.senderId && (
+                              <img
+                                id="user-pic"
+                                className="object-cover aspect-square w-14 h-14 lg:w-14 lg:h-14 rounded-[100%] bg-white p-1  drop-shadow-lg self-end"
+                                src={url}
+                                alt="buddy profile image"
+                              ></img>
+                            )}
+                        </div>
                         <p
-                          className={` py-2 px-4  min-w-[60px] text-center my-2  break-words font-poppins  font-light  text-sm ${
+                          className={`py-3 px-10 min-w-[60px] mx-5  break-words font-light focus:outline-none text-xs self-center ${
                             message.senderId === auth.id
-                              ? 'bg-sender-message ml-auto text-white rounded-l-full rounded-tr-full  '
-                              : 'bg-buddy-message rounded-r-full rounded-tl-full '
+                              ? 'bg-sender-message ml-auto text-white rounded-l-full rounded-tr-full  py-1'
+                              : 'bg-buddy-message rounded-r-full rounded-tl-full h-fit'
                           }`}
                         >
                           {message.message}
@@ -169,23 +183,32 @@ export default function ChatBox() {
             )}
           </div>
         </div>
-        <form
-          id="form"
-          className="w-11/12  self-center h-12 lg:flex gap-3 bg-transparent"
+        <div
+          id="form-container"
+          className="flex justify-center basis-1/6 w-full px-4 py-4"
         >
-          <textarea
-            type="text"
-            className=" border border-black w-full rounded-2xl h-16 py-2 px-6"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            onKeyDown={handleEnterClick}
-          />
-          <button
-            type="submit"
-            className=" hover:bg-orange-100 px-3 rounded-lg transition-all ease-in-out"
-            onClick={onMessageSubmit}
-          ></button>
-        </form>
+          <form
+            id="form"
+            className="w-11/12  self-center lg:flex gap-3 bg-transparent"
+          >
+            <textarea
+              type="text"
+              className=" border border-primary-gray w-full rounded-2xl h-20 py-2 px-6 scrollbar-hide resize-none focus:outline-none text-sm"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              onKeyDown={handleEnterClick}
+            />
+            <button id="paper-plane" className="flex flex-col self-end">
+              {' '}
+              <img
+                className="sm:w-8 sm:block xs:hidden -rotate-90"
+                src={paperPlane}
+                alt="paper plane icon"
+                onClick={onMessageSubmit}
+              />
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
