@@ -81,7 +81,7 @@ const AboutForm = () => {
       alert(errorOnCreation.error);
     } else {
       localStorage.removeItem('registerForm');
-      navigate('/');
+      navigate('/match');
     }
   }
 
