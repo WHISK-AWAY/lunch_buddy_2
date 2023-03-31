@@ -84,10 +84,14 @@ export default function ChatBox() {
   };
 
   const buddyName =
-    meeting.user.firstName === auth.firstName
+    meeting.user?.firstName === auth.firstName
       ? meeting.buddy.firstName
       : meeting.user.firstName;
 
+  const el = document.getElementById('msg-feed');
+  if (el) {
+    el.scrollTop = el.scrollHeight;
+  }
   const handleEnterClick = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       onMessageSubmit(e);
@@ -139,8 +143,8 @@ export default function ChatBox() {
         >
           <div className="h-full grow overflow-y-auto scrollbar-hide">
             {meeting?.messages < 1 || meeting?.messages === undefined ? (
-              <div className="text-center">
-                Don't be shy! Be the first to talk to your buddy
+              <div className="text-center text-sm pt-4">
+                don't be shy! be the first to talk to your buddy
               </div>
             ) : (
               <>
@@ -201,7 +205,7 @@ export default function ChatBox() {
             <button id="paper-plane" className="flex flex-col self-center">
               {' '}
               <img
-                className=" sm:w-8 sm:block xs:hidden -rotate-45 stroke-[2px]"
+                className=" sm:w-6 sm:block xs:hidden -rotate-45"
                 src={paperPlane}
                 alt="paper plane icon"
                 onClick={onMessageSubmit}
