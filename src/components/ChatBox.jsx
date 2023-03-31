@@ -126,7 +126,7 @@ export default function ChatBox() {
       ></div>
       <div
         id="chat-container"
-        className="flex flex-col w-full lg:basis-1/2 overflow-hidden justify-between h-[calc(100vh_-_65px)] items-center ml-3"
+        className="flex flex-col w-full lg:basis-1/2 overflow-hidden justify-between h-[calc(100vh_-_65px)] items-center ml-4 lg:ml-0"
       >
         <div id="header" className="basis-1/12 shrink-0 grow-0">
           <h2 className="text-center font-tenor pt-4 text-lg">
@@ -158,16 +158,16 @@ export default function ChatBox() {
                             prevSenderId !== message.senderId && (
                               <img
                                 id="user-pic"
-                                className="object-cover aspect-square w-14 h-14 lg:w-14 lg:h-14 rounded-[100%] bg-white p-1  drop-shadow-lg self-end"
+                                className="object-cover aspect-square w-14 h-14 lg:w-14 lg:h-14 rounded-[100%] bg-white p-1  drop-shadow-lg self-center mb-3"
                                 src={url}
                                 alt="buddy profile image"
                               ></img>
                             )}
                         </div>
                         <p
-                          className={`py-3 px-10 min-w-[60px] mx-5  break-words font-light focus:outline-none text-xs self-center ${
+                          className={`py-3 px-10 min-w-[60px] mx-5  break-words font-light focus:outline-none text-xs self-start ${
                             message.senderId === auth.id
-                              ? 'bg-sender-message ml-auto text-white rounded-l-full rounded-tr-full  py-1'
+                              ? 'bg-label/70 ml-auto text-white rounded-l-full rounded-tr-full  py-1'
                               : 'bg-buddy-message rounded-r-full rounded-tl-full h-fit'
                           }`}
                         >
@@ -189,7 +189,7 @@ export default function ChatBox() {
         >
           <form
             id="form"
-            className="w-11/12  self-center lg:flex gap-3 bg-transparent"
+            className="w-11/12  self-center flex gap-3 bg-transparent"
           >
             <textarea
               type="text"
@@ -198,10 +198,10 @@ export default function ChatBox() {
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyDown={handleEnterClick}
             />
-            <button id="paper-plane" className="flex flex-col self-end">
+            <button id="paper-plane" className="flex flex-col self-center">
               {' '}
               <img
-                className="sm:w-8 sm:block xs:hidden -rotate-90"
+                className=" sm:w-8 sm:block xs:hidden -rotate-45 stroke-[2px]"
                 src={paperPlane}
                 alt="paper plane icon"
                 onClick={onMessageSubmit}
