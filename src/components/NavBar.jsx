@@ -92,8 +92,8 @@ const NavBar = () => {
   }, [authUser]);
 
   return (
-    <header className="relative z-40 text-primary-gray">
-      <nav className="flex border-b border-primary-gray p-4 justify-between bg-slate-50">
+    <header className="relative z-40 text-primary-gray h-[65px] border-b border-primary-gray">
+      <nav className="flex p-4 justify-between bg-slate-50">
         <button className="h-8 flex justify-center items-center pt-1">
           <img
             className="w-8"
@@ -102,8 +102,6 @@ const NavBar = () => {
             onClick={() => setExpandMenu((prev) => !prev)}
           />
         </button>
-        <button onClick={handleUpdateNotif}>CLICK TO TEST UPDATE NOTIF</button>
-        <button onClick={handleCancel}>CLICK TO TEST CANCEL</button>
         <ul className="flex items-center justify-center gap-8 text-center">
           {/* BUTTONS THAT SHOW ONLY WHEN SIGNED IN */}
           {authUser?.firstName ? (
