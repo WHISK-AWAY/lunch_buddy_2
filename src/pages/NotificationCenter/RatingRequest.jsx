@@ -44,12 +44,12 @@ export default function RatingRequest({ notification }) {
   return (
     <div
       id="rating-request-card"
-      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between "
+      className="flex flex-col w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between py-5"
     >
       <div id="notification-details">
         <p>
-          How was your meeting with{' '}
-          <span>{notification.fromUser.firstName}?</span>
+          Tell us about your meeting with{' '}
+          <span>{notification.fromUser.firstName}</span>
         </p>
       </div>
       <div
