@@ -99,7 +99,6 @@ export default function MeetingRequest({ notification }) {
     }, 500);
   };
 
-  // Send toast upon accept; otherwise go ahead and do immediate stuff
   return (
     <div
       id="meeting-card"
@@ -133,40 +132,5 @@ export default function MeetingRequest({ notification }) {
         </div>
       </div>
     </div>
-
-    // {response === 'rejected' && (
-    //   <div
-    //     id="meeting-card"
-    //     className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between "
-    //   >
-    //     <div
-    //       id="notification-details"
-    //       className="flex flex-col self-center text-center text-xs w-full py-2"
-    //     >
-    //       <p className="pb-2 text-base">
-    //         too bad -- we'll break it to {notification.fromUser.firstName}{' '}
-    //         gently...
-    //       </p>
-    //       <div
-    //         id="btn-container"
-    //         className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 justify-center items-center"
-    //       >
-    //         <FormButton handleSubmit={() => localRedirect('/')}>
-    //           HOME
-    //         </FormButton>
-    //         <FormButton handleSubmit={() => localRedirect('/match')}>
-    //           FIND A BUDDY
-    //         </FormButton>
-    //       </div>
-    //     </div>
-    //   </div>
-    // )}
   );
 }
-
-// <button id="accept-btn" className="flex items-end button">
-//       ACCEPT
-//     </button>
-//     <button id="reject-btn" className="flex items-end">
-//       REJECT
-//     </button>
