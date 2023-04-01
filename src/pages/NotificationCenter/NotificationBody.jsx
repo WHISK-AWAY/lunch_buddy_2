@@ -1,6 +1,7 @@
 import { React } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 import { selectUnreadNotifications } from '../../redux/slices';
 
 // import NewMessage from './NewMessage';
@@ -17,12 +18,6 @@ const NotificationBody = ({
 }) => {
   const notifications = useSelector(selectUnreadNotifications);
 
-  // function handleClick() {
-  //   setExpandMenu(false);
-  // }
-
-  console.log('body', showNotificationBody);
-
   if (!notifications?.length) return <h1>No notifications to render...</h1>;
 
   return (
@@ -36,6 +31,7 @@ const NotificationBody = ({
         <div className="flex flex-col">
           <div className=" z-40 bg-primary-gray/60 self-end h-fit lg:w-[35rem] rounded-l-3xl px-3 py-3 w-3/5">
             <ul>
+              {/* <Toaster /> */}
               {notifications?.map((notification) => {
                 return (
                   <li key={notification.id}>

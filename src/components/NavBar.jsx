@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import bellIcon from '../assets/icons/notification.svg';
 import DropdownMenu from './DropdownMenu';
 import { selectAuthUser, tryToken } from '../redux/slices/authSlice';
@@ -16,6 +17,7 @@ import {
 } from '../redux/slices/notificationSlice';
 
 const NOTIFICATION_UPDATE_INTERVAL = 240000;
+const TOAST_DURATION = 10000;
 
 const NavBar = () => {
   const [expandMenu, setExpandMenu] = useState(false);
@@ -38,9 +40,6 @@ const NavBar = () => {
 
   const handleNotificationClick = (event) => {
     event.preventDefault();
-    // console.log(
-    //   `inside handleNotification: showNotificationBody: ${showNotificationBody}; triggerClose: ${triggerClose}`
-    // );
     if (showNotificationBody) setTriggerClose(true);
     else {
       setShowNotificationBody(true);
@@ -169,7 +168,12 @@ const NavBar = () => {
                   <div className="w-11 h-6 bg-white border rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-600 after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-label peer-checked:border-white peer-checked:after:bg-white"></div>
                 </label>
               </li>
-
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  duration: TOAST_DURATION,
+                }}
+              />
               <li className="h-7 relative">
                 <button
                   className={
