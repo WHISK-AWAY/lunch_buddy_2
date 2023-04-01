@@ -17,10 +17,6 @@ const NotificationBody = ({
 }) => {
   const notifications = useSelector(selectUnreadNotifications);
 
-  // function handleClick() {
-  //   setExpandMenu(false);
-  // }
-
   console.log('body', showNotificationBody);
 
   if (!notifications?.length) return <h1>No notifications to render...</h1>;
@@ -34,7 +30,7 @@ const NotificationBody = ({
         className={`transform group-[.hover]:scale-0 scale-100 h-fit overflow:hidden absolute transition-transform duration-[300ms] ease-in-out origin-top-right -bottom-screen opacity-95 right-0 transition-opacity-0`}
       >
         <div className="flex flex-col">
-          <div className=" z-40 bg-primary-gray/60 self-end h-fit lg:w-[35rem] rounded-l-3xl px-3 py-3 w-3/5">
+          <div className="z-40 bg-primary-gray/60 self-end h-fit lg:w-[35rem] rounded-l-3xl px-3 py-3 w-11/12">
             <ul>
               {notifications?.map((notification) => {
                 return (
