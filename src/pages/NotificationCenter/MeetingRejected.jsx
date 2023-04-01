@@ -30,7 +30,7 @@ export default function MeetingRejected({ notification }) {
     >
       <div
         id="notification-details"
-        className="flex flex-col self-center text-center text-xs w-full py-2"
+        className="flex flex-col self-center text-center text-base w-full py-2"
       >
         <p className="pb-2">
           oh no! turns out {notification.fromUser.firstName} isn't available.
