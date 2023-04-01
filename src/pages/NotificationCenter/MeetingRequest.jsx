@@ -14,7 +14,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const POST_NOTIFICATION_TIMEOUT = 5000;
 
-export default function MeetingRequest({ notification }) {
+export default function MeetingRequest({ notification, setPreventClose }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const meetings = useSelector(selectMeetings);
@@ -48,6 +48,15 @@ export default function MeetingRequest({ notification }) {
 
   const handleAccept = async () => {
     setResponse('accepted');
+    console.log('trying to prevent close...');
+    setPreventClose(true);
+
+    await axios.put(
+      API_URL +
+        `/api/user/${notification.toUser.id}/meeting/${notification.meeting.id}/confirm`,
+      {},
+      { headers: { authorization: token } }
+    );
 
     setTimeout(async () => {
       dispatch(
@@ -58,12 +67,7 @@ export default function MeetingRequest({ notification }) {
         })
       );
 
-      await axios.put(
-        API_URL +
-          `/api/user/${notification.toUser.id}/meeting/${notification.meeting.id}/confirm`,
-        {},
-        { headers: { authorization: token } }
-      );
+      setPreventClose(false);
 
       setTimeout(() => {
         dispatch(fetchAllNotifications({ userId: notification.toUser.id }));
