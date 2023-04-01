@@ -50,15 +50,11 @@ const NavBar = () => {
   const root = document.querySelector('#root');
 
   function closeDropdown() {
-    console.log(
-      `inside closeDropdown: expandMenu: ${expandMenu}; triggerClose: ${triggerClose}`
-    );
     if (showNotificationBody) setTriggerClose(true);
     else {
       setShowNotificationBody(true);
     }
     notifController.abort();
-    console.log('click');
     // console.log('prevent close within closer function:', preventClose);
     // if (preventClose) {
     //   return;
@@ -78,10 +74,6 @@ const NavBar = () => {
   }
 
   useEffect(() => {
-    console.log(
-      `inside useEffect: showNotificationBody: ${showNotificationBody}; triggerClose: ${triggerClose}`
-    );
-
     // if close is triggered while notifs are showing, close notifs & kill event listeners
     if (showNotificationBody && triggerClose) {
       setShowNotificationBody(false);
