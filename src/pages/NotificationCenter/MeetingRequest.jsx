@@ -40,8 +40,6 @@ export default function MeetingRequest({ notification }) {
   const yelpBusinessAddress =
     meetings.business[yelpBusinessId]?.location.display_address.join(', ');
 
-  console.log('meeting', meetings.business);
-
   const localRedirect = (linkTo) => {
     navigate(linkTo);
     setTimeout(() => {
@@ -54,9 +52,9 @@ export default function MeetingRequest({ notification }) {
     // console.log('trying to prevent close...');
     // setPreventClose(true);
 
-    toast.custom(
-      <AcceptInvite notification={notification} meetings={meetings} />
-    );
+    toast.custom((t) => (
+      <AcceptInvite notification={notification} meetings={meetings} t={t} />
+    ));
 
     await axios.put(
       API_URL +

@@ -1,6 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import FormButton from '../../../components/FormButton';
 
-export default function AcceptInvite({ notification, meetings }) {
+export default function AcceptInvite({ notification, meetings, t }) {
+  const navigate = useNavigate();
   const yelpBusinessId = notification.meeting.yelpBusinessId;
 
   return (
@@ -36,13 +40,24 @@ export default function AcceptInvite({ notification, meetings }) {
             !
           </p>
         )}
-        {/* <div
-        id="btn-container"
-        className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 justify-center items-center"
-      >
-        <FormButton handleSubmit={}>HOME</FormButton>
-        <FormButton handleSubmit={}>MESSAGE {notification.fromUser.firstName}</FormButton>
-      </div> */}
+        <div
+          id="btn-container"
+          className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 justify-center items-center"
+        >
+          <FormButton handleSubmit={() => navigate('/')}>HOME</FormButton>
+          {notification.meetingId && (
+            <FormButton
+              handleSubmit={() =>
+                navigate(`/meeting/${notification.meetingId}/chat`)
+              }
+            >
+              MESSAGE {notification.fromUser.firstName}
+            </FormButton>
+          )}
+          <FormButton handleSubmit={() => toast.dismiss(t.id)}>
+            DISMISS
+          </FormButton>
+        </div>
       </div>
     </div>
   );
