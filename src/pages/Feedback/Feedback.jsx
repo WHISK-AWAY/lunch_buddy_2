@@ -78,6 +78,9 @@ const Feedback = () => {
       alert(`Error when sending report`);
     } else if (createdReport.meta.requestStatus === 'fulfilled') {
       dispatch(fetchAllNotifications({ userId: user.id }));
+      // setTimeout(() => {
+      //   console.log('timeout');
+      // }, 1000);
       navigate('/');
     }
   };
