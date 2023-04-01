@@ -35,6 +35,12 @@ export default function MeetingRequest({ notification }) {
   const yelpBusinessAddress =
     meetings.business[yelpBusinessId]?.location.display_address.join(', ');
 
+  // toast.custom(
+  //   (t) => (
+  //     <RejectInvite notification={notification} meetings={meetings} t={t} />
+  //   ),
+  //   { duration: Infinity }
+  // );
   const handleAccept = async () => {
     toast.custom((t) => (
       <AcceptInvite notification={notification} meetings={meetings} t={t} />

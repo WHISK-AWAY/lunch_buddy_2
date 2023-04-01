@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import FormButton from '../../../components/FormButton';
+import xIcon from '../../../assets/icons/x-icon.svg';
 
 export default function AcceptInvite({ notification, meetings, t }) {
   const navigate = useNavigate();
@@ -10,26 +11,20 @@ export default function AcceptInvite({ notification, meetings, t }) {
   return (
     <div
       id="meeting-card"
-      className="flex w-2/5 h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between relative top-[75px]"
+      className="flex lg:w-1/4 w-4/5 sm:w-2/5 lg:h-fit text-xs text-primary-gray bg-gray-100/90 rounded-2xl shadow-md items-center justify-between sticky top-16"
     >
-      <div id="img-section" className="px-2 h-28 shrink-0">
-        <img
-          src={notification.fromUser.avatarUrl}
-          alt="user avatar"
-          className="object-cover  aspect-square w-20 h-20 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative translate-y-[30%] "
-        />
-      </div>
       <div
         id="notification-details"
-        className="flex flex-col self-center text-center text-base w-full py-2"
+        className="flex flex-col self-center text-center text-xs lg:text-[.9rem] w-full py-2"
       >
-        <p className="pb-2">
-          ok! we'll let {notification.fromUser.firstName} know you're in!
+        <p>HOORAY!</p>
+        <p className="">
+          we'll let {notification.fromUser.firstName} know you're in!
         </p>
 
         {notification.meeting?.yelpBusinessId && (
           <p>
-            Meanwhile, check out{' '}
+            meanwhile, check out{' '}
             <a
               target="_blank"
               href={meetings.business[yelpBusinessId]?.url}
@@ -42,20 +37,25 @@ export default function AcceptInvite({ notification, meetings, t }) {
         )}
         <div
           id="btn-container"
-          className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 justify-center items-center"
+          className="flex flex-row w-fit  self-center text-xs justify-center items-center pt-1"
         >
           {notification.meetingId && (
             <FormButton
-              handleSubmit={() =>
-                navigate(`/meeting/${notification.meetingId}/chat`)
-              }
+              handleSubmit={() => {
+                toast.dismiss(t.id);
+                navigate(`/meeting/${notification.meetingId}/chat`);
+              }}
             >
-              MESSAGE {notification.fromUser.firstName}
+              SAY HI
             </FormButton>
           )}
-          <FormButton handleSubmit={() => toast.dismiss(t.id)}>
-            DISMISS
-          </FormButton>
+          <div
+            id="x-icon"
+            className="absolute w-5 right-3 top-3"
+            onClick={() => toast.dismiss(t.id)}
+          >
+            <img src={xIcon} />
+          </div>
         </div>
       </div>
     </div>

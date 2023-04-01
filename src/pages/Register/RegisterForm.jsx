@@ -3,6 +3,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
 import { listOfStates } from '../../utilities/registerHelpers';
 import { INVALID_CLASS } from '../../utilities/invalidInputClass';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 // setting a couple defaults here so we keep the starting value if we proceed without changing
 const inputs = JSON.parse(localStorage.getItem('registerForm')) || {
@@ -142,11 +144,19 @@ const RegisterForm = () => {
     return +formInputs.age >= 18 && +formInputs.age < 120;
   };
 
+  AOS.init({
+    duration: 2000,
+    offset: 0,
+  });
+
   return (
-    <div className="flex justify-center lg:grow items-center h-[calc(100vh_-_75px)] overflow-hidden text-primary-gray">
+    <div className="flex justify-center lg:grow items-center h-[calc(100vh_-_65px)] overflow-hidden text-primary-gray">
       <div
         id="form-container"
-        className="lg:basis-1/2 flex flex-col justify-center items-center  basis-full overflow-auto h-full pb-16 pt-24"
+        className="lg:basis-1/2 flex flex-col justify-center items-center  basis-full overflow-auto h-full pb-16 pt-24 scrollbar-hide"
+        data-aos="fade-down"
+        data-aos-delay="1000"
+        duration="1500"
       >
         <div className="h-full lg:w-4/5 md:w-3/5 w-4/5">
           <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8 pb-6">
@@ -387,6 +397,9 @@ const RegisterForm = () => {
         className="bg-cover 
         bg-[url('/assets/bgImg/signUpView.jpg')] basis-1/2 hidden lg:block h-full"
         alt="person smearing a dip on toast, at a restaurant with wine, plates, coffee"
+        data-aos="fade-left"
+        data-aos-delay="200"
+        data-aos-duration="2800"
       ></div>
     </div>
   );
