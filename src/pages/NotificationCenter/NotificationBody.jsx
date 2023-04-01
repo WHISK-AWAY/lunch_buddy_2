@@ -2,16 +2,14 @@ import { React, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
-import { selectUnreadNotifications } from '../../redux/slices';
+import { selectUnreadNotifications, selectMeetings } from '../../redux/slices';
 
-// import NewMessage from './NewMessage';
 import MeetingRequest from './MeetingRequest';
 import RatingRequest from './RatingRequest';
 import MeetingRejected from './MeetingRejected';
 import MeetingAccepted from './MeetingAccepted';
 import NewMessageReceived from './NewMessageReceived';
-// import MeetingAccepted from './MeetingAccepted';
-// import MeetingRejected from './MeetingRejected';
+import CurrentMeeting from './CurrentMeeting';
 // import RatingRequest from './RatingRequest';
 
 const NotificationBody = ({
@@ -20,6 +18,7 @@ const NotificationBody = ({
   setTriggerClose,
 }) => {
   const notifications = useSelector(selectUnreadNotifications);
+  const meetings = useSelector(selectMeetings);
 
   useEffect(() => {
     if (!notifications?.length && showNotificationBody) {
@@ -71,6 +70,13 @@ const NotificationBody = ({
                     {notification.notificationType === 'newMessage' && (
                       <NewMessageReceived
                         notification={notification}
+                        setShowNotificationBody={setShowNotificationBody}
+                      />
+                    )}
+                    {notification.notificationType === 'currentMeeting' && (
+                      <CurrentMeeting
+                        notification={notification}
+                        meetings={meetings}
                         setShowNotificationBody={setShowNotificationBody}
                       />
                     )}

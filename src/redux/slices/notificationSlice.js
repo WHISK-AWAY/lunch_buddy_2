@@ -40,6 +40,7 @@ export const updateNotificationStatus = createAsyncThunk(
           },
         }
       );
+      
       return data;
     } catch (error) {
       rejectWithValue(error);
@@ -108,7 +109,7 @@ const notificationSlice = createSlice({
       })
       .addCase(fetchAllNotifications.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload.response.data;
+        state.error = action.payload?.response?.data;
       })
 
       // Update notification status
@@ -133,7 +134,7 @@ const notificationSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(updateNotificationStatus.rejected, (state, action) => {
-        state.error = action.payload.response.data;
+        state.error = action.payload?.response?.data;
         state.isLoading = false;
       })
 
