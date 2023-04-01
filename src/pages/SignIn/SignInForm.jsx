@@ -9,6 +9,8 @@ import {
 } from '../../redux/slices/authSlice';
 import { selectAuthStatus } from '../../redux/slices/authSlice';
 import { INVALID_CLASS } from '../../utilities/invalidInputClass';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const inputs = {
   email: '',
@@ -91,9 +93,19 @@ const SignInForm = () => {
     return formInputs.password.length >= 8;
   };
 
+  AOS.init({
+    duration: 2000,
+    offset: 0,
+  });
+
   return (
     <div className="h-[calc(100vh_-_65px)] w-screen flex justify-center items-center text-primary-gray">
-      <div className="form-container basis-full lg:basis-1/2 h-full flex flex-col justify-center items-center">
+      <div
+        className="form-container basis-full lg:basis-1/2 h-full flex flex-col justify-center items-center"
+        data-aos="fade-down"
+        data-aos-delay="1000"
+        duration="1500"
+      >
         <div className="w-full xs:w-4/5 sm:w-3/5 md:w-2/3">
           <form className="bg-transparent p-10 rounded-lg lg:w-3/4 mx-auto flex flex-col">
             <h1 className="text-center text-2xl mb-6 text-headers font-bold font-sans">
@@ -152,7 +164,12 @@ const SignInForm = () => {
           </form>
         </div>
       </div>
-      <div className="image-wrapper hidden lg:block basis-1/2 h-full bg-cover bg-[url('/assets/bgImg/signInView.jpg')]"></div>
+      <div
+        className="image-wrapper hidden lg:block basis-1/2 h-full bg-cover bg-[url('/assets/bgImg/signInView.jpg')]"
+        data-aos="fade-left"
+        data-aos-delay="200"
+        data-aos-duration="2800"
+      ></div>
     </div>
   );
 };
