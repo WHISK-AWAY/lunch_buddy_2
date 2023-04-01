@@ -19,6 +19,9 @@ const NOTIFICATION_UPDATE_INTERVAL = 240000;
 
 const NavBar = () => {
   const [expandMenu, setExpandMenu] = useState(false);
+  const [showNotificationBody, setShowNotificationBody] = useState(false);
+  const [preventClose, setPreventClose] = useState(false);
+  const [triggerClose, setTriggerClose] = useState(false);
   const dispatch = useDispatch();
 
   const authUser = useSelector(selectAuthUser);
@@ -31,38 +34,75 @@ const NavBar = () => {
   // Turns off scroll when showing menu
   document.body.style.overflow = expandMenu ? 'hidden' : 'auto';
 
-  const [showNotificationBody, setShowNotificationBody] = useState(false);
+  const controller = new AbortController();
 
   const handleNotificationClick = (event) => {
     event.preventDefault();
-    setShowNotificationBody((prev) => !prev);
-
-    console.log('click');
+    // console.log(
+    //   `inside handleNotification: showNotificationBody: ${showNotificationBody}; triggerClose: ${triggerClose}`
+    // );
+    if (showNotificationBody) setTriggerClose(true);
+    else {
+      setShowNotificationBody(true);
+      setPreventClose(false);
+    }
+    controller.abort();
   };
 
   const root = document.querySelector('#root');
 
   function closeDropdown() {
-    setExpandMenu(false);
-    root.removeEventListener('click', closeDropdown);
-  }
-
-  useEffect(() => {
-    if (expandMenu) {
-      root.addEventListener('click', closeDropdown);
+    console.log(
+      `inside closeDropdown: expandMenu: ${expandMenu}; triggerClose: ${triggerClose}`
+    );
+    if (showNotificationBody) setTriggerClose(true);
+    else {
+      setShowNotificationBody(true);
+      setPreventClose(false);
     }
-  }, [expandMenu]);
+    controller.abort();
+    console.log('click');
+    // console.log('prevent close within closer function:', preventClose);
+    // if (preventClose) {
+    //   return;
+    // }
+    //   setExpandMenu(false);
+    //   root.removeEventListener('click', closeDropdown);
+  }
+  // useEffect(() => {
+  //   if (expandMenu && !preventClose) {
+  //     root.addEventListener('click', closeDropdown);
+  //   }
+  // }, [expandMenu, preventClose]);
 
   function closeNotificationBody() {
-    setShowNotificationBody(false);
-    root.removeEventListener('click', closeNotificationBody);
+    setTriggerClose(true);
+    controller.abort();
   }
 
   useEffect(() => {
-    if (showNotificationBody) {
-      root.addEventListener('click', closeNotificationBody);
+    console.log(
+      `inside useEffect: showNotificationBody: ${showNotificationBody}; triggerClose: ${triggerClose}; preventClose: ${preventClose}`
+    );
+
+    // if close is triggered while not preventing, hide notifications, remove event listener, & untrigger
+    if (showNotificationBody && !preventClose && triggerClose) {
+      setShowNotificationBody(false);
+      controller.abort();
     }
-  }, [showNotificationBody]);
+
+    // if notificationBody is shown, set up closer event listener
+    if (showNotificationBody && !preventClose && !triggerClose) {
+      root.addEventListener('click', closeNotificationBody, {
+        signal: controller.signal,
+      });
+    }
+
+    if (triggerClose) {
+      setTriggerClose(false);
+      controller.abort();
+    }
+  }, [showNotificationBody, preventClose, triggerClose]);
 
   document.body.style.overflow = showNotificationBody ? 'hidden' : 'auto';
 
@@ -136,12 +176,12 @@ const NavBar = () => {
                     hasNotifications &&
                     `after:content-[''] after:absolute after:top-1 after:right-1 after:text-red-400 after:bg-headers after:rounded-full after:w-2 after:h-2`
                   }
+                  onClick={handleNotificationClick}
                 >
                   <img
                     className="w-7 h-full"
                     src={showNotificationBody ? bellIcon : bellIcon}
                     alt="Notification bell icon"
-                    onClick={handleNotificationClick}
                   />
                 </button>
               </li>
@@ -163,14 +203,20 @@ const NavBar = () => {
       </nav>
       {/* DROPDOWN MENU, HIDDEN UNTIL CLICKED */}
 
-      <DropdownMenu expandMenu={expandMenu} setExpandMenu={setExpandMenu} />
-
-      <div className="notification-body">
-        <NotificationBody
-          showNotificationBody={showNotificationBody}
-          setShowNotificationBody={setShowNotificationBody}
-        />
-      </div>
+      <DropdownMenu
+        expandMenu={expandMenu}
+        setExpandMenu={setExpandMenu}
+        setPreventClose={setPreventClose}
+      />
+      {showNotificationBody && (
+        <div className="notification-body">
+          <NotificationBody
+            showNotificationBody={showNotificationBody}
+            setShowNotificationBody={setShowNotificationBody}
+            setPreventClose={setPreventClose}
+          />
+        </div>
+      )}
     </header>
   );
 };
