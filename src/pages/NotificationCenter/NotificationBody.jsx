@@ -9,6 +9,7 @@ import MeetingRequest from './MeetingRequest';
 import RatingRequest from './RatingRequest';
 import MeetingRejected from './MeetingRejected';
 import MeetingAccepted from './MeetingAccepted';
+import NewMessageReceived from './NewMessageReceived';
 // import MeetingAccepted from './MeetingAccepted';
 // import MeetingRejected from './MeetingRejected';
 // import RatingRequest from './RatingRequest';
@@ -63,6 +64,12 @@ const NotificationBody = ({
                     )}
                     {notification.notificationType === 'inviteAccepted' && (
                       <MeetingAccepted
+                        notification={notification}
+                        setShowNotificationBody={setShowNotificationBody}
+                      />
+                    )}
+                    {notification.notificationType === 'newMessage' && (
+                      <NewMessageReceived
                         notification={notification}
                         setShowNotificationBody={setShowNotificationBody}
                       />
