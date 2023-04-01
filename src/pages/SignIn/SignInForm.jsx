@@ -92,7 +92,7 @@ const SignInForm = () => {
   };
 
   return (
-    <div className="h-[calc(100vh_-_75px)] w-screen flex justify-center items-center text-primary-gray">
+    <div className="h-[calc(100vh_-_65px)] w-screen flex justify-center items-center text-primary-gray">
       <div className="form-container basis-full lg:basis-1/2 h-full flex flex-col justify-center items-center">
         <div className="w-full xs:w-4/5 sm:w-3/5 md:w-2/3">
           <form className="bg-transparent p-10 rounded-lg lg:w-3/4 mx-auto flex flex-col">
