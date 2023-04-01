@@ -1,4 +1,4 @@
-import { React } from 'react';
+import { React, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
@@ -14,10 +14,16 @@ import RatingRequest from './RatingRequest';
 const NotificationBody = ({
   showNotificationBody,
   setShowNotificationBody,
+  setTriggerClose,
 }) => {
   const notifications = useSelector(selectUnreadNotifications);
 
-  if (!notifications?.length) return setShowNotificationBody(false);
+  useEffect(() => {
+    if (!notifications?.length && showNotificationBody) {
+      setTriggerClose(true);
+      // setShowNotificationBody(false);
+    }
+  }, [notifications, showNotificationBody]);
 
   return (
     <div
