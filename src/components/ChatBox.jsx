@@ -159,7 +159,7 @@ export default function ChatBox() {
             ref={messageEl}
             className="h-full grow overflow-y-auto scrollbar-hide"
           >
-            {meeting?.messages?.length < 1 ? (
+            {!meeting?.messages?.length ? (
               <div className="text-center text-sm pt-4">
                 don't be shy! be the first to talk to your buddy
               </div>
