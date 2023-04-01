@@ -51,6 +51,7 @@ export default function ChatBox() {
     }
   }, [auth]);
 
+  console.log('MEETING', meeting);
   useEffect(() => {
     // REMOVE .OFF WHEN DEPLOYING OR ELSE WILL NEVER SEND MSG
     socket.on('recieve-message', (d) => {
@@ -100,7 +101,7 @@ export default function ChatBox() {
       : meeting.user?.firstName;
 
   useEffect(() => {
-    if (messageEl) {
+    if (messageEl.current) {
       messageEl.current.addEventListener('DOMNodeInserted', (event) => {
         const { currentTarget: target } = event;
         target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
