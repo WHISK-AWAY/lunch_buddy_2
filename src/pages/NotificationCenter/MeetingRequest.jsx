@@ -12,6 +12,7 @@ import { updateNotificationStatus, cancelMeeting } from '../../redux/slices';
 import { fetchAllNotifications } from '../../redux/slices';
 import axios from 'axios';
 import AcceptInvite from './ToastFeedback/AcceptInvite';
+import RejectInvite from './ToastFeedback/RejectInvite';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const POST_NOTIFICATION_TIMEOUT = 5000;
@@ -78,28 +79,26 @@ export default function MeetingRequest({ notification }) {
   };
 
   const handleReject = () => {
-    setResponse('rejected');
+    toast.custom((t) => <RejectInvite notification={notification} t={t} />);
+
+    dispatch(
+      updateNotificationStatus({
+        userId: notification.toUserId,
+        notificationId: notification.id,
+        updates: { isAcknowledged: true },
+      })
+    );
+
+    dispatch(
+      cancelMeeting({
+        userId: notification.toUserId,
+        meetingId: notification.meetingId,
+      })
+    );
 
     setTimeout(() => {
-      dispatch(
-        updateNotificationStatus({
-          userId: notification.toUserId,
-          notificationId: notification.id,
-          updates: { isAcknowledged: true },
-        })
-      );
-
-      dispatch(
-        cancelMeeting({
-          userId: notification.toUserId,
-          meetingId: notification.meetingId,
-        })
-      );
-
-      setTimeout(() => {
-        dispatch(fetchAllNotifications({ userId: notification.toUser.id }));
-      }, 500);
-    }, POST_NOTIFICATION_TIMEOUT);
+      dispatch(fetchAllNotifications({ userId: notification.toUser.id }));
+    }, 500);
   };
 
   // Send toast upon accept; otherwise go ahead and do immediate stuff
