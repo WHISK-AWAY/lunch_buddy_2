@@ -15,7 +15,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const POST_NOTIFICATION_TIMEOUT = 5000;
 
-export default function MeetingRequest({ notification, setPreventClose }) {
+export default function MeetingRequest({ notification }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const meetings = useSelector(selectMeetings);

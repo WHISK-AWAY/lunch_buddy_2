@@ -12,7 +12,6 @@ import RatingRequest from './RatingRequest';
 // import RatingRequest from './RatingRequest';
 
 const NotificationBody = ({
-  setPreventClose,
   showNotificationBody,
   setShowNotificationBody,
 }) => {
@@ -38,13 +37,13 @@ const NotificationBody = ({
                     {notification.notificationType === 'meetingInvite' && (
                       <MeetingRequest
                         notification={notification}
-                        setPreventClose={setPreventClose}
+                        setShowNotificationBody={setShowNotificationBody}
                       />
                     )}
                     {notification.notificationType === 'ratingRequested' && (
                       <RatingRequest
                         notification={notification}
-                        setPreventClose={setPreventClose}
+                        setShowNotificationBody={setShowNotificationBody}
                       />
                     )}
                   </li>

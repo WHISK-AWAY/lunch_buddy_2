@@ -22,7 +22,6 @@ const TOAST_DURATION = 10000;
 const NavBar = () => {
   const [expandMenu, setExpandMenu] = useState(false);
   const [showNotificationBody, setShowNotificationBody] = useState(false);
-  const [preventClose, setPreventClose] = useState(false);
   const [triggerClose, setTriggerClose] = useState(false);
   const dispatch = useDispatch();
 
@@ -36,16 +35,16 @@ const NavBar = () => {
   // Turns off scroll when showing menu
   document.body.style.overflow = expandMenu ? 'hidden' : 'auto';
 
-  const controller = new AbortController();
+  const notifController = new AbortController();
 
   const handleNotificationClick = (event) => {
     event.preventDefault();
     if (showNotificationBody) setTriggerClose(true);
     else {
       setShowNotificationBody(true);
-      setPreventClose(false);
+      setTriggerClose(false);
     }
-    controller.abort();
+    notifController.abort();
   };
 
   const root = document.querySelector('#root');
@@ -57,9 +56,8 @@ const NavBar = () => {
     if (showNotificationBody) setTriggerClose(true);
     else {
       setShowNotificationBody(true);
-      setPreventClose(false);
     }
-    controller.abort();
+    notifController.abort();
     console.log('click');
     // console.log('prevent close within closer function:', preventClose);
     // if (preventClose) {
@@ -76,32 +74,32 @@ const NavBar = () => {
 
   function closeNotificationBody() {
     setTriggerClose(true);
-    controller.abort();
+    notifController.abort();
   }
 
   useEffect(() => {
     console.log(
-      `inside useEffect: showNotificationBody: ${showNotificationBody}; triggerClose: ${triggerClose}; preventClose: ${preventClose}`
+      `inside useEffect: showNotificationBody: ${showNotificationBody}; triggerClose: ${triggerClose}`
     );
 
-    // if close is triggered while not preventing, hide notifications, remove event listener, & untrigger
-    if (showNotificationBody && !preventClose && triggerClose) {
+    // if close is triggered while notifs are showing, close notifs & kill event listeners
+    if (showNotificationBody && triggerClose) {
       setShowNotificationBody(false);
-      controller.abort();
+      notifController.abort();
     }
 
-    // if notificationBody is shown, set up closer event listener
-    if (showNotificationBody && !preventClose && !triggerClose) {
+    // if notificationBody is shown, set up closer event listener w/controller kill signaler
+    if (showNotificationBody && !triggerClose) {
       root.addEventListener('click', closeNotificationBody, {
-        signal: controller.signal,
+        signal: notifController.signal,
       });
     }
 
     if (triggerClose) {
       setTriggerClose(false);
-      controller.abort();
+      notifController.abort();
     }
-  }, [showNotificationBody, preventClose, triggerClose]);
+  }, [showNotificationBody, triggerClose]);
 
   document.body.style.overflow = showNotificationBody ? 'hidden' : 'auto';
 
@@ -207,17 +205,12 @@ const NavBar = () => {
       </nav>
       {/* DROPDOWN MENU, HIDDEN UNTIL CLICKED */}
 
-      <DropdownMenu
-        expandMenu={expandMenu}
-        setExpandMenu={setExpandMenu}
-        setPreventClose={setPreventClose}
-      />
+      <DropdownMenu expandMenu={expandMenu} setExpandMenu={setExpandMenu} />
       {showNotificationBody && (
         <div className="notification-body">
           <NotificationBody
             showNotificationBody={showNotificationBody}
             setShowNotificationBody={setShowNotificationBody}
-            setPreventClose={setPreventClose}
           />
         </div>
       )}
