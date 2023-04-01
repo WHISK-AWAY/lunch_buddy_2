@@ -210,6 +210,7 @@ const NavBar = () => {
         <NotificationBody
           showNotificationBody={showNotificationBody}
           setShowNotificationBody={setShowNotificationBody}
+          setTriggerClose={setTriggerClose}
         />
       </div>
     </header>
