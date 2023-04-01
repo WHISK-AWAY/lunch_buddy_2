@@ -75,7 +75,7 @@ const UserAccount = () => {
   return (
     <div
       id="user-container"
-      className="font-tenor flex flex-row-reverse flex-nowrap w-screen justify-center h-[calc(100vh_-_69px)] overflow-hidden text-primary-gray  bg-fixed"
+      className="font-tenor flex flex-row-reverse flex-nowrap w-screen justify-center h-[calc(100vh_-_65px)] overflow-hidden text-primary-gray  bg-fixed"
     >
       <div className="lg:basis-1/2 flex flex-col items-center  h-full relative bg-pink-100/30">
         <div className="sticky px-[10%] z-10 bg-white w-full h-40 top-0  flex flex-col justify-start  items-center">
