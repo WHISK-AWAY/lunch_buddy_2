@@ -259,6 +259,9 @@ const meetingSlice = createSlice({
 
       // Get a single meeting (Already includes the messages)
       .addCase(getMeeting.fulfilled, (state, action) => {
+        if (state.meeting.messages && !action.payload.messages) {
+          action.payload.messages = state.meeting.messages;
+        }
         state.meeting = action.payload;
         if (!state.meetings.some((meeting) => meeting.id === action.payload.id))
           state.meetings.push(action.payload);
@@ -309,7 +312,8 @@ const meetingSlice = createSlice({
 
       // Add a message
       .addCase(addMessage.fulfilled, (state, action) => {
-        state.meeting.messages.push(action.payload);
+        state.meeting.messages = [...state.meeting.messages, action.payload];
+        // state.meeting.messages.push(action.payload);
         state.isLoading = false;
         state.error = '';
       })

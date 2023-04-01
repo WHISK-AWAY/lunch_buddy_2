@@ -26,10 +26,9 @@ export default function ChatBox() {
   const yearToday = today.getUTCFullYear();
   const messageEl = useRef(null);
 
+  const token = localStorage.getItem('token');
   useEffect(() => {
     const asyncStart = async () => {
-      const token = localStorage.getItem('token');
-
       const disMeeting = await dispatch(
         getMeetingMessages({
           token: token,
@@ -55,7 +54,6 @@ export default function ChatBox() {
     // REMOVE .OFF WHEN DEPLOYING OR ELSE WILL NEVER SEND MSG
     socket.on('recieve-message', (d) => {
       const asyncEvent = async () => {
-        const token = localStorage.getItem('token');
         setTimeout(() => {
           dispatch(
             getMeetingMessages({
@@ -77,7 +75,6 @@ export default function ChatBox() {
     e.preventDefault();
     if (newMessage === '') return;
     else {
-      const token = localStorage.getItem('token');
       const message = await dispatch(
         addMessage({
           token,
