@@ -91,7 +91,6 @@ export const getBusinessInfo = createAsyncThunk(
   async (yelpBusinessId, { rejectWithValue }) => {
     const token = localStorage.getItem('token');
     try {
-      console.log(API_URL + `/api/search/restaurants/${yelpBusinessId}`);
       const { data } = await axios.get(
         API_URL + `/api/search/restaurants/${yelpBusinessId}`,
         {
@@ -296,7 +295,6 @@ const meetingSlice = createSlice({
       // Get a messages for a particular meeting
       .addCase(getMeetingMessages.fulfilled, (state, action) => {
         // Payload includes messages for this particular meeting
-        console.log(action.payload);
         state.meeting = action.payload;
         state.isLoading = false;
         state.error = '';

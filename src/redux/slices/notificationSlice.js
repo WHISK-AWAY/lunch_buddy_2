@@ -15,7 +15,6 @@ export const fetchAllNotifications = createAsyncThunk(
           },
         }
       );
-      console.log('hello from fetchAll');
       return data;
     } catch (error) {
       return rejectWithValue(error);

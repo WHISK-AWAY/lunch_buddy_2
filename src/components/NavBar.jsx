@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import bellIcon from '../assets/icons/notification.svg';
 import DropdownMenu from './DropdownMenu';
 import { selectAuthUser, tryToken } from '../redux/slices/authSlice';
@@ -16,11 +17,11 @@ import {
 } from '../redux/slices/notificationSlice';
 
 const NOTIFICATION_UPDATE_INTERVAL = 240000;
+const TOAST_DURATION = 10000;
 
 const NavBar = () => {
   const [expandMenu, setExpandMenu] = useState(false);
   const [showNotificationBody, setShowNotificationBody] = useState(false);
-  const [preventClose, setPreventClose] = useState(false);
   const [triggerClose, setTriggerClose] = useState(false);
   const dispatch = useDispatch();
 
@@ -34,34 +35,26 @@ const NavBar = () => {
   // Turns off scroll when showing menu
   document.body.style.overflow = expandMenu ? 'hidden' : 'auto';
 
-  const controller = new AbortController();
+  const notifController = new AbortController();
 
   const handleNotificationClick = (event) => {
     event.preventDefault();
-    // console.log(
-    //   `inside handleNotification: showNotificationBody: ${showNotificationBody}; triggerClose: ${triggerClose}`
-    // );
     if (showNotificationBody) setTriggerClose(true);
     else {
       setShowNotificationBody(true);
-      setPreventClose(false);
+      setTriggerClose(false);
     }
-    controller.abort();
+    notifController.abort();
   };
 
   const root = document.querySelector('#root');
 
   function closeDropdown() {
-    console.log(
-      `inside closeDropdown: expandMenu: ${expandMenu}; triggerClose: ${triggerClose}`
-    );
     if (showNotificationBody) setTriggerClose(true);
     else {
       setShowNotificationBody(true);
-      setPreventClose(false);
     }
-    controller.abort();
-    console.log('click');
+    notifController.abort();
     // console.log('prevent close within closer function:', preventClose);
     // if (preventClose) {
     //   return;
@@ -77,32 +70,28 @@ const NavBar = () => {
 
   function closeNotificationBody() {
     setTriggerClose(true);
-    controller.abort();
+    notifController.abort();
   }
 
   useEffect(() => {
-    console.log(
-      `inside useEffect: showNotificationBody: ${showNotificationBody}; triggerClose: ${triggerClose}; preventClose: ${preventClose}`
-    );
-
-    // if close is triggered while not preventing, hide notifications, remove event listener, & untrigger
-    if (showNotificationBody && !preventClose && triggerClose) {
+    // if close is triggered while notifs are showing, close notifs & kill event listeners
+    if (showNotificationBody && triggerClose) {
       setShowNotificationBody(false);
-      controller.abort();
+      notifController.abort();
     }
 
-    // if notificationBody is shown, set up closer event listener
-    if (showNotificationBody && !preventClose && !triggerClose) {
+    // if notificationBody is shown, set up closer event listener w/controller kill signaler
+    if (showNotificationBody && !triggerClose) {
       root.addEventListener('click', closeNotificationBody, {
-        signal: controller.signal,
+        signal: notifController.signal,
       });
     }
 
     if (triggerClose) {
       setTriggerClose(false);
-      controller.abort();
+      notifController.abort();
     }
-  }, [showNotificationBody, preventClose, triggerClose]);
+  }, [showNotificationBody, triggerClose]);
 
   document.body.style.overflow = showNotificationBody ? 'hidden' : 'auto';
 
@@ -169,7 +158,12 @@ const NavBar = () => {
                   <div className="w-11 h-6 bg-white border rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-600 after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-label peer-checked:border-white peer-checked:after:bg-white"></div>
                 </label>
               </li>
-
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  duration: TOAST_DURATION,
+                }}
+              />
               <li className="h-7 relative">
                 <button
                   className={
@@ -203,20 +197,14 @@ const NavBar = () => {
       </nav>
       {/* DROPDOWN MENU, HIDDEN UNTIL CLICKED */}
 
-      <DropdownMenu
-        expandMenu={expandMenu}
-        setExpandMenu={setExpandMenu}
-        setPreventClose={setPreventClose}
-      />
-      {showNotificationBody && (
-        <div className="notification-body">
-          <NotificationBody
-            showNotificationBody={showNotificationBody}
-            setShowNotificationBody={setShowNotificationBody}
-            setPreventClose={setPreventClose}
-          />
-        </div>
-      )}
+      <DropdownMenu expandMenu={expandMenu} setExpandMenu={setExpandMenu} />
+      <div className="notification-body">
+        <NotificationBody
+          showNotificationBody={showNotificationBody}
+          setShowNotificationBody={setShowNotificationBody}
+          setTriggerClose={setTriggerClose}
+        />
+      </div>
     </header>
   );
 };

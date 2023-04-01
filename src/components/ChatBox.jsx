@@ -51,7 +51,6 @@ export default function ChatBox() {
     }
   }, [auth]);
 
-  console.log('MEETING', meeting);
   useEffect(() => {
     // REMOVE .OFF WHEN DEPLOYING OR ELSE WILL NEVER SEND MSG
     socket.on('recieve-message', (d) => {
