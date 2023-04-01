@@ -44,7 +44,6 @@ export default function AcceptInvite({ notification, meetings, t }) {
           id="btn-container"
           className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 justify-center items-center"
         >
-          <FormButton handleSubmit={() => navigate('/')}>HOME</FormButton>
           {notification.meetingId && (
             <FormButton
               handleSubmit={() =>
