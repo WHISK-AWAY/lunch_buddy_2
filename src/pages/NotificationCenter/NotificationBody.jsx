@@ -10,7 +10,7 @@ import RatingRequest from './RatingRequest';
 // import MeetingRejected from './MeetingRejected';
 // import RatingRequest from './RatingRequest';
 
-const NotificationBody = () => {
+const NotificationBody = ({ setPreventClose }) => {
   const notifications = useSelector(selectUnreadNotifications);
 
   // const notificationType = notifications.
@@ -24,10 +24,16 @@ const NotificationBody = () => {
             return (
               <li key={notification.id}>
                 {notification.notificationType === 'meetingInvite' && (
-                  <MeetingRequest notification={notification} />
+                  <MeetingRequest
+                    notification={notification}
+                    setPreventClose={setPreventClose}
+                  />
                 )}
                 {notification.notificationType === 'ratingRequested' && (
-                  <RatingRequest notification={notification} />
+                  <RatingRequest
+                    notification={notification}
+                    setPreventClose={setPreventClose}
+                  />
                 )}
               </li>
             );
