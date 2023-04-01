@@ -176,12 +176,12 @@ const NavBar = () => {
                     hasNotifications &&
                     `after:content-[''] after:absolute after:top-1 after:right-1 after:text-red-400 after:bg-headers after:rounded-full after:w-2 after:h-2`
                   }
+                  onClick={handleNotificationClick}
                 >
                   <img
                     className="w-7 h-full"
                     src={showNotificationBody ? bellIcon : bellIcon}
                     alt="Notification bell icon"
-                    onClick={handleNotificationClick}
                   />
                 </button>
               </li>
