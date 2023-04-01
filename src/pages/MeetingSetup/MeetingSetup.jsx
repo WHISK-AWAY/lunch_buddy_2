@@ -65,9 +65,9 @@ export default function MeetingSetup(props) {
     accum.startTime = times[0]
       .toLocaleTimeString([], { timeStyle: 'short' })
       .slice(0, -3);
-    accum.endTime = times[1]
-      .toLocaleTimeString([], { timeStyle: 'short' })
-      .slice(0, -3);
+    accum.endTime = times[1].toLocaleTimeString('en-US', {
+      timeStyle: 'short',
+    });
     return accum;
   }, {});
   if (!timeSlot) setTimeSlot(timeSlots[0]);
