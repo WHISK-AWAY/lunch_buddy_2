@@ -113,7 +113,7 @@ const SignInForm = () => {
             </h1>
             <div className="relative my-6">
               <label
-                className="text-label font-semibold block text-sm absolute -top-3 left-3 bg-white px-1"
+                className="text-label font-semibold block text-xs absolute -top-3 left-3 bg-white px-1"
                 htmlFor="email"
               >
                 Email
@@ -121,7 +121,7 @@ const SignInForm = () => {
               <input
                 className={`${
                   isInvalid ? INVALID_CLASS : null
-                } w-full px-4 py-2 rounded-lg focus:outline-none border border-primary-gray`}
+                } w-full px-4 py-1 rounded-lg focus:outline-none border border-primary-gray`}
                 type="text"
                 name="email"
                 value={formInputs.email}
@@ -133,7 +133,7 @@ const SignInForm = () => {
             </div>
             <div className="relative mt-6">
               <label
-                className="text-label font-semibold block text-sm absolute -top-3 left-3 bg-white px-1"
+                className="text-label font-semibold block text-xs absolute -top-3 left-3 bg-white px-1"
                 htmlFor="password"
               >
                 Password
@@ -141,7 +141,7 @@ const SignInForm = () => {
               <input
                 className={`${
                   isInvalid ? INVALID_CLASS : null
-                } w-full px-4 py-2 rounded-lg focus:outline-none border border-primary-gray`}
+                } w-full px-4 py-1 rounded-lg focus:outline-none border border-primary-gray`}
                 type="password"
                 name="password"
                 value={formInputs.password}

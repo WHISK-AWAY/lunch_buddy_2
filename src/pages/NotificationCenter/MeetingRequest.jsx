@@ -47,11 +47,17 @@ export default function MeetingRequest({ notification }) {
     }, 500);
   };
 
+  // toast.custom(
+  //   (t) => (
+  //     <RejectInvite notification={notification} meetings={meetings} t={t} />
+  //   ),
+  //   { duration: Infinity }
+  // );
+
   const handleAccept = async () => {
     // setResponse('accepted');
     // console.log('trying to prevent close...');
     // setPreventClose(true);
-
     toast.custom((t) => (
       <AcceptInvite notification={notification} meetings={meetings} t={t} />
     ));
