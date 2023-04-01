@@ -1,8 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
-import { updateNotificationStatus } from '../../redux/slices';
+import {
+  updateNotificationStatus,
+  fetchAllNotifications,
+} from '../../redux/slices';
 import FormButton from '../../components/FormButton';
+import xIcon from '../../assets/icons/x-icon.svg';
 
 export default function MeetingRejected({ notification }) {
   const dispatch = useDispatch();
@@ -21,6 +25,8 @@ export default function MeetingRejected({ notification }) {
         updates: { isAcknowledged: true },
       })
     );
+
+    dispatch(fetchAllNotifications());
   }
 
   return (
@@ -48,7 +54,13 @@ export default function MeetingRejected({ notification }) {
           <FormButton handleSubmit={acknowledgeAndFindBuddy}>
             FIND BUDDY
           </FormButton>
-          <FormButton handleSubmit={acknowledge}>DISMISS</FormButton>
+          <div
+            id="x-icon"
+            className="absolute w-6 right-3 top-3"
+            onClick={acknowledge}
+          >
+            <img src={xIcon} />
+          </div>
         </div>
       </div>
     </div>

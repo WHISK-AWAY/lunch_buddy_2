@@ -74,7 +74,7 @@ export default function CurrentMeeting({ notification, meetings }) {
           <FormButton handleSubmit={cancelMeeting}>CANCEL MEETING</FormButton>
           <div
             id="x-icon"
-            className="absolute w-5 right-3 top-3"
+            className="absolute w-6 right-3 top-3"
             onClick={acknowledge}
           >
             <img src={xIcon} />

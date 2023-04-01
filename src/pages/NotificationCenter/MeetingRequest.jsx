@@ -1,29 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { getMeeting, selectMeetings } from '../../redux/slices';
-import {
-  getBusinessInfo,
-  updateMeeting,
-} from '../../redux/slices/meetingSlice';
+import { getBusinessInfo } from '../../redux/slices/meetingSlice';
 import FormButton from '../../components/FormButton';
-import { updateNotificationStatus, cancelMeeting } from '../../redux/slices';
-import { fetchAllNotifications } from '../../redux/slices';
+import {
+  updateNotificationStatus,
+  cancelMeeting,
+  fetchAllNotifications,
+} from '../../redux/slices';
 import axios from 'axios';
 import AcceptInvite from './ToastFeedback/AcceptInvite';
 import RejectInvite from './ToastFeedback/RejectInvite';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
-const POST_NOTIFICATION_TIMEOUT = 5000;
-
 export default function MeetingRequest({ notification }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const meetings = useSelector(selectMeetings);
 
   const token = window.localStorage.getItem('token');
-  const [response, setResponse] = useState(null);
 
   useEffect(() => {
     dispatch(
@@ -41,10 +36,6 @@ export default function MeetingRequest({ notification }) {
     meetings.business[yelpBusinessId]?.location.display_address.join(', ');
 
   const handleAccept = async () => {
-    // setResponse('accepted');
-    // console.log('trying to prevent close...');
-    // setPreventClose(true);
-
     toast.custom((t) => (
       <AcceptInvite notification={notification} meetings={meetings} t={t} />
     ));
