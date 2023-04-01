@@ -40,13 +40,6 @@ export default function MeetingRequest({ notification }) {
   const yelpBusinessAddress =
     meetings.business[yelpBusinessId]?.location.display_address.join(', ');
 
-  const localRedirect = (linkTo) => {
-    navigate(linkTo);
-    setTimeout(() => {
-      dispatch(fetchAllNotifications({ userId: notification.toUser.id }));
-    }, 500);
-  };
-
   const handleAccept = async () => {
     // setResponse('accepted');
     // console.log('trying to prevent close...');
