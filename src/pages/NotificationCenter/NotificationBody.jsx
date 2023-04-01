@@ -17,7 +17,7 @@ const NotificationBody = ({
 }) => {
   const notifications = useSelector(selectUnreadNotifications);
 
-  if (!notifications?.length) return <h1>No notifications to render...</h1>;
+  if (!notifications?.length) return setShowNotificationBody(false);
 
   return (
     <div
