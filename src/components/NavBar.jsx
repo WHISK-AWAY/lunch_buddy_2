@@ -206,14 +206,12 @@ const NavBar = () => {
       {/* DROPDOWN MENU, HIDDEN UNTIL CLICKED */}
 
       <DropdownMenu expandMenu={expandMenu} setExpandMenu={setExpandMenu} />
-      {showNotificationBody && (
-        <div className="notification-body">
-          <NotificationBody
-            showNotificationBody={showNotificationBody}
-            setShowNotificationBody={setShowNotificationBody}
-          />
-        </div>
-      )}
+      <div className="notification-body">
+        <NotificationBody
+          showNotificationBody={showNotificationBody}
+          setShowNotificationBody={setShowNotificationBody}
+        />
+      </div>
     </header>
   );
 };
