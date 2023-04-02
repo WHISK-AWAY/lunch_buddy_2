@@ -203,7 +203,7 @@ const userSlice = createSlice({
       .addCase(fetchUser.rejected, (state, action) => {
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.payload.response.data;
       })
 
       // CREATE NEW USER
@@ -254,7 +254,7 @@ const userSlice = createSlice({
       .addCase(updateLocation.rejected, (state, action) => {
         state.user = {};
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // BAN USER
@@ -271,7 +271,7 @@ const userSlice = createSlice({
       .addCase(banUser.rejected, (state, action) => {
         state.user = {};
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // REMOVE USER BAN
@@ -288,7 +288,7 @@ const userSlice = createSlice({
       .addCase(removeBan.rejected, (state, action) => {
         state.user = {};
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       })
 
       // Checks if user had error when creating account
@@ -309,7 +309,7 @@ const userSlice = createSlice({
       .addCase(fetchUserMeetings.rejected, (state, action) => {
         state.userMeetings = [];
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload.response.data;
       });
   },
 });

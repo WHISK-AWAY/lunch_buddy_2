@@ -20,18 +20,42 @@ import { useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
+// user tag minimums
+const MINIMUM_SOCIAL = 10;
+const MINIMUM_PROFESSIONAL = 1;
+const MINIMUM_CUISINE = 5;
+
 const AboutForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userLoading = useSelector(selectUserLoading);
   const userError = useSelector(selectUserError);
 
-  const [bio, setBio] = useState('');
+  const [bio, setBio] = useState('' || localStorage.getItem('aboutBio'));
 
   const [socialTags, setSocialTags] = useState([]);
   const [professionalTags, setProfessionalTags] = useState([]);
   const [dietaryTags, setDietaryTags] = useState([]);
   const [cuisineTags, setCuisineTags] = useState([]);
+
+  const [minTags, setMinTags] = useState(
+    JSON.parse(localStorage.getItem('minTags')) || {
+      Social: { minimum: MINIMUM_SOCIAL, show: false, numClicked: 0 },
+      Professional: {
+        minimum: MINIMUM_PROFESSIONAL,
+        show: false,
+        numClicked: 0,
+      },
+      Dietary: { minimum: 0, show: false, numClicked: 0 },
+      Cuisine: { minimum: MINIMUM_CUISINE, show: false, numClicked: 0 },
+    }
+  );
+
+  console.log(minTags);
+
+  const [validBio, setValidBio] = useState(true);
+
+  const tagsInState = useSelector((state) => state.tags.tags);
 
   useEffect(() => {
     const form = localStorage.getItem('registerForm');
@@ -46,20 +70,49 @@ const AboutForm = () => {
     }
   }, []);
 
-  const tagsInState = useSelector((state) => state.tags.tags);
   useEffect(() => {
     if (tagsInState.length > 0) {
-      setSocialTags(getTagsByCategory('social', tagsInState || []));
-      setProfessionalTags(getTagsByCategory('professional', tagsInState || []));
-      setDietaryTags(
-        getTagsByCategory('dietary restriction', tagsInState || [])
+      setSocialTags(
+        JSON.parse(localStorage.getItem('Social')) ||
+          getTagsByCategory('social', tagsInState) ||
+          []
       );
-      setCuisineTags(getTagsByCategory('cuisine', tagsInState || []));
+      setProfessionalTags(
+        JSON.parse(localStorage.getItem('Professional')) ||
+          getTagsByCategory('professional', tagsInState || [])
+      );
+      setDietaryTags(
+        JSON.parse(localStorage.getItem('Dietary')) ||
+          getTagsByCategory('dietary restriction', tagsInState || [])
+      );
+      setCuisineTags(
+        JSON.parse(localStorage.getItem('Cuisine')) ||
+          getTagsByCategory('cuisine', tagsInState || [])
+      );
     }
   }, [tagsInState]);
 
+  useEffect(() => {
+    localStorage.setItem('minTags', JSON.stringify(minTags));
+  }, [minTags]);
+
   // Handles creation of new user based on user inputs
   async function handleSubmit() {
+    setValidBio(!!bio);
+
+    for (let category in minTags) {
+      const minTagsCopy = { ...minTags[category] };
+      console.log(minTags[category].numClicked, minTags[category].minimum);
+      setMinTags((prev) => ({
+        ...prev,
+        [category]: {
+          minimum: minTagsCopy.minimum,
+          show: minTags[category].numClicked < minTags[category].minimum,
+          numClicked: minTagsCopy.numClicked,
+        },
+      }));
+    }
+
     const prevPageFormData = JSON.parse(
       window.localStorage.getItem('registerForm')
     );
@@ -77,17 +130,20 @@ const AboutForm = () => {
       delete prevPageFormData.address2;
     }
 
-    console.log(prevPageFormData);
     await dispatch(createNewUser(prevPageFormData));
     const { payload: errorOnCreation } = await dispatch(checkUserCreated());
-    console.log('errorOnCreation', errorOnCreation);
     if (errorOnCreation.error) {
-      alert(errorOnCreation.error);
+      console.log(errorOnCreation.error);
     } else {
       localStorage.removeItem('registerForm');
 
       toast.custom((t) => <NewUserWelcome t={t} />);
       navigate('/match');
+      localStorage.removeItem('aboutBio');
+      localStorage.removeItem('Social');
+      localStorage.removeItem('Cuisine');
+      localStorage.removeItem('Dietary');
+      localStorage.removeItem('Professional');
     }
   }
 
@@ -113,22 +169,30 @@ const AboutForm = () => {
           <TagSelect
             tags={socialTags}
             setter={setSocialTags}
-            category="social"
+            category="Social"
+            minTags={minTags}
+            setMinTags={setMinTags}
           />
           <TagSelect
             tags={professionalTags}
             setter={setProfessionalTags}
             category="Professional"
+            minTags={minTags}
+            setMinTags={setMinTags}
           />
           <TagSelect
             tags={dietaryTags}
             setter={setDietaryTags}
             category="Dietary"
+            minTags={minTags}
+            setMinTags={setMinTags}
           />
           <TagSelect
             tags={cuisineTags}
             setter={setCuisineTags}
             category="Cuisine"
+            minTags={minTags}
+            setMinTags={setMinTags}
           />
         </div>
         <div className="flex self-center sm:max-w-lg sm:min-w-[20%]  px-6 mb-16 pt-5 lg:w-2/5 w-3/5">
