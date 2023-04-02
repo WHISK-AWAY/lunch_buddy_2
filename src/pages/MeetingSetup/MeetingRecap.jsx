@@ -6,6 +6,7 @@ import {
   selectMeetings,
   resetMeetingStatus,
 } from '../../redux/slices';
+import FormButton from '../../components/FormButton';
 
 export default function MeetingRecap(props) {
   const dispatch = useDispatch();
@@ -71,13 +72,10 @@ export default function MeetingRecap(props) {
           </p>
           <p>{restaurant.location?.display_address?.join(' ')}</p>
         </div>
-        <div className="recap-button flex flex-col items-center w-4/5">
-          <button
-            className="px-5 py-2 w-11/12 lg:py-2 rounded-full button text-white text-md"
-            onClick={(e) => handleMeeting(e)}
-          >
+        <div className="recap-button flex flex-col items-center w-2/5">
+          <FormButton handleSubmit={(e) => handleMeeting(e)}>
             INVITE BUDDY
-          </button>
+          </FormButton>
         </div>
       </div>
     </div>
