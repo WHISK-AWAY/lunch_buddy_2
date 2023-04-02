@@ -159,7 +159,7 @@ const RegisterForm = () => {
         duration="1500"
       >
         <div className="h-full lg:w-4/5 md:w-3/5 w-4/5">
-          <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8 pb-6">
+          <form className=" grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8 pb-3">
             <h1 className="text-center text-2xl mb-6 text-headers font-bold font-sans col-span-full">
               SIGN UP
             </h1>
@@ -354,6 +354,7 @@ const RegisterForm = () => {
               </label>
               <input
                 type="text"
+                placeholder="18+"
                 className={`${
                   inputValidator.age ? INVALID_CLASS : null
                 }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-xs focus:border-primary-gray active:border-primary-gray active:ring-primary-gray focus:ring-primary-gray outline-0 focus:bg-white`}
@@ -384,7 +385,7 @@ const RegisterForm = () => {
               <FormButton handleSubmit={handleSubmit}>CONTINUE</FormButton>
             </div>
           </form>
-          <p className="text-center">
+          <p className="text-center text-xs">
             already have an account?{' '}
             <Link to="/login">
               <span className="text-headers hover:underline">sign in</span>
