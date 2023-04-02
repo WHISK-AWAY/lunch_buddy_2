@@ -79,6 +79,7 @@ const NotificationBody = ({
                         notification={notification}
                         meetings={meetings}
                         setShowNotificationBody={setShowNotificationBody}
+                        setTriggerClose={setTriggerClose}
                       />
                     )}
                   </li>
