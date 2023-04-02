@@ -45,9 +45,9 @@ export default function MeetingRecap(props) {
   }
 
   return (
-    <div className="recap-card h-[calc(100vh_-_65px)] w-screen flex flex-col gap-12 items-center orange-linear-bg lg:bg-none lg:bg-white lg:flex-row lg:items-center bg-fixed text-primary-gray overflow-hidden">
+    <div className="recap-card h-[calc(100vh_-_65px)] w-screen flex flex-col gap-12 items-center orange-linear-bg lg:bg-none lg:bg-white  lg:flex-row lg:items-center bg-fixed text-primary-gray overflow-hidden">
       <div className="recap-image hidden bg-left lg:block lg:h-full lg:basis-1/2 bg-[url('/assets/bgImg/meetingConfView.jpg')] bg-cover overflow-hidden"></div>
-      <div className="recap-info flex flex-col basis-full h-full pt-16 lg:basis-1/2 gap-12 items-center overflow-auto lg:justify-center">
+      <div className="recap-info flex flex-col basis-full h-full pt-16 lg:basis-1/2 gap-12 items-center overflow-auto justify-center">
         <div className="recap-header text-headers text-xl font-semibold">
           <h1>MEETING RECAP</h1>
         </div>
@@ -72,7 +72,7 @@ export default function MeetingRecap(props) {
           </p>
           <p>{restaurant.location?.display_address?.join(' ')}</p>
         </div>
-        <div className="recap-button flex flex-col items-center w-2/5">
+        <div className="recap-button flex flex-col items-center lg:w-2/6 w-3/5">
           <FormButton handleSubmit={(e) => handleMeeting(e)}>
             INVITE BUDDY
           </FormButton>

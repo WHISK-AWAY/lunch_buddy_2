@@ -2,13 +2,12 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectAuth } from '../../redux/slices';
 import AOS from 'aos';
-import 'aos/dist/aos.css'; // You can also use <link> for styles
+import 'aos/dist/aos.css';
 import FormButton from '../../components/FormButton';
 import { Link } from 'react-router-dom';
 
 const Homepage = () => {
   const auth = useSelector(selectAuth);
-  // bg-[url('/assets/bg_img/homepage13.jpg')] h-[calc(100vh_-_5rem)] w-screen bg-no-repeat bg-right bg-cover "
   AOS.init({
     duration: 2000,
     offset: 0,

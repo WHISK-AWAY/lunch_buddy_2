@@ -16,6 +16,8 @@ import {
 import { selectAuthUser } from '../../redux/slices/authSlice';
 import RejectInvite from '../NotificationCenter/ToastFeedback/RejectInvite';
 import FormButton from '../../components/FormButton';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const CurrentMeeting = (props) => {
   const dispatch = useDispatch();
@@ -88,53 +90,79 @@ const CurrentMeeting = (props) => {
     return <h1>failed to load meeting info...</h1>;
   }
 
+  AOS.init({
+    duration: 2000,
+    offset: 0,
+  });
+
   return (
-    <div className="recap-card h-[calc(100vh_-_65px)] w-screen gap-12 items-center orange-linear-bg lg:bg-none lg:flex-row lg:items-center bg-fixed text-primary-gray overflow-hidden flex flex-row">
+    <div className="recap-card h-[calc(100vh_-_65px)] w-screen self-center orange-linear-bg lg:bg-none justify-between lg:items-center bg-fixed text-primary-gray overflow-hidden flex flex-row">
       <div className="recap-image hidden bg-left lg:block lg:h-full lg:basis-1/2 bg-[url('/assets/bgImg/meetingConfView.jpg')] bg-cover overflow-hidden"></div>
-      <div className="recap-info flex flex-col basis-full h-full pt-16 lg:basis-1/2 gap-12 items-center overflow-auto justify-center">
-        <div className="recap-header text-headers text-lg font-semibold">
+      <div className="recap-info flex flex-col h-full lg:basis-1/2 gap-12 items-center overflow-auto justify-center basis-full">
+        <div
+          className="recap-header text-headers text-lg font-semibold"
+          data-aos="fade-up"
+          data-aos-delay="400"
+          data-aos-duration="1000"
+        >
           <h1>MEETING DETAILS</h1>
         </div>
-        <div className="recap-body flex flex-col items-center gap-1">
-          <div className="buddy-avatar-container rounded-full mb-6">
+        <div className="recap-body flex flex-col items-center gap-1 w-4/5">
+          <div
+            className="buddy-avatar-container rounded-full mb-6"
+            data-aos="fade-in"
+            data-aos-delay="800"
+            data-aos-duration="1000"
+          >
             <img
               src={buddy.avatarUrl}
               alt="Your buddy's avatar image"
               className="bg-white object-cover aspect-square w-28 h-28 rounded-full z-10 p-1 drop-shadow-md"
             />
           </div>
-          <h2 className="text-lg font-semibold text-headers pb-1">
-            {buddy.fullName.toUpperCase()}
-          </h2>
-          <p>
-            {currentMeetingNotification.id &&
-              new Date(
-                currentMeetingNotification.meeting.lunchDate
-              ).toLocaleDateString()}
-          </p>
-          <p className="text-base">
-            {currentMeetingNotification.id &&
-              new Date(
-                currentMeetingNotification.meeting.lunchDate
-              ).toLocaleTimeString([], {
-                timeStyle: 'short',
-              })}
-          </p>
-          <p className="font-semibold">
-            <a href={currentMeeting?.restaurant?.url} target="_blank">
-              {currentMeeting?.restaurant?.name.toUpperCase()}
-            </a>
-          </p>
-          <p>
-            {currentMeeting?.restaurant?.location.display_address.join(', ')}
-          </p>
-        </div>
-        <div
-          id="btn-container"
-          className="flex gap-8 items-center w-4/5 lg:w-2/5 text-xs sm:w-3/5"
-        >
-          <FormButton handleSubmit={handleChat}>CHAT</FormButton>
-          <FormButton handleSubmit={handleCancelButton}>CANCEL</FormButton>
+          <div
+            id="meeting-detail-container"
+            className="flex flex-col justify-center items-center"
+            data-aos="fade-down"
+            data-aos-delay="800"
+            data-aos-duration="2800"
+          >
+            <h2 className="text-md text-headers pb-1">
+              {buddy.fullName.toUpperCase()}
+            </h2>
+            <p>
+              {currentMeetingNotification.id &&
+                new Date(
+                  currentMeetingNotification.meeting.lunchDate
+                ).toLocaleDateString()}
+            </p>
+            <p className="text-base">
+              {currentMeetingNotification.id &&
+                new Date(
+                  currentMeetingNotification.meeting.lunchDate
+                ).toLocaleTimeString([], {
+                  timeStyle: 'short',
+                })}
+            </p>
+            <p className="font-semibold">
+              <a href={currentMeeting?.restaurant?.url} target="_blank">
+                {currentMeeting?.restaurant?.name.toUpperCase()}
+              </a>
+            </p>
+            <p>
+              {currentMeeting?.restaurant?.location.display_address.join(', ')}
+            </p>
+          </div>
+          <div
+            id="btn-container"
+            className="flex gap-8 justify-between lg:w-3/5 pt-4 text-xs w-11/12"
+            data-aos="fade-down"
+            data-aos-delay="800"
+            data-aos-duration="2800"
+          >
+            <FormButton handleSubmit={handleChat}>CHAT</FormButton>
+            <FormButton handleSubmit={handleCancelButton}>CANCEL</FormButton>
+          </div>
         </div>
       </div>
     </div>
