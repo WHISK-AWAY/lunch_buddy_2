@@ -22,6 +22,12 @@ export default function NewMessageReceived({ notification }) {
         updates: { isAcknowledged: true },
       })
     );
+
+    dispatch(
+      fetchAllNotifications({
+        userId: notification.toUserId,
+      })
+    );
   }
 
   return (

@@ -26,7 +26,11 @@ export default function MeetingRejected({ notification }) {
       })
     );
 
-    dispatch(fetchAllNotifications());
+    dispatch(
+      fetchAllNotifications({
+        userId: notification.toUserId,
+      })
+    );
   }
 
   return (

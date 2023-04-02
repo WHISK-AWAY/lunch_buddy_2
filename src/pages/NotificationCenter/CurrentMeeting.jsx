@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -6,32 +6,45 @@ import RejectInvite from './ToastFeedback/RejectInvite';
 import {
   updateNotificationStatus,
   fetchAllNotifications,
+  cancelMeeting,
 } from '../../redux/slices';
 import FormButton from '../../components/FormButton';
 import xIcon from '../../assets/icons/x-icon.svg';
 
-export default function CurrentMeeting({ notification, meetings }) {
+export default function CurrentMeeting({
+  notification,
+  meetings,
+  setTriggerClose,
+}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [triggerCancel, setTriggerCancel] = useState(false);
 
   const yelpBusinessId = notification.meeting.yelpBusinessId;
   const yelpBusinessAddress =
     meetings.business[yelpBusinessId]?.location.display_address.join(', ');
 
+  useEffect(() => {
+    if (triggerCancel) {
+      setTriggerClose(true);
+      acknowledge();
+      dispatch(
+        cancelMeeting({
+          userId: notification.toUserId,
+          meetingId: notification.meetingId,
+        })
+      );
+      navigate('/');
+      toast.custom((t) => <RejectInvite notification={notification} t={t} />);
+    }
+  }, [triggerCancel]);
+
   function goToMessages() {
+    setTriggerClose(true);
     navigate(`/meeting/${notification.meetingId}/chat`);
   }
 
-  function cancelMeeting() {
-    acknowledge();
-    dispatch(
-      fetchAllNotifications({
-        userId: notification.toUserId,
-        meetingId: notification.meetingId,
-      })
-    );
-    toast.custom((t) => <RejectInvite notification={notification} t={t} />);
-  }
+  // function cancelMeeting() {}
 
   function acknowledge() {
     dispatch(
@@ -42,7 +55,11 @@ export default function CurrentMeeting({ notification, meetings }) {
       })
     );
 
-    dispatch(fetchAllNotifications());
+    dispatch(
+      fetchAllNotifications({
+        userId: notification.toUserId,
+      })
+    );
   }
 
   return (
@@ -73,16 +90,18 @@ export default function CurrentMeeting({ notification, meetings }) {
         <p>{notification.meeting?.yelpBusinessId && yelpBusinessAddress}</p>
         <div
           id="btn-container"
-          className="flex flex-col lg:flex-row lg:gap-7 gap-2 lg:w-full w-fit h-fit self-center text-xs space-5 justify-center items-center pt-3"
+          className="flex flex-col md:flex-row md:w-4/5 md:gap-7 lg:gap-7 gap-2 lg:w-full w-fit h-fit self-center text-xs space-5 justify-center items-center pt-3"
         >
           <FormButton handleSubmit={goToMessages}>
             MESSAGE {notification.fromUser.firstName.toUpperCase()}
           </FormButton>
-          <FormButton handleSubmit={cancelMeeting}>CANCEL MEETING</FormButton>
+          <FormButton handleSubmit={() => setTriggerCancel(true)}>
+            CANCEL MEETING
+          </FormButton>
           <div
             id="x-icon"
             className="absolute w-6 right-3 top-3"
-            onClick={acknowledge}
+            onClick={() => setTriggerClose(true)}
           >
             <img src={xIcon} />
           </div>

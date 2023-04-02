@@ -165,9 +165,23 @@ Meeting.afterUpdate(async (meeting) => {
   }
 });
 
+// Acknowledge current meeting after rating submitted
 // Close out meeting after both people have submitted ratings
 Rating.afterCreate(async (rating) => {
-  const { buddyId, meetingId } = rating;
+  const { userId, buddyId, meetingId } = rating;
+
+  // acknowledge current meeting notification
+  Notification.update(
+    { isAcknowledged: true },
+    {
+      where: {
+        toUserId: userId,
+        meetingId: meetingId,
+        notificationType: 'currentMeeting',
+      },
+    }
+  );
+
   const oppositeRating = await Rating.findOne({
     where: { userId: buddyId, meetingId: meetingId },
   });

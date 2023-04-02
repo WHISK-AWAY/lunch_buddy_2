@@ -8,13 +8,13 @@ import {
 import FormButton from '../../components/FormButton';
 import xIcon from '../../assets/icons/x-icon.svg';
 
-export default function MeetingAccepted({ notification }) {
+export default function MeetingCancelled({ notification }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  function acknowledgeAndMessage() {
+  function acknowledgeAndFindBuddy() {
     acknowledge();
-    navigate(`/meeting/${notification.meetingId}/chat`);
+    navigate('/match');
   }
 
   function acknowledge() {
@@ -36,29 +36,28 @@ export default function MeetingAccepted({ notification }) {
   return (
     <div
       id="meeting-card"
-      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between "
+      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between py-3 px-3"
     >
       <div
         id="notification-details"
         className="flex flex-col self-center text-center text-base w-full py-2"
       >
+        <p className="pb-2">Bad news...</p>
         <p className="pb-2">
-          great news! {notification.fromUser.firstName} is looking forward to
-          meeting up with you at{' '}
-          {new Date(notification.meeting.lunchDate).toLocaleTimeString(
-            'en-US',
-            {
-              timeStyle: 'short',
-            }
-          )}
-          !
+          Unfortunately, {notification.fromUser.firstName} had to cancel.
+        </p>
+        <p className="pb-2">
+          No worries, right? Let's go find you{' '}
+          <Link to="/match" className="text-headers">
+            another buddy
+          </Link>
         </p>
         <div
           id="btn-container"
-          className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 justify-center items-center"
+          className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 justify-center items-center pt-3"
         >
-          <FormButton handleSubmit={acknowledgeAndMessage}>
-            MESSAGE {notification.fromUser.firstName}
+          <FormButton handleSubmit={acknowledgeAndFindBuddy}>
+            FIND BUDDY
           </FormButton>
           <div
             id="x-icon"
