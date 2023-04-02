@@ -10,6 +10,7 @@ import MeetingRejected from './MeetingRejected';
 import MeetingAccepted from './MeetingAccepted';
 import NewMessageReceived from './NewMessageReceived';
 import CurrentMeeting from './CurrentMeeting';
+import MeetingCancelled from './MeetingCancelled';
 // import RatingRequest from './RatingRequest';
 
 const NotificationBody = ({
@@ -58,6 +59,12 @@ const NotificationBody = ({
                     )}
                     {notification.notificationType === 'inviteRejected' && (
                       <MeetingRejected
+                        notification={notification}
+                        setShowNotificationBody={setShowNotificationBody}
+                      />
+                    )}
+                    {notification.notificationType === 'meetingCancelled' && (
+                      <MeetingCancelled
                         notification={notification}
                         setShowNotificationBody={setShowNotificationBody}
                       />
