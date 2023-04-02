@@ -11,20 +11,20 @@ export default function AcceptInvite({ notification, meetings, t }) {
   return (
     <div
       id="meeting-card"
-      className="flex lg:w-1/4 w-4/5 sm:w-2/5 lg:h-fit text-xs text-primary-gray bg-gray-100/90 rounded-2xl shadow-md items-center justify-between sticky top-16"
+      className="flex lg:w-1/4 w-4/5 sm:w-2/5 lg:h-fit text-xs text-primary-gray bg-gray-100/90 rounded-2xl shadow-md items-center justify-between sticky top-16 mt-14"
     >
       <div
         id="notification-details"
         className="flex flex-col self-center text-center text-xs lg:text-[.9rem] w-full py-2"
       >
-        <p>HOORAY!</p>
+        <p className="pb-2">HOORAY!</p>
         <p className="">
-          we'll let {notification.fromUser.firstName} know you're in!
+          We'll let {notification.fromUser.firstName} know you're in!
         </p>
 
         {notification.meeting?.yelpBusinessId && (
           <p>
-            meanwhile, check out{' '}
+            Meanwhile, check out{' '}
             <a
               target="_blank"
               href={meetings.business[yelpBusinessId]?.url}
@@ -37,7 +37,7 @@ export default function AcceptInvite({ notification, meetings, t }) {
         )}
         <div
           id="btn-container"
-          className="flex flex-row w-fit  self-center text-xs justify-center items-center pt-1"
+          className="flex flex-row w-fit  self-center text-xs justify-center items-center pt-3"
         >
           {notification.meetingId && (
             <FormButton
