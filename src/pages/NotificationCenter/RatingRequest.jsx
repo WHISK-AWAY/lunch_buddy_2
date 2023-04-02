@@ -47,14 +47,14 @@ export default function RatingRequest({ notification }) {
       className="flex flex-col w-full h-34 bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between py-5"
     >
       <div id="notification-details">
-        <p className="px-2 text-center">
+        <p className="px-4 text-center">
           Tell us about your meeting with{' '}
           <span>{notification.fromUser.firstName}</span>
         </p>
       </div>
       <div
         id="btn-container"
-        className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 justify-center items-center"
+        className="flex flex-row gap-2 w-fit lg:w-2/5 h-fit self-center text-xs space-5 justify-center items-center pt-4"
       >
         <FormButton handleSubmit={handleRating}>LEAVE FEEDBACK</FormButton>
       </div>
