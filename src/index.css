@@ -29,3 +29,12 @@
     scrollbar-width: none; /* Firefox */
   }
 }
+
+#msg-list * {
+  overflow-anchor: none;
+}
+
+#scroll-anchor {
+  overflow-anchor: auto;
+  height: 1px;
+}

@@ -10,10 +10,8 @@ import navbarIcon from '../assets/icons/navbar-icon.svg';
 import xIcon from '../assets/icons/x-icon.svg';
 import NotificationBody from '../pages/NotificationCenter/NotificationBody';
 import {
-  cancelMeeting,
   fetchAllNotifications,
   selectUnreadNotifications,
-  updateNotificationStatus,
 } from '../redux/slices/notificationSlice';
 
 const NOTIFICATION_UPDATE_INTERVAL = 240000;
@@ -36,6 +34,8 @@ const NavBar = () => {
   document.body.style.overflow = expandMenu ? 'hidden' : 'auto';
 
   const notifController = new AbortController();
+  const dropdownController = new AbortController();
+  const root = document.querySelector('#root');
 
   const handleNotificationClick = (event) => {
     event.preventDefault();
@@ -47,30 +47,24 @@ const NavBar = () => {
     notifController.abort();
   };
 
-  const root = document.querySelector('#root');
-
-  function closeDropdown() {
-    if (showNotificationBody) setTriggerClose(true);
-    else {
-      setShowNotificationBody(true);
+  useEffect(() => {
+    if (expandMenu) {
+      root.addEventListener('click', closeDropdown, {
+        signal: dropdownController.signal,
+      });
+    } else {
+      dropdownController.abort();
     }
-    notifController.abort();
-    // console.log('prevent close within closer function:', preventClose);
-    // if (preventClose) {
-    //   return;
-    // }
-    //   setExpandMenu(false);
-    //   root.removeEventListener('click', closeDropdown);
-  }
-  // useEffect(() => {
-  //   if (expandMenu && !preventClose) {
-  //     root.addEventListener('click', closeDropdown);
-  //   }
-  // }, [expandMenu, preventClose]);
+  }, [expandMenu]);
 
   function closeNotificationBody() {
     setTriggerClose(true);
     notifController.abort();
+  }
+
+  function closeDropdown() {
+    setExpandMenu(false);
+    dropdownController.abort();
   }
 
   useEffect(() => {

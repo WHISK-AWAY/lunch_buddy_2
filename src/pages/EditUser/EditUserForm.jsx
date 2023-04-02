@@ -69,7 +69,7 @@ const EditUserForm = () => {
   };
 
   const validateAge = () => {
-    return formInputs.age >= 18;
+    return +formInputs.age >= 18 && +formInputs.age < 135;
   };
 
   useEffect(() => {
@@ -169,7 +169,7 @@ const EditUserForm = () => {
   };
 
   return (
-    <div className="h-screen flex justify-center lg:grow items-center">
+    <div className="h-screen flex justify-center lg:grow items-center text-primary-gray">
       <div className="w-full xs:w-4/5 sm:w-3/5 md:w-1/2">
         <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8">
           <h1 className="text-center text-2xl mb-6 text-red-400 font-bold font-sans col-span-full">
@@ -296,6 +296,7 @@ const EditUserForm = () => {
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, state: e.target.value }))
               }
+              defaultValue={userInfo.state}
             >
               {listOfStates.map((state) => {
                 return (
@@ -328,7 +329,7 @@ const EditUserForm = () => {
               className={`${
                 inputValidator.age ? invalidClass : null
               }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
-              type="number"
+              type="text"
               value={formInputs.age}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, age: e.target.value }))
@@ -345,6 +346,7 @@ const EditUserForm = () => {
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, gender: e.target.value }))
               }
+              defaultValue={userInfo.gender}
             >
               <option value="M">Male</option>
               <option value="F">Female</option>
