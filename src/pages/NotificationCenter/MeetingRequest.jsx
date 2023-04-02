@@ -41,6 +41,7 @@ export default function MeetingRequest({ notification }) {
   //   ),
   //   { duration: Infinity }
   // );
+
   const handleAccept = async () => {
     toast.custom((t) => (
       <AcceptInvite notification={notification} meetings={meetings} t={t} />
@@ -92,22 +93,29 @@ export default function MeetingRequest({ notification }) {
   return (
     <div
       id="meeting-card"
-      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between "
+      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 py-3 items-center justify-between px-4"
     >
-      <div id="img-section" className="px-2 h-28 shrink-0">
+      <div id="img-section" className="flex px-2 shrink-0 self-center">
         <img
           src={notification.fromUser.avatarUrl}
           alt="user avatar"
-          className="object-cover  aspect-square w-20 h-20 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative translate-y-[30%] "
+          className="object-cover aspect-square w-16 h-16 lg:w-20 lg:h-20 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative "
         />
       </div>
       <div
         id="notification-details"
         className="flex flex-col self-center text-center text-xs w-full py-2"
       >
-        <p className="pb-2">new buddy wants to connect</p>
-        <p>{notification.fromUser.fullName.toUpperCase()}</p>
-        <p>{new Date(notification.meeting.lunchDate).toLocaleString()}</p>
+        <p className="pb-2 px-3">New lunch invitation</p>
+        <p className="text-headers pb-1 text-sm">
+          {notification.fromUser.fullName.toUpperCase()}
+        </p>
+        <p>{new Date(notification.meeting.lunchDate).toLocaleDateString()}</p>
+        <p>
+          {new Date(notification.meeting.lunchDate).toLocaleTimeString([], {
+            timeStyle: 'short',
+          })}
+        </p>
         <p>
           {notification.meeting?.yelpBusinessId &&
             meetings.business[yelpBusinessId]?.name}
@@ -115,7 +123,7 @@ export default function MeetingRequest({ notification }) {
         <p>{notification.meeting?.yelpBusinessId && yelpBusinessAddress}</p>
         <div
           id="btn-container"
-          className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 justify-center items-center"
+          className="flex flex-col sm:flex-row sm:gap-4 sm:w-3/5 lg:flex-row lg:gap-7 gap-2 lg:w-full w-full h-fit self-center text-xs space-5 justify-center items-center lg:pt-3 pt-5 lg:px-5 relative"
         >
           <FormButton handleSubmit={handleAccept}>ACCEPT </FormButton>
           <FormButton handleSubmit={handleReject}>REJECT </FormButton>

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { updateNotificationStatus } from '../../redux/slices';
 import FormButton from '../../components/FormButton';
+import xIcon from '../../assets/icons/x-icon.svg';
 
 export default function NewMessageReceived({ notification }) {
   const dispatch = useDispatch();
@@ -26,23 +27,38 @@ export default function NewMessageReceived({ notification }) {
   return (
     <div
       id="meeting-card"
-      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between "
+      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between py-3"
     >
       <div
-        id="notification-details"
-        className="flex flex-col self-center text-center text-base w-full py-2"
+        id="x-icon"
+        className="absolute w-5 right-3 top-3"
+        onClick={acknowledge}
       >
-        <p className="pb-2">
-          you've received a new message from {notification.fromUser.firstName}!
+        <img src={xIcon} />
+      </div>
+      <div id="img-section" className="flex px-2 shrink-0 self-center">
+        <img
+          src={notification.fromUser.avatarUrl}
+          alt="user avatar"
+          className="object-cover aspect-square w-16 h-16 lg:w-20 lg:h-20 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative"
+        />
+      </div>
+      <div
+        id="notification-details"
+        className="flex flex-col self-center text-center text-sm w-full py-3 px-3"
+      >
+        <p className="pb-5 pt-3">
+          {' '}
+          New message from {notification.fromUser.firstName}
         </p>
+        <p></p>
         <div
           id="btn-container"
-          className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 justify-center items-center"
+          className="flex flex-row gap-5 w-20 h-5 self-center text-xs space-5 items-center"
         >
           <FormButton handleSubmit={acknowledgeAndGoToMessages}>
-            MESSAGE {notification.fromUser.firstName.toUpperCase()}
+            REPLY
           </FormButton>
-          <FormButton handleSubmit={acknowledge}>DISMISS</FormButton>
         </div>
       </div>
     </div>

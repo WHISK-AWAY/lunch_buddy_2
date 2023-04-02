@@ -48,17 +48,24 @@ export default function CurrentMeeting({ notification, meetings }) {
   return (
     <div
       id="meeting-card"
-      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between "
+      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between pb-3"
     >
       <div
         id="notification-details"
-        className="flex flex-col self-center text-center text-base w-full py-2"
+        className="flex flex-col self-center text-center text-base w-full py-2 px-5 pb-2"
       >
-        <p className="pb-2">you've got a confirmed lunch buddy!</p>
+        <p className="pb-2 lg:pt-7 pt-8">You've got a confirmed lunch buddy!</p>
         <p className="text-headers text-lg">
           {notification.fromUser.fullName.toUpperCase()}
         </p>
-        <p>{new Date(notification.meeting.lunchDate).toLocaleString()}</p>
+        <p className="text-sm">
+          {new Date(notification.meeting.lunchDate).toLocaleDateString()}
+        </p>
+        <p className="text-sm">
+          {new Date(notification.meeting.lunchDate).toLocaleTimeString([], {
+            timeStyle: 'short',
+          })}
+        </p>
         <p>
           {notification.meeting?.yelpBusinessId &&
             meetings.business[yelpBusinessId]?.name}
@@ -66,7 +73,7 @@ export default function CurrentMeeting({ notification, meetings }) {
         <p>{notification.meeting?.yelpBusinessId && yelpBusinessAddress}</p>
         <div
           id="btn-container"
-          className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 justify-center items-center"
+          className="flex flex-col lg:flex-row lg:gap-7 gap-2 lg:w-full w-fit h-fit self-center text-xs space-5 justify-center items-center pt-3"
         >
           <FormButton handleSubmit={goToMessages}>
             MESSAGE {notification.fromUser.firstName.toUpperCase()}

@@ -32,24 +32,24 @@ export default function MeetingRejected({ notification }) {
   return (
     <div
       id="meeting-card"
-      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between "
+      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between py-3 px-3"
     >
       <div
         id="notification-details"
         className="flex flex-col self-center text-center text-base w-full py-2"
       >
         <p className="pb-2">
-          oh no! turns out {notification.fromUser.firstName} isn't available.
+          Oh no! turns out {notification.fromUser.firstName} isn't available.
         </p>
         <p className="pb-2">
-          let's go find you{' '}
+          Let's go find you{' '}
           <Link to="/match" className="text-headers">
-            another buddy!
+            another buddy
           </Link>
         </p>
         <div
           id="btn-container"
-          className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 justify-center items-center"
+          className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 justify-center items-center pt-3"
         >
           <FormButton handleSubmit={acknowledgeAndFindBuddy}>
             FIND BUDDY
