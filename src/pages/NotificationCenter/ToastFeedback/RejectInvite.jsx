@@ -9,19 +9,19 @@ export default function RejectInvite({ notification, t }) {
   return (
     <div
       id="meeting-card"
-      className="flex lg:w-1/4 w-4/5 sm:w-2/5 lg:h-fit h-fit text-xs text-primary-gray bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center shadow-md justify-between sticky top-16 pt-6"
+      className="flex lg:w-1/4 w-4/5 sm:w-2/5 lg:h-fit h-fit text-xs text-primary-gray bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center shadow-md justify-between sticky mt-14"
     >
       <div
         id="notification-details"
         className="flex flex-col self-center text-center lg:text-[.9rem] text-xs w-full py-2"
       >
+        <p className="pb-2">OH NO!</p>
         <p className="pb-2 text-xs lg:text-[.9rem]">
-          too bad -- we'll break it to {notification.fromUser.firstName}{' '}
-          gently...
+          We'll break it to {notification.fromUser.firstName} gently...
         </p>
         <div
           id="btn-container"
-          className="flex flex-row gap-2 w-fit self-center text-xs space-5 justify-center items-center pt-3"
+          className="flex flex-col h-fit  w-fit self-center text-xs space-5 justify-center items-center pt-3"
         >
           <FormButton handleSubmit={() => navigate('/match')}>
             FIND A BUDDY
