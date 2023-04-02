@@ -203,7 +203,7 @@ const userSlice = createSlice({
       .addCase(fetchUser.rejected, (state, action) => {
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.response.data;
+        state.error = action.payload.message;
       })
 
       // CREATE NEW USER
@@ -220,7 +220,7 @@ const userSlice = createSlice({
       .addCase(createNewUser.rejected, (state, action) => {
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.response.data;
+        state.error = action.payload.message;
       })
 
       // UPDATE USER (general purpose)
