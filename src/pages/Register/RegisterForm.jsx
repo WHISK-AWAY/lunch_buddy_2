@@ -101,7 +101,7 @@ const RegisterForm = () => {
         tempValidator[field] = true;
       }
       if (formInputs[field] !== '' && field === 'age' && !validateAge()) {
-        tempFields.age = '';
+        tempFields.age = 18;
         missingFields.push(field);
         tempValidator[field] = true;
       }
@@ -357,7 +357,7 @@ const RegisterForm = () => {
                 className={`${
                   inputValidator.age ? INVALID_CLASS : null
                 }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-xs focus:border-primary-gray active:border-primary-gray active:ring-primary-gray focus:ring-primary-gray outline-0 focus:bg-white`}
-                value={formInputs.age}
+                value={+formInputs.age}
                 onChange={(e) =>
                   setFormInputs((prev) => ({ ...prev, age: e.target.value }))
                 }
