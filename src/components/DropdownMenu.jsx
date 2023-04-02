@@ -61,7 +61,7 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
               <DropDownItem handleClick={handleClick} linkTo="/account">
                 ACCOUNT
               </DropDownItem>
-              {!activeMeeting ? (
+              {!currentMeetingNotification?.id ? (
                 <DropDownItem handleClick={handleClick} linkTo="/match">
                   NEW MEETING
                 </DropDownItem>
@@ -73,7 +73,7 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
                   CURRENT MEETING
                 </DropDownItem>
               )}
-              {currentMeetingNotification && (
+              {currentMeetingNotification?.id && (
                 <DropDownItem
                   handleClick={handleClick}
                   linkTo={`/meeting/${currentMeetingNotification.meetingId}/chat`}

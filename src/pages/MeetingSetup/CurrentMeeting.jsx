@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import {
   getMeeting,
   selectActiveMeeting,
@@ -10,21 +11,24 @@ import {
   cancelMeeting,
   selectUnreadActiveMeeting,
   updateNotificationStatus,
+  selectUnreadNotifications,
 } from '../../redux/slices/notificationSlice';
 import { selectAuthUser } from '../../redux/slices/authSlice';
+import RejectInvite from '../NotificationCenter/ToastFeedback/RejectInvite';
 
-const CurrentMeeting = () => {
+const CurrentMeeting = (props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const meeting = useSelector((state) => state.meetings);
+  const currentMeeting = useSelector(selectActiveMeeting);
+  const authUser = useSelector(selectAuthUser);
+  const notifications = useSelector(selectUnreadNotifications);
 
   const [buddy, setBuddy] = useState({});
-
-  const currentNotif = useSelector(selectUnreadActiveMeeting);
-
-  const currentMeeting = useSelector(selectActiveMeeting);
-
-  const authUser = useSelector(selectAuthUser);
+  const [currentMeetingNotification, setCurrentMeetingNotification] = useState(
+    {}
+  );
 
   useEffect(() => {
     // on load, make sure meeting state is cleared
@@ -32,27 +36,51 @@ const CurrentMeeting = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(
-      getMeeting({ meetingId: currentNotif?.meetingId, userId: authUser.id })
-    );
-  }, [currentNotif]);
+    const thisMeeting = notifications?.filter(
+      (notification) => notification.notificationType === 'currentMeeting'
+    )[0];
+    setCurrentMeetingNotification(thisMeeting);
+  }, [notifications]);
 
   useEffect(() => {
-    let findUser;
-    if (authUser.id) {
-      if (authUser.id === currentMeeting?.buddyId) {
-        findUser = currentMeeting?.user;
-      } else if (authUser.id === currentMeeting?.userId) {
-        findUser = currentMeeting.buddy;
-      }
-      if (currentMeeting) {
-        setBuddy(findUser);
-      }
+    if (currentMeetingNotification.id) {
+      dispatch(
+        getMeeting({
+          meetingId: currentMeetingNotification.meetingId,
+          userId: currentMeetingNotification.toUserId,
+        })
+      );
+
+      setBuddy(currentMeetingNotification?.fromUser);
     }
-  }, [currentMeeting]);
+  }, [currentMeetingNotification]);
+
+  function handleCancelButton() {
+    dispatch(
+      cancelMeeting({
+        userId: currentMeetingNotification.toUserId,
+        meetingId: currentMeetingNotification.meetingId,
+      })
+    );
+    dispatch(
+      updateNotificationStatus({
+        userId: currentMeetingNotification.toUserId,
+        notificationId: currentMeetingNotification.id,
+        updates: { isAcknowledged: true },
+      })
+    );
+    toast.custom((t) => (
+      <RejectInvite notification={currentMeetingNotification} t={t} />
+    ));
+    navigate('/match');
+  }
 
   if (meeting.isLoading) {
     return <h1>loading...</h1>;
+  }
+
+  if (!buddy?.id) {
+    return <h1>failed to load meeting info...</h1>;
   }
 
   return (
@@ -73,38 +101,32 @@ const CurrentMeeting = () => {
           <h2 className="text-lg font-semibold text-headers">
             {buddy.fullName}
           </h2>
-          <p>{currentMeeting?.lunchDate?.replace(/^[^T]*/, '').slice(1, -8)}</p>
+          <p>
+            {currentMeetingNotification.id &&
+              new Date(
+                currentMeetingNotification.meeting.lunchDate
+              ).toLocaleTimeString([], {
+                timeStyle: 'short',
+              })}
+          </p>
           <p className="font-semibold">
             <a href={currentMeeting?.restaurant?.url} target="_blank">
               {currentMeeting?.restaurant.name.toUpperCase()}
             </a>
           </p>
-          <p>{currentMeeting?.restaurant.location.address1}</p>
+          <p>
+            {currentMeeting?.restaurant.location.display_address.join(', ')}
+          </p>
         </div>
         <div className="recap-button flex gap-8 items-center w-4/5">
-          <button
-            className="px-5 py-2 w-11/12 lg:py-2 rounded-full button text-white text-md"
-            onClick={(e) => handleMeeting(e)}
-          >
-            <Link to={`/meeting/${currentMeeting?.id}/chat`}>CHAT</Link>
+          <button className="px-5 py-2 w-11/12 lg:py-2 rounded-full button text-white text-md">
+            <Link to={`/meeting/${currentMeetingNotification.meetingId}/chat`}>
+              CHAT
+            </Link>
           </button>
           <button
             className="px-5 py-2 w-11/12 lg:py-2 rounded-full button text-white text-md"
-            onClick={() => {
-              dispatch(
-                cancelMeeting({
-                  userId: buddy.id,
-                  meetingId: currentMeeting.id,
-                })
-              );
-              dispatch(
-                updateNotificationStatus({
-                  userId: authUser.id,
-                  notificationId: currentNotif.id,
-                  updates: { isAcknowledged: true },
-                })
-              );
-            }}
+            onClick={handleCancelButton}
           >
             Cancel
           </button>
