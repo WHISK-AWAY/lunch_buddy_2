@@ -14,7 +14,7 @@ import {
   selectUnreadNotifications,
 } from '../redux/slices/notificationSlice';
 
-const NOTIFICATION_UPDATE_INTERVAL = 240000;
+const NOTIFICATION_UPDATE_INTERVAL = 60000;
 const TOAST_DURATION = 10000;
 
 const NavBar = () => {
@@ -36,6 +36,9 @@ const NavBar = () => {
   const notifController = new AbortController();
   const dropdownController = new AbortController();
   const root = document.querySelector('#root');
+  const notificationContainer = document.querySelector(
+    '#notification-container'
+  );
 
   const handleNotificationClick = (event) => {
     event.preventDefault();
@@ -44,7 +47,6 @@ const NavBar = () => {
       setShowNotificationBody(true);
       setTriggerClose(false);
     }
-    notifController.abort();
   };
 
   useEffect(() => {
@@ -68,24 +70,35 @@ const NavBar = () => {
   }
 
   useEffect(() => {
-    // if close is triggered while notifs are showing, close notifs & kill event listeners
+    // if close is triggered while notifs are showing, trigger notif center collapse
     if (showNotificationBody && triggerClose) {
       setShowNotificationBody(false);
-      notifController.abort();
-    }
-
-    // if notificationBody is shown, set up closer event listener w/controller kill signaler
-    if (showNotificationBody && !triggerClose) {
-      root.addEventListener('click', closeNotificationBody, {
-        signal: notifController.signal,
-      });
     }
 
     if (triggerClose) {
       setTriggerClose(false);
-      notifController.abort();
+      // notifController.abort();
     }
   }, [showNotificationBody, triggerClose]);
+
+  useEffect(() => {
+    if (showNotificationBody) {
+      root.addEventListener(
+        'click',
+        (e) => {
+          if (
+            !e.target.matches('#notification-container *') &&
+            !e.target.matches('#bell-button>*')
+          ) {
+            closeNotificationBody();
+          }
+        },
+        { signal: notifController.signal }
+      );
+    } else {
+      notifController.abort();
+    }
+  }, [showNotificationBody]);
 
   document.body.style.overflow = showNotificationBody ? 'hidden' : 'auto';
 
@@ -160,6 +173,7 @@ const NavBar = () => {
               />
               <li className="h-7 relative">
                 <button
+                  id="bell-button"
                   className={
                     hasNotifications &&
                     `after:content-[''] after:absolute after:top-1 after:right-1 after:text-red-400 after:bg-headers after:rounded-full after:w-2 after:h-2`

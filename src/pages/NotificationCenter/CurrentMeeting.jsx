@@ -73,7 +73,7 @@ export default function CurrentMeeting({ notification, meetings }) {
         <p>{notification.meeting?.yelpBusinessId && yelpBusinessAddress}</p>
         <div
           id="btn-container"
-          className="flex flex-col lg:flex-row lg:gap-7 gap-2 lg:w-full w-fit h-fit self-center text-xs space-5 justify-center items-center pt-3"
+          className="flex flex-col md:flex-row md:w-4/5 md:gap-7 lg:gap-7 gap-2 lg:w-full w-fit h-fit self-center text-xs space-5 justify-center items-center pt-3"
         >
           <FormButton handleSubmit={goToMessages}>
             MESSAGE {notification.fromUser.firstName.toUpperCase()}

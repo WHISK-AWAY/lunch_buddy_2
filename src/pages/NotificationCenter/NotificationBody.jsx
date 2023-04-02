@@ -27,17 +27,22 @@ const NotificationBody = ({
     }
   }, [notifications, showNotificationBody]);
 
+  // const notificationContainer = document.querySelector(
+  //   '#nofification-container'
+  // );
+  // notificationContainer.addEventListener('click', (e) => e.stopPropagation());
+
   return (
     <div
-      id="nofification-container"
-      className={showNotificationBody ? '' : 'group is-closed'}
+      id="notification-container"
+      className={`w-fit ${showNotificationBody ? '' : 'group is-closed'}`}
     >
       {/* -bottom-screen  transition-opacity-0  overflow:hidden*/}
       <div
-        className={`transform group-[.is-closed]:scale-0 scale-100 absolute transition-transform duration-[300ms] ease-[cubic-bezier(0.19, 1, 0.22, 1)] origin-top-right opacity-95 right-0 w-11/12`}
+        className={`transform group-[.is-closed]:scale-0 scale-100 absolute transition-transform duration-[300ms] ease-[cubic-bezier(0.19, 1, 0.22, 1)] origin-top-right opacity-95 right-0 w-fit`}
       >
         <div className="flex flex-col">
-          <div className="z-40 bg-primary-gray/60 self-end h-fit w-11/12 lg:w-[35rem] rounded-l-3xl px-3 py-3">
+          <div className="z-40 bg-primary-gray/60 self-end h-fit w-[87vw] md:w-[70vw] lg:w-[35rem] rounded-l-3xl px-3 py-3">
             <ul>
               {/* <Toaster /> */}
               {notifications?.map((notification) => {
