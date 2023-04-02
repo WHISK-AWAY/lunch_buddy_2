@@ -27,11 +27,6 @@ const NotificationBody = ({
     }
   }, [notifications, showNotificationBody]);
 
-  // const notificationContainer = document.querySelector(
-  //   '#nofification-container'
-  // );
-  // notificationContainer.addEventListener('click', (e) => e.stopPropagation());
-
   return (
     <div
       id="notification-container"
