@@ -16,6 +16,11 @@ module.exports = {
       cormo: ['Cormorant', 'serif'],
       clicker: ['Clicker Script', 'cursive'],
       poppins: ['Poppins', 'sans-serif'],
+      abril: ['Abril Fatface', 'cursive'],
+      serif: ['DM Serif Display', 'serif'],
+      jo: ['Josefin Sans', 'sans-serif'],
+      po: ['Poiret One', 'cursive'],
+      ultra: ['Ultra', 'serif'],
     },
     fontWeight: {
       thin: 100,
