@@ -7,6 +7,7 @@ module.exports = {
     files: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
     transform: (content) => content.replace(/taos:/g, ''),
   },
+  darkMode: 'class',
   theme: {
     fontFamily: {
       fredericka: ['Fredericka the Great', 'cursive'],
@@ -54,13 +55,10 @@ module.exports = {
     plugin(function ({ addUtilities }) {
       addUtilities({
         '.scrollbar-hide': {
-        
           '-ms-overflow-style': 'none',
 
-    
           'scrollbar-width': 'none',
 
-  
           '&::-webkit-scrollbar': {
             display: 'none',
           },

@@ -38,8 +38,9 @@ export default function MeetingRejected({ notification }) {
         id="notification-details"
         className="flex flex-col self-center text-center text-base w-full py-2"
       >
+        <p className="pb-2">OH NO!</p>
         <p className="pb-2">
-          Oh no! turns out {notification.fromUser.firstName} isn't available.
+          Turns out {notification.fromUser.firstName} isn't available.
         </p>
         <p className="pb-2">
           Let's go find you{' '}
