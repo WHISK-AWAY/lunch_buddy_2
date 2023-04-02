@@ -4,12 +4,14 @@ import FormButton from '../../components/FormButton';
 import ReportForm from './ReportForm';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { addRating, getMeeting } from '../../redux/slices/meetingSlice';
 import {
   fetchAllNotifications,
   selectUnreadNotifications,
   updateNotificationStatus,
 } from '../../redux/slices';
+import RatingSubmitted from '../NotificationCenter/ToastFeedback/RatingSubmitted';
 
 const Feedback = () => {
   const [showReport, setShowReport] = useState(false);
@@ -89,6 +91,9 @@ const Feedback = () => {
       alert(`Error when sending rating`);
     } else if (createdRating.meta.requestStatus === 'fulfilled') {
       acknowledge();
+      toast.custom((t) => (
+        <RatingSubmitted notification={notification} t={t} />
+      ));
       navigate('/');
     }
   }
