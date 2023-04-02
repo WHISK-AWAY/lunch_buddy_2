@@ -17,6 +17,7 @@ import {
   Feedback,
   UserAccount,
   Homepage,
+  CurrentMeeting,
 } from './pages';
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
         {/* THESE ROUTE NAMES WILL BE CHANGED JUST A PLACEHOLDER */}
         <Route path="edituser" element={<EditUserForm />} />
         <Route path="meeting/:meetingId/feedback" element={<Feedback />} />
+        <Route path="meeting/current" element={<CurrentMeeting />} />
       </Routes>
     </div>
   );

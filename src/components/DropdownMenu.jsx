@@ -8,6 +8,7 @@ import { selectAuthUser, logOut } from '../redux/slices/authSlice';
 import DropDownItem from './DropDownItem';
 import Homepage from '../pages/Homepage/Homepage';
 import { useNavigate } from 'react-router-dom';
+import { selectUnreadActiveMeeting } from '../redux/slices/notificationSlice';
 
 const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
   const navigate = useNavigate();
@@ -18,6 +19,8 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
   const currentMeetingNotification = notifications?.filter(
     (notification) => notification.notificationType === 'currentMeeting'
   )[0];
+
+  const activeMeeting = useSelector(selectUnreadActiveMeeting);
 
   function handleClick() {
     setExpandMenu(false);
@@ -58,9 +61,18 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
               <DropDownItem handleClick={handleClick} linkTo="/account">
                 ACCOUNT
               </DropDownItem>
-              <DropDownItem handleClick={handleClick} linkTo="/match">
-                NEW MEETING
-              </DropDownItem>
+              {!activeMeeting ? (
+                <DropDownItem handleClick={handleClick} linkTo="/match">
+                  NEW MEETING
+                </DropDownItem>
+              ) : (
+                <DropDownItem
+                  handleClick={handleClick}
+                  linkTo="/meeting/current"
+                >
+                  CURRENT MEETING
+                </DropDownItem>
+              )}
               {currentMeetingNotification && (
                 <DropDownItem
                   handleClick={handleClick}

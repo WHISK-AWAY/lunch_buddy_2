@@ -162,6 +162,16 @@ export const selectUnreadNotifications = (state) => {
   return state.notifications.notifications;
 };
 
+export const selectUnreadActiveMeeting = (state) => {
+  const allNotifications = state.notifications.notifications;
+  return allNotifications.find((notification) => {
+    return (
+      notification.notificationType === 'currentMeeting' &&
+      !notification.isAcknowledged
+    );
+  });
+};
+
 export const { clearNotificationState } = notificationSlice.actions;
 
 export default notificationSlice.reducer;

@@ -367,5 +367,9 @@ const meetingSlice = createSlice({
 });
 
 export const selectMeetings = (state) => state.meetings;
+export const selectActiveMeeting = (state) => {
+  const allMeetings = state.meetings.meetings;
+  return allMeetings.find((meeting) => meeting.isClosed === false);
+};
 export const { resetMeetingStatus } = meetingSlice.actions;
 export default meetingSlice.reducer;
