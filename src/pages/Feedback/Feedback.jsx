@@ -5,7 +5,11 @@ import ReportForm from './ReportForm';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { addRating, getMeeting } from '../../redux/slices/meetingSlice';
-import { fetchAllNotifications } from '../../redux/slices';
+import {
+  fetchAllNotifications,
+  selectUnreadNotifications,
+  updateNotificationStatus,
+} from '../../redux/slices';
 
 const Feedback = () => {
   const [showReport, setShowReport] = useState(false);
@@ -13,11 +17,13 @@ const Feedback = () => {
   const [starRating, setStarRating] = useState(0);
   const [noRating, setNoRating] = useState(false);
   const [noReportText, setNoReportText] = useState(false);
+  const [notification, setNotification] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const meeting = useSelector((state) => state.meetings.meeting);
   const user = useSelector((state) => state.auth.user);
+  const notifications = useSelector(selectUnreadNotifications);
 
   const token = localStorage.getItem('token');
   if (!token) {
@@ -27,11 +33,19 @@ const Feedback = () => {
   const { meetingId } = useParams();
 
   useEffect(() => {
+    if (notifications?.length > 0) {
+      setNotification(
+        notifications.filter(
+          (notif) => notif.notificationType === 'ratingRequested'
+        )[0]
+      );
+    }
+  }, [notifications]);
+
+  useEffect(() => {
     async function fetchMeeting() {
       const meetingFromDispatch = await dispatch(getMeeting({ meetingId }));
       if (user.id) {
-        console.log('meeting.ratings', meetingFromDispatch.payload.ratings);
-
         if (meetingFromDispatch.meta.requestStatus === 'fulfilled') {
           if (
             // meetingFromDispatch.payload.isClosed ||
@@ -46,6 +60,22 @@ const Feedback = () => {
     fetchMeeting();
   }, [user]);
 
+  function acknowledge() {
+    dispatch(
+      updateNotificationStatus({
+        userId: user.id,
+        notificationId: notification.id,
+        updates: { isAcknowledged: true },
+      })
+    );
+
+    dispatch(
+      fetchAllNotifications({
+        userId: notification.toUserId,
+      })
+    );
+  }
+
   async function submitRating(e) {
     e.preventDefault();
     if (starRating === 0) {
@@ -58,7 +88,7 @@ const Feedback = () => {
     if (createdRating.meta.requestStatus === 'rejected') {
       alert(`Error when sending rating`);
     } else if (createdRating.meta.requestStatus === 'fulfilled') {
-      dispatch(fetchAllNotifications({ userId: user.id }));
+      acknowledge();
       navigate('/');
     }
   }
@@ -78,9 +108,6 @@ const Feedback = () => {
       alert(`Error when sending report`);
     } else if (createdReport.meta.requestStatus === 'fulfilled') {
       dispatch(fetchAllNotifications({ userId: user.id }));
-      // setTimeout(() => {
-      //   console.log('timeout');
-      // }, 1000);
       navigate('/');
     }
   };

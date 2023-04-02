@@ -5,6 +5,10 @@ import FormButton from '../../../components/FormButton';
 import xIcon from '../../../assets/icons/x-icon.svg';
 
 export default function RejectInvite({ notification, t }) {
+  function findBuddy() {
+    toast.remove(t.id);
+    navigate('/match');
+  }
   const navigate = useNavigate();
   return (
     <div
@@ -23,13 +27,11 @@ export default function RejectInvite({ notification, t }) {
           id="btn-container"
           className="flex flex-col h-fit  w-fit self-center text-xs space-5 justify-center items-center pt-3"
         >
-          <FormButton handleSubmit={() => navigate('/match')}>
-            FIND A BUDDY
-          </FormButton>
+          <FormButton handleSubmit={findBuddy}>FIND A BUDDY</FormButton>
           <div
             id="x-icon"
             className="absolute top-3 w-5 right-3"
-            onClick={() => toast.dismiss(t.id)}
+            onClick={() => toast.remove(t.id)}
           >
             <img src={xIcon} />
           </div>

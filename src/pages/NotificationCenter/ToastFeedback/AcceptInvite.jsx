@@ -42,7 +42,7 @@ export default function AcceptInvite({ notification, meetings, t }) {
           {notification.meetingId && (
             <FormButton
               handleSubmit={() => {
-                toast.dismiss(t.id);
+                toast.remove(t.id);
                 navigate(`/meeting/${notification.meetingId}/chat`);
               }}
             >
@@ -52,7 +52,7 @@ export default function AcceptInvite({ notification, meetings, t }) {
           <div
             id="x-icon"
             className="absolute w-5 right-3 top-3"
-            onClick={() => toast.dismiss(t.id)}
+            onClick={() => toast.remove(t.id)}
           >
             <img src={xIcon} />
           </div>

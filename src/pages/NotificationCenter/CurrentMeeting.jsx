@@ -24,12 +24,6 @@ export default function CurrentMeeting({ notification, meetings }) {
 
   function cancelMeeting() {
     acknowledge();
-    dispatch(
-      fetchAllNotifications({
-        userId: notification.toUserId,
-        meetingId: notification.meetingId,
-      })
-    );
     toast.custom((t) => <RejectInvite notification={notification} t={t} />);
   }
 
@@ -42,7 +36,11 @@ export default function CurrentMeeting({ notification, meetings }) {
       })
     );
 
-    dispatch(fetchAllNotifications());
+    dispatch(
+      fetchAllNotifications({
+        userId: notification.toUserId,
+      })
+    );
   }
 
   return (

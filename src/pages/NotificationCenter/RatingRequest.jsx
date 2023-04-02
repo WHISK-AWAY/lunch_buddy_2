@@ -11,7 +11,7 @@ import {
 } from '../../redux/slices';
 import FormButton from '../../components/FormButton';
 
-export default function RatingRequest({ notification }) {
+export default function RatingRequest({ notification, setTriggerClose }) {
   const dispatch = useDispatch();
   const meetings = useSelector(selectMeetings);
   const navigate = useNavigate();
@@ -29,18 +29,10 @@ export default function RatingRequest({ notification }) {
 
   const handleRating = async (evt) => {
     evt.preventDefault();
-    // dispatch(
-    //   updateNotificationStatus({
-    //     userId: notification.toUserId,
-    //     notificationId: notification.id,
-    //     updates: { isAcknowledged: true },
-    //   })
-    // );
-
+    setTriggerClose(true);
     navigate(`/meeting/${notification.meetingId}/feedback`);
   };
 
-  // console.log('meetingsss', meetings);
   return (
     <div
       id="rating-request-card"

@@ -42,7 +42,25 @@ export default function MeetingRequest({ notification }) {
   //   { duration: Infinity }
   // );
 
+  function acknowledge() {
+    dispatch(
+      updateNotificationStatus({
+        userId: notification.toUserId,
+        notificationId: notification.id,
+        updates: { isAcknowledged: true },
+      })
+    );
+
+    dispatch(
+      fetchAllNotifications({
+        userId: notification.toUserId,
+      })
+    );
+  }
+
   const handleAccept = async () => {
+    acknowledge();
+
     toast.custom((t) => (
       <AcceptInvite notification={notification} meetings={meetings} t={t} />
     ));
@@ -54,13 +72,13 @@ export default function MeetingRequest({ notification }) {
       { headers: { authorization: token } }
     );
 
-    dispatch(
-      updateNotificationStatus({
-        userId: notification.toUserId,
-        notificationId: notification.id,
-        updates: { isAcknowledged: true },
-      })
-    );
+    // dispatch(
+    //   updateNotificationStatus({
+    //     userId: notification.toUserId,
+    //     notificationId: notification.id,
+    //     updates: { isAcknowledged: true },
+    //   })
+    // );
 
     setTimeout(() => {
       dispatch(fetchAllNotifications({ userId: notification.toUser.id }));
@@ -68,15 +86,16 @@ export default function MeetingRequest({ notification }) {
   };
 
   const handleReject = () => {
+    acknowledge();
     toast.custom((t) => <RejectInvite notification={notification} t={t} />);
 
-    dispatch(
-      updateNotificationStatus({
-        userId: notification.toUserId,
-        notificationId: notification.id,
-        updates: { isAcknowledged: true },
-      })
-    );
+    // dispatch(
+    //   updateNotificationStatus({
+    //     userId: notification.toUserId,
+    //     notificationId: notification.id,
+    //     updates: { isAcknowledged: true },
+    //   })
+    // );
 
     dispatch(
       cancelMeeting({

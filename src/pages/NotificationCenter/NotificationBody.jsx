@@ -53,6 +53,7 @@ const NotificationBody = ({
                       <RatingRequest
                         notification={notification}
                         setShowNotificationBody={setShowNotificationBody}
+                        setTriggerClose={setTriggerClose}
                       />
                     )}
                     {notification.notificationType === 'inviteRejected' && (
