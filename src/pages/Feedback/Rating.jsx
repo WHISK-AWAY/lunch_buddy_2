@@ -6,8 +6,8 @@ const Rating = ({ starRating, setStarRating, noRating }) => {
       <h2 className="text-headers text-lg">WE CARE ABOUT YOUR FEEDBACK</h2>
       <p>how was it?</p>
       {noRating && (
-        <p className="text-headers">
-          Please leave a rating of at least one star.
+        <p className="text-primary-gray text-xs">
+          please leave a rating of at least one star.
         </p>
       )}
       <div className="flex gap-3">

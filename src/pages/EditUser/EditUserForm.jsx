@@ -344,8 +344,8 @@ const EditUserForm = () => {
               <option value="DidNotDisclose">Prefer Not To Say</option>
             </select>
           </div>
-          <div className="relative col-span-2">
-            <label className="text-red-400 font-semibold block text-sm sm:text-base px-1">
+          <div className="relative col-span-2 ">
+            <label className="text-label block text-xs px-1 uppercase">
               Upload Image
             </label>
             <input
