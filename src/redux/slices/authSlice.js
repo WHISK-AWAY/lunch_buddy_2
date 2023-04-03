@@ -119,7 +119,7 @@ const authSlice = createSlice({
         state.error = '';
       })
       .addCase(tryToken.rejected, (state, action) => {
-        // window.localStorage.removeItem('token');
+        window.localStorage.removeItem('token');
         state.token = '';
         state.user = {};
         state.isLoading = false;
