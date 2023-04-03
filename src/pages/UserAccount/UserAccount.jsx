@@ -22,28 +22,29 @@ const UserAccount = () => {
   const [socialTags, setSocialTags] = useState([]);
   const [dietaryTags, setDietaryTags] = useState([]);
   const [cuisineTags, setCuisineTags] = useState([]);
+  const token = window.localStorage.getItem('token');
 
   useEffect(() => {
-    dispatch(tryToken());
+    if (!token) {
+      navigate('/login');
+    } else {
+      dispatch(tryToken());
+    }
   }, []);
-
-  const token = window.localStorage.getItem('token');
-  if (!token) navigate('/login');
 
   useEffect(() => {
     // use token to keep track of logged-in user (id)
     // once that's known we can pull down user data
-    if (auth.error) {
-      navigate('/login');
-    } else if (!auth.user?.id) {
-      dispatch(tryToken());
-    } else dispatch(fetchUser(auth.user.id));
-
+    // if (auth.error) {
+    //   navigate('/login');
+    // } else if (!auth.user?.id) {
+    //   dispatch(tryToken());
+    // } else dispatch(fetchUser(auth.user.id));
     // if inactive, flip status & pull location
-    if (auth.user?.status === 'inactive') {
-      getLocation(dispatch);
-      dispatch(updateUser({ status: 'active' }));
-    }
+    // if (auth.user?.status === 'inactive') {
+    //   getLocation(dispatch);
+    //   dispatch(updateUser({ status: 'active' }));
+    // }
   }, [dispatch, auth]);
 
   useEffect(() => {
@@ -76,6 +77,8 @@ const UserAccount = () => {
 
   if (auth.user.isLoading) return <p>Loading user info...</p>;
   if (!auth.user?.id || !user.id) return <p>User login check failed...</p>;
+
+  if (!user?.tags?.length > 0) return <p>Loading tag information...</p>;
 
   return (
     <div
