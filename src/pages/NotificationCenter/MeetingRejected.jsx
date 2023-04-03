@@ -54,7 +54,7 @@ export default function MeetingRejected({ notification }) {
         </p>
         <div
           id="btn-container"
-          className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 justify-center items-center pt-3"
+          className="flex flex-row gap-2 w-3/5 px-7 h-fit self-center text-xs space-5 justify-center items-center pt-5"
         >
           <FormButton handleSubmit={acknowledgeAndFindBuddy}>
             FIND BUDDY
