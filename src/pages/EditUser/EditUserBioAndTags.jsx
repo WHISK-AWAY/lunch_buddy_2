@@ -146,6 +146,8 @@ const EditUserBioAndTags = () => {
 
   // Handles creation of new user based on user inputs
   async function handleSubmit() {
+    let canProceed = true;
+
     setValidBio(!!bio);
 
     for (let category in minTags) {
@@ -158,30 +160,34 @@ const EditUserBioAndTags = () => {
           numClicked: minTagsCopy.numClicked,
         },
       }));
+      if (minTags[category].numClicked < minTags[category].minimum)
+        canProceed = false;
     }
 
-    const updateTags = shapeTagsForDB(
-      socialTags,
-      professionalTags,
-      dietaryTags,
-      cuisineTags
-    );
+    if (canProceed) {
+      const updateTags = shapeTagsForDB(
+        socialTags,
+        professionalTags,
+        dietaryTags,
+        cuisineTags
+      );
 
-    const updatePackage = {
-      tags: updateTags,
-      aboutMe: bio,
-    };
+      const updatePackage = {
+        tags: updateTags,
+        aboutMe: bio,
+      };
 
-    dispatch(updateUser(updatePackage));
-    localStorage.removeItem('registerForm');
-    localStorage.removeItem('minTags');
-    localStorage.removeItem('aboutBio');
-    localStorage.removeItem('Social');
-    localStorage.removeItem('Cuisine');
-    localStorage.removeItem('Dietary');
-    localStorage.removeItem('Professional');
+      dispatch(updateUser(updatePackage));
+      localStorage.removeItem('registerForm');
+      localStorage.removeItem('minTags');
+      localStorage.removeItem('aboutBio');
+      localStorage.removeItem('Social');
+      localStorage.removeItem('Cuisine');
+      localStorage.removeItem('Dietary');
+      localStorage.removeItem('Professional');
 
-    setTimeout(() => navigate('/account'), 500);
+      setTimeout(() => navigate('/account'), 500);
+    }
   }
 
   AOS.init({
