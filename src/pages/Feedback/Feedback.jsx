@@ -61,6 +61,7 @@ const Feedback = () => {
         }
       }
     }
+
     fetchMeeting();
   }, [user]);
 
@@ -121,12 +122,24 @@ const Feedback = () => {
     }
   };
 
+  if (user.id !== meeting.userId && user.id !== meeting.buddyId) {
+    return <h1>Looks like you're not in this meeting!</h1>;
+  }
+
   const userReviews = meeting?.ratings?.reduce((acc, rating) => {
     acc[rating.userId] = true;
     return acc;
   }, {});
   if (userReviews && userReviews[user.id]) {
-    return <p>This user has already reviewed</p>;
+    return <p>You have already reviewed this meeting</p>;
+  }
+
+  if (!meeting.isClosed) {
+    return (
+      <h1>
+        This meeting is still in progress. Close meeting to leave feedback.
+      </h1>
+    );
   }
 
   return (
