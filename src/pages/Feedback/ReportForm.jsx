@@ -24,12 +24,12 @@ const ReportForm = ({
           setReportInput(e.target.value);
           setNoReportText((prev) => !!prev);
         }}
-        className={`border border-black rounded-3xl w-11/12 p-4 placeholder:text-slate-500 ${
+        className={`border border-primary-gray resize-none focus:outline-none rounded-3xl w-11/12 p-4 placeholder:text-slate-500 ${
           noReportText ? 'placeholder:text-headers' : ''
         }`}
       />
 
-      <div className="w-4/5">
+      <div className="w-4/5 mt-5">
         <FormButton handleSubmit={(e) => submitReport(e)}>
           SUBMIT REPORT
         </FormButton>

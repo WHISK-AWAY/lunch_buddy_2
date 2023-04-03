@@ -138,7 +138,7 @@ const Feedback = () => {
           noRating={noRating}
         />
         {!showReport && (
-          <div className="w-4/5">
+          <div className="w-4/5 pt-9">
             <FormButton handleSubmit={(e) => submitRating(e)}>
               SUBMIT REVIEW
             </FormButton>
@@ -146,9 +146,9 @@ const Feedback = () => {
         )}
         <button
           onClick={() => setShowReport((prev) => !prev)}
-          className="rounded-full border border-black px-10 py-1 mt-4 mb-8"
+          className="rounded-full border border-black text-xs px-10 py-1 mt-4 mb-8"
         >
-          {showReport ? 'Cancel Report' : 'Report'}
+          {showReport ? 'cancel report' : 'report'}
         </button>
         {showReport && (
           <ReportForm

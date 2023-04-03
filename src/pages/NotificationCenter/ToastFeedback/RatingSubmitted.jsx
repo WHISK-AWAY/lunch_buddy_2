@@ -15,7 +15,7 @@ export default function RatingSubmitted({ notification, t }) {
   return (
     <div
       id="meeting-card"
-      className="flex lg:w-1/4 w-4/5 sm:w-2/5 lg:h-fit text-xs text-primary-gray bg-gray-100/90 rounded-2xl pt-4 shadow-md items-center py-3 justify-between sticky top-16 mt-14"
+      className="flex lg:w-1/4 w-4/5 sm:w-2/5 lg:h-fit text-xs text-primary-gray bg-gray-100/90 rounded-2xl pt-4 shadow-md items-center py-3 justify-between sticky top-16 mt-14 px-5"
     >
       <div
         id="notification-details"

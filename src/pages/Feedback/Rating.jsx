@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const Rating = ({ starRating, setStarRating, noRating }) => {
   return (
-    <div className="font-tenor border rounded-3xl flex flex-col justify-center items-center border-black w-11/12 mx-auto gap-y-6 px-4 py-8">
+    <div className="font-tenor border rounded-3xl flex flex-col justify-center text-primary-gray items-center border-primary-gray w-11/12 mx-auto gap-y-6 px-4 py-8">
       <h2 className="text-headers text-lg">WE CARE ABOUT YOUR FEEDBACK</h2>
       <p>how was it?</p>
       {noRating && (
