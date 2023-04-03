@@ -84,7 +84,7 @@ const CurrentMeeting = (props) => {
   }
 
   function handleChat() {
-    navigate('/meeting/${currentMeetingNotification.meetingId}/chat');
+    navigate(`/meeting/${currentMeetingNotification.meetingId}/chat`);
   }
   if (meeting.isLoading) {
     return <h1>loading...</h1>;
