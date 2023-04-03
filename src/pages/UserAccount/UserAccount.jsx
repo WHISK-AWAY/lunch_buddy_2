@@ -143,21 +143,23 @@ const UserAccount = () => {
             <h2 id="professional-tags" className="text-headers">
               {professionalTags[0]?.category.categoryName.toUpperCase()}
             </h2>
-            <div className=" w-full flex flex-wrap gap-x-5 gap-y-2 my-6">
+            <div className=" w-full flex gap-x-5 gap-y-2 my-6">
               <img
-                className="w-2 relative rotate-45 bottom-[-30%] self-start"
+                className="w-2 relative rotate-45 bottom-[-30%] top-[8px] self-start"
                 src={squaresSolid}
               />
-              {professionalTags.map((professional) => {
-                return (
-                  <p
-                    key={professional.id}
-                    className="border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex  gap-4 items-center text-sm bg-white"
-                  >
-                    {professional.tagName}
-                  </p>
-                );
-              })}
+              <div className="flex flex-row flex-wrap gap-3">
+                {professionalTags.map((professional) => {
+                  return (
+                    <p
+                      key={professional.id}
+                      className="border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex  gap-4 items-center text-sm bg-white grow justify-center"
+                    >
+                      {professional.tagName}
+                    </p>
+                  );
+                })}
+              </div>
             </div>
 
             <h2 id="cuisine-tags" className="text-headers">
