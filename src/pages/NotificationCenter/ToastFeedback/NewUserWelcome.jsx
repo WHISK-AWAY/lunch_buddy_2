@@ -34,7 +34,7 @@ export default function NewUserWelcome({ t }) {
           <FormButton handleSubmit={toAccount}>YOUR ACCOUNT</FormButton>
           <div
             id="x-icon"
-            className="absolute top-3 w-5 right-3"
+            className="absolute top-3 w-5 right-3 cursor-pointer"
             onClick={() => toast.remove(t.id)}
           >
             <img src={xIcon} />

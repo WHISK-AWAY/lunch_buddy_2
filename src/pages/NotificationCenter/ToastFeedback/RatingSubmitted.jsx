@@ -31,7 +31,7 @@ export default function RatingSubmitted({ notification, t }) {
           <FormButton handleSubmit={findBuddy}>FIND YOUR NEXT BUDDY</FormButton>
           <div
             id="x-icon"
-            className="absolute top-3 w-5 right-3"
+            className="absolute top-3 w-5 right-3 cursor-pointer"
             onClick={() => toast.remove(t.id)}
           >
             <img src={xIcon} />

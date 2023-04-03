@@ -61,7 +61,7 @@ export default function MeetingRejected({ notification }) {
           </FormButton>
           <div
             id="x-icon"
-            className="absolute w-6 right-3 top-3"
+            className="absolute w-6 right-3 top-3 cursor-pointer"
             onClick={acknowledge}
           >
             <img src={xIcon} />
