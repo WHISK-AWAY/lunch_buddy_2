@@ -14,6 +14,8 @@ import AcceptInvite from './ToastFeedback/AcceptInvite';
 import RejectInvite from './ToastFeedback/RejectInvite';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
+const TOAST_POPUP_DELAY = 1000;
+
 export default function MeetingRequest({ notification }) {
   const dispatch = useDispatch();
   const meetings = useSelector(selectMeetings);
@@ -61,9 +63,11 @@ export default function MeetingRequest({ notification }) {
   const handleAccept = async () => {
     acknowledge();
 
-    toast.custom((t) => (
-      <AcceptInvite notification={notification} meetings={meetings} t={t} />
-    ));
+    setTimeout(() => {
+      toast.custom((t) => (
+        <AcceptInvite notification={notification} meetings={meetings} t={t} />
+      ));
+    }, TOAST_POPUP_DELAY);
 
     await axios.put(
       API_URL +
@@ -87,7 +91,9 @@ export default function MeetingRequest({ notification }) {
 
   const handleReject = () => {
     acknowledge();
-    toast.custom((t) => <RejectInvite notification={notification} t={t} />);
+    setTimeout(() => {
+      toast.custom((t) => <RejectInvite notification={notification} t={t} />);
+    }, TOAST_POPUP_DELAY);
 
     // dispatch(
     //   updateNotificationStatus({

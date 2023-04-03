@@ -11,6 +11,9 @@ import {
 import FormButton from '../../components/FormButton';
 import xIcon from '../../assets/icons/x-icon.svg';
 
+// delay between cancel button & feedback note popup (ms)
+const TOAST_POPUP_DELAY = 1000;
+
 export default function CurrentMeeting({
   notification,
   meetings,
@@ -34,8 +37,10 @@ export default function CurrentMeeting({
           meetingId: notification.meetingId,
         })
       );
+      setTimeout(() => {
+        toast.custom((t) => <RejectInvite notification={notification} t={t} />);
+      }, TOAST_POPUP_DELAY);
       navigate('/');
-      toast.custom((t) => <RejectInvite notification={notification} t={t} />);
     }
   }, [triggerCancel]);
 

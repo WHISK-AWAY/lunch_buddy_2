@@ -25,6 +25,9 @@ const MINIMUM_SOCIAL = 10;
 const MINIMUM_PROFESSIONAL = 1;
 const MINIMUM_CUISINE = 5;
 
+// delay between submit button & welcome note popup (ms)
+const TOAST_POPUP_DELAY = 1000;
+
 const AboutForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -136,8 +139,10 @@ const AboutForm = () => {
       console.log(errorOnCreation.error);
     } else {
       localStorage.removeItem('registerForm');
+      setTimeout(() => {
+        toast.custom((t) => <NewUserWelcome t={t} />);
+      }, TOAST_POPUP_DELAY);
 
-      toast.custom((t) => <NewUserWelcome t={t} />);
       navigate('/match');
       localStorage.removeItem('aboutBio');
       localStorage.removeItem('Social');

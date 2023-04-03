@@ -19,6 +19,8 @@ import FormButton from '../../components/FormButton';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
+const TOAST_POPUP_DELAY = 1000;
+
 const CurrentMeeting = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -73,10 +75,12 @@ const CurrentMeeting = (props) => {
       })
     );
 
-    toast.custom((t) => (
-      <RejectInvite notification={currentMeetingNotification} t={t} />
-    ));
-    navigate('/match');
+    setTimeout(() => {
+      toast.custom((t) => (
+        <RejectInvite notification={currentMeetingNotification} t={t} />
+      ));
+    }, TOAST_POPUP_DELAY);
+    navigate('/');
   }
 
   function handleChat() {
