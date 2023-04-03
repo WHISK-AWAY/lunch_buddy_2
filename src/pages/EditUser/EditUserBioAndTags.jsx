@@ -74,12 +74,12 @@ const EditUserBioAndTags = () => {
   }, [authUser]);
 
   useEffect(() => {
-    if (user?.tags?.length > 0) {
+    if (user?.tags?.length > 0 && !preventReset) {
       setUserTags(user.tags);
     }
 
-    setBio(user.aboutMe);
-  }, [user]);
+    if (user?.id && bio === '') setBio(user.aboutMe);
+  }, [user, preventReset]);
 
   useEffect(() => {
     if (tagsInState.length > 0 && userTags.length > 0 && !preventReset) {

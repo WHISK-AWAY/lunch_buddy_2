@@ -63,7 +63,7 @@ const UserAccount = () => {
       (tag) => tag.category.categoryName === 'professional'
     );
     const dietary = tags?.filter(
-      (tag) => tag.category.categoryName === 'dietary restrictions'
+      (tag) => tag.category.categoryName === 'dietary restriction'
     );
     const cuisine = tags?.filter(
       (tag) => tag.category.categoryName === 'cuisine'
@@ -73,6 +73,8 @@ const UserAccount = () => {
     setProfessionalTags(professional || []);
     setDietaryTags(dietary || []);
     setCuisineTags(cuisine || []);
+
+    console.log('tags:', tags);
   }, [user]);
 
   if (auth.user.isLoading) return <p>Loading user info...</p>;
@@ -175,7 +177,7 @@ const UserAccount = () => {
                   return (
                     <p
                       key={cuisine.id}
-                      className="border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center text-sm capitalize bg-white"
+                      className="border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center text-sm capitalize bg-white grow justify-center"
                     >
                       {cuisine.tagName}
                     </p>
@@ -185,25 +187,27 @@ const UserAccount = () => {
             </div>
             {dietaryTags.length > 0 && (
               <div>
-                <h2 id="dietary-tags" className="headers">
-                  {dietaryTags[0]?.category.categoryName.toUpperCase()}
+                <h2 id="dietary-tags" className="text-headers">
+                  DIETARY RESTRICTIONS
                 </h2>
 
-                <div className="w-full flex flex-wrap gap-x-5 gap-y-2 my-6">
+                <div className="w-full flex gap-x-5 gap-y-2 my-6">
                   <img
                     className="w-2 relative rotate-45 top-[8px] self-start"
                     src={squaresSolid}
                   />
-                  {dietaryTags.map((dietary) => {
-                    return (
-                      <p
-                        key={dietary.id}
-                        className="border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center text-sm bg-white"
-                      >
-                        {dietary.tagName}
-                      </p>
-                    );
-                  })}
+                  <div className="flex flex-wrap gap-3">
+                    {dietaryTags.map((dietary) => {
+                      return (
+                        <p
+                          key={dietary.id}
+                          className="border capitalize border-primary-gray rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center text-sm bg-white grow justify-center"
+                        >
+                          {dietary.tagName}
+                        </p>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             )}
