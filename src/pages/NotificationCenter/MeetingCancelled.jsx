@@ -36,7 +36,7 @@ export default function MeetingCancelled({ notification }) {
   return (
     <div
       id="meeting-card"
-      className="flex w-fit h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between py-4 px-5"
+      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between py-4 px-5"
     >
       <div
         id="notification-details"
