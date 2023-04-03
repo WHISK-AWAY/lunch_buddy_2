@@ -24,7 +24,7 @@ const ReportForm = ({
           setReportInput(e.target.value);
           setNoReportText((prev) => !!prev);
         }}
-        className={`border border-primary-gray resize-none focus:outline-none rounded-3xl w-11/12 p-4 placeholder:text-slate-500 text-xs text-center ${
+        className={`border border-primary-gray resize-none focus:outline-none rounded-3xl w-11/12 p-4 placeholder:text-slate-500 text-xs ${
           noReportText ? 'placeholder:text-headers' : ''
         }`}
       />
