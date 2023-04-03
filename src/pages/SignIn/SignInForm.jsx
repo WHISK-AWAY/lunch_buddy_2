@@ -104,7 +104,7 @@ const SignInForm = () => {
         className="form-container basis-full lg:basis-1/2 h-full flex flex-col justify-center items-center"
         data-aos="fade-down"
         data-aos-delay="1000"
-        duration="1500"
+        duration="1000"
       >
         <div className="w-full xs:w-4/5 sm:w-3/5 md:w-2/3">
           <form className="bg-transparent p-10 rounded-lg lg:w-3/4 mx-auto flex flex-col">
@@ -154,10 +154,21 @@ const SignInForm = () => {
                 }
               />
             </div>
-            <div id="btn-container" className="pt-6">
+            <div
+              id="btn-container"
+              className="pt-6"
+              data-aos="fade-in"
+              data-aos-delay="2000"
+              duration="1500"
+            >
               <FormButton handleSubmit={handleSubmit}>SIGN IN</FormButton>
             </div>
-            <p className="my-4 text-xs text-center">
+            <p
+              className="my-4 text-xs text-center"
+              data-aos="fade-in"
+              data-aos-delay="2500"
+              duration="1500"
+            >
               don't have an account? create one{' '}
               <Link to={'/register'}>
                 <span className="text-headers hover:underline mb-20">here</span>

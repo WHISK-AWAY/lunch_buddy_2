@@ -119,9 +119,9 @@ const CurrentMeeting = (props) => {
         <div className="recap-body flex flex-col items-center gap-1 w-4/5">
           <div
             className="buddy-avatar-container rounded-full mb-6"
-            data-aos="fade-in"
+            data-aos="zoom-out"
             data-aos-delay="800"
-            data-aos-duration="2500"
+            data-aos-duration="1800"
           >
             <img
               src={buddy.avatarUrl}
@@ -134,7 +134,7 @@ const CurrentMeeting = (props) => {
             className="flex flex-col justify-center items-center"
             data-aos="fade-down"
             data-aos-delay="800"
-            data-aos-duration="2200"
+            data-aos-duration="2000"
           >
             <h2 className="text-md text-headers pb-4">
               {buddy.fullName.toUpperCase()}

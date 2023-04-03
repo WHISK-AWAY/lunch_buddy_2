@@ -32,8 +32,8 @@ const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
         <h2 className="ml-2">
           {category.toUpperCase()}{' '}
           {minTags[category]?.show && (
-            <span className="text-gray-400 ml-2">
-              Select at least {minTags[category]?.minimum}
+            <span className="text-gray-400 ml-2 text-sm">
+              select at least {minTags[category]?.minimum}
             </span>
           )}
         </h2>

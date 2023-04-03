@@ -46,7 +46,7 @@ export default function AcceptInvite({ notification, meetings, t }) {
                 navigate(`/meeting/${notification.meetingId}/chat`);
               }}
             >
-              SAY HI
+              SAY HI TO {notification.fromUser.firstName.toUpperCase()}
             </FormButton>
           )}
           <div

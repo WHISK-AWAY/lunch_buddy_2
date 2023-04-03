@@ -13,6 +13,8 @@ import {
 } from '../../redux/slices';
 import RatingSubmitted from '../NotificationCenter/ToastFeedback/RatingSubmitted';
 import ReportSubmitted from '../NotificationCenter/ToastFeedback/ReportSubmitted';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const TOAST_POPUP_DELAY = 1000;
 
@@ -140,9 +142,19 @@ const Feedback = () => {
     return <p>You have already reviewed this meeting</p>;
   }
 
+  AOS.init({
+    duration: 2000,
+    offset: 0,
+  });
+
   return (
-    <div className="flex">
-      <div className="flex flex-col items-center mt-24 font-tenor text-center max-w-lg mx-auto lg:w-1/2">
+    <div className="h-[calc(100vh_-_65px)] w-screen flex justify-center items-center text-primary-gray overflow-hidden bg-fixed">
+      <div
+        className="flex flex-col items-center mt-24 font-tenor text-center max-w-lg mx-auto lg:basis-1/2"
+        data-aos="fade-down"
+        data-aos-delay="1000"
+        data-aos-duration="1500"
+      >
         <Rating
           starRating={starRating}
           setStarRating={setStarRating}
@@ -157,7 +169,7 @@ const Feedback = () => {
         )}
         <button
           onClick={() => setShowReport((prev) => !prev)}
-          className="rounded-full border border-black text-xs px-10 py-1 mt-4 mb-8"
+          className="rounded-full border border-primary-gray text-xs px-10 py-1 mt-4 mb-8"
         >
           {showReport ? 'cancel report' : 'report'}
         </button>
@@ -171,11 +183,14 @@ const Feedback = () => {
           />
         )}
       </div>
-      <img
-        src="/assets/bgImg/rating&report.jpg"
+      <div
+        id="bg-img"
         alt="Man and woman at a restaurant sharing a pizza, smiling"
-        className="hidden lg:block h-full w-1/2"
-      />
+        className="hidden lg:block h-screen image-wrapper basis-1/2 bg-cover bg-[url('/assets/bgImg/rating&report.jpg')]"
+        data-aos="fade-left"
+        data-aos-delay="200"
+        data-aos-duration="2000"
+      ></div>
     </div>
   );
 };

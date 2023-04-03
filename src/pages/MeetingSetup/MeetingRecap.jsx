@@ -71,9 +71,9 @@ export default function MeetingRecap(props) {
         <div className="recap-body flex flex-col items-center gap-1">
           <div
             className="buddy-avatar-container rounded-full mb-6"
-            data-aos="fade-in"
+            data-aos="zoom-out"
             data-aos-delay="800"
-            data-aos-duration="2500"
+            data-aos-duration="1800"
           >
             <img
               src={buddy.avatarUrl}
@@ -86,7 +86,7 @@ export default function MeetingRecap(props) {
             className="flex flex-col justify-center items-center"
             data-aos="fade-down"
             data-aos-delay="800"
-            data-aos-duration="2200"
+            data-aos-duration="2000"
           >
             <h2 className="text-lg text-headers pb-4">
               {buddy.fullName.toUpperCase()}
@@ -102,6 +102,7 @@ export default function MeetingRecap(props) {
             <p>{restaurant.location?.display_address?.join(' ')}</p>
           </div>
           <div
+            id="btn-container"
             className="recap-button flex flex-col items-center pt-9 lg:w-3/5 text-xs w-4/5"
             data-aos="fade-in"
             data-aos-delay="800"
