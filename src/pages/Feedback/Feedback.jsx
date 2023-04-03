@@ -134,14 +134,6 @@ const Feedback = () => {
     return <p>You have already reviewed this meeting</p>;
   }
 
-  if (!meeting.isClosed) {
-    return (
-      <h1>
-        This meeting is still in progress. Close meeting to leave feedback.
-      </h1>
-    );
-  }
-
   return (
     <div className="flex">
       <div className="flex flex-col items-center mt-24 font-tenor text-center max-w-lg mx-auto lg:w-1/2">
