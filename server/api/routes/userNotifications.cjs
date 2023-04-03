@@ -1,3 +1,5 @@
+const { Op } = require('sequelize');
+
 const router = require('express').Router({ mergeParams: true });
 const { Notification, User, Meeting } = require('../../db/index.cjs');
 const {
@@ -15,7 +17,11 @@ router.get('/', requireToken, sameUserOrAdmin, async (req, res, next) => {
   try {
     const userId = +req.params.userId;
     const notifications = await Notification.findAll({
-      where: { toUserId: userId, isAcknowledged: false },
+      where: {
+        toUserId: userId,
+        isAcknowledged: false,
+        notificationType: { [Op.ne]: 'inviteAccepted' },
+      },
       include: [
         { model: User, as: 'toUser', attributes: SAFE_USER_FIELDS },
         { model: User, as: 'fromUser', attributes: SAFE_USER_FIELDS },

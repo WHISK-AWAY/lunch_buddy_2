@@ -69,12 +69,12 @@ const NotificationBody = ({
                         setShowNotificationBody={setShowNotificationBody}
                       />
                     )}
-                    {notification.notificationType === 'inviteAccepted' && (
+                    {/* {notification.notificationType === 'inviteAccepted' && (
                       <MeetingAccepted
                         notification={notification}
                         setShowNotificationBody={setShowNotificationBody}
                       />
-                    )}
+                    )} */}
                     {notification.notificationType === 'newMessage' && (
                       <NewMessageReceived
                         notification={notification}

@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Bio from './Bio';
 import TagSelect from './TagSelect';
 import { useSelector, useDispatch } from 'react-redux';
+import toast from 'react-hot-toast';
 import { fetchAllTags } from '../../redux/slices/tagSlice';
 import FormButton from '../../components/FormButton';
 import {
   getTagsByCategory,
   shapeTagsForDB,
 } from '../../utilities/registerHelpers';
+import NewUserWelcome from '../NotificationCenter/ToastFeedback/NewUserWelcome';
 import {
   createNewUser,
   selectUserLoading,
@@ -83,6 +85,8 @@ const AboutForm = () => {
       alert(errorOnCreation.error);
     } else {
       localStorage.removeItem('registerForm');
+
+      toast.custom((t) => <NewUserWelcome t={t} />);
       navigate('/match');
     }
   }
