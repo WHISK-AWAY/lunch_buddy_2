@@ -175,7 +175,7 @@ const UserAccount = () => {
                   return (
                     <p
                       key={cuisine.id}
-                      className="border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center text-sm capitalize bg-white"
+                      className="border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center text-sm capitalize bg-white grow justify-center"
                     >
                       {cuisine.tagName}
                     </p>
@@ -189,21 +189,23 @@ const UserAccount = () => {
                   DIETARY RESTRICTIONS
                 </h2>
 
-                <div className="w-full flex flex-wrap gap-x-5 gap-y-2 my-6">
+                <div className="w-full flex gap-x-5 gap-y-2 my-6">
                   <img
                     className="w-2 relative rotate-45 top-[8px] self-start"
                     src={squaresSolid}
                   />
-                  {dietaryTags.map((dietary) => {
-                    return (
-                      <p
-                        key={dietary.id}
-                        className="border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center text-sm bg-white"
-                      >
-                        {dietary.tagName}
-                      </p>
-                    );
-                  })}
+                  <div className="flex flex-wrap gap-3">
+                    {dietaryTags.map((dietary) => {
+                      return (
+                        <p
+                          key={dietary.id}
+                          className="border capitalize border-primary-gray rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center text-sm bg-white grow justify-center"
+                        >
+                          {dietary.tagName}
+                        </p>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             )}

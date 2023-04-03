@@ -71,7 +71,7 @@ export default function MeetingRecap(props) {
         <div className="recap-body flex flex-col items-center gap-1">
           <div
             className="buddy-avatar-container rounded-full mb-6"
-            data-aos="zoom-out"
+            data-aos="zoom-in"
             data-aos-delay="800"
             data-aos-duration="1800"
           >
@@ -106,7 +106,7 @@ export default function MeetingRecap(props) {
             className="recap-button flex flex-col items-center pt-9 lg:w-3/5 text-xs w-4/5"
             data-aos="fade-in"
             data-aos-delay="800"
-            data-aos-duration="2800"
+            data-aos-duration="3000"
           >
             <FormButton handleSubmit={(e) => handleMeeting(e)}>
               INVITE BUDDY
