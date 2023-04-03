@@ -60,7 +60,6 @@ export default function BuddyList(props) {
         An error occurred. Back to <Link to="/">home</Link>
       </h1>
     );
-  if (buddiesList.searchResults.length === 0) return <h1>No friends :(</h1>;
 
   return (
     <div className="buddies-list-page flex flex-col justify-center items-center lg:flex-row lg:justify-between text-primary-gray h-[calc(100vh_-_65px)] overflow-hidden antialiased scroll-smooth">
@@ -69,16 +68,31 @@ export default function BuddyList(props) {
         <h1 className="text-headers text-3xl pb-12 md:pb-24 pt-20">
           AVAILABLE BUDDIES
         </h1>
-        {buddiesList.searchResults?.map((buddy) => {
-          return (
-            <BuddyCard
-              key={buddy.id}
-              buddy={buddy}
-              myTagList={myTagList}
-              selectBuddy={selectBuddy}
-            />
-          );
-        })}
+        {buddiesList.searchResults.length > 0 ? (
+          buddiesList.searchResults?.map((buddy) => {
+            return (
+              <BuddyCard
+                key={buddy.id}
+                buddy={buddy}
+                myTagList={myTagList}
+                selectBuddy={selectBuddy}
+              />
+            );
+          })
+        ) : (
+          <div>
+            <p>We're sorry...</p>
+            <p>
+              It looks like there's no one in your area looking for lunch just
+              now. Please try back later!
+            </p>
+            <p>
+              <Link to="/" className="text-headers">
+                BACK HOME
+              </Link>
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

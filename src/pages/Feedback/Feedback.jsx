@@ -12,6 +12,7 @@ import {
   updateNotificationStatus,
 } from '../../redux/slices';
 import RatingSubmitted from '../NotificationCenter/ToastFeedback/RatingSubmitted';
+import ReportSubmitted from '../NotificationCenter/ToastFeedback/ReportSubmitted';
 
 const TOAST_POPUP_DELAY = 1000;
 
@@ -61,6 +62,7 @@ const Feedback = () => {
         }
       }
     }
+
     fetchMeeting();
   }, [user]);
 
@@ -116,17 +118,26 @@ const Feedback = () => {
     if (createdReport.meta.requestStatus === 'rejected') {
       alert(`Error when sending report`);
     } else if (createdReport.meta.requestStatus === 'fulfilled') {
-      dispatch(fetchAllNotifications({ userId: user.id }));
+      acknowledge();
+      setTimeout(() => {
+        toast.custom((t) => (
+          <ReportSubmitted notification={notification} t={t} />
+        ));
+      }, TOAST_POPUP_DELAY);
       navigate('/');
     }
   };
+
+  if (user.id !== meeting.userId && user.id !== meeting.buddyId) {
+    return <h1>Looks like you're not in this meeting!</h1>;
+  }
 
   const userReviews = meeting?.ratings?.reduce((acc, rating) => {
     acc[rating.userId] = true;
     return acc;
   }, {});
   if (userReviews && userReviews[user.id]) {
-    return <p>This user has already reviewed</p>;
+    return <p>You have already reviewed this meeting</p>;
   }
 
   return (

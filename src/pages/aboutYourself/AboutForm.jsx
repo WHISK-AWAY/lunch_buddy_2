@@ -16,6 +16,7 @@ import {
   selectUserError,
   checkUserCreated,
 } from '../../redux/slices/userSlice';
+import { requestLogin } from '../../redux/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -53,8 +54,6 @@ const AboutForm = () => {
       Cuisine: { minimum: MINIMUM_CUISINE, show: false, numClicked: 0 },
     }
   );
-
-  console.log(minTags);
 
   const [validBio, setValidBio] = useState(true);
 
@@ -105,7 +104,6 @@ const AboutForm = () => {
 
     for (let category in minTags) {
       const minTagsCopy = { ...minTags[category] };
-      console.log(minTags[category].numClicked, minTags[category].minimum);
       setMinTags((prev) => ({
         ...prev,
         [category]: {
@@ -138,17 +136,30 @@ const AboutForm = () => {
     if (errorOnCreation.error) {
       console.log(errorOnCreation.error);
     } else {
+      const form = JSON.parse(localStorage.getItem('registerForm'));
       localStorage.removeItem('registerForm');
-      setTimeout(() => {
-        toast.custom((t) => <NewUserWelcome t={t} />);
-      }, TOAST_POPUP_DELAY);
 
-      navigate('/match');
       localStorage.removeItem('aboutBio');
       localStorage.removeItem('Social');
       localStorage.removeItem('Cuisine');
       localStorage.removeItem('Dietary');
       localStorage.removeItem('Professional');
+
+      console.log('email:', form.email);
+      console.log('password:', form.password);
+
+      dispatch(
+        requestLogin({
+          email: form.email,
+          password: form.password,
+        })
+      );
+      setTimeout(() => {
+        setTimeout(() => {
+          toast.custom((t) => <NewUserWelcome t={t} />);
+        }, TOAST_POPUP_DELAY);
+        navigate('/match');
+      }, 500);
     }
   }
 

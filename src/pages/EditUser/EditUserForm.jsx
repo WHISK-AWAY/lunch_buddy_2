@@ -48,6 +48,15 @@ const EditUserForm = () => {
     }, {})
   );
 
+  const [baseImage, setBaseImage] = useState('');
+
+  useEffect(() => {
+    setFormInputs((prev) => ({
+      ...prev,
+      avatarUrl: baseImage,
+    }));
+  }, [baseImage]);
+
   const authUser = useSelector((state) => state.auth.user);
   const userInfo = useSelector((state) => state.user.user);
 
@@ -169,6 +178,27 @@ const EditUserForm = () => {
     }
   };
 
+  const uploadImage = async (e) => {
+    const file = e.target.files[0];
+    const base64 = await convertBase64(file);
+    setBaseImage(base64);
+  };
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
   return (
     <div className="h-[calc(100vh_-_65px)] flex lg:justify-between lg:grow items-center text-primary-gray justify-center">
       <div className="flex flex-col items-center w-4/5 lg:basis-1/2 sm:w-3/5 md:w-2/5">
@@ -207,47 +237,6 @@ const EditUserForm = () => {
               }
             />
           </div>
-          {/* <div className="relative col-span-full">
-            <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
-              Email
-            </label>
-            <input
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
-              value={formInputs.email}
-              onChange={(e) =>
-                setFormInputs((prev) => ({ ...prev, email: e.target.value }))
-              }
-            />
-          </div>
-          <div className="relative col-span-full">
-            <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
-              Password
-            </label>
-            <input
-              type="password"
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
-              value={formInputs.password}
-              onChange={(e) =>
-                setFormInputs((prev) => ({ ...prev, password: e.target.value }))
-              }
-            />
-          </div>
-          <div className="relative col-span-full">
-            <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
-              value={formInputs.confirmPassword}
-              onChange={(e) =>
-                setFormInputs((prev) => ({
-                  ...prev,
-                  confirmPassword: e.target.value,
-                }))
-              }
-            />
-          </div> */}
           <div className="relative col-span-4 text-primary-gray">
             <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
               Address 1
@@ -354,6 +343,23 @@ const EditUserForm = () => {
               <option value="Other">Other</option>
               <option value="DidNotDisclose">Prefer Not To Say</option>
             </select>
+          </div>
+          <div className="relative col-span-2">
+            <label className="text-red-400 font-semibold block text-sm sm:text-base px-1">
+              Upload Image
+            </label>
+            <input
+              className={` `}
+              type="file"
+              onChange={(e) => {
+                uploadImage(e);
+
+                setFormInputs((prev) => ({
+                  ...prev,
+                  avatarUrl: baseImage,
+                }));
+              }}
+            />
           </div>
           <div className="col-span-full md:w-3/5 md:mx-auto">
             <FormButton handleSubmit={handleSubmit}>CONTINUE</FormButton>

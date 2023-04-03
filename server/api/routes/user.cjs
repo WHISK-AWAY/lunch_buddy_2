@@ -1,3 +1,4 @@
+const express = require('express');
 const router = require('express').Router();
 const {
   requireToken,
@@ -12,6 +13,8 @@ const { Op } = require('sequelize');
 const MINIMUM_SOCIAL = 10;
 const MINIMUM_PROFESSIONAL = 1;
 const MINIMUM_CUISINE = 5;
+
+router.use(express.json({ limit: '50mb' }));
 
 router.get('/', requireToken, isAdmin, async (req, res, next) => {
   /**
@@ -327,6 +330,12 @@ router.put(
 
       // return updated user
       const updatedUser = await User.findByPk(userToUpdate.id, {
+        include: {
+          model: Tag,
+          include: {
+            model: Category,
+          },
+        },
         attributes: {
           exclude: ['password', 'avgRating', 'reportCount', 'strikeCount'],
         },

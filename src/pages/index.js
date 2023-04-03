@@ -15,3 +15,4 @@ export { default as Homepage } from './Homepage/Homepage';
 export { default as NotificationBody } from './NotificationCenter/NotificationBody';
 export { default as CurrentMeeting } from './MeetingSetup/CurrentMeeting';
 export { default as EditUserBioAndTags } from './EditUser/EditUserBioAndTags';
+export { default as PageNotFound } from './PageNotFound/PageNotFound';

@@ -1,7 +1,10 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
-import { updateNotificationStatus } from '../../redux/slices';
+import {
+  updateNotificationStatus,
+  fetchAllNotifications,
+} from '../../redux/slices';
 import FormButton from '../../components/FormButton';
 import xIcon from '../../assets/icons/x-icon.svg';
 
@@ -62,7 +65,7 @@ export default function NewMessageReceived({ notification }) {
           id="btn-container"
           className="flex flex-row gap-5 w-3/5 h-5 self-center text-xs space-5 items-center"
         >
-          <FormButton handleSubmit={acknowledgeAndGoToMessages}>
+          <FormButton handleSubmit={() => acknowledgeAndGoToMessages()}>
             REPLY
           </FormButton>
         </div>
