@@ -175,13 +175,13 @@ const EditUserBioAndTags = () => {
     dispatch(updateUser(updatePackage));
     localStorage.removeItem('registerForm');
     localStorage.removeItem('minTags');
-
-    navigate('/account');
     localStorage.removeItem('aboutBio');
     localStorage.removeItem('Social');
     localStorage.removeItem('Cuisine');
     localStorage.removeItem('Dietary');
     localStorage.removeItem('Professional');
+
+    setTimeout(() => navigate('/account'), 500);
   }
 
   AOS.init({
