@@ -21,6 +21,7 @@ module.exports = {
       jo: ['Josefin Sans', 'sans-serif'],
       po: ['Poiret One', 'cursive'],
       ultra: ['Ultra', 'serif'],
+      fed: ['Federo', 'sans - serif'],
     },
     fontWeight: {
       thin: 100,

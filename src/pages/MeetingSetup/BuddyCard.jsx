@@ -10,7 +10,7 @@ export default function BuddyCard(props) {
   const { buddy, myTagList, selectBuddy } = props;
 
   return (
-    <div className="buddy_card relative w-4/5 md:w-3/5 lg:w-4/5 3xl:w-9/12 flex flex-col md:flex-row lg:flex-col xl:flex-row justify-between shrink items-center gap-6 p-4 pb-6 bg-light-gray shadow-md rounded-xl">
+    <div className="buddy_card relative w-4/5 md:w-3/5 lg:w-4/5 3xl:w-9/12 flex flex-col md:flex-row lg:flex-col xl:flex-row justify-between shrink items-center gap-6 p-4 pb-6 bg-light-gray shadow-md mb-20 rounded-xl">
       <div className="buddy_avatar shrink-0 grow-0 justify-center items-center md:self-start lg:self-center xl:self-start relative top-2">
         <img
           className="bg-white object-cover aspect-square w-32 h-32 rounded-[100%] z-10 p-1 relative self-end drop-shadow-md"
@@ -44,7 +44,6 @@ export default function BuddyCard(props) {
             >
               <img
                 className={`w-6 transition-all ${tagExpand ? 'rotate-90' : ''}`}
-                // src={tagExpand ? chevronRight : chevronDown}
                 src={chevronRight}
                 alt="Expand/Retract Arrow"
               />
