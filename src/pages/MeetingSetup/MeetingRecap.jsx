@@ -88,7 +88,7 @@ export default function MeetingRecap(props) {
             data-aos-delay="800"
             data-aos-duration="2200"
           >
-            <h2 className="text-lg text-headers">
+            <h2 className="text-lg text-headers pb-4">
               {buddy.fullName.toUpperCase()}
             </h2>
             <p>
@@ -102,7 +102,7 @@ export default function MeetingRecap(props) {
             <p>{restaurant.location?.display_address?.join(' ')}</p>
           </div>
           <div
-            className="recap-button flex flex-col items-center pt-5 lg:w-3/5 text-xs w-4/5"
+            className="recap-button flex flex-col items-center pt-9 lg:w-3/5 text-xs w-4/5"
             data-aos="fade-in"
             data-aos-delay="800"
             data-aos-duration="2800"

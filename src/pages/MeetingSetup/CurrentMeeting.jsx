@@ -136,7 +136,7 @@ const CurrentMeeting = (props) => {
             data-aos-delay="800"
             data-aos-duration="2200"
           >
-            <h2 className="text-md text-headers pb-1">
+            <h2 className="text-md text-headers pb-4">
               {buddy.fullName.toUpperCase()}
             </h2>
             <p>
@@ -164,7 +164,7 @@ const CurrentMeeting = (props) => {
           </div>
           <div
             id="btn-container"
-            className="flex gap-8 justify-between lg:w-3/5 pt-5 text-xs w-11/12"
+            className="flex gap-8 justify-between lg:w-3/5 pt-9 text-xs w-11/12"
             data-aos="fade-in"
             data-aos-delay="800"
             data-aos-duration="2800"

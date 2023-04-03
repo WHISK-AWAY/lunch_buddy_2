@@ -36,14 +36,14 @@ export default function MeetingCancelled({ notification }) {
   return (
     <div
       id="meeting-card"
-      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between py-4 px-3"
+      className="flex w-fit h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between py-4 px-5 mt-14"
     >
       <div
         id="notification-details"
         className="flex flex-col self-center text-center text-base w-full py-2"
       >
         <p className="pb-2">Bad news...</p>
-        <p className="pb-2">
+        <p className="">
           Unfortunately, {notification.fromUser.firstName} had to cancel.
         </p>
         <p className="pb-2">
@@ -54,7 +54,7 @@ export default function MeetingCancelled({ notification }) {
         </p>
         <div
           id="btn-container"
-          className="flex flex-row gap-2 w-fit h-fit self-center text-xs space-5 justify-center items-center pt-3"
+          className="flex flex-row gap-2 w-full px-7 h-fit self-center text-xs space-5 justify-center items-center pt-3"
         >
           <FormButton handleSubmit={acknowledgeAndFindBuddy}>
             FIND BUDDY

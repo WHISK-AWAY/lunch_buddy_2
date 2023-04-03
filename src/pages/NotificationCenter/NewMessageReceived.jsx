@@ -45,7 +45,7 @@ export default function NewMessageReceived({ notification }) {
       >
         <img src={xIcon} />
       </div>
-      <div id="img-section" className="flex px-2 shrink-0 self-center">
+      <div id="img-section" className="flex px-2 shrink-0 self-center pl-5">
         <img
           src={notification.fromUser.avatarUrl}
           alt="user avatar"
@@ -56,14 +56,14 @@ export default function NewMessageReceived({ notification }) {
         id="notification-details"
         className="flex flex-col self-center text-center text-sm w-full py-3 px-3"
       >
-        <p className="pb-5 pt-3">
+        <p className="pb-6">
           {' '}
           New message from {notification.fromUser.firstName}
         </p>
         <p></p>
         <div
           id="btn-container"
-          className="flex flex-row gap-5 w-20 h-5 self-center text-xs space-5 items-center"
+          className="flex flex-row gap-5 w-3/5 h-5 self-center text-xs space-5 items-center"
         >
           <FormButton handleSubmit={() => acknowledgeAndGoToMessages()}>
             REPLY
