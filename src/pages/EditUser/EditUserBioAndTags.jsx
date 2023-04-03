@@ -2,19 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Bio from '../aboutYourself/Bio';
 import TagSelect from '../aboutYourself/TagSelect';
 import { useSelector, useDispatch } from 'react-redux';
-import toast from 'react-hot-toast';
 import { fetchAllTags } from '../../redux/slices/tagSlice';
 import FormButton from '../../components/FormButton';
 import {
   getTagsByCategory,
   shapeTagsForDB,
 } from '../../utilities/registerHelpers';
-import NewUserWelcome from '../NotificationCenter/ToastFeedback/NewUserWelcome';
 import {
-  createNewUser,
-  selectUserLoading,
-  selectUserError,
-  checkUserCreated,
   updateUser,
   fetchUser,
   selectUser,
@@ -141,7 +135,7 @@ const EditUserBioAndTags = () => {
   }, [tagsInState, userTags]);
 
   useEffect(() => {
-    // localStorage.setItem('minTags', JSON.stringify(minTags));
+    localStorage.setItem('minTags', JSON.stringify(minTags));
   }, [minTags]);
 
   // Handles creation of new user based on user inputs
@@ -151,7 +145,7 @@ const EditUserBioAndTags = () => {
     setValidBio(!!bio);
 
     for (let category in minTags) {
-      const minTagsCopy = { ...minTags[category] };
+      let minTagsCopy = { ...minTags[category] };
       setMinTags((prev) => ({
         ...prev,
         [category]: {

@@ -9,16 +9,20 @@ const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
   function handleTagClick(idx, setter) {
     const tempTags = [...tags];
     let tagToChange = tempTags[idx];
+    let updatedCount = minTags[category].numClicked;
     tagToChange.clicked = !tagToChange.clicked;
+    if (tagToChange.clicked) updatedCount++;
+    else updatedCount--;
     const minTagsCopy = { ...minTags[category] };
     setMinTags((prev) => ({
       ...prev,
       [category]: {
         minimum: minTagsCopy.minimum,
         show: minTagsCopy.show,
-        numClicked: tagToChange.clicked
-          ? minTagsCopy.numClicked++
-          : minTagsCopy.numClicked--,
+        numClicked: updatedCount,
+        // numClicked: tagToChange.clicked
+        //   ? ++minTagsCopy.numClicked
+        //   : --minTagsCopy.numClicked,
       },
     }));
 
