@@ -13,7 +13,7 @@ export default function RejectInvite({ notification, t }) {
   return (
     <div
       id="meeting-card"
-      className="flex lg:w-1/4 w-4/5 sm:w-2/5 lg:h-fit h-fit text-xs text-primary-gray bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center shadow-md justify-between sticky mt-14"
+      className="flex lg:w-1/4 w-4/5 sm:w-2/5 lg:h-fit h-fit text-xs text-primary-gray bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center py-3 shadow-md justify-between sticky mt-14"
     >
       <div
         id="notification-details"
@@ -25,7 +25,7 @@ export default function RejectInvite({ notification, t }) {
         </p>
         <div
           id="btn-container"
-          className="flex flex-col h-fit  w-fit self-center text-xs space-5 justify-center items-center pt-3"
+          className="flex flex-col h-fit  w-full px-7 self-center text-xs space-5 justify-center items-center pt-3"
         >
           <FormButton handleSubmit={findBuddy}>FIND A BUDDY</FormButton>
           <div

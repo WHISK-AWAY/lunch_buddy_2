@@ -11,7 +11,7 @@ export default function AcceptInvite({ notification, meetings, t }) {
   return (
     <div
       id="meeting-card"
-      className="flex lg:w-1/4 w-4/5 sm:w-2/5 lg:h-fit text-xs text-primary-gray bg-gray-100/90 rounded-2xl shadow-md items-center justify-between sticky top-16 mt-14"
+      className="flex lg:w-1/4 w-4/5 sm:w-2/5 lg:h-fit text-xs py-3 text-primary-gray bg-gray-100/90 rounded-2xl shadow-md items-center justify-between sticky top-16 mt-14"
     >
       <div
         id="notification-details"
@@ -37,7 +37,7 @@ export default function AcceptInvite({ notification, meetings, t }) {
         )}
         <div
           id="btn-container"
-          className="flex flex-row w-fit  self-center text-xs justify-center items-center pt-3"
+          className="flex flex-row w-full px-7 self-center text-xs justify-center items-center pt-3"
         >
           {notification.meetingId && (
             <FormButton
