@@ -66,17 +66,17 @@ export const getMeeting = createAsyncThunk(
         },
       });
 
-      if (data.yelpBusinessId) {
-        const yelpRes = await axios.get(
-          API_URL + `/api/search/restaurants/${data.yelpBusinessId}`,
-          {
-            headers: {
-              authorization: token,
-            },
-          }
-        );
-        data.restaurant = yelpRes.data;
-      }
+      // if (data.yelpBusinessId) {
+      //   const yelpRes = await axios.get(
+      //     API_URL + `/api/search/restaurants/${data.yelpBusinessId}`,
+      //     {
+      //       headers: {
+      //         authorization: token,
+      //       },
+      //     }
+      //   );
+      //   data.restaurant = yelpRes.data;
+      // }
 
       return data;
     } catch (error) {
@@ -91,15 +91,16 @@ export const getBusinessInfo = createAsyncThunk(
   async (yelpBusinessId, { rejectWithValue }) => {
     const token = localStorage.getItem('token');
     try {
-      const { data } = await axios.get(
-        API_URL + `/api/search/restaurants/${yelpBusinessId}`,
-        {
-          headers: {
-            authorization: token,
-          },
-        }
-      );
-      return data;
+      // const { data } = await axios.get(
+      //   API_URL + `/api/search/restaurants/${yelpBusinessId}`,
+      //   {
+      //     headers: {
+      //       authorization: token,
+      //     },
+      //   }
+      // );
+      // return data;
+      return {};
     } catch (error) {
       rejectWithValue(error);
     }
