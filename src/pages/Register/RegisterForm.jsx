@@ -156,7 +156,7 @@ const RegisterForm = () => {
         className="lg:basis-1/2 flex flex-col justify-center items-center  basis-full overflow-auto h-full pb-16 pt-24 scrollbar-hide"
         data-aos="fade-down"
         data-aos-delay="1000"
-        duration="1500"
+        duration="1000"
       >
         <div className="h-full lg:w-4/5 md:w-3/5 w-4/5">
           <form className=" grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8 pb-3">
@@ -381,11 +381,21 @@ const RegisterForm = () => {
                 <option value="DidNotDisclose">Prefer Not To Say</option>
               </select>
             </div>
-            <div className="col-span-full md:w-3/5 md:mx-auto">
+            <div
+              className="col-span-full md:w-3/5 md:mx-auto"
+              data-aos="fade-in"
+              data-aos-delay="2000"
+              duration="1500"
+            >
               <FormButton handleSubmit={handleSubmit}>CONTINUE</FormButton>
             </div>
           </form>
-          <p className="text-center text-xs">
+          <p
+            className="text-center text-xs"
+            data-aos="fade-in"
+            data-aos-delay="2500"
+            duration="1500"
+          >
             already have an account?{' '}
             <Link to="/login">
               <span className="text-headers hover:underline">sign in</span>
