@@ -12,6 +12,8 @@ import {
 import axios from 'axios';
 import AcceptInvite from './ToastFeedback/AcceptInvite';
 import RejectInvite from './ToastFeedback/RejectInvite';
+import NewUserWelcome from './ToastFeedback/NewUserWelcome';
+import RatingSubmitted from './ToastFeedback/RatingSubmitted';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const TOAST_POPUP_DELAY = 1000;
