@@ -233,7 +233,7 @@ const EditUserBioAndTags = () => {
           />
         </div>
         <div className="flex self-center sm:max-w-lg sm:min-w-[20%]  px-6 mb-16 pt-5 lg:w-2/5 w-3/5">
-          <FormButton handleSubmit={handleSubmit}>SUBMIT</FormButton>
+          <FormButton handleSubmit={handleSubmit}>SAVE CHANGES</FormButton>
         </div>
       </div>
       <div
