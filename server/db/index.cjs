@@ -117,7 +117,9 @@ Meeting.afterUpdate(async (meeting) => {
       { isAcknowledged: true },
       {
         where: {
-          notificationType: { [Op.in]: ['currentMeeting', 'inviteAccepted'] },
+          notificationType: {
+            [Op.in]: ['currentMeeting', 'inviteAccepted', 'newMessage'],
+          },
           meetingId: meeting.id,
         },
       }
