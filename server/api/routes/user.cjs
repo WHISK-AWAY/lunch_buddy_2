@@ -330,6 +330,12 @@ router.put(
 
       // return updated user
       const updatedUser = await User.findByPk(userToUpdate.id, {
+        include: {
+          model: Tag,
+          include: {
+            model: Category,
+          },
+        },
         attributes: {
           exclude: ['password', 'avgRating', 'reportCount', 'strikeCount'],
         },
