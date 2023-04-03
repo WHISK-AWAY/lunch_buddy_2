@@ -14,6 +14,10 @@ import AcceptInvite from './ToastFeedback/AcceptInvite';
 import RejectInvite from './ToastFeedback/RejectInvite';
 import NewUserWelcome from './ToastFeedback/NewUserWelcome';
 import RatingSubmitted from './ToastFeedback/RatingSubmitted';
+import NewMessageReceived from './NewMessageReceived';
+import MeetingCancelled from './MeetingCancelled';
+import Rating from '../Feedback/Rating';
+import ReportSubmitted from './ToastFeedback/ReportSubmitted';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const TOAST_POPUP_DELAY = 1000;
@@ -41,7 +45,7 @@ export default function MeetingRequest({ notification }) {
 
   // toast.custom(
   //   (t) => (
-  //     <RejectInvite notification={notification} meetings={meetings} t={t} />
+  //     <ReportSubmitted notification={notification} meetings={meetings} t={t} />
   //   ),
   //   { duration: Infinity }
   // );
@@ -126,7 +130,7 @@ export default function MeetingRequest({ notification }) {
         <img
           src={notification.fromUser.avatarUrl}
           alt="user avatar"
-          className="object-cover aspect-square w-16 h-16 lg:w-20 lg:h-20 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative "
+          className="object-cover aspect-square w-16 h-16 lg:w-24 lg:h-24 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative "
         />
       </div>
       <div

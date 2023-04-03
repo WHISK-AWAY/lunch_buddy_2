@@ -15,21 +15,21 @@ export default function ReportSubmitted({ notification, t }) {
   return (
     <div
       id="meeting-card"
-      className="flex lg:w-1/4 w-4/5 sm:w-2/5 lg:h-fit text-xs text-primary-gray bg-gray-100/90 rounded-2xl pt-4 shadow-md items-center py-3 justify-between sticky top-16 mt-14"
+      className="flex lg:w-1/4 w-4/5 sm:w-2/5 lg:h-fit text-xs text-primary-gray bg-gray-100/90 rounded-2xl pt-4 shadow-md items-center justify-between sticky px-7 py-3 top-16 mt-14"
     >
       <div
         id="notification-details"
-        className="flex flex-col self-center text-center text-xs lg:text-[.9rem] w-full py-2"
+        className="flex flex-col self-center text-center text-xs lg:text-[.9rem] w-full py-2 pt-5"
       >
-        <p className="pb-2">THANK YOU FOR YOUR FEEDBACK</p>
-        <p className="">
+        <p className="pb-4 text-headers">THANK YOU FOR YOUR FEEDBACK</p>
+        <p className="text-center">
           We appreciate that you took the time to file this report. Our admins
           will be following up as soon as possible.
         </p>
-        <p className="">
-          Your feedback helps to make sure others have a good experience. Thank
-          you.
+        <p className="pb-2 text-center">
+          Your feedback helps to make sure others have a good experience.
         </p>
+        <p>Thank you.</p>
       </div>
     </div>
   );
