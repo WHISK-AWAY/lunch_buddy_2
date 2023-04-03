@@ -2,6 +2,7 @@
 export {
   default as authSlice,
   selectAuth,
+  selectAuthUser,
   selectAuthStatus,
   resetAuthStatus,
   requestLogin,
