@@ -323,6 +323,7 @@ router.put(
 
       // make requested changes
       await userToUpdate.update(updatePackage);
+      if (tags?.length > 0) await userToUpdate.setTags(tags);
 
       // return updated user
       const updatedUser = await User.findByPk(userToUpdate.id, {
