@@ -63,7 +63,7 @@ const UserAccount = () => {
       (tag) => tag.category.categoryName === 'professional'
     );
     const dietary = tags?.filter(
-      (tag) => tag.category.categoryName === 'dietary restrictions'
+      (tag) => tag.category.categoryName === 'dietary restriction'
     );
     const cuisine = tags?.filter(
       (tag) => tag.category.categoryName === 'cuisine'
@@ -73,6 +73,8 @@ const UserAccount = () => {
     setProfessionalTags(professional || []);
     setDietaryTags(dietary || []);
     setCuisineTags(cuisine || []);
+
+    console.log('tags:', tags);
   }, [user]);
 
   if (auth.user.isLoading) return <p>Loading user info...</p>;
@@ -183,8 +185,8 @@ const UserAccount = () => {
             </div>
             {dietaryTags.length > 0 && (
               <div>
-                <h2 id="dietary-tags" className="headers">
-                  {dietaryTags[0]?.category.categoryName.toUpperCase()}
+                <h2 id="dietary-tags" className="text-headers">
+                  DIETARY RESTRICTIONS
                 </h2>
 
                 <div className="w-full flex flex-wrap gap-x-5 gap-y-2 my-6">
