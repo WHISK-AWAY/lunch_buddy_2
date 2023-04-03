@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { tryToken, selectAuth } from '../../redux/slices/authSlice';
-import { fetchUser, selectUser } from '../../redux/slices/userSlice';
+import {
+  fetchUser,
+  selectUser,
+  updateUser,
+} from '../../redux/slices/userSlice';
 import getLocation from '../../utilities/geo';
 import squaresSolid from '../../assets/icons/squares-solid.svg';
 import pencil from '../../assets/icons/pencil.svg';
