@@ -9,6 +9,7 @@ import {
   updateUser,
 } from '../../redux/slices';
 import getLocation from '../../utilities/geo';
+import FormButton from '../../components/FormButton';
 
 const SEARCH_RADIUS_LIST = [0.5, 1, 3, 5];
 const TIME_SLOTS = 4;
@@ -86,14 +87,11 @@ export default function MeetingSetup(props) {
   return (
     <div
       id="search-params-page"
-      className="lg:bg-none w-screen flex flex-row-reverse justify-center items-center h-[calc(100vh_-_75px)] overflow-hidden bg-fixed bg-gradient-to-t from-[#FF8A00]/10 to-[#FFFFFF] text-primary-gray"
+      className="lg:bg-none w-screen flex flex-row-reverse justify-center items-center h-[calc(100vh_-_65px)] overflow-hidden bg-fixed bg-gradient-to-t from-[#FF8A00]/10 to-[#FFFFFF] text-primary-gray"
     >
       <div className="lg:basis-1/2 flex flex-col justify-center items-center">
         <div id="search-params-container" className="">
-          <form
-            onSubmit={handleSearchSubmit}
-            className="flex flex-col gap-5 mb-5 items-center"
-          >
+          <form className="flex flex-col gap-5 mb-5 items-center">
             <div id="radius-group" className="flex flex-col items-center gap-5">
               <label
                 className="text-headers text-md py-3"
@@ -119,7 +117,7 @@ export default function MeetingSetup(props) {
             </div>
             <div
               id="time-slot-wrapper"
-              className="flex flex-col items-center gap-5"
+              className="flex flex-col items-center gap-5 w-11/12"
             >
               <h2 className="text-headers text-md py-4">TIME SLOTS</h2>
               <div
@@ -134,9 +132,9 @@ export default function MeetingSetup(props) {
                         e.preventDefault();
                         setTimeSlot(timeOption);
                       }}
-                      className={`rounded-full px-3 py-1 ${
+                      className={`border transition duration-500 border-primary-gray rounded-full px-3 py-1  hover:bg-primary-gray/20 ${
                         timeOption.startTime === timeSlot?.startTime
-                          ? 'button text-white'
+                          ? 'button text-white border-white'
                           : 'bg-white border border-primary-gray'
                       }`}
                     >
@@ -146,9 +144,11 @@ export default function MeetingSetup(props) {
                 })}
               </div>
             </div>
-            <button className="button text-white w-3/5 px-5 py-[5px] lg:py-2 rounded-full text-sm">
-              FIND BUDDY
-            </button>
+            <div id="btn-container" className="w-3/5 lg:w-2/5 pt-5">
+              <FormButton handleSubmit={handleSearchSubmit}>
+                FIND BUDDY
+              </FormButton>
+            </div>
           </form>
         </div>
       </div>
