@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Bio from './Bio';
-import TagSelect from './TagSelect';
+import Bio from '../aboutYourself/Bio';
+import TagSelect from '../aboutYourself/TagSelect';
 import { useSelector, useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import { fetchAllTags } from '../../redux/slices/tagSlice';
@@ -15,7 +15,11 @@ import {
   selectUserLoading,
   selectUserError,
   checkUserCreated,
+  updateUser,
+  fetchUser,
+  selectUser,
 } from '../../redux/slices/userSlice';
+import { tryToken, selectAuthUser } from '../../redux/slices';
 import { useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -25,78 +29,119 @@ const MINIMUM_SOCIAL = 10;
 const MINIMUM_PROFESSIONAL = 1;
 const MINIMUM_CUISINE = 5;
 
-// delay between submit button & welcome note popup (ms)
-const TOAST_POPUP_DELAY = 1000;
-
-const AboutForm = () => {
+const EditUserBioAndTags = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userLoading = useSelector(selectUserLoading);
-  const userError = useSelector(selectUserError);
 
-  const [bio, setBio] = useState('' || localStorage.getItem('aboutBio'));
+  const authUser = useSelector(selectAuthUser);
+  const user = useSelector(selectUser);
+  const tagsInState = useSelector((state) => state.tags.tags);
+
+  const [bio, setBio] = useState('');
 
   const [socialTags, setSocialTags] = useState([]);
   const [professionalTags, setProfessionalTags] = useState([]);
   const [dietaryTags, setDietaryTags] = useState([]);
   const [cuisineTags, setCuisineTags] = useState([]);
+  const [userTags, setUserTags] = useState([]);
+  const [preventReset, setPreventReset] = useState(false);
 
-  const [minTags, setMinTags] = useState(
-    JSON.parse(localStorage.getItem('minTags')) || {
-      Social: { minimum: MINIMUM_SOCIAL, show: false, numClicked: 0 },
-      Professional: {
-        minimum: MINIMUM_PROFESSIONAL,
-        show: false,
-        numClicked: 0,
-      },
-      Dietary: { minimum: 0, show: false, numClicked: 0 },
-      Cuisine: { minimum: MINIMUM_CUISINE, show: false, numClicked: 0 },
-    }
-  );
-
-  console.log(minTags);
+  const [minTags, setMinTags] = useState({
+    Social: { minimum: MINIMUM_SOCIAL, show: false, numClicked: 0 },
+    Professional: {
+      minimum: MINIMUM_PROFESSIONAL,
+      show: false,
+      numClicked: 0,
+    },
+    Dietary: { minimum: 0, show: false, numClicked: 0 },
+    Cuisine: { minimum: MINIMUM_CUISINE, show: false, numClicked: 0 },
+  });
 
   const [validBio, setValidBio] = useState(true);
 
-  const tagsInState = useSelector((state) => state.tags.tags);
-
   useEffect(() => {
-    const form = localStorage.getItem('registerForm');
     const token = localStorage.getItem('token');
     if (token) {
-      navigate('/');
-    }
-    if (!form) {
-      navigate('/register');
-    } else {
+      dispatch(tryToken());
       dispatch(fetchAllTags());
     }
   }, []);
 
   useEffect(() => {
-    if (tagsInState.length > 0) {
-      setSocialTags(
-        JSON.parse(localStorage.getItem('Social')) ||
-          getTagsByCategory('social', tagsInState) ||
-          []
-      );
-      setProfessionalTags(
-        JSON.parse(localStorage.getItem('Professional')) ||
-          getTagsByCategory('professional', tagsInState || [])
-      );
-      setDietaryTags(
-        JSON.parse(localStorage.getItem('Dietary')) ||
-          getTagsByCategory('dietary restriction', tagsInState || [])
-      );
-      setCuisineTags(
-        JSON.parse(localStorage.getItem('Cuisine')) ||
-          getTagsByCategory('cuisine', tagsInState || [])
-      );
+    if (authUser?.id) {
+      dispatch(fetchUser(authUser.id));
     }
-  }, [tagsInState]);
+  }, [authUser]);
 
   useEffect(() => {
-    localStorage.setItem('minTags', JSON.stringify(minTags));
+    if (user?.tags?.length > 0) {
+      setUserTags(user.tags);
+    }
+
+    setBio(user.aboutMe);
+  }, [user]);
+
+  useEffect(() => {
+    if (tagsInState.length > 0 && userTags.length > 0 && !preventReset) {
+      setPreventReset(true);
+      const userTagIds = userTags.map((tag) => tag.id);
+      const userTagCountByCat = userTags.reduce(
+        (accum, tag) => {
+          accum[tag.category.categoryName] += 1;
+          return accum;
+        },
+        { social: 0, professional: 0, 'dietary restriction': 0, cuisine: 0 }
+      );
+
+      let tempMinTags = { ...minTags };
+
+      tempMinTags.Social.numClicked = userTagCountByCat.social || 0;
+      tempMinTags.Professional.numClicked = userTagCountByCat.professional || 0;
+      tempMinTags.Dietary.numClicked =
+        userTagCountByCat['dietary restriction'] || 0;
+      tempMinTags.Cuisine.numClicked = userTagCountByCat.cuisine || 0;
+
+      setMinTags(tempMinTags);
+
+      const tempSocialTags = getTagsByCategory('social', tagsInState);
+      for (let tag of tempSocialTags) {
+        if (userTagIds.includes(tag.id)) {
+          tag.clicked = true;
+        }
+      }
+      setSocialTags(tempSocialTags);
+
+      const tempProfTags = getTagsByCategory('professional', tagsInState);
+      for (let tag of tempProfTags) {
+        if (userTagIds.includes(tag.id)) {
+          tag.clicked = true;
+        }
+      }
+      setProfessionalTags(tempProfTags);
+
+      const tempDietTags = getTagsByCategory(
+        'dietary restriction',
+        tagsInState
+      );
+      for (let tag of tempDietTags) {
+        if (userTagIds.includes(tag.id)) {
+          tag.clicked = true;
+        }
+      }
+      setDietaryTags(tempDietTags);
+
+      const tempCuisineTags = getTagsByCategory('cuisine', tagsInState);
+      for (let tag of tempCuisineTags) {
+        if (userTagIds.includes(tag.id)) {
+          tag.clicked = true;
+        }
+      }
+      setCuisineTags(tempCuisineTags);
+    }
+  }, [tagsInState, userTags]);
+
+  useEffect(() => {
+    // localStorage.setItem('minTags', JSON.stringify(minTags));
   }, [minTags]);
 
   // Handles creation of new user based on user inputs
@@ -105,7 +150,6 @@ const AboutForm = () => {
 
     for (let category in minTags) {
       const minTagsCopy = { ...minTags[category] };
-      console.log(minTags[category].numClicked, minTags[category].minimum);
       setMinTags((prev) => ({
         ...prev,
         [category]: {
@@ -116,40 +160,28 @@ const AboutForm = () => {
       }));
     }
 
-    const prevPageFormData = JSON.parse(
-      window.localStorage.getItem('registerForm')
-    );
-
-    prevPageFormData.tags = shapeTagsForDB(
+    const updateTags = shapeTagsForDB(
       socialTags,
       professionalTags,
       dietaryTags,
       cuisineTags
     );
 
-    prevPageFormData.aboutMe = bio;
+    const updatePackage = {
+      tags: updateTags,
+      aboutMe: bio,
+    };
 
-    if (prevPageFormData.address2 === '') {
-      delete prevPageFormData.address2;
-    }
+    dispatch(updateUser(updatePackage));
+    localStorage.removeItem('registerForm');
+    localStorage.removeItem('minTags');
 
-    await dispatch(createNewUser(prevPageFormData));
-    const { payload: errorOnCreation } = await dispatch(checkUserCreated());
-    if (errorOnCreation.error) {
-      console.log(errorOnCreation.error);
-    } else {
-      localStorage.removeItem('registerForm');
-      setTimeout(() => {
-        toast.custom((t) => <NewUserWelcome t={t} />);
-      }, TOAST_POPUP_DELAY);
-
-      navigate('/match');
-      localStorage.removeItem('aboutBio');
-      localStorage.removeItem('Social');
-      localStorage.removeItem('Cuisine');
-      localStorage.removeItem('Dietary');
-      localStorage.removeItem('Professional');
-    }
+    navigate('/account');
+    localStorage.removeItem('aboutBio');
+    localStorage.removeItem('Social');
+    localStorage.removeItem('Cuisine');
+    localStorage.removeItem('Dietary');
+    localStorage.removeItem('Professional');
   }
 
   AOS.init({
@@ -215,4 +247,4 @@ const AboutForm = () => {
   );
 };
 
-export default AboutForm;
+export default EditUserBioAndTags;

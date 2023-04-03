@@ -1,7 +1,6 @@
 import { React, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
 import { selectUnreadNotifications, selectMeetings } from '../../redux/slices';
 
 import MeetingRequest from './MeetingRequest';
@@ -40,7 +39,6 @@ const NotificationBody = ({
         <div className="flex flex-col">
           <div className="z-40 bg-primary-gray/60 self-end h-fit w-[87vw] md:w-[70vw] lg:w-[35rem] rounded-l-3xl px-3 py-3">
             <ul>
-              {/* <Toaster /> */}
               {notifications?.map((notification) => {
                 return (
                   <li key={notification.id}>

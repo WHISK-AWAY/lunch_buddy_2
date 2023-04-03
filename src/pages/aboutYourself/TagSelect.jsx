@@ -3,20 +3,40 @@ import chevronRight from '../../assets/icons/chevron-right.svg';
 import plus from '../../assets/icons/plus.svg';
 import minusWhite from '../../assets/icons/minus-white.svg';
 
-const TagSelect = ({ setter, tags = [], category }) => {
+const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
   const [tagExpand, setTagExpand] = useState(true);
 
   function handleTagClick(idx, setter) {
     const tempTags = [...tags];
     let tagToChange = tempTags[idx];
     tagToChange.clicked = !tagToChange.clicked;
+    const minTagsCopy = { ...minTags[category] };
+    setMinTags((prev) => ({
+      ...prev,
+      [category]: {
+        minimum: minTagsCopy.minimum,
+        show: minTagsCopy.show,
+        numClicked: tagToChange.clicked
+          ? minTagsCopy.numClicked++
+          : minTagsCopy.numClicked--,
+      },
+    }));
+
     setter(tempTags);
+    localStorage.setItem(category, JSON.stringify(tags));
   }
   // shadow-[0_35px_40px_-25px_rgba(0,0,0,0.2)]
   return (
     <div className="sm:px-8 pl-4 pt-6">
       <div className="text-headers mr-auto">
-        <h2 className="ml-2">{category.toUpperCase()}</h2>
+        <h2 className="ml-2">
+          {category.toUpperCase()}{' '}
+          {minTags[category]?.show && (
+            <span className="text-gray-400 ml-2">
+              Select at least {minTags[category]?.minimum}
+            </span>
+          )}
+        </h2>
       </div>
 
       <div

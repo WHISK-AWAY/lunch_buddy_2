@@ -13,6 +13,8 @@ import {
 } from '../../redux/slices';
 import RatingSubmitted from '../NotificationCenter/ToastFeedback/RatingSubmitted';
 
+const TOAST_POPUP_DELAY = 1000;
+
 const Feedback = () => {
   const [showReport, setShowReport] = useState(false);
   const [reportInput, setReportInput] = useState('');
@@ -91,9 +93,11 @@ const Feedback = () => {
       alert(`Error when sending rating`);
     } else if (createdRating.meta.requestStatus === 'fulfilled') {
       acknowledge();
-      toast.custom((t) => (
-        <RatingSubmitted notification={notification} t={t} />
-      ));
+      setTimeout(() => {
+        toast.custom((t) => (
+          <RatingSubmitted notification={notification} t={t} />
+        ));
+      }, TOAST_POPUP_DELAY);
       navigate('/');
     }
   }
