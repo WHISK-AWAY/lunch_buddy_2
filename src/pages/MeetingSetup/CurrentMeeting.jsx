@@ -101,7 +101,12 @@ const CurrentMeeting = (props) => {
 
   return (
     <div className="recap-card h-[calc(100vh_-_65px)] w-screen self-center orange-linear-bg lg:bg-none justify-between lg:items-center bg-fixed text-primary-gray overflow-hidden flex flex-row">
-      <div className="recap-image hidden bg-left lg:block lg:h-full lg:basis-1/2 bg-[url('/assets/bgImg/meetingConfView.jpg')] bg-cover overflow-hidden"></div>
+      <div
+        className="recap-image hidden bg-left lg:block lg:h-full lg:basis-1/2 bg-[url('/assets/bgImg/meetingConfView.jpg')] bg-cover overflow-hidden"
+        data-aos="fade-right"
+        data-aos-delay="800"
+        data-aos-duration="1500"
+      ></div>
       <div className="recap-info flex flex-col h-full lg:basis-1/2 gap-12 items-center overflow-auto justify-center basis-full">
         <div
           className="recap-header text-headers text-lg font-semibold"
@@ -116,12 +121,12 @@ const CurrentMeeting = (props) => {
             className="buddy-avatar-container rounded-full mb-6"
             data-aos="fade-in"
             data-aos-delay="800"
-            data-aos-duration="1000"
+            data-aos-duration="2500"
           >
             <img
               src={buddy.avatarUrl}
               alt="Your buddy's avatar image"
-              className="bg-white object-cover aspect-square w-28 h-28 rounded-full z-10 p-1 drop-shadow-md"
+              className="bg-white object-cover aspect-square h-28 w-28 lg:w-32 lg:h-32 rounded-full z-10 p-1 drop-shadow-md"
             />
           </div>
           <div
@@ -129,7 +134,7 @@ const CurrentMeeting = (props) => {
             className="flex flex-col justify-center items-center"
             data-aos="fade-down"
             data-aos-delay="800"
-            data-aos-duration="2800"
+            data-aos-duration="2200"
           >
             <h2 className="text-md text-headers pb-1">
               {buddy.fullName.toUpperCase()}
@@ -159,8 +164,8 @@ const CurrentMeeting = (props) => {
           </div>
           <div
             id="btn-container"
-            className="flex gap-8 justify-between lg:w-3/5 pt-4 text-xs w-11/12"
-            data-aos="fade-down"
+            className="flex gap-8 justify-between lg:w-3/5 pt-5 text-xs w-11/12"
+            data-aos="fade-in"
             data-aos-delay="800"
             data-aos-duration="2800"
           >
