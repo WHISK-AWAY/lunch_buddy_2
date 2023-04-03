@@ -73,8 +73,6 @@ const UserAccount = () => {
     setProfessionalTags(professional || []);
     setDietaryTags(dietary || []);
     setCuisineTags(cuisine || []);
-
-    console.log('tags:', tags);
   }, [user]);
 
   if (auth.user.isLoading) return <p>Loading user info...</p>;
