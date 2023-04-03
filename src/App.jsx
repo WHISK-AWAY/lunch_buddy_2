@@ -14,6 +14,7 @@ import {
   SignInForm,
   RegisterForm,
   EditUserForm,
+  EditUserBioAndTags,
   Feedback,
   UserAccount,
   Homepage,
@@ -41,6 +42,7 @@ function App() {
         <Route path="/match/confirm" element={<MeetingRecap />}></Route>
         {/* THESE ROUTE NAMES WILL BE CHANGED JUST A PLACEHOLDER */}
         <Route path="edituser" element={<EditUserForm />} />
+        <Route path="edituser/tags" element={<EditUserBioAndTags />} />
         <Route path="meeting/:meetingId/feedback" element={<Feedback />} />
         <Route path="meeting/current" element={<CurrentMeeting />} />
       </Routes>

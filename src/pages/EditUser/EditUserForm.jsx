@@ -164,7 +164,7 @@ const EditUserForm = () => {
         console.log('async error', typeof asyncError.payload.error);
         console.log(`Error: ${asyncError.payload.error}`);
       } else {
-        navigate('/account');
+        navigate('/edituser/tags');
       }
     }
   };
