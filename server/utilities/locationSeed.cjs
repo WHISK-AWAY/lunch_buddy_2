@@ -115,13 +115,13 @@ const localUsers = [
  *  to random coordinates relative to origin
  */
 async function locationSeed(
-  inputData = localUsers,
+  // inputData = localUsers,
   origin,
   radius = SEARCH_RADIUS,
   city,
   state
 ) {
-  const userData = inputData.map((user) => {
+  const userData = localUsers.map((user) => {
     let userEmail = '';
     for (let i = 0; i < 12; i++) {
       const letternum = Math.floor(Math.random() * 25);
@@ -134,6 +134,7 @@ async function locationSeed(
     if (state) {
       user.state = state;
     }
+
     //generate random coords within 5 miles radius of plantUser
     const randomCoordinate = geolib.computeDestinationPoint(
       origin,

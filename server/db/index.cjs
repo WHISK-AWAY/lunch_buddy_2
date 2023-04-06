@@ -108,6 +108,65 @@ Meeting.afterCreate(async (meeting) => {
   }, 3000);
 });
 
+// When a new notification is created for a demo user,
+// automatically deal with it
+Notification.afterCreate(async (notification) => {
+  const toUser = await User.findByPk(notification.toUserId);
+  if (toUser.email.slice(-10) === '@demo.demo') {
+    console.log('---------------------Notification created for demo user');
+    switch (notification.notificationType) {
+      case 'meetingInvite':
+        // acknowledge the notification & accept the invite
+        await notification.update({ isAcknowledged: true });
+        await Meeting.update(
+          { meetingStatus: 'confirmed' },
+          { where: { id: notification.meetingId }, individualHooks: true }
+        );
+        break;
+
+      case 'inviteAccepted':
+        // just acknowledge the notification
+        await notification.update({ isAcknowledged: true });
+        break;
+      case 'inviteRejected':
+        // just acknowledge the notification
+        await notification.update({ isAcknowledged: true });
+        break;
+      case 'meetingCancelled':
+        // just acknowledge the notification
+        await notification.update({ isAcknowledged: true });
+        break;
+      case 'ratingRequested':
+        // acknowledge the notification & submit rating
+        await notification.update({ isAcknowledged: true });
+        await Rating.create({
+          userId: notification.toUserId,
+          buddyId: notification.fromUserId,
+          meetingId: notification.meetingId,
+          rating: 4,
+        });
+
+        break;
+      case 'currentMeeting':
+        // don't do anything - this will auto-ack upon meeting close
+        break;
+      case 'newMessage':
+        // acknowledge the notification
+        console.log('new message received to dummy user');
+        await Message.create({
+          recipientId: notification.fromUserId,
+          meetingId: notification.meetingId,
+          message: 'Bloop bloop I am a robot',
+          senderId: notification.toUserId,
+        });
+        setTimeout(async () => {
+          await notification.update({ isAcknowledged: true });
+        }, 1000);
+        break;
+    }
+  }
+});
+
 // Close out relevant notifications when a meeting is closed
 // Generate relevant notifications when a meeting is confirmed
 Meeting.afterUpdate(async (meeting) => {
@@ -206,6 +265,7 @@ Message.afterCreate(async (message) => {
         fromUserId: senderId,
         meetingId: meetingId,
         notificationType: 'newMessage',
+        isAcknowledged: false,
       },
     });
   }, 2000);

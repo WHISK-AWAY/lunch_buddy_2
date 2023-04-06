@@ -135,6 +135,11 @@ router.put(
   }
 );
 
+/**
+ * PUT /api/user/:userId/meeting/:meetingId/confirm
+ * change meeting status to 'confirmed'
+ * hooks based on this status change will fire off additional notifications
+ */
 router.put(
   '/:meetingId/confirm',
   requireToken,

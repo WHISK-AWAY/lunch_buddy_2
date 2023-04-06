@@ -36,33 +36,39 @@ router.get('/', requireToken, isAdmin, async (req, res, next) => {
     next(err);
   }
 });
-router.post('/generate/demo', async (req, res, next) => {
+
+/**
+ * POST /api/user/generate/demo
+ * Triggers creation of dummy users near logged-in user's location
+ */
+router.post('/generate/demo', requireToken, async (req, res, next) => {
   try {
-    console.log(req.body.localUsers, req.body.center, req.body.radius);
-    await User.update(
-      {
-        lastLong: req.body.center.longitude,
-        lastLat: req.body.center.latitude,
-      },
-      {
-        where: {
-          id: req.body.id,
-        },
-      }
-    );
+    const { center, radius, city, state } = req.body;
+    // await User.findOrCreate(
+    //   {
+    //     lastLong: req.body.center.longitude,
+    //     lastLat: req.body.center.latitude,
+    //   },
+    //   {
+    //     where: {
+    //       id: req.body.id,
+    //     },
+    //   }
+    // );
     await locationSeed(
-      req.body.localUsers,
+      // req.body.localUsers,
       req.body.center,
       req.body.radius,
       req.body.city,
-      req.body.dtate
+      req.body.state
     );
+
     res.sendStatus(200);
   } catch (err) {
     next(err);
   }
 });
-//
+
 router.get(
   '/:userId',
   requireToken,

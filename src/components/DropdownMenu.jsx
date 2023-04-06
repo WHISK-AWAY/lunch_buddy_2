@@ -9,13 +9,17 @@ import DropDownItem from './DropDownItem';
 import Homepage from '../pages/Homepage/Homepage';
 import { useNavigate } from 'react-router-dom';
 import { selectUnreadActiveMeeting } from '../redux/slices/notificationSlice';
+import getLocation from '../utilities/geo';
+import axios from 'axios';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const authUser = useSelector(selectAuthUser);
   const notifications = useSelector(selectUnreadNotifications);
-
+  const userState = useSelector((state) => state.user.user);
   const currentMeetingNotification = notifications?.filter(
     (notification) => notification.notificationType === 'currentMeeting'
   )[0];
@@ -31,6 +35,39 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
     dispatch(clearNotificationState());
     dispatch(logOut());
     navigate('/');
+  }
+
+  async function handleDemoMode() {
+    setExpandMenu(false);
+    getLocation(dispatch);
+
+    setTimeout(async () => {
+      const center = {
+        latitude: userState.lastLat,
+        longitude: userState.lastLong,
+      };
+
+      await axios.post(
+        API_URL + '/api/user/generate/demo',
+        {
+          center,
+          radius: 1,
+          city: userState.city,
+          state: userState.state,
+          id: userState.id,
+        },
+        {
+          headers: {
+            Authorization: window.localStorage.getItem('token'),
+          },
+        }
+      );
+      console.log('userState:', userState);
+      navigate('/match');
+    }, 5000);
+    // set status to active
+    // call the demo mode route
+    // maybe a demo mode toast?
   }
 
   return (
@@ -81,6 +118,9 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
                   MESSAGES
                 </DropDownItem>
               )}
+              <DropDownItem handleClick={handleDemoMode}>
+                DEMO MODE
+              </DropDownItem>
               <DropDownItem handleClick={handleLogout}>LOG OUT</DropDownItem>
             </>
           )}

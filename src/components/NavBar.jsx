@@ -13,6 +13,7 @@ import {
   fetchAllNotifications,
   selectUnreadNotifications,
 } from '../redux/slices/notificationSlice';
+import getLocation from '../utilities/geo';
 
 const NOTIFICATION_UPDATE_INTERVAL = 60000;
 const TOAST_DURATION = 10000;
@@ -21,6 +22,7 @@ const NavBar = () => {
   const [expandMenu, setExpandMenu] = useState(false);
   const [showNotificationBody, setShowNotificationBody] = useState(false);
   const [triggerClose, setTriggerClose] = useState(false);
+  const [locationTriggered, setLocationTriggered] = useState(false);
   const dispatch = useDispatch();
 
   const authUser = useSelector(selectAuthUser);
@@ -58,6 +60,13 @@ const NavBar = () => {
       dropdownController.abort();
     }
   }, [expandMenu]);
+
+  useEffect(() => {
+    if (userState.status === 'active' && !locationTriggered) {
+      getLocation(dispatch);
+      setLocationTriggered(true);
+    }
+  }, [userState, locationTriggered]);
 
   function closeNotificationBody() {
     setTriggerClose(true);
@@ -106,6 +115,7 @@ const NavBar = () => {
     let newStatus;
     if (userState.status === 'active') {
       newStatus = 'inactive';
+      setLocationTriggered(false);
     } else if (userState.status === 'inactive') {
       newStatus = 'active';
     } else {
