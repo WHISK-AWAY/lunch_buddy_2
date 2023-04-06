@@ -145,9 +145,6 @@ const AboutForm = () => {
       localStorage.removeItem('Dietary');
       localStorage.removeItem('Professional');
 
-      console.log('email:', form.email);
-      console.log('password:', form.password);
-
       dispatch(
         requestLogin({
           email: form.email,

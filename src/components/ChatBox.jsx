@@ -89,7 +89,7 @@ export default function ChatBox() {
             meetingId,
           })
         );
-      }, 3000);
+      }, 5000);
       if (message?.error?.message) {
         alert('An error has occurred. Please try again later.');
       } else {

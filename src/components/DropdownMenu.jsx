@@ -39,32 +39,63 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
 
   async function handleDemoMode() {
     setExpandMenu(false);
-    getLocation(dispatch);
+    // getLocation(dispatch);
 
-    setTimeout(async () => {
-      const center = {
-        latitude: userState.lastLat,
-        longitude: userState.lastLong,
-      };
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        const { latitude, longitude } = position.coords;
+        const center = {
+          latitude,
+          longitude,
+        };
+        axios
+          .post(
+            API_URL + '/api/user/generate/demo',
+            {
+              center,
+              radius: 0.5,
+              city: userState.city,
+              state: userState.state,
+              id: userState.id,
+            },
+            {
+              headers: {
+                Authorization: window.localStorage.getItem('token'),
+              },
+            }
+          )
+          .then(() => navigate('/match'));
+        console.log(center);
+      },
+      function (error) {
+        console.log('user denied location services permission');
+      }
+    );
 
-      await axios.post(
-        API_URL + '/api/user/generate/demo',
-        {
-          center,
-          radius: 1,
-          city: userState.city,
-          state: userState.state,
-          id: userState.id,
-        },
-        {
-          headers: {
-            Authorization: window.localStorage.getItem('token'),
-          },
-        }
-      );
-      console.log('userState:', userState);
-      navigate('/match');
-    }, 5000);
+    // setTimeout(async () => {
+    //   const center = {
+    //     latitude: userState.lastLat,
+    //     longitude: userState.lastLong,
+    //   };
+
+    //   await axios.post(
+    //     API_URL + '/api/user/generate/demo',
+    //     {
+    //       center,
+    //       radius: 1,
+    //       city: userState.city,
+    //       state: userState.state,
+    //       id: userState.id,
+    //     },
+    //     {
+    //       headers: {
+    //         Authorization: window.localStorage.getItem('token'),
+    //       },
+    //     }
+    //   );
+    //   console.log('userState:', userState);
+    //   navigate('/match');
+    // }, 5000);
     // set status to active
     // call the demo mode route
     // maybe a demo mode toast?
