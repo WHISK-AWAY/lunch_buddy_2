@@ -82,6 +82,14 @@ export default function ChatBox() {
           newMessage: newMessage,
         })
       );
+      setTimeout(() => {
+        dispatch(
+          getMeetingMessages({
+            token: token,
+            meetingId,
+          })
+        );
+      }, 3000);
       if (message?.error?.message) {
         alert('An error has occurred. Please try again later.');
       } else {
