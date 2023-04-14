@@ -4,20 +4,47 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite ",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview --host",
+    "api": "nodemon ./server/server.cjs",
+    "seed": "node ./server/seed.cjs",
+    "socketIo": "nodemon ./server/socketServer.cjs"
   },
   "dependencies": {
+    "@googlemaps/react-wrapper": "^1.1.35",
+    "@reduxjs/toolkit": "^1.9.3",
+    "axios": "^1.3.4",
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
+    "chalk": "^5.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "geolib": "^3.3.3",
+    "jsonwebtoken": "^9.0.0",
+    "nodemon": "^2.0.21",
+    "pg": "^8.10.0",
+    "prettier": "^2.8.4",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.9.0",
+    "sequelize": "^6.29.3",
+    "socket.io": "^4.6.1",
+    "socket.io-client": "^4.6.1",
+    "taos": "^1.0.2",
+    "volleyball": "^1.5.1"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.3",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",
+    "aos": "^3.0.0-beta.6",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.21",
+    "swiper": "^9.1.1",
     "tailwindcss": "^3.2.7",
     "vite": "^4.2.0"
   }
