@@ -24,9 +24,6 @@ export {
   resetMeetingStatus,
 } from './meetingSlice';
 
-// MESSAGES
-export { default as messagesSlice, selectMessages } from './messagesSlice';
-
 // SEARCH
 export {
   default as searchSlice,

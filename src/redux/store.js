@@ -2,7 +2,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import {
   authSlice,
   meetingSlice,
-  messagesSlice,
   searchSlice,
   tagSlice,
   userSlice,
@@ -13,7 +12,6 @@ const store = configureStore({
   reducer: {
     auth: authSlice,
     meetings: meetingSlice,
-    messages: messagesSlice,
     tags: tagSlice,
     search: searchSlice,
     user: userSlice,
