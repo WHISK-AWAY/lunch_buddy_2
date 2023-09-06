@@ -155,11 +155,10 @@ const User = db.define('user', {
     },
   },
   zip: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     allowNull: false,
     validate: {
-      min: 0,
-      max: 99999,
+      len: [5, 5],
       notEmpty: true,
       notNull: true,
     },

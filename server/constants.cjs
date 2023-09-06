@@ -14,4 +14,14 @@ const SAFE_USER_FIELDS = [
   'avatarUrl',
 ];
 
-module.exports = { SAFE_USER_FIELDS };
+const NOTIFICATION_TYPES = [
+  'meetingInvite',
+  'inviteAccepted',
+  'inviteRejected',
+  'meetingCancelled',
+  'ratingRequested',
+  'currentMeeting',
+  'newMessage',
+];
+
+module.exports = { SAFE_USER_FIELDS, NOTIFICATION_TYPES };

@@ -7,6 +7,7 @@ const {
 } = require('../authMiddleware.cjs');
 
 const { User, Tag, Category } = require('../../db/index.cjs');
+const locationSeed = require('../../utilities/locationSeed.cjs');
 const { Op } = require('sequelize');
 
 // user tag minimums
@@ -31,6 +32,38 @@ router.get('/', requireToken, isAdmin, async (req, res, next) => {
       },
     });
     res.status(200).json(allUsers);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * POST /api/user/generate/demo
+ * Triggers creation of dummy users near logged-in user's location
+ */
+router.post('/generate/demo', requireToken, async (req, res, next) => {
+  try {
+    const { center, radius, city, state } = req.body;
+    // await User.findOrCreate(
+    //   {
+    //     lastLong: req.body.center.longitude,
+    //     lastLat: req.body.center.latitude,
+    //   },
+    //   {
+    //     where: {
+    //       id: req.body.id,
+    //     },
+    //   }
+    // );
+    await locationSeed(
+      // req.body.localUsers,
+      req.body.center,
+      req.body.radius,
+      req.body.city,
+      req.body.state
+    );
+
+    res.sendStatus(200);
   } catch (err) {
     next(err);
   }
@@ -326,9 +359,16 @@ router.put(
 
       // make requested changes
       await userToUpdate.update(updatePackage);
+      if (tags?.length > 0) await userToUpdate.setTags(tags);
 
       // return updated user
       const updatedUser = await User.findByPk(userToUpdate.id, {
+        include: {
+          model: Tag,
+          include: {
+            model: Category,
+          },
+        },
         attributes: {
           exclude: ['password', 'avgRating', 'reportCount', 'strikeCount'],
         },
@@ -407,5 +447,6 @@ router.put(
 
 // split off Meeting section of User route into separate module
 router.use('/:userId/meeting', require('./userMeeting.cjs'));
+router.use('/:userId/notifications', require('./userNotifications.cjs'));
 
 module.exports = router;

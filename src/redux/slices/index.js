@@ -2,6 +2,7 @@
 export {
   default as authSlice,
   selectAuth,
+  selectAuthUser,
   selectAuthStatus,
   resetAuthStatus,
   requestLogin,
@@ -53,3 +54,13 @@ export {
   removeBan,
   fetchUserMeetings,
 } from './userSlice';
+
+// NOTIFICATIONS
+export {
+  default as notificationSlice,
+  fetchAllNotifications,
+  updateNotificationStatus,
+  selectUnreadNotifications,
+  cancelMeeting,
+  clearNotificationState,
+} from './notificationSlice';

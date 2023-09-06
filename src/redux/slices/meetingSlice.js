@@ -86,6 +86,26 @@ export const getMeeting = createAsyncThunk(
   }
 );
 
+export const getBusinessInfo = createAsyncThunk(
+  'meeting/getBusiness',
+  async (yelpBusinessId, { rejectWithValue }) => {
+    const token = localStorage.getItem('token');
+    try {
+      const { data } = await axios.get(
+        API_URL + `/api/search/restaurants/${yelpBusinessId}`,
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
 export const deleteMeeting = createAsyncThunk(
   'meeting/deleteMeeting',
   async ({ token, meetingId }, { rejectWithValue }) => {
@@ -195,6 +215,7 @@ const meetingSlice = createSlice({
     isLoading: false,
     error: '',
     status: {},
+    business: {},
   },
   reducers: {
     resetMeetingStatus: (state) => {
@@ -238,6 +259,9 @@ const meetingSlice = createSlice({
 
       // Get a single meeting (Already includes the messages)
       .addCase(getMeeting.fulfilled, (state, action) => {
+        if (state.meeting.messages && !action.payload.messages) {
+          action.payload.messages = state.meeting.messages;
+        }
         state.meeting = action.payload;
         if (!state.meetings.some((meeting) => meeting.id === action.payload.id))
           state.meetings.push(action.payload);
@@ -274,7 +298,6 @@ const meetingSlice = createSlice({
       // Get a messages for a particular meeting
       .addCase(getMeetingMessages.fulfilled, (state, action) => {
         // Payload includes messages for this particular meeting
-        console.log(action.payload);
         state.meeting = action.payload;
         state.isLoading = false;
         state.error = '';
@@ -289,7 +312,8 @@ const meetingSlice = createSlice({
 
       // Add a message
       .addCase(addMessage.fulfilled, (state, action) => {
-        state.meeting.messages.push(action.payload);
+        state.meeting.messages = [...state.meeting.messages, action.payload];
+        // state.meeting.messages.push(action.payload);
         state.isLoading = false;
         state.error = '';
       })
@@ -324,10 +348,28 @@ const meetingSlice = createSlice({
       .addCase(upholdRating.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload.response.data;
+      })
+      // Get business info
+      .addCase(getBusinessInfo.fulfilled, (state, action) => {
+        state.business[action.payload.id] = action.payload;
+        state.isLoading = false;
+        state.error = '';
+      })
+      .addCase(getBusinessInfo.rejected, (state, action) => {
+        state.error = action.payload.response.data;
+        state.isLoading = false;
+      })
+      .addCase(getBusinessInfo.pending, (state, action) => {
+        state.isLoading = true;
+        state.error = '';
       });
   },
 });
 
 export const selectMeetings = (state) => state.meetings;
+export const selectActiveMeeting = (state) => {
+  const allMeetings = state.meetings.meetings;
+  return allMeetings.find((meeting) => meeting.isClosed === false);
+};
 export const { resetMeetingStatus } = meetingSlice.actions;
 export default meetingSlice.reducer;

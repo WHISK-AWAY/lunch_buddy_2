@@ -40,6 +40,7 @@ const EditUserForm = () => {
   const dispatch = useDispatch();
 
   const [formInputs, setFormInputs] = useState(inputs);
+
   const [inputValidator, setInputValidator] = useState(
     requiredFields.reduce((accumulator, field) => {
       accumulator[field] = false;
@@ -78,7 +79,7 @@ const EditUserForm = () => {
   };
 
   const validateAge = () => {
-    return formInputs.age >= 18;
+    return +formInputs.age >= 18 && +formInputs.age < 135;
   };
 
   useEffect(() => {
@@ -172,7 +173,7 @@ const EditUserForm = () => {
         console.log('async error', typeof asyncError.payload.error);
         console.log(`Error: ${asyncError.payload.error}`);
       } else {
-        navigate('/');
+        navigate('/edituser/tags');
       }
     }
   };
@@ -199,224 +200,177 @@ const EditUserForm = () => {
   };
 
   return (
-    <>
-      <div className="h-screen flex justify-center lg:grow items-center">
-        <div className="w-full xs:w-4/5 sm:w-3/5 md:w-1/2">
-          <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8">
-            <h1 className="text-center text-2xl mb-6 text-red-400 font-bold font-sans col-span-full">
-              Edit Information
-            </h1>
-            <div className="relative col-span-3 w-full">
-              <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
-                First Name
-              </label>
-              <input
-                className={`${
-                  inputValidator.firstName ? invalidClass : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
-                value={formInputs.firstName}
-                onChange={(e) =>
-                  setFormInputs((prev) => ({
-                    ...prev,
-                    firstName: e.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="relative col-span-3 w-full">
-              <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
-                Last Name
-              </label>
-              <input
-                className={`${
-                  inputValidator.lastName ? invalidClass : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
-                value={formInputs.lastName}
-                onChange={(e) =>
-                  setFormInputs((prev) => ({
-                    ...prev,
-                    lastName: e.target.value,
-                  }))
-                }
-              />
-            </div>
-            {/* <div className="relative col-span-full">
-      <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
-        Email
-      </label>
-      <input
-        className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
-        value={formInputs.email}
-        onChange={(e) =>
-          setFormInputs((prev) => ({ ...prev, email: e.target.value }))
-        }
-      />
-    </div>
-    <div className="relative col-span-full">
-      <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
-        Password
-      </label>
-      <input
-        type="password"
-        className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
-        value={formInputs.password}
-        onChange={(e) =>
-          setFormInputs((prev) => ({ ...prev, password: e.target.value }))
-        }
-      />
-    </div>
-    <div className="relative col-span-full">
-      <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
-        Confirm Password
-      </label>
-      <input
-        type="password"
-        className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
-        value={formInputs.confirmPassword}
-        onChange={(e) =>
-          setFormInputs((prev) => ({
-            ...prev,
-            confirmPassword: e.target.value,
-          }))
-        }
-      />
-    </div> */}
-            <div className="relative col-span-4">
-              <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
-                Address 1
-              </label>
-              <input
-                className={`${
-                  inputValidator.address1 ? invalidClass : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
-                value={formInputs.address1}
-                onChange={(e) =>
-                  setFormInputs((prev) => ({
-                    ...prev,
-                    address1: e.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="relative col-span-2">
-              <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
-                Address 2
-              </label>
-              <input
-                className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
-                value={formInputs.address2}
-                onChange={(e) =>
-                  setFormInputs((prev) => ({
-                    ...prev,
-                    address2: e.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="relative col-span-4">
-              <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
-                City
-              </label>
-              <input
-                className={`${
-                  inputValidator.lastName ? invalidClass : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
-                value={formInputs.city}
-                onChange={(e) =>
-                  setFormInputs((prev) => ({ ...prev, city: e.target.value }))
-                }
-              />
-            </div>
-            <div className="relative col-span-2">
-              <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
-                State
-              </label>
-              <select
-                className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700 text-sm"
-                onChange={(e) =>
-                  setFormInputs((prev) => ({ ...prev, state: e.target.value }))
-                }
-              >
-                {listOfStates.map((state) => {
-                  return (
-                    <option key={state} value={state}>
-                      {state}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-            <div className="relative col-span-2">
-              <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
-                Zip
-              </label>
-              <input
-                className={`${
-                  inputValidator.zip ? invalidClass : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
-                value={formInputs.zip}
-                onChange={(e) =>
-                  setFormInputs((prev) => ({ ...prev, zip: e.target.value }))
-                }
-              />
-            </div>
-            <div className="relative col-span-2">
-              <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
-                Age
-              </label>
-              <input
-                className={`${
-                  inputValidator.age ? invalidClass : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
-                type="number"
-                value={formInputs.age}
-                onChange={(e) =>
-                  setFormInputs((prev) => ({ ...prev, age: e.target.value }))
-                }
-                placeholder="18+"
-              />
-            </div>
-            <div className="relative col-span-2">
-              <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
-                Gender
-              </label>
-              <select
-                className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-slate-700"
-                onChange={(e) =>
-                  setFormInputs((prev) => ({ ...prev, gender: e.target.value }))
-                }
-              >
-                <option value="M">Male</option>
-                <option value="F">Female</option>
-                <option value="Other">Other</option>
-                <option value="DidNotDisclose">Prefer Not To Say</option>
-              </select>
-            </div>
-            <div className="relative col-span-2">
-              <label className="text-red-400 font-semibold block text-sm sm:text-base px-1">
-                Upload Image
-              </label>
-              <input
-                className={` `}
-                type="file"
-                onChange={(e) => {
-                  uploadImage(e);
+    <div className="h-[calc(100vh_-_65px)] flex lg:justify-between lg:grow items-center text-primary-gray justify-center">
+      <div className="flex flex-col items-center w-4/5 lg:basis-1/2 sm:w-3/5 md:w-2/5">
+        <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8 mb-10">
+          <h1 className="text-center text-2xl mb-6 text-red-400 font-bold font-sans col-span-full">
+            EDIT
+          </h1>
+          <div className="relative col-span-3 w-full">
+            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              First Name
+            </label>
+            <input
+              className={`${
+                inputValidator.firstName ? invalidClass : null
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray text-[.9rem]`}
+              value={formInputs.firstName}
+              onChange={(e) =>
+                setFormInputs((prev) => ({
+                  ...prev,
+                  firstName: e.target.value,
+                }))
+              }
+            />
+          </div>
+          <div className="relative col-span-3 w-full">
+            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              Last Name
+            </label>
+            <input
+              className={`${
+                inputValidator.lastName ? invalidClass : null
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray text-[.9rem]`}
+              value={formInputs.lastName}
+              onChange={(e) =>
+                setFormInputs((prev) => ({ ...prev, lastName: e.target.value }))
+              }
+            />
+          </div>
+          <div className="relative col-span-4 text-primary-gray">
+            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              Address 1
+            </label>
+            <input
+              className={`${
+                inputValidator.address1 ? invalidClass : null
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray text-[.9rem]`}
+              value={formInputs.address1}
+              onChange={(e) =>
+                setFormInputs((prev) => ({ ...prev, address1: e.target.value }))
+              }
+            />
+          </div>
+          <div className="relative col-span-2">
+            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              Address 2
+            </label>
+            <input
+              className="w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray text-[.9rem]"
+              value={formInputs.address2}
+              onChange={(e) =>
+                setFormInputs((prev) => ({ ...prev, address2: e.target.value }))
+              }
+            />
+          </div>
+          <div className="relative col-span-4">
+            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              City
+            </label>
+            <input
+              className={`${
+                inputValidator.lastName ? invalidClass : null
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray text-[.9rem]`}
+              value={formInputs.city}
+              onChange={(e) =>
+                setFormInputs((prev) => ({ ...prev, city: e.target.value }))
+              }
+            />
+          </div>
+          <div className="relative col-span-2">
+            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              State
+            </label>
+            <select
+              className="w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray text-xs bg-white"
+              onChange={(e) =>
+                setFormInputs((prev) => ({ ...prev, state: e.target.value }))
+              }
+              defaultValue={userInfo.state}
+            >
+              {listOfStates.map((state) => {
+                return (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div className="relative col-span-2">
+            <label className="text-red-400 font-semibold block text-xs  absolute -top-3 left-3 bg-white px-1">
+              Zip
+            </label>
+            <input
+              className={`${
+                inputValidator.zip ? invalidClass : null
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray text-[.9rem]`}
+              value={formInputs.zip}
+              onChange={(e) =>
+                setFormInputs((prev) => ({ ...prev, zip: e.target.value }))
+              }
+            />
+          </div>
+          <div className="relative col-span-2">
+            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              Age
+            </label>
+            <input
+              className={`${
+                inputValidator.age ? invalidClass : null
+              }  w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray text-[.9rem]`}
+              type="text"
+              value={formInputs.age}
+              onChange={(e) =>
+                setFormInputs((prev) => ({ ...prev, age: e.target.value }))
+              }
+              placeholder="18+"
+            />
+          </div>
+          <div className="relative col-span-2">
+            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              Gender
+            </label>
+            <select
+              className="w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray bg-white text-xs"
+              onChange={(e) =>
+                setFormInputs((prev) => ({ ...prev, gender: e.target.value }))
+              }
+              defaultValue={userInfo.gender}
+            >
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+              <option value="Other">Other</option>
+              <option value="DidNotDisclose">Prefer Not To Say</option>
+            </select>
+          </div>
+          <div className="relative col-span-2 ">
+            <label className="text-label block text-xs px-1 uppercase">
+              Upload Image
+            </label>
+            <input
+              className={` `}
+              type="file"
+              onChange={(e) => {
+                uploadImage(e);
 
-                  setFormInputs((prev) => ({
-                    ...prev,
-                    avatarUrl: baseImage,
-                  }));
-                }}
-              />
-            </div>
-            <div className="col-span-full md:w-3/5 md:mx-auto">
-              <FormButton handleSubmit={handleSubmit}>Continue</FormButton>
-            </div>
-          </form>
-        </div>
+                setFormInputs((prev) => ({
+                  ...prev,
+                  avatarUrl: baseImage,
+                }));
+              }}
+            />
+          </div>
+          <div className="col-span-full md:w-3/5 md:mx-auto">
+            <FormButton handleSubmit={handleSubmit}>CONTINUE</FormButton>
+          </div>
+        </form>
       </div>
-      <img src={`${baseImage}`} alt="Can't show image" />
-    </>
+      <div
+        className="image-wrapper overflow-hidden hidden lg:block basis-1/2 h-[calc(100vh_-_65px)] bg-cover bg-[url('/assets/bgImg/signUpView.jpg')]"
+        alt="person smearing a dip on toast, at a restaurant with wine, plates, coffee"
+      ></div>
+    </div>
   );
 };
 

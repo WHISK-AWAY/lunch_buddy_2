@@ -16,8 +16,8 @@ const activities = [
   { title: 'Dancing' },
   { title: 'Acting' },
   { title: 'Watching movies' },
-  { title: 'Playing video games' },
-  { title: 'Going to the gym' },
+  { title: 'Video games' },
+  { title: 'Gym' },
   { title: 'Yoga' },
   { title: 'Meditation' },
   { title: 'Swimming' },
@@ -37,21 +37,21 @@ const activities = [
 ];
 
 const professions = [
-  'Information Technology (IT)',
+  'Information Technology',
   'Healthcare',
   'Finance and Accounting',
   'Education',
   'Engineering',
   'Sales and Marketing',
-  'Law and Legal Services',
-  'Management and Administration',
-  'Creative Arts and Design',
-  'Hospitality and Tourism',
+  'Law',
+  'Management',
+  'Creative Arts',
+  'Hospitality',
   'Human Resources',
-  'Public Relations and Communications',
-  'Science and Research',
+  'Communications',
+  'Science',
   'Consulting',
-  'Non-profit and Social Services',
+  'Social Services',
 ];
 
 const dietaryRestrictions = [

@@ -1,9 +1,13 @@
 /** @type {import('tailwindcss').Config} */
+
+const plugin = require('tailwindcss/plugin');
+
 module.exports = {
   content: {
     files: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
     transform: (content) => content.replace(/taos:/g, ''),
   },
+  darkMode: 'class',
   theme: {
     fontFamily: {
       fredericka: ['Fredericka the Great', 'cursive'],
@@ -12,6 +16,12 @@ module.exports = {
       cormo: ['Cormorant', 'serif'],
       clicker: ['Clicker Script', 'cursive'],
       poppins: ['Poppins', 'sans-serif'],
+      abril: ['Abril Fatface', 'cursive'],
+      serif: ['DM Serif Display', 'serif'],
+      jo: ['Josefin Sans', 'sans-serif'],
+      po: ['Poiret One', 'cursive'],
+      ultra: ['Ultra', 'serif'],
+      fed: ['Federo', 'sans - serif'],
     },
     fontWeight: {
       thin: 100,
@@ -48,6 +58,18 @@ module.exports = {
   plugins: [
     require('@tailwindcss/forms')({ strategy: 'class' }),
     require('taos/plugin'),
-    // ...
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        '.scrollbar-hide': {
+          '-ms-overflow-style': 'none',
+
+          'scrollbar-width': 'none',
+
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        },
+      });
+    }),
   ],
 };

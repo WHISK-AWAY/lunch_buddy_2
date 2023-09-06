@@ -1,14 +1,30 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  clearNotificationState,
+  selectUnreadNotifications,
+} from '../redux/slices';
 import { selectAuthUser, logOut } from '../redux/slices/authSlice';
 import DropDownItem from './DropDownItem';
 import Homepage from '../pages/Homepage/Homepage';
 import { useNavigate } from 'react-router-dom';
+import { selectUnreadActiveMeeting } from '../redux/slices/notificationSlice';
+import getLocation from '../utilities/geo';
+import axios from 'axios';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const authUser = useSelector(selectAuthUser);
+  const notifications = useSelector(selectUnreadNotifications);
+  const userState = useSelector((state) => state.user.user);
+  const currentMeetingNotification = notifications?.filter(
+    (notification) => notification.notificationType === 'currentMeeting'
+  )[0];
+
+  const activeMeeting = useSelector(selectUnreadActiveMeeting);
 
   function handleClick() {
     setExpandMenu(false);
@@ -16,8 +32,73 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
 
   function handleLogout() {
     setExpandMenu(false);
+    dispatch(clearNotificationState());
     dispatch(logOut());
     navigate('/');
+  }
+
+  async function handleDemoMode() {
+    setExpandMenu(false);
+    // getLocation(dispatch);
+
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        const { latitude, longitude } = position.coords;
+        const center = {
+          latitude,
+          longitude,
+        };
+        axios
+          .post(
+            API_URL + '/api/user/generate/demo',
+            {
+              center,
+              radius: 0.5,
+              city: userState.city,
+              state: userState.state,
+              id: userState.id,
+            },
+            {
+              headers: {
+                Authorization: window.localStorage.getItem('token'),
+              },
+            }
+          )
+          .then(() => navigate('/match'));
+        console.log(center);
+      },
+      function (error) {
+        console.log('user denied location services permission');
+      }
+    );
+
+    // setTimeout(async () => {
+    //   const center = {
+    //     latitude: userState.lastLat,
+    //     longitude: userState.lastLong,
+    //   };
+
+    //   await axios.post(
+    //     API_URL + '/api/user/generate/demo',
+    //     {
+    //       center,
+    //       radius: 1,
+    //       city: userState.city,
+    //       state: userState.state,
+    //       id: userState.id,
+    //     },
+    //     {
+    //       headers: {
+    //         Authorization: window.localStorage.getItem('token'),
+    //       },
+    //     }
+    //   );
+    //   console.log('userState:', userState);
+    //   navigate('/match');
+    // }, 5000);
+    // set status to active
+    // call the demo mode route
+    // maybe a demo mode toast?
   }
 
   return (
@@ -48,10 +129,29 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
               <DropDownItem handleClick={handleClick} linkTo="/account">
                 ACCOUNT
               </DropDownItem>
-              <DropDownItem handleClick={handleClick} linkTo="/match">
-                NEW MEETING
+              {!currentMeetingNotification?.id ? (
+                <DropDownItem handleClick={handleClick} linkTo="/match">
+                  NEW MEETING
+                </DropDownItem>
+              ) : (
+                <DropDownItem
+                  handleClick={handleClick}
+                  linkTo="/meeting/current"
+                >
+                  CURRENT MEETING
+                </DropDownItem>
+              )}
+              {currentMeetingNotification?.id && (
+                <DropDownItem
+                  handleClick={handleClick}
+                  linkTo={`/meeting/${currentMeetingNotification.meetingId}/chat`}
+                >
+                  MESSAGES
+                </DropDownItem>
+              )}
+              <DropDownItem handleClick={handleDemoMode}>
+                DEMO MODE
               </DropDownItem>
-              {/* <DropDownItem handleClick={handleClick}>MESSAGES</DropDownItem> */}
               <DropDownItem handleClick={handleLogout}>LOG OUT</DropDownItem>
             </>
           )}

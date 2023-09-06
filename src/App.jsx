@@ -14,9 +14,11 @@ import {
   SignInForm,
   RegisterForm,
   EditUserForm,
+  EditUserBioAndTags,
   Feedback,
   UserAccount,
   Homepage,
+  CurrentMeeting,
   PageNotFound,
 } from './pages';
 
@@ -26,6 +28,8 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Homepage />} />
+        <Route path="/meeting/:meetingId/chat" element={<ChatBox />}></Route>
+        {/* <Route path="/" element={<MockResponsive />} /> */}
         <Route path="/login" element={<SignInForm />} />
         <Route path="/account" element={<UserAccount />} />
         <Route path="/register" element={<RegisterForm />} />
@@ -41,6 +45,9 @@ function App() {
         <Route path="meeting/:meetingId/feedback" element={<Feedback />} />
         {/* THESE ROUTE NAMES WILL BE CHANGED JUST A PLACEHOLDER */}
         <Route path="edituser" element={<EditUserForm />} />
+        <Route path="edituser/tags" element={<EditUserBioAndTags />} />
+        <Route path="meeting/:meetingId/feedback" element={<Feedback />} />
+        <Route path="meeting/current" element={<CurrentMeeting />} />
 
         {/* Page not found */}
         <Route path="/*" element={<PageNotFound />} />

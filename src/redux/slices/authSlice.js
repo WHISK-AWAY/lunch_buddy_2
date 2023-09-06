@@ -119,11 +119,11 @@ const authSlice = createSlice({
         state.error = '';
       })
       .addCase(tryToken.rejected, (state, action) => {
-        // window.localStorage.removeItem('token');
+        window.localStorage.removeItem('token');
         state.token = '';
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = action.payload.response.data;
       })
 
       // async check to make sure a user successfully logs in before redirecting

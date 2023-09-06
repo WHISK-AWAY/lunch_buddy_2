@@ -10,8 +10,8 @@ const demoUsers = [
     address2: null,
     city: 'Bronx',
     state: 'NY',
-    lastLat: 34.0522,
-    lastLong: -118.2437,
+    lastLat: 40.8555,
+    lastLong: -73.8897,
     zip: 10451,
     avatarUrl: '/assets/demoUserImg/M1.jpg',
     aboutMe:

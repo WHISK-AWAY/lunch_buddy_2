@@ -1,53 +1,79 @@
 import React, { useEffect, useState } from 'react';
 import chevronRight from '../../assets/icons/chevron-right.svg';
 import plus from '../../assets/icons/plus.svg';
-import minus from '../../assets/icons/minus.svg';
+import minusWhite from '../../assets/icons/minus-white.svg';
 
-const TagSelect = ({ setter, tags = [], category }) => {
+const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
   const [tagExpand, setTagExpand] = useState(true);
 
   function handleTagClick(idx, setter) {
     const tempTags = [...tags];
     let tagToChange = tempTags[idx];
+    let updatedCount = minTags[category].numClicked;
     tagToChange.clicked = !tagToChange.clicked;
-    setter(tempTags);
-  }
+    if (tagToChange.clicked) updatedCount++;
+    else updatedCount--;
+    const minTagsCopy = { ...minTags[category] };
+    setMinTags((prev) => ({
+      ...prev,
+      [category]: {
+        minimum: minTagsCopy.minimum,
+        show: minTagsCopy.show,
+        numClicked: updatedCount,
+        // numClicked: tagToChange.clicked
+        //   ? ++minTagsCopy.numClicked
+        //   : --minTagsCopy.numClicked,
+      },
+    }));
 
+    setter(tempTags);
+    localStorage.setItem(category, JSON.stringify(tags));
+  }
+  // shadow-[0_35px_40px_-25px_rgba(0,0,0,0.2)]
   return (
-    <div className="sm:px-8 lg:w-1/4">
-      <div className="text-red-400 mr-auto">
-        <h2 className="ml-2">{category}</h2>
+    <div className="sm:px-8 pl-4 pt-6">
+      <div className="text-headers mr-auto">
+        <h2 className="ml-2">
+          {category.toUpperCase()}{' '}
+          {minTags[category]?.show && (
+            <span className="text-gray-400 ml-2 text-sm">
+              select at least {minTags[category]?.minimum}
+            </span>
+          )}
+        </h2>
       </div>
-      <div className="flex gap-x-1 my-4">
+
+      <div
+        className={`${
+          tagExpand ? '' : 'group tag-expand'
+        } flex gap-x-1 my-4 pt-3 rounded-lg pb-3 px-1 pr-5`}
+      >
         <button
           className="self-start"
           onClick={() => setTagExpand((prev) => !prev)}
         >
           <img
-            className={`w-6 transition-all ${tagExpand ? '' : 'rotate-90'}`}
-            // src={tagExpand ? chevronRight : chevronDown}
+            className={`w-5 transition-all ${tagExpand ? '' : 'rotate-90'}`}
             src={chevronRight}
             alt="Expand/Retract Arrow"
           />
         </button>
-        <div
-          className={`w-full flex flex-wrap gap-x-5 gap-y-2 duration-200 ease-in-out ${
-            tagExpand ? 'h-16 lg:h-60 lg:max-h-96 overflow-hidden' : `h-auto`
-          }`}
-        >
+        <div className="transition-all duration-1000 ease-in-out group-[.tag-expand]:max-h-[1000px] w-full flex flex-wrap gap-x-5 gap-y-2 max-h-16  overflow-hidden">
           {tags?.map((tag, idx) => {
             return (
               <button
                 key={idx}
-                className={`border border-black rounded-full px-4 h-7 lg:h-auto flex grow gap-4 items-center hover:bg-slate-100 text-sm sm:text-base ${
-                  tag.clicked ? 'button text-white transition-all' : ''
+                className={`border transition duration-500 border-primary-gray rounded-full px-4 h-7 flex grow gap-4 items-center hover:bg-primary-gray/20 text-xs ${
+                  tag.clicked ? 'button text-white  border-white ' : ''
                 }`}
                 onClick={() => handleTagClick(idx, setter)}
               >
-                <p className="grow">{tag.tagName}</p>
+                <p className="grow text-xs flex-col items-center capitalize">
+                  {tag.tagName}
+                </p>
                 <img
-                  className="w-6"
-                  src={tag.clicked ? minus : plus}
+                  className="w-5"
+                  src={tag.clicked ? minusWhite : plus}
                   alt="Toggle tag icon"
                 />
               </button>

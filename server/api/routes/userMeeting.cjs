@@ -1,6 +1,6 @@
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 const router = require('express').Router({ mergeParams: true });
-const { Meeting, User } = require('../../db/index.cjs');
+const { Meeting, User, Notification } = require('../../db/index.cjs');
 const { requireToken, sameUserOrAdmin } = require('../authMiddleware.cjs');
 const validUser = require('../validUserMiddleware.cjs');
 
@@ -135,6 +135,27 @@ router.put(
   }
 );
 
+/**
+ * PUT /api/user/:userId/meeting/:meetingId/confirm
+ * change meeting status to 'confirmed'
+ * hooks based on this status change will fire off additional notifications
+ */
+router.put(
+  '/:meetingId/confirm',
+  requireToken,
+  sameUserOrAdmin,
+  async (req, res, next) => {
+    try {
+      const meetingToUpdate = await Meeting.findByPk(+req.params.meetingId);
+      await meetingToUpdate.update({ meetingStatus: 'confirmed' });
+
+      res.status(200).json(meetingToUpdate);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 router.put(
   '/:meetingId/cancel',
   requireToken,
@@ -146,15 +167,15 @@ router.put(
      * set meeting status to 'closed'
      */
     try {
+      const userId = +req.params.userId;
+
       const meeting = await Meeting.findOne({
         where: {
-          [Op.or]: [
-            { userId: req.params.userId },
-            { buddyId: req.params.userId },
-          ],
+          [Op.or]: [{ userId: userId }, { buddyId: userId }],
           id: req.params.meetingId,
         },
       });
+
       if (!meeting) {
         return res
           .status(404)
@@ -166,7 +187,61 @@ router.put(
       ) {
         res.status(403).send('You are unable to edit this meeting.');
       } else {
-        const updatedMeeting = await meeting.update({ isClosed: true });
+        // determine notification type based on pre-updated meeting status + sender
+        let notificationType;
+        if (meeting.meetingStatus === 'confirmed') {
+          notificationType = 'meetingCancelled';
+          console.log('cancelling confirmed meeting');
+        } else {
+          notificationType = 'inviteRejected';
+          console.log('rejecting pending meeting');
+        }
+        const updatedMeeting = await meeting.update({
+          meetingStatus: 'cancelled',
+        });
+
+        await meeting.createNotification({
+          toUserId:
+            meeting.userId === userId ? meeting.buddyId : meeting.userId,
+          fromUserId: userId,
+          notificationType,
+        });
+
+        // find & close any open (future) rating requests related to this meeting
+        // this should only apply to meetings that have yet to occur --
+        // we should still require ratings for meetings that would have already occurred
+        const ratingNotificationsToClose = await Notification.update(
+          { isAcknowledged: true },
+          {
+            include: {
+              model: Meeting,
+              where: {
+                lunchDate: {
+                  [Op.gt]: new Date(),
+                },
+              },
+            },
+            where: {
+              meetingId: meeting.id,
+              isAcknowledged: false,
+              notificationType: 'ratingRequested',
+            },
+          }
+        );
+        const currentMeetingNotifications = await Notification.update(
+          { isAcknowledged: true },
+          {
+            include: {
+              model: Meeting,
+            },
+            where: {
+              meetingId: meeting.id,
+              isAcknowledged: false,
+              notificationType: 'currentMeeting',
+            },
+          }
+        );
+
         res.status(200).json(updatedMeeting);
       }
     } catch (error) {

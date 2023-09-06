@@ -6,6 +6,9 @@ import {
   selectMeetings,
   resetMeetingStatus,
 } from '../../redux/slices';
+import FormButton from '../../components/FormButton';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export default function MeetingRecap(props) {
   const dispatch = useDispatch();
@@ -43,41 +46,72 @@ export default function MeetingRecap(props) {
     navigate('/');
   }
 
+  AOS.init({
+    duration: 2000,
+    offset: 0,
+  });
+
   return (
-    <div className="recap-card h-[calc(100vh_-_75px)] w-screen flex flex-col gap-12 items-center orange-linear-bg lg:bg-none lg:bg-white lg:flex-row lg:items-start bg-fixed text-primary-gray overflow-hidden">
-      <div className="recap-image hidden bg-left lg:block lg:h-full lg:basis-1/2 bg-[url('/assets/bgImg/meetingConfView.jpg')] bg-cover overflow-hidden"></div>
-      <div className="recap-info flex flex-col basis-full h-full pt-16 lg:basis-1/2 gap-12 items-center overflow-auto">
-        <div className="recap-header text-headers text-xl font-semibold">
+    <div className="recap-card h-[calc(100vh_-_65px)] w-screen flex flex-col gap-12 items-center orange-linear-bg lg:bg-none lg:bg-white  lg:flex-row lg:items-center bg-fixed text-primary-gray overflow-hidden">
+      <div
+        className="recap-image hidden bg-left lg:block lg:h-full lg:basis-1/2 bg-[url('/assets/bgImg/meetingConfView.jpg')] bg-cover overflow-hidden"
+        data-aos="fade-right"
+        data-aos-delay="800"
+        data-aos-duration="1500"
+      ></div>
+      <div className="recap-info flex flex-col basis-full h-full pt-16 lg:basis-1/2 gap-12 items-center overflow-auto justify-center">
+        <div
+          className="recap-header text-headers text-xl font-semibold"
+          data-aos="fade-up"
+          data-aos-delay="400"
+          data-aos-duration="1000"
+        >
           <h1>MEETING RECAP</h1>
         </div>
-        <div className="recap-body flex flex-col items-center">
-          <div className="buddy-avatar-container rounded-full mb-6">
+        <div className="recap-body flex flex-col items-center gap-1">
+          <div
+            className="buddy-avatar-container rounded-full mb-6"
+            data-aos="zoom-in"
+            data-aos-delay="800"
+            data-aos-duration="1800"
+          >
             <img
               src={buddy.avatarUrl}
               alt="Your buddy's avatar image"
-              className="bg-white object-cover aspect-square w-32 h-32 rounded-full z-10 p-1 drop-shadow-md"
+              className="bg-white object-cover aspect-square h-28 w-28 lg:w-32 lg:h-32 rounded-full z-10 p-1 drop-shadow-md"
             />
           </div>
-          <h2 className="text-lg font-semibold">
-            {buddy.fullName.toUpperCase()}
-          </h2>
-          <p>
-            {timeSlot.startTime} - {timeSlot.endTime}
-          </p>
-          <p className="font-semibold">
-            <a href={restaurant.url} target="_blank">
-              {restaurant.name.toUpperCase()}
-            </a>
-          </p>
-          <p>{restaurant.location?.display_address?.join(' ')}</p>
-        </div>
-        <div className="recap-button flex flex-col items-center w-4/5">
-          <button
-            className="px-5 py-2 w-11/12 lg:py-2 rounded-full button text-white text-md"
-            onClick={(e) => handleMeeting(e)}
+          <div
+            id="meeting-detail-container"
+            className="flex flex-col justify-center items-center"
+            data-aos="fade-down"
+            data-aos-delay="800"
+            data-aos-duration="2000"
           >
-            INVITE BUDDY
-          </button>
+            <h2 className="text-lg text-headers pb-4">
+              {buddy.fullName.toUpperCase()}
+            </h2>
+            <p>
+              {timeSlot.startTime} - {timeSlot.endTime}
+            </p>
+            <p className="font-semibold">
+              <a href={restaurant.url} target="_blank">
+                {restaurant.name.toUpperCase()}
+              </a>
+            </p>
+            <p>{restaurant.location?.display_address?.join(' ')}</p>
+          </div>
+          <div
+            id="btn-container"
+            className="recap-button flex flex-col items-center pt-9 lg:w-3/5 text-xs w-4/5"
+            data-aos="fade-in"
+            data-aos-delay="800"
+            data-aos-duration="3000"
+          >
+            <FormButton handleSubmit={(e) => handleMeeting(e)}>
+              INVITE BUDDY
+            </FormButton>
+          </div>
         </div>
       </div>
     </div>

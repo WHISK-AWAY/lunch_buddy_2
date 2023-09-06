@@ -1,15 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Bio = ({ setBio , bio}) => {
+const Bio = ({ setBio, bio, validBio }) => {
   return (
-    <div className="relative mb-4 w-4/5">
-      <label className="text-red-400 font-semibold block text-sm sm:text-base absolute -top-3 left-3 bg-white px-1">
+    <div className="flex relative mb-9 lg:w-9/12 w-10/12 lg:basis-1/2 text-primary-gray self-center  h-[calc(100vh_-_65px)]">
+      <label className="text-label block text-xs absolute -top-3 left-3 bg-white px-1">
         Bio
       </label>
       <textarea
-        className="w-full px-4 rounded-2xl focus:outline-none border border-slate-700 h-24 py-4"
-        onChange={(e) => setBio(e.target.value)}
+        type="text"
+        rows="24"
+        className={`w-full px-4 rounded-2xl focus:outline-none border resize-none h-24 border-primary-gray text-sm py-2 scrollbar-hide ${
+          validBio ? '' : 'border-headers'
+        }`}
+        onChange={(e) => {
+          localStorage.setItem('aboutBio', e.target.value);
+          setBio(e.target.value);
+        }}
         value={bio}
+        placeholder={validBio ? '' : 'Please enter bio'}
       />
     </div>
   );

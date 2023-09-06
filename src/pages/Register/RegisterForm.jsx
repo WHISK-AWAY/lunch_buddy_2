@@ -3,6 +3,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
 import { listOfStates } from '../../utilities/registerHelpers';
 import { INVALID_CLASS } from '../../utilities/invalidInputClass';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 // setting a couple defaults here so we keep the starting value if we proceed without changing
 const inputs = JSON.parse(localStorage.getItem('registerForm')) || {
@@ -98,10 +100,14 @@ const RegisterForm = () => {
         missingFields.push(field);
         tempValidator[field] = true;
       }
+      if (formInputs[field] !== '' && field === 'age' && !validateAge()) {
+        tempFields.age = 18;
+        missingFields.push(field);
+        tempValidator[field] = true;
+      }
     }
     setInputValidator(tempValidator);
     setFormInputs(tempFields);
-    console.log('tempValidator:', tempValidator);
 
     if (
       missingFields.length > 0 &&
@@ -110,15 +116,15 @@ const RegisterForm = () => {
       // console.log(missingFields.join(','));
       // alert(`Missing required fields: ${missingFields.join(', ')}`);
     } else {
-      localStorage.setItem('registerForm', JSON.stringify(formInputs));
-      console.log(formInputs);
+      const inputsCopy = { ...formInputs };
+      localStorage.setItem('registerForm', JSON.stringify(inputsCopy));
       navigate('/register/aboutyourself');
     }
   };
 
   const validateZip = (zip) => {
     const valid = /^\d+$/;
-    return valid.test(zip);
+    return valid.test(zip) && zip.length === 5;
   };
 
   const validateEmail = (email) => {
@@ -127,21 +133,33 @@ const RegisterForm = () => {
     return valid.test(email);
   };
 
-  const validatePassword = (password) => {
+  const validatePassword = () => {
     return (
       formInputs.password.length >= 8 &&
       formInputs.password === formInputs.confirmPassword
     );
   };
 
+  const validateAge = () => {
+    return +formInputs.age >= 18 && +formInputs.age < 120;
+  };
+
+  AOS.init({
+    duration: 2000,
+    offset: 0,
+  });
+
   return (
-    <div className=" flex justify-center lg:grow items-center h-[calc(100vh_-_75px)] overflow-hidden text-primary-gray">
+    <div className="flex justify-center lg:grow items-center h-[calc(100vh_-_65px)] overflow-hidden text-primary-gray">
       <div
         id="form-container"
-        className="lg:basis-1/2 flex flex-col justify-center items-center  basis-full overflow-auto h-full pb-16 pt-24"
+        className="lg:basis-1/2 flex flex-col justify-center items-center  basis-full overflow-auto h-full pb-16 pt-24 scrollbar-hide"
+        data-aos="fade-down"
+        data-aos-delay="1000"
+        duration="1000"
       >
         <div className="h-full lg:w-4/5 md:w-3/5 w-4/5">
-          <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8 pb-6">
+          <form className=" grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8 pb-3">
             <h1 className="text-center text-2xl mb-6 text-headers font-bold font-sans col-span-full">
               SIGN UP
             </h1>
@@ -152,7 +170,7 @@ const RegisterForm = () => {
               <input
                 className={`${
                   inputValidator.firstName ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={
                   inputValidator.firstName ? 'Enter first name' : null
                 }
@@ -172,7 +190,7 @@ const RegisterForm = () => {
               <input
                 className={`${
                   inputValidator.lastName ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={inputValidator.lastName ? 'Enter last name' : null}
                 value={formInputs.lastName}
                 onChange={(e) =>
@@ -193,7 +211,7 @@ const RegisterForm = () => {
                 required={true}
                 className={`${
                   inputValidator.email ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={inputValidator.email ? 'Enter email' : null}
                 value={formInputs.email}
                 onChange={(e) =>
@@ -209,7 +227,7 @@ const RegisterForm = () => {
                 type="password"
                 className={`${
                   inputValidator.password ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={inputValidator.password ? 'Enter password' : null}
                 value={formInputs.password}
                 onChange={(e) =>
@@ -228,7 +246,7 @@ const RegisterForm = () => {
                 type="password"
                 className={`${
                   inputValidator.confirmPassword ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={
                   inputValidator.confirmPassword ? 'Confirm password' : null
                 }
@@ -248,7 +266,7 @@ const RegisterForm = () => {
               <input
                 className={`${
                   inputValidator.address1 ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={inputValidator.address1 ? 'Enter address' : null}
                 value={formInputs.address1}
                 onChange={(e) =>
@@ -264,7 +282,7 @@ const RegisterForm = () => {
                 Address 2
               </label>
               <input
-                className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray"
+                className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]"
                 value={formInputs.address2}
                 onChange={(e) =>
                   setFormInputs((prev) => ({
@@ -281,7 +299,7 @@ const RegisterForm = () => {
               <input
                 className={`${
                   inputValidator.city ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={inputValidator.city ? 'Enter city' : null}
                 value={formInputs.city}
                 onChange={(e) =>
@@ -322,7 +340,7 @@ const RegisterForm = () => {
                 maxLength="9"
                 className={`${
                   inputValidator.zip ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray`}
+                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={inputValidator.zip ? 'Enter zip' : null}
                 value={formInputs.zip}
                 onChange={(e) =>
@@ -335,13 +353,12 @@ const RegisterForm = () => {
                 Age
               </label>
               <input
-                type="number"
+                type="text"
+                placeholder="18+"
                 className={`${
                   inputValidator.age ? INVALID_CLASS : null
                 }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-xs focus:border-primary-gray active:border-primary-gray active:ring-primary-gray focus:ring-primary-gray outline-0 focus:bg-white`}
-                value={formInputs.age || 18}
-                min={18}
-                max={119}
+                value={+formInputs.age}
                 onChange={(e) =>
                   setFormInputs((prev) => ({ ...prev, age: e.target.value }))
                 }
@@ -364,11 +381,21 @@ const RegisterForm = () => {
                 <option value="DidNotDisclose">Prefer Not To Say</option>
               </select>
             </div>
-            <div className="col-span-full md:w-3/5 md:mx-auto">
+            <div
+              className="col-span-full md:w-3/5 md:mx-auto"
+              data-aos="fade-in"
+              data-aos-delay="2000"
+              duration="1500"
+            >
               <FormButton handleSubmit={handleSubmit}>CONTINUE</FormButton>
             </div>
           </form>
-          <p className="text-center">
+          <p
+            className="text-center text-xs"
+            data-aos="fade-in"
+            data-aos-delay="2500"
+            duration="1500"
+          >
             already have an account?{' '}
             <Link to="/login">
               <span className="text-headers hover:underline">sign in</span>
@@ -381,6 +408,9 @@ const RegisterForm = () => {
         className="bg-cover 
         bg-[url('/assets/bgImg/signUpView.jpg')] basis-1/2 hidden lg:block h-full"
         alt="person smearing a dip on toast, at a restaurant with wine, plates, coffee"
+        data-aos="fade-left"
+        data-aos-delay="200"
+        data-aos-duration="2800"
       ></div>
     </div>
   );
