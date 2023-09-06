@@ -23,11 +23,12 @@ const NOTIFICATION_UPDATE_INTERVAL = 60000;
 const TOAST_DURATION = 10000;
 
 const NavBar = () => {
+  const dispatch = useDispatch();
+
   const [expandMenu, setExpandMenu] = useState(false);
   const [showNotificationBody, setShowNotificationBody] = useState(false);
   const [triggerClose, setTriggerClose] = useState(false);
   const [locationTriggered, setLocationTriggered] = useState(false);
-  const dispatch = useDispatch();
 
   const authUser = useSelector(selectAuthUser);
   const userState = useSelector((state) => state.user.user);
@@ -36,24 +37,18 @@ const NavBar = () => {
   // THIS VARIABLE WILL HIDE OR SHOW THE DOT INDICATING NOTIFICATIONS
   const hasNotifications = notifications?.length > 0;
 
-  // Turns off scroll when showing menu
-  document.body.style.overflow = expandMenu ? 'hidden' : 'auto';
-
   const notifController = new AbortController();
   const dropdownController = new AbortController();
   const root = document.querySelector('#root');
-  const notificationContainer = document.querySelector(
-    '#notification-container'
-  );
 
-  const handleNotificationClick = (event) => {
-    event.preventDefault();
-    if (showNotificationBody) setTriggerClose(true);
-    else {
-      setShowNotificationBody(true);
-      setTriggerClose(false);
-    }
-  };
+  // const notificationContainer = document.querySelector(
+  //   '#notification-container'
+  // );
+
+  useEffect(() => {
+    // check for token upon first load
+    dispatch(tryToken());
+  }, []);
 
   useEffect(() => {
     if (expandMenu) {
@@ -113,7 +108,15 @@ const NavBar = () => {
     }
   }, [showNotificationBody]);
 
-  document.body.style.overflow = showNotificationBody ? 'hidden' : 'auto';
+  useEffect(() => {
+    // Prevent scrolling while nav menu or notification center are open
+    document.body.style.overflow =
+      showNotificationBody || expandMenu ? 'hidden' : 'auto';
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [showNotificationBody, expandMenu]);
 
   function handleToggleStatus() {
     let newStatus;
@@ -129,10 +132,7 @@ const NavBar = () => {
   }
 
   useEffect(() => {
-    dispatch(tryToken());
-  }, []);
-
-  useEffect(() => {
+    // check for notifications on a timed interval
     async function runDispatch() {
       if (authUser.firstName) {
         await dispatch(fetchUser(authUser.id));
@@ -144,6 +144,15 @@ const NavBar = () => {
       runDispatch();
     }, NOTIFICATION_UPDATE_INTERVAL);
   }, [authUser]);
+
+  function handleNotificationClick(event) {
+    event.preventDefault();
+    if (showNotificationBody) setTriggerClose(true);
+    else {
+      setShowNotificationBody(true);
+      setTriggerClose(false);
+    }
+  }
 
   return (
     <header className="relative z-40 text-primary-gray h-[65px]">
