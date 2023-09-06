@@ -2,18 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import bellIcon from '../assets/icons/notification.svg';
+
 import DropdownMenu from './DropdownMenu';
-import { selectAuthUser, tryToken } from '../redux/slices/authSlice';
-import { fetchUser, updateUser } from '../redux/slices/userSlice';
-import navbarIcon from '../assets/icons/navbar-icon.svg';
-import xIcon from '../assets/icons/x-icon.svg';
 import NotificationBody from '../pages/NotificationCenter/NotificationBody';
+
+import { selectAuthUser, tryToken } from '../redux/slices/authSlice';
 import {
   fetchAllNotifications,
   selectUnreadNotifications,
 } from '../redux/slices/notificationSlice';
+import { fetchUser, updateUser } from '../redux/slices/userSlice';
+
 import getLocation from '../utilities/geo';
+
+import bellIcon from '../assets/icons/notification.svg';
+import xIcon from '../assets/icons/x-icon.svg';
+import navbarIcon from '../assets/icons/navbar-icon.svg';
 
 const NOTIFICATION_UPDATE_INTERVAL = 60000;
 const TOAST_DURATION = 10000;
