@@ -65,10 +65,10 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
             }
           )
           .then(() => navigate('/match'));
-        console.log(center);
+        // console.log(center);
       },
-      function (error) {
-        console.log('user denied location services permission');
+      function (err) {
+        console.log('user denied location services permission:', err);
       }
     );
 
