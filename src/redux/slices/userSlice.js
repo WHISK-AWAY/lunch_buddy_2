@@ -3,7 +3,9 @@ import axios from 'axios';
 
 import checkToken from '../../utilities/checkToken';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_URL = import.meta.env.VITE_API_URL;
+
+if (!API_URL) throw new Error('NO API URL PROVIDED - CHECK ENV VARIABLES');
 
 export const fetchUser = createAsyncThunk(
   'user/fetchUser',
