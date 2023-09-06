@@ -3,19 +3,26 @@ import axios from 'axios';
 
 import checkToken from '../../utilities/checkToken';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const initialUserState = {
+  user: {},
+  userMeetings: [],
+  error: '',
+  isLoading: false,
+};
 
-if (!API_URL) throw new Error('NO API URL PROVIDED - CHECK ENV VARIABLES');
+const VITE_API_URL = import.meta.env.VITE_API_URL;
+
+if (!VITE_API_URL) throw new Error('NO API URL PROVIDED - CHECK ENV VARIABLES');
 
 export const fetchUser = createAsyncThunk(
   'user/fetchUser',
   async (userId, { rejectWithValue }) => {
     try {
-      const { token, user } = await checkToken();
+      const { token } = await checkToken();
 
       if (userId === undefined) throw new Error('No user ID provided');
 
-      const res = await axios.get(API_URL + `/api/user/${userId}`, {
+      const res = await axios.get(VITE_API_URL + `/api/user/${userId}`, {
         headers: { authorization: token },
       });
       const userInfo = res.data;
@@ -34,13 +41,13 @@ export const createNewUser = createAsyncThunk(
   async (userSetupData, { rejectWithValue }) => {
     try {
       // create user
-      let res = await axios.post(API_URL + '/api/user', userSetupData);
+      let res = await axios.post(VITE_API_URL + '/api/user', userSetupData);
       let newUser = res.data;
 
       if (!newUser) throw new Error('User creation failed');
 
       // login & store token
-      res = await axios.post(API_URL + '/api/auth/login', {
+      res = await axios.post(VITE_API_URL + '/api/auth/login', {
         email: userSetupData.email,
         password: userSetupData.password,
       });
@@ -62,7 +69,7 @@ export const updateUser = createAsyncThunk(
 
       // request update
       const res = await axios.put(
-        API_URL + `/api/user/${user.id}`,
+        VITE_API_URL + `/api/user/${user.id}`,
         userUpdateData,
         {
           headers: { authorization: token },
@@ -86,7 +93,7 @@ export const updateLocation = createAsyncThunk(
       const { token, user } = await checkToken();
 
       const res = await axios.put(
-        API_URL + `/api/user/${user.id}/location`,
+        VITE_API_URL + `/api/user/${user.id}/location`,
         location,
         { headers: { authorization: token } }
       );
@@ -108,7 +115,7 @@ export const banUser = createAsyncThunk(
       const { token, user } = await checkToken();
 
       const res = await axios.put(
-        API_URL + `/api/user/${userId}`,
+        VITE_API_URL + `/api/user/${userId}`,
         { status: 'banned' },
         { headers: { authorization: token } }
       );
@@ -131,7 +138,7 @@ export const removeBan = createAsyncThunk(
       const { token, user } = await checkToken();
 
       const res = await axios.put(
-        API_URL + `/api/user/${userId}`,
+        VITE_API_URL + `/api/user/${userId}`,
         { status: 'inactive' },
         { headers: { authorization: token } }
       );
@@ -156,9 +163,12 @@ export const fetchUserMeetings = createAsyncThunk(
       // if userId isn't passed in, use the one from the token
       if (userId === undefined) userId = user.id;
 
-      const res = await axios.get(API_URL + `/api/user/${userId}/meeting`, {
-        headers: { authorization: token },
-      });
+      const res = await axios.get(
+        VITE_API_URL + `/api/user/${userId}/meeting`,
+        {
+          headers: { authorization: token },
+        }
+      );
 
       return res.data;
     } catch (err) {
@@ -176,12 +186,7 @@ export const checkUserCreated = createAsyncThunk(
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    user: {},
-    userMeetings: [],
-    error: '',
-    isLoading: false,
-  },
+  initialState: initialUserState,
   reducers: {
     resetUserState: (state) => {
       state.user = {};

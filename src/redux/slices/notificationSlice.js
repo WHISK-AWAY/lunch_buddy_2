@@ -1,6 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const VITE_API_URL = import.meta.env.VITE_API_URL;
+
+const initialNotificationState = {
+  notifications: [],
+  notification: {},
+  isLoading: false,
+  error: '',
+};
 
 export const fetchAllNotifications = createAsyncThunk(
   'notification/fetchAll',
@@ -8,7 +15,7 @@ export const fetchAllNotifications = createAsyncThunk(
     try {
       const token = window.localStorage.getItem('token');
       const { data } = await axios.get(
-        API_URL + `/api/user/${userId}/notifications`,
+        VITE_API_URL + `/api/user/${userId}/notifications`,
         {
           headers: {
             Authorization: token,
@@ -32,7 +39,7 @@ export const updateNotificationStatus = createAsyncThunk(
       const token = window.localStorage.getItem('token');
 
       const { data } = await axios.put(
-        API_URL + `/api/user/${userId}/notifications/${notificationId}`,
+        VITE_API_URL + `/api/user/${userId}/notifications/${notificationId}`,
         updates,
         {
           headers: {
@@ -40,7 +47,7 @@ export const updateNotificationStatus = createAsyncThunk(
           },
         }
       );
-      
+
       return data;
     } catch (error) {
       rejectWithValue(error);
@@ -56,7 +63,7 @@ export const cancelMeeting = createAsyncThunk(
       const token = window.localStorage.getItem('token');
 
       const { data } = await axios.put(
-        API_URL + `/api/user/${userId}/meeting/${meetingId}/cancel`,
+        VITE_API_URL + `/api/user/${userId}/meeting/${meetingId}/cancel`,
         { isClosed: true, meetingStatus: 'closed' },
         {
           headers: {
@@ -71,16 +78,9 @@ export const cancelMeeting = createAsyncThunk(
   }
 );
 
-const initialState = {
-  notifications: [],
-  notification: {},
-  isLoading: false,
-  error: '',
-};
-
 const notificationSlice = createSlice({
   name: 'notifications',
-  initialState,
+  initialState: initialNotificationState,
   reducers: {
     clearNotificationState: (state) => {
       return {

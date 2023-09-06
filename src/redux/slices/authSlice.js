@@ -3,6 +3,13 @@ import axios from 'axios';
 
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
+const initialAuthState = {
+  token: '',
+  user: {},
+  isLoading: false,
+  error: '',
+};
+
 /**
  * requestLogin accepts an object { email, password } which is used to
  * log the user in.
@@ -73,12 +80,7 @@ export const tryToken = createAsyncThunk(
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    token: '',
-    user: {},
-    isLoading: false,
-    error: '',
-  },
+  initialState: initialAuthState,
   reducers: {
     resetAuthStatus: (state) => {
       state.isLoading = false;

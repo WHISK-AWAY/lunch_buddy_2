@@ -1,6 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const VITE_API_URL = import.meta.env.VITE_API_URL;
+
+const initialMeetingState = {
+  meetings: [],
+  meeting: {},
+  isLoading: false,
+  error: '',
+  status: {},
+  business: {},
+};
 
 export const createMeeting = createAsyncThunk(
   'meeting/createMeeting',
@@ -10,11 +19,15 @@ export const createMeeting = createAsyncThunk(
 
       if (!token) throw new Error('No token found in local storage...');
 
-      const { data } = await axios.post(API_URL + '/api/meeting', newMeeting, {
-        headers: {
-          authorization: token,
-        },
-      });
+      const { data } = await axios.post(
+        VITE_API_URL + '/api/meeting',
+        newMeeting,
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
 
       return data;
     } catch (error) {
@@ -29,7 +42,7 @@ export const updateMeeting = createAsyncThunk(
   async ({ token, meetingId, meetingUpdates }, { rejectWithValue }) => {
     try {
       const { data } = await axios.put(
-        API_URL + `/api/meeting/${meetingId}`,
+        VITE_API_URL + `/api/meeting/${meetingId}`,
         meetingUpdates,
         {
           headers: {
@@ -55,9 +68,9 @@ export const getMeeting = createAsyncThunk(
       if (!token) throw new Error('No token provided');
 
       if (userId !== undefined) {
-        route = API_URL + `/api/user/${userId}/meeting/${meetingId}`;
+        route = VITE_API_URL + `/api/user/${userId}/meeting/${meetingId}`;
       } else {
-        route = API_URL + `/api/meeting/${meetingId}`;
+        route = VITE_API_URL + `/api/meeting/${meetingId}`;
       }
 
       const { data } = await axios.get(route, {
@@ -68,7 +81,7 @@ export const getMeeting = createAsyncThunk(
 
       if (data.yelpBusinessId) {
         const yelpRes = await axios.get(
-          API_URL + `/api/search/restaurants/${data.yelpBusinessId}`,
+          VITE_API_URL + `/api/search/restaurants/${data.yelpBusinessId}`,
           {
             headers: {
               authorization: token,
@@ -92,7 +105,7 @@ export const getBusinessInfo = createAsyncThunk(
     const token = localStorage.getItem('token');
     try {
       const { data } = await axios.get(
-        API_URL + `/api/search/restaurants/${yelpBusinessId}`,
+        VITE_API_URL + `/api/search/restaurants/${yelpBusinessId}`,
         {
           headers: {
             authorization: token,
@@ -110,11 +123,14 @@ export const deleteMeeting = createAsyncThunk(
   'meeting/deleteMeeting',
   async ({ token, meetingId }, { rejectWithValue }) => {
     try {
-      const res = await axios.delete(API_URL + `/api/meeting/${meetingId}`, {
-        headers: {
-          authorization: token,
-        },
-      });
+      const res = await axios.delete(
+        VITE_API_URL + `/api/meeting/${meetingId}`,
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
       return { res, meetingId };
     } catch (error) {
       return rejectWithValue(error);
@@ -127,7 +143,7 @@ export const getMeetingMessages = createAsyncThunk(
   async ({ token, meetingId }, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(
-        API_URL + `/api/meeting/${meetingId}/messages`,
+        VITE_API_URL + `/api/meeting/${meetingId}/messages`,
         {
           headers: {
             authorization: token,
@@ -147,7 +163,7 @@ export const addMessage = createAsyncThunk(
   async ({ token, meetingId, newMessage }, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
-        API_URL + `/api/meeting/${meetingId}/messages`,
+        VITE_API_URL + `/api/meeting/${meetingId}/messages`,
         { message: newMessage },
         {
           headers: {
@@ -171,7 +187,7 @@ export const addRating = createAsyncThunk(
       if (!token) throw new Error('Must be logged in to leave a rating');
 
       const { data } = await axios.post(
-        API_URL + `/api/meeting/${meetingId}/rating`,
+        VITE_API_URL + `/api/meeting/${meetingId}/rating`,
         newRating,
         {
           headers: {
@@ -191,7 +207,7 @@ export const upholdRating = createAsyncThunk(
   async ({ token, ratingId, decision }, { rejectWithValue }) => {
     try {
       const { data } = await axios.put(
-        API_URL + `/api/rating/${ratingId}`,
+        VITE_API_URL + `/api/rating/${ratingId}`,
         { reportIsUpheld: decision },
         {
           headers: {
@@ -209,14 +225,7 @@ export const upholdRating = createAsyncThunk(
 
 const meetingSlice = createSlice({
   name: 'meetings',
-  initialState: {
-    meetings: [],
-    meeting: {},
-    isLoading: false,
-    error: '',
-    status: {},
-    business: {},
-  },
+  initialState: initialMeetingState,
   reducers: {
     resetMeetingStatus: (state) => {
       state.status = {};
