@@ -156,7 +156,7 @@ const NavBar = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-40 text-primary-gray h-[10dvh] dark:border-white border-b border-primary-gray w-[100vw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20">
+      <header className="sticky top-0 z-40 text-primary-gray h-[9dvh] dark:border-white border-b border-primary-gray w-[100vw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20">
         <DarkModeToggler
           isDarkMode={isDarkMode}
           setIsDarkMode={setIsDarkMode}
@@ -223,9 +223,9 @@ const NavBar = () => {
               //  WHEN NOT SIGNED IN SHOW BELOW
               <>
                 <Link to="/" className="dark:text-white text-primary-gray">
-                  <h1 className="text-[2vw] ">
+                  <h1 className="text-[2vw] xxs:text-[4.9vw]">
                     LUNCH
-                    <span className="font-clicker text-[1.5vw] font-thin ">
+                    <span className="font-clicker text-[1.5vw] font-thin xxs:text-[4.5vw]">
                       buddy
                     </span>
                   </h1>
