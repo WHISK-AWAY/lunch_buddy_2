@@ -4,7 +4,7 @@ const FormButton = (props) => {
   return (
     <button
       type="submit"
-      className="ease-in duration-300 w-full button rounded-full px-4 py-[.4rem] text-xs text-white  hover:bg-red-600 active:bg-red-700 transition-all hover:shadow-lg"
+      className="ease-in flex justify-center text-center 6xl:py-4 duration-300 w-full button 2xl:py-3  px-4 py-[.5rem] text-xs text-white  hover:bg-red-600 active:bg-red-700 transition-all hover:shadow-lg"
       onClick={props.handleSubmit}
     >
       {props.children}
