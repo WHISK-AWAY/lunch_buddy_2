@@ -99,7 +99,7 @@ const SignInForm = () => {
   });
 
   return (
-    <div className="h-[calc(100dvh_-_10dvh)] w-screen flex justify-center items-center text-primary-gray bg-[#0a0908]">
+    <div className="h-[calc(100dvh_-_10dvh)] w-screen flex justify-center items-center text-primary-gray bg-white dark:bg-[#0a0908]">
       <div
         className="form-container basis-full lg:basis-1/2 h-full flex flex-col justify-center items-center "
         // data-aos="fade-down"
@@ -113,7 +113,7 @@ const SignInForm = () => {
             </h1>
             <div className="relative my-6">
               <label
-                className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 bg-[#0a0908] px-1 6xl:text-[.5vw]"
+                className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1 6xl:text-[.5vw]"
                 htmlFor="email"
               >
                 Email
@@ -121,7 +121,7 @@ const SignInForm = () => {
               <input
                 className={`${
                   isInvalid ? INVALID_CLASS : null
-                } w-full px-4 py-1 rounded-lg focus:outline-none bg-[#0a0908] border 2xl:py-2 border-primary-gray 6xl:text-[.7vw] portrait:xxs:py-2`}
+                } w-full px-4 py-1  focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 dark:border-white border-primary-gray 6xl:text-[.7vw] portrait:xxs:py-2`}
                 type="text"
                 name="email"
                 value={formInputs.email}
@@ -133,7 +133,7 @@ const SignInForm = () => {
             </div>
             <div className="relative mt-6">
               <label
-                className="text-label font-semibold block text-xs portrait:lg:text-[1.5vw] absolute -top-3 left-3 bg-[#0a0908] px-1 6xl:text-[.5vw]"
+                className="text-label font-semibold block text-xs portrait:lg:text-[1.5vw] absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1 6xl:text-[.5vw]"
                 htmlFor="password"
               >
                 Password
@@ -141,7 +141,7 @@ const SignInForm = () => {
               <input
                 className={`${
                   isInvalid ? INVALID_CLASS : null
-                } w-full px-4 py-1 rounded-lg bg-[#0a0908] focus:bg-[#0a0908] placeholder:bg-[#0a0908] focus:outline-none border border-primary-gray 2xl:py-2 6xl:text-[.7vw] portrait:xxs:py-2`}
+                } w-full px-4 py-1  dark:bg-[#0a0908] dark:border-white dark:focus:bg-[#0a0908] dark:placeholder:bg-[#0a0908] focus:outline-none border border-primary-gray 2xl:py-2 6xl:text-[.7vw] portrait:xxs:py-2`}
                 type="password"
                 name="password"
                 value={formInputs.password}
@@ -168,7 +168,7 @@ const SignInForm = () => {
               </FormButton>
             </div>
             <p
-              className="my-4 text-center text-white text-[1.7vw] lg:text-[1vw] portrait:md:text-[2vw]  3xl:text-[.8vw] 5xl:text-[.6vw] xxs:text-[3vw] portrait:lg:text-[1.7vw] md:text-[1.4vw]"
+              className="my-4 text-center dark:text-white text-primary-gray text-[1.7vw] lg:text-[1vw] portrait:md:text-[2vw]  3xl:text-[.8vw] 5xl:text-[.6vw] xxs:text-[3vw] portrait:lg:text-[1.7vw] md:text-[1.4vw]"
               // data-aos="fade-in"
               // data-aos-delay="2500"
               // duration="1500"
