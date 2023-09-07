@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
@@ -55,9 +55,11 @@ const NavBar = () => {
       root.addEventListener('click', closeDropdown, {
         signal: dropdownController.signal,
       });
-    } else {
-      dropdownController.abort();
     }
+
+    return () => {
+      dropdownController.abort();
+    };
   }, [expandMenu]);
 
   useEffect(() => {
@@ -66,16 +68,6 @@ const NavBar = () => {
       setLocationTriggered(true);
     }
   }, [userState, locationTriggered]);
-
-  function closeNotificationBody() {
-    setTriggerClose(true);
-    notifController.abort();
-  }
-
-  function closeDropdown() {
-    setExpandMenu(false);
-    dropdownController.abort();
-  }
 
   useEffect(() => {
     // if close is triggered while notifs are showing, trigger notif center collapse
@@ -91,21 +83,12 @@ const NavBar = () => {
 
   useEffect(() => {
     if (showNotificationBody) {
-      root.addEventListener(
-        'click',
-        (e) => {
-          if (
-            !e.target.matches('#notification-container *') &&
-            !e.target.matches('#bell-button>*')
-          ) {
-            closeNotificationBody();
-          }
-        },
-        { signal: notifController.signal }
-      );
-    } else {
-      notifController.abort();
+      root.addEventListener('click', closeNotificationBody, {
+        signal: notifController.signal,
+      });
     }
+
+    return () => notifController.abort();
   }, [showNotificationBody]);
 
   useEffect(() => {
@@ -117,19 +100,6 @@ const NavBar = () => {
       document.body.style.overflow = 'auto';
     };
   }, [showNotificationBody, expandMenu]);
-
-  function handleToggleStatus() {
-    let newStatus;
-    if (userState.status === 'active') {
-      newStatus = 'inactive';
-      setLocationTriggered(false);
-    } else if (userState.status === 'inactive') {
-      newStatus = 'active';
-    } else {
-      alert('Sorry, currently your status is' + userState.status);
-    }
-    dispatch(updateUser({ status: newStatus }));
-  }
 
   useEffect(() => {
     // check for notifications on a timed interval
@@ -152,6 +122,39 @@ const NavBar = () => {
       setShowNotificationBody(true);
       setTriggerClose(false);
     }
+  }
+
+  function handleToggleStatus() {
+    let newStatus;
+    if (userState.status === 'active') {
+      newStatus = 'inactive';
+      setLocationTriggered(false);
+    } else if (userState.status === 'inactive') {
+      newStatus = 'active';
+    } else {
+      alert('Sorry, currently your status is' + userState.status);
+    }
+    dispatch(updateUser({ status: newStatus }));
+  }
+
+  // function closeNotificationBody() {
+  //   setTriggerClose(true);
+  //   notifController.abort();
+  // }
+
+  function closeNotificationBody(e) {
+    if (
+      !e.target.matches('#notification-container *') &&
+      !e.target.matches('#bell-button>*')
+    ) {
+      setTriggerClose(true);
+      notifController.abort();
+    }
+  }
+
+  function closeDropdown() {
+    setExpandMenu(false);
+    dropdownController.abort();
   }
 
   return (
