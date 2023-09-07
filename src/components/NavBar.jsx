@@ -10,6 +10,7 @@ import navbarIcon from '../assets/icons/navbar-icon.svg';
 import navbarIconWhite from '../assets/icons/navbar-icon-white.svg';
 import bellIcon from '../assets/icons/notification.svg';
 import xIcon from '../assets/icons/x-icon.svg';
+import xIconWhite from '../assets/icons/x-icon-white.svg';
 
 import {
   fetchAllNotifications,
@@ -157,12 +158,15 @@ const NavBar = () => {
 
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [menuIcon, setMenuIcon] = useState(navbarIconWhite);
+  const [xMenuIcon, setXMenuIcon] = useState(xIconWhite)
 
   useEffect(() => {
     if (isDarkMode) {
       setMenuIcon(navbarIconWhite);
+      setXMenuIcon(xIconWhite)
     } else {
       setMenuIcon(navbarIcon);
+      setXMenuIcon(xIcon)
     }
   }, [isDarkMode]);
 
@@ -177,7 +181,7 @@ const NavBar = () => {
           <button className="flex justify-center  items-center">
             <img
               className="w-7 xl:w-10 lg:w-8 5xl:w-10 6xl:w-14 portrait:xs:w-9 portrait:md:w-10"
-              src={expandMenu ? xIcon : menuIcon}
+              src={expandMenu ? xMenuIcon : menuIcon}
               alt="Three lined menu icon button"
               onClick={() => setExpandMenu((prev) => !prev)}
             />
