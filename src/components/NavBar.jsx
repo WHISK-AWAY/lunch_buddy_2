@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
 import NotificationBody from '../pages/NotificationCenter/NotificationBody';
@@ -9,6 +9,7 @@ import DarkModeToggler from './DarkModeToggler';
 import navbarIcon from '../assets/icons/navbar-icon.svg';
 import navbarIconWhite from '../assets/icons/navbar-icon-white.svg';
 import bellIcon from '../assets/icons/notification.svg';
+import bellIconWhite from '../assets/icons/notification-white.svg';
 import xIcon from '../assets/icons/x-icon.svg';
 import xIconWhite from '../assets/icons/x-icon-white.svg';
 
@@ -26,6 +27,7 @@ const TOAST_DURATION = 10000;
 
 const NavBar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [expandMenu, setExpandMenu] = useState(false);
   const [showNotificationBody, setShowNotificationBody] = useState(false);
@@ -54,11 +56,11 @@ const NavBar = () => {
 
   useEffect(() => {
     // if user is active and we've not yet polled for location, do so
-    if (userState.status === 'active' && !locationTriggered) {
-      getLocation(dispatch);
+    if (!locationTriggered) {
+      getLocation(dispatch, navigate);
       setLocationTriggered(true);
     }
-  }, [userState, locationTriggered]);
+  }, [ locationTriggered]);
 
   useEffect(() => {
     // if close is triggered while notifs are showing, trigger notif center collapse
@@ -130,16 +132,19 @@ const NavBar = () => {
     }
   }
 
-  function handleToggleStatus() {
-    let newStatus;
-    if (userState.status === 'active') {
-      newStatus = 'inactive';
-      setLocationTriggered(false);
-    } else if (!userState.status || userState.status === 'inactive') {
-      newStatus = 'active';
-    }
-    dispatch(updateUser({ status: newStatus }));
-  }
+
+
+//*! user status toggler - currently unused
+  // function handleToggleStatus() {
+  //   let newStatus;
+  //   if (userState.status === 'active') {
+  //     newStatus = 'inactive';
+  //     setLocationTriggered(false);
+  //   } else if (!userState.status || userState.status === 'inactive') {
+  //     newStatus = 'active';
+  //   }
+  //   dispatch(updateUser({ status: newStatus }));
+  // }
 
   function closeNotificationBody(e) {
     if (
@@ -158,21 +163,24 @@ const NavBar = () => {
 
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [menuIcon, setMenuIcon] = useState(navbarIconWhite);
-  const [xMenuIcon, setXMenuIcon] = useState(xIconWhite)
+  const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
+  const [bellMenuIcon, setBellMenuIcon] = useState(bellIconWhite);
 
   useEffect(() => {
     if (isDarkMode) {
       setMenuIcon(navbarIconWhite);
-      setXMenuIcon(xIconWhite)
+      setXMenuIcon(xIconWhite);
+      setBellMenuIcon(bellIconWhite);
     } else {
       setMenuIcon(navbarIcon);
-      setXMenuIcon(xIcon)
+      setXMenuIcon(xIcon);
+      setBellMenuIcon(bellIcon);
     }
   }, [isDarkMode]);
 
   return (
     <>
-      <header className="sticky top-0 z-40 text-primary-gray h-[9dvh] dark:border-white border-b border-primary-gray w-[100vw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20">
+      <header className="sticky top-0 z-40 text-primary-gray h-[9dvh]  w-[100vw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20">
         <DarkModeToggler
           isDarkMode={isDarkMode}
           setIsDarkMode={setIsDarkMode}
@@ -199,8 +207,9 @@ const NavBar = () => {
                   </Link>
                 </li>
 
+                {/**
                 <li className="flex items-center">
-                  <label className="relative inline-flex items-center cursor-pointer ">
+                <label className="relative inline-flex items-center cursor-pointer ">
                     <input
                       type="checkbox"
                       value={''}
@@ -210,8 +219,9 @@ const NavBar = () => {
                       // onClick={handleToggleStatus}
                     />
                     <div className="w-11 h-6 bg-white border rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-600 after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-label peer-checked:border-white peer-checked:after:bg-white"></div>
-                  </label>
-                </li>
+                    </label>
+                    </li>
+                  */}
                 <Toaster
                   position="top-right"
                   toastOptions={{
@@ -239,14 +249,16 @@ const NavBar = () => {
             ) : (
               //  WHEN NOT SIGNED IN SHOW BELOW
               <>
-                <Link to="/" className="dark:text-white text-primary-gray">
-                  <h1 className="md:text-[2.4vw] xxs:text-[4.9vw]">
-                    LUNCH
-                    <span className="font-clicker md:text-[2vw] font-thin xxs:text-[4.5vw]">
-                      buddy
-                    </span>
-                  </h1>
-                </Link>
+                {/**
+            <Link to="/" className="dark:text-white text-primary-gray">
+            <h1 className="md:text-[2.4vw] xxs:text-[4.9vw]">
+            LUNCH
+            <span className="font-clicker md:text-[2vw] font-thin xxs:text-[4.5vw]">
+            buddy
+            </span>
+            </h1>
+            </Link>
+          */}
               </>
             )}
           </ul>
