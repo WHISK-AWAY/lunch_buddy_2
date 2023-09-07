@@ -2,7 +2,7 @@ import { updateLocation } from '../redux/slices';
 import axios from 'axios';
 import checkToken from './checkToken';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 /**
  * Must pass in dispatch function from react component in order to get around
@@ -25,10 +25,11 @@ export default function getLocation(dispatch) {
       // dispatch updateLocation thunk, passing in location
       dispatch(updateLocation({ lat, long }));
     } else {
-      console.log('not called from dispatch -- updating loc in api directly');
+      // console.log('not called from dispatch -- updating loc in api directly');
+      // we should never wind up here -- TODO: remove 'if' construct & throw error if dispatch === undefined
       const { user, token } = await checkToken();
       await axios.put(
-        API_URL + `/api/user/${user.id}/location`,
+        VITE_API_URL + `/api/user/${user.id}/location`,
         { lat, long },
         {
           headers: { authorization: token },
