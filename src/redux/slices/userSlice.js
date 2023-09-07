@@ -67,8 +67,6 @@ export const updateUser = createAsyncThunk(
     try {
       const { token, user } = await checkToken();
 
-      console.log('userUpdateData', userUpdateData);
-
       // request update
       const res = await axios.put(
         VITE_API_URL + `/api/user/${user.id}`,
