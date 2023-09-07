@@ -37,10 +37,10 @@ const Meeting = db.define('meeting', {
       notEmpty: true,
     },
   },
-  yelpBusinessId: {
-    type: Sequelize.STRING,
-    allowNull: true,
-  },
+  // yelpBusinessId: {
+  //   type: Sequelize.STRING,
+  //   allowNull: true,
+  // },
   isClosed: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
@@ -59,7 +59,5 @@ const Meeting = db.define('meeting', {
     },
   },
 });
-
-
 
 module.exports = Meeting;
