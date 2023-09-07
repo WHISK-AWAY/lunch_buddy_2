@@ -223,9 +223,9 @@ const NavBar = () => {
               //  WHEN NOT SIGNED IN SHOW BELOW
               <>
                 <Link to="/" className="dark:text-white text-primary-gray">
-                  <h1 className="text-[2vw] xxs:text-[4.9vw]">
+                  <h1 className="md:text-[2.4vw] xxs:text-[4.9vw]">
                     LUNCH
-                    <span className="font-clicker text-[1.5vw] font-thin xxs:text-[4.5vw]">
+                    <span className="font-clicker md:text-[2vw] font-thin xxs:text-[4.5vw]">
                       buddy
                     </span>
                   </h1>
