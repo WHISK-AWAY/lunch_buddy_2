@@ -124,6 +124,7 @@ const SignInForm = () => {
                 } w-full px-4 py-1  focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 dark:border-white border-primary-gray 6xl:text-[.7vw] rounded-sm dark:text-white portrait:xxs:py-2`}
                 type="text"
                 name="email"
+                autoComplete='email'
                 value={formInputs.email}
                 placeholder={isInvalid ? 'Invalid credentials' : null}
                 onChange={(e) =>
@@ -144,6 +145,7 @@ const SignInForm = () => {
                 } w-full px-4 py-1  dark:bg-[#0a0908] dark:border-white dark:focus:bg-[#0a0908] dark:placeholder:bg-[#0a0908] focus:outline-none border rounded-sm dark:text-white border-primary-gray 2xl:py-2 6xl:text-[.7vw] portrait:xxs:py-2`}
                 type="password"
                 name="password"
+                autoComplete='password'
                 value={formInputs.password}
                 placeholder={isInvalid ? 'Invalid credentials' : null}
                 onChange={(e) =>
