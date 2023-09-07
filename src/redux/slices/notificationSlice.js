@@ -11,7 +11,7 @@ const initialNotificationState = {
 
 export const fetchAllNotifications = createAsyncThunk(
   'notification/fetchAll',
-  async ({ userId }, { rejectWithValue, getState }) => {
+  async ({ userId }, { rejectWithValue }) => {
     try {
       const token = window.localStorage.getItem('token');
       const { data } = await axios.get(
