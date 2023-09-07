@@ -109,16 +109,13 @@ const NavBar = () => {
     let timer;
 
     if (authUser.id) {
-      console.log('bringing it up');
       timer = setInterval(() => {
-        console.log('hi');
         // await dispatch(fetchUser(authUser.id)); // ? I don't think this is necessary, but could be wrong - leaving for now
         dispatch(fetchAllNotifications({ userId: authUser.id }));
       }, NOTIFICATION_UPDATE_INTERVAL);
     }
 
     return () => {
-      console.log('shutting it down');
       if (timer) clearInterval(timer);
     };
   }, [authUser]);

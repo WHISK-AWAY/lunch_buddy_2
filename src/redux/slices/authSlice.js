@@ -120,7 +120,6 @@ const authSlice = createSlice({
       /** tryToken */
       .addCase(tryToken.fulfilled, (state, action) => {
         const payload = action?.payload;
-        console.log(action);
         state.user = payload.data;
         state.isLoading = false;
         state.error = '';
