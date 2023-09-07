@@ -8,6 +8,7 @@ const axios = require('axios');
 
 const { SAFE_USER_FIELDS } = require('../../constants.cjs');
 const YELP_API_KEY = process.env.YELP_API_KEY;
+const MAPS_API_KEY = process.env.MAPS_API_KEY;
 
 const milesToMeters = (miles) => {
   const metersPerMile = 1609.344;
@@ -153,6 +154,15 @@ router.get('/restaurants', requireToken, async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+/**
+ * Send Google Maps API key to frontend for use in generating map
+ *
+ */
+
+router.get('/mapKey', requireToken, (_, res) => {
+  return res.status(200).json({ MAPS_API_KEY });
 });
 
 /**
