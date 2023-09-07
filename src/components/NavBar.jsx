@@ -3,27 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
-import DropdownMenu from './DropdownMenu';
-import { selectAuthUser, tryToken } from '../redux/slices/authSlice';
-import { fetchUser, updateUser } from '../redux/slices/userSlice';
-import navbarIcon from '../assets/icons/navbar-icon.svg';
-import xIcon from '../assets/icons/x-icon.svg';
-import navbarIconWhite from '../assets/icons/navbar-icon-white.svg';
 import NotificationBody from '../pages/NotificationCenter/NotificationBody';
+import DropdownMenu from './DropdownMenu';
+import DarkModeToggler from './DarkModeToggler';
+import navbarIcon from '../assets/icons/navbar-icon.svg';
+import navbarIconWhite from '../assets/icons/navbar-icon-white.svg';
+import bellIcon from '../assets/icons/notification.svg';
+import xIcon from '../assets/icons/x-icon.svg';
 
-import { selectAuthUser, tryToken } from '../redux/slices/authSlice';
 import {
   fetchAllNotifications,
   selectUnreadNotifications,
 } from '../redux/slices/notificationSlice';
 import { fetchUser, updateUser } from '../redux/slices/userSlice';
+import { selectAuthUser } from '../redux/slices/authSlice';
 
 import getLocation from '../utilities/geo';
-import DarkModeToggler from './DarkModeToggler';
-
-import bellIcon from '../assets/icons/notification.svg';
-import xIcon from '../assets/icons/x-icon.svg';
-import navbarIcon from '../assets/icons/navbar-icon.svg';
 
 const NOTIFICATION_UPDATE_INTERVAL = 60000;
 const TOAST_DURATION = 10000;
@@ -49,7 +44,6 @@ const NavBar = () => {
 
   useEffect(() => {
     // check for token upon first load
-    dispatch(tryToken());
   }, []);
 
   useEffect(() => {
