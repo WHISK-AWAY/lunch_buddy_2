@@ -143,7 +143,7 @@ const UserAccount = () => {
                   return (
                     <p
                       key={social.id}
-                      className="border portrait:md:text-[2.1vw] 3xl:h-6 6xl:h-8 border-white rounded-full px-4 h-7 portrait:lg:h-8 lg:h-auto flex dark:bg-[#0a0908] text-white gap-4 items-center justify-center grow xxs:text-xs test"
+                      className="border portrait:md:text-[2.1vw] 3xl:h-6 6xl:h-8 border-white rounded-full px-4 h-7 portrait:lg:h-8  flex dark:bg-[#0a0908] text-white gap-4 items-center justify-center grow xxs:text-xs test"
                     >
                       {social.tagName}
                     </p>
@@ -168,7 +168,7 @@ const UserAccount = () => {
                   return (
                     <p
                       key={professional.id}
-                      className="border portrait:md:text-[2.1vw] 3xl:h-6 6xl:h-8  portrait:lg:h-8 border-white rounded-full px-4 h-7 lg:h-auto flex  gap-4 items-center text-sm dark:bg-[#0a0908] test text-white grow justify-center"
+                      className="border portrait:md:text-[2.1vw] 3xl:h-6 6xl:h-8  portrait:lg:h-8 border-white rounded-full px-4 h-7  flex  gap-4 items-center text-sm dark:bg-[#0a0908] test text-white grow justify-center"
                     >
                       {professional.tagName}
                     </p>
@@ -193,7 +193,7 @@ const UserAccount = () => {
                   return (
                     <p
                       key={cuisine.id}
-                      className="border portrait:lg:h-8 portrait:md:text-[2.1vw] 3xl:h-6 6xl:h-8 border-white rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center text-sm capitalize test text-white grow justify-center"
+                      className="border portrait:lg:h-8 portrait:md:text-[2.1vw] 3xl:h-6 6xl:h-8 border-white rounded-full px-4 h-7  flex gap-4 items-center text-sm capitalize test text-white grow justify-center"
                     >
                       {cuisine.tagName}
                     </p>
@@ -220,7 +220,7 @@ const UserAccount = () => {
                       return (
                         <p
                           key={dietary.id}
-                          className="border portrait:lg:h-8 portrait:md:text-[2.1vw] 3xl:h-6 6xl:h-8 border-white capitalize test text-white rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center text-sm dark:bg-[#0a0908] bg-white grow justify-center"
+                          className="border portrait:lg:h-8 portrait:md:text-[2.1vw] 3xl:h-6 6xl:h-8 border-white capitalize test text-white rounded-full px-4 h-7  flex gap-4 items-center text-sm dark:bg-[#0a0908] bg-white grow justify-center"
                         >
                           {dietary.tagName}
                         </p>
