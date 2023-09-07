@@ -99,7 +99,7 @@ const SignInForm = () => {
   });
 
   return (
-    <div className="h-[calc(100dvh_-_10dvh)] w-screen flex justify-center items-center text-primary-gray bg-white dark:bg-[#0a0908]">
+    <div className="h-[calc(100dvh_-_9dvh)] w-screen flex justify-center items-center text-primary-gray bg-white dark:bg-[#0a0908]">
       <div
         className="form-container basis-full lg:basis-1/2 h-full flex flex-col justify-center items-center "
         // data-aos="fade-down"
@@ -121,7 +121,7 @@ const SignInForm = () => {
               <input
                 className={`${
                   isInvalid ? INVALID_CLASS : null
-                } w-full px-4 py-1  focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 dark:border-white border-primary-gray 6xl:text-[.7vw] portrait:xxs:py-2`}
+                } w-full px-4 py-1  focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 dark:border-white border-primary-gray 6xl:text-[.7vw] rounded-sm dark:text-white portrait:xxs:py-2`}
                 type="text"
                 name="email"
                 value={formInputs.email}
@@ -141,7 +141,7 @@ const SignInForm = () => {
               <input
                 className={`${
                   isInvalid ? INVALID_CLASS : null
-                } w-full px-4 py-1  dark:bg-[#0a0908] dark:border-white dark:focus:bg-[#0a0908] dark:placeholder:bg-[#0a0908] focus:outline-none border border-primary-gray 2xl:py-2 6xl:text-[.7vw] portrait:xxs:py-2`}
+                } w-full px-4 py-1  dark:bg-[#0a0908] dark:border-white dark:focus:bg-[#0a0908] dark:placeholder:bg-[#0a0908] focus:outline-none border rounded-sm dark:text-white border-primary-gray 2xl:py-2 6xl:text-[.7vw] portrait:xxs:py-2`}
                 type="password"
                 name="password"
                 value={formInputs.password}
