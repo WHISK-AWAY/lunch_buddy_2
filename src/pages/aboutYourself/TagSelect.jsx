@@ -63,7 +63,7 @@ const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
             return (
               <button
                 key={idx}
-                className={`border transition duration-500 border-primary-gray rounded-full px-4 h-7 flex grow gap-4 items-center hover:bg-primary-gray/20 text-xs ${
+                className={`border transition duration-500 border-primary-gray dark:border-white rounded-full px-4 h-7 flex grow gap-4 items-center hover:bg-primary-gray/20 text-xs ${
                   tag.clicked ? 'button text-white  border-white ' : ''
                 }`}
                 onClick={() => handleTagClick(idx, setter)}
