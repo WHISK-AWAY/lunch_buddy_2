@@ -62,10 +62,10 @@ export default function BuddyList(props) {
     );
 
   return (
-    <div className="buddies-list-page bg-white dark:bg-[#0a0908] dark:text-white flex flex-col justify-center items-center lg:flex-row lg:justify-between text-primary-gray h-[calc(100vh_-_9dvh)] overflow-hidden antialiased scroll-smooth">
+    <div className="buddies-list-page  bg-white dark:bg-[#0a0908] dark:text-white flex flex-col justify-center items-center lg:flex-row lg:justify-between text-primary-gray h-[calc(100vh_-_9dvh)] overflow-hidden antialiased ">
       <div className="buddies-image-container h-full basis-1/2 hidden lg:block bg-cover bg-[url('/assets/bgImg/buddyListView.jpg')] overflow-hidden"></div>
-      <div className="buddies-list-wrapper flex flex-col items-center h-full lg:basis-1/2 gap-3 md:gap-8 py-8 overflow-auto">
-        <h1 className="text-headers text-3xl pb-12 md:pb-24 pt-20 xxs:pt-5 xxs:text-lg font-bold">
+      <div className="buddies-list-wrapper flex flex-col items-center h-full lg:basis-1/2 gap-3 portrait:md:gap-1  overflow-auto">
+        <h1 className="text-headers   md:text-2xl xxs:pb-5 md:pb-24 pt-20 xxs:pt-6 xxs:text-xl font-semibold portrait:md:pb-4 portrait:md:text-2xl">
           AVAILABLE BUDDIES
         </h1>
         {buddiesList.searchResults.length > 0 ? (
