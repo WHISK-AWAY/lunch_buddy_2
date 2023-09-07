@@ -116,7 +116,7 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
   return (
     <div className={expandMenu ? '' : `group hover`}>
       <div
-        className={`transform group-[.hover]:scale-y-0 scale-y-100  overflow:hidden absolute transition-transform duration-[600ms] ease-in-out origin-top-left -bottom-screen bg-white w-screen opacity-95 transition-opacity-0 z-50 `}
+        className={`transform group-[.hover]:scale-y-0 scale-y-100  overflow:hidden dark:text-white dark:bg-[#0a0908] absolute transition-transform duration-[600ms] ease-in-out origin-top-left -bottom-screen bg-white w-screen opacity-95 transition-opacity-0 z-50 `}
       >
         <ul className="flex flex-col items-center ">
           {!authUser.firstName ? (
