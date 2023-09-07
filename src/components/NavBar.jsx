@@ -8,12 +8,14 @@ import { selectAuthUser, tryToken } from '../redux/slices/authSlice';
 import { fetchUser, updateUser } from '../redux/slices/userSlice';
 import navbarIcon from '../assets/icons/navbar-icon.svg';
 import xIcon from '../assets/icons/x-icon.svg';
+import navbarIconWhite from '../assets/icons/navbar-icon-white.svg';
 import NotificationBody from '../pages/NotificationCenter/NotificationBody';
 import {
   fetchAllNotifications,
   selectUnreadNotifications,
 } from '../redux/slices/notificationSlice';
 import getLocation from '../utilities/geo';
+import DarkModeToggler from './DarkModeToggler';
 
 const NOTIFICATION_UPDATE_INTERVAL = 60000;
 const TOAST_DURATION = 10000;
@@ -141,14 +143,29 @@ const NavBar = () => {
     }, NOTIFICATION_UPDATE_INTERVAL);
   }, [authUser]);
 
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [menuIcon, setMenuIcon] = useState(navbarIconWhite);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      setMenuIcon(navbarIconWhite);
+    } else {
+      setMenuIcon(navbarIcon);
+    }
+  }, [isDarkMode]);
+
   return (
     <>
-      <header className="sticky top-0 z-40 text-primary-gray h-[10dvh] border-b border-primary-gray w-[100vw] bg-[#0a0908] px-6 3xl:px-10 6xl:px-20">
+      <header className="sticky top-0 z-40 text-primary-gray h-[10dvh] dark:border-white border-b border-primary-gray w-[100vw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20">
+        <DarkModeToggler
+          isDarkMode={isDarkMode}
+          setIsDarkMode={setIsDarkMode}
+        />
         <nav className="flex  justify-between w-full h-full">
           <button className=" flex justify-center  items-center  ">
             <img
               className="w-7 xl:w-10 lg:w-8 5xl:w-10 6xl:w-14 portrait:xs:w-9 portrait:md:w-10"
-              src={expandMenu ? xIcon : navbarIcon}
+              src={expandMenu ? xIcon : menuIcon}
               alt="Three lined menu icon button"
               onClick={() => setExpandMenu((prev) => !prev)}
             />
@@ -205,7 +222,7 @@ const NavBar = () => {
             ) : (
               //  WHEN NOT SIGNED IN SHOW BELOW
               <>
-                <Link to="/" className='text-white'>
+                <Link to="/" className="dark:text-white text-primary-gray">
                   <h1 className="text-[2vw] ">
                     LUNCH
                     <span className="font-clicker text-[1.5vw] font-thin ">
