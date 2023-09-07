@@ -23,33 +23,24 @@ import {
 
 function App() {
 
+  //LENIS smooth scroll
+  const lenis = new Lenis({
+    duration: 2.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    wheelMultiplier: 1,
+    smoothTouch: false,
+    touchMultiplier: 2,
+    infinite: false,
+    smoothWheel: true,
+  });
 
-      const lenis = new Lenis({
-        duration: 2.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        // orientation: 'vertical',
-        // gestureOrientation: 'vertical',
-        wheelMultiplier: 1,
-        smoothTouch: false,
-        touchMultiplier: 2,
-        infinite: false,
-        // lerp: 3,
-        // duration: 1,
-        smoothWheel: true,
-      });
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
 
-      // lenis.on('scroll', ScrollTrigger.update);
+  requestAnimationFrame(raf);
 
-      // lenis.on('scroll', (e: any) => {
-      //   // console.log(e);
-      // });
-
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
-
-      requestAnimationFrame(raf);
   return (
     <div className="font-tenor bg-[#0a0908]">
       <NavBar />
