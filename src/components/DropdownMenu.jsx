@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   clearNotificationState,
+  resetUserState,
   selectUnreadNotifications,
 } from '../redux/slices';
 import { selectAuthUser, logOut } from '../redux/slices/authSlice';
@@ -33,6 +34,7 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
   function handleLogout() {
     setExpandMenu(false);
     dispatch(clearNotificationState());
+    dispatch(resetUserState());
     dispatch(logOut());
     navigate('/');
   }
