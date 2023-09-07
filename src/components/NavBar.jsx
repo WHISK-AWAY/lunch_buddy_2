@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
@@ -41,28 +41,18 @@ const NavBar = () => {
   const dropdownController = new AbortController();
   const root = document.querySelector('#root');
 
-  // const notificationContainer = document.querySelector(
-  //   '#notification-container'
-  // );
-
   useEffect(() => {
     // check for token upon first load
     dispatch(tryToken());
   }, []);
 
   useEffect(() => {
-    if (expandMenu) {
-      root.addEventListener('click', closeDropdown, {
-        signal: dropdownController.signal,
-      });
-    }
-
-    return () => {
-      dropdownController.abort();
-    };
-  }, [expandMenu]);
+    // if we're logged in, make sure the userState object is populated
+    if (authUser.id && !userState.id) dispatch(fetchUser(authUser.id));
+  }, [authUser]);
 
   useEffect(() => {
+    // if user is active and we've not yet polled for location, do so
     if (userState.status === 'active' && !locationTriggered) {
       getLocation(dispatch);
       setLocationTriggered(true);
@@ -77,11 +67,24 @@ const NavBar = () => {
 
     if (triggerClose) {
       setTriggerClose(false);
-      // notifController.abort();
     }
   }, [showNotificationBody, triggerClose]);
 
   useEffect(() => {
+    // manage dropdown menu status
+    if (expandMenu) {
+      root.addEventListener('click', closeDropdown, {
+        signal: dropdownController.signal,
+      });
+    }
+
+    return () => {
+      dropdownController.abort();
+    };
+  }, [expandMenu]);
+
+  useEffect(() => {
+    // manage notification menu status
     if (showNotificationBody) {
       root.addEventListener('click', closeNotificationBody, {
         signal: notifController.signal,
@@ -102,17 +105,22 @@ const NavBar = () => {
   }, [showNotificationBody, expandMenu]);
 
   useEffect(() => {
-    // check for notifications on a timed interval
-    async function runDispatch() {
-      if (authUser.firstName) {
-        await dispatch(fetchUser(authUser.id));
-        await dispatch(fetchAllNotifications({ userId: authUser.id }));
-      }
+    // periodically check for new notifications
+    let timer;
+
+    if (authUser.id) {
+      console.log('bringing it up');
+      timer = setInterval(() => {
+        console.log('hi');
+        // await dispatch(fetchUser(authUser.id)); // ? I don't think this is necessary, but could be wrong - leaving for now
+        dispatch(fetchAllNotifications({ userId: authUser.id }));
+      }, NOTIFICATION_UPDATE_INTERVAL);
     }
-    runDispatch();
-    setInterval(() => {
-      runDispatch();
-    }, NOTIFICATION_UPDATE_INTERVAL);
+
+    return () => {
+      console.log('shutting it down');
+      if (timer) clearInterval(timer);
+    };
   }, [authUser]);
 
   function handleNotificationClick(event) {
@@ -126,21 +134,15 @@ const NavBar = () => {
 
   function handleToggleStatus() {
     let newStatus;
+    console.log('userState', userState);
     if (userState.status === 'active') {
       newStatus = 'inactive';
       setLocationTriggered(false);
-    } else if (userState.status === 'inactive') {
+    } else if (!userState.status || userState.status === 'inactive') {
       newStatus = 'active';
-    } else {
-      alert('Sorry, currently your status is' + userState.status);
     }
     dispatch(updateUser({ status: newStatus }));
   }
-
-  // function closeNotificationBody() {
-  //   setTriggerClose(true);
-  //   notifController.abort();
-  // }
 
   function closeNotificationBody(e) {
     if (
