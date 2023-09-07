@@ -22,7 +22,15 @@ module.exports = {
       po: ['Poiret One', 'cursive'],
       ultra: ['Ultra', 'serif'],
       fed: ['Federo', 'sans - serif'],
-      archivo: ['archivo Black', 'monospace']
+      archivo: ['archivo Black', 'monospace'],
+      cutive: ['Cutive Mono', 'monospace'],
+      dm: ['DM Mono', 'monospace'],
+      pt: ['PT Mono', 'monospace'],
+      hat: ['Red Hat Mono', 'monospace'],
+      roboto: ['Roboto Mono', 'monospce'],
+      inso: ['Inconsolata', 'monospace'],
+      jost: ['Jost', 'monospace'],
+      
     },
     fontWeight: {
       thin: 100,
@@ -33,7 +41,7 @@ module.exports = {
       semibold: 600,
       bold: 700,
       xtrabold: 800,
-      black: 900
+      black: 900,
     },
     extend: {
       colors: {
