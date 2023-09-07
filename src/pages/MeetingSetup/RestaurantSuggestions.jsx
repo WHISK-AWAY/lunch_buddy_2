@@ -37,16 +37,28 @@ export default function RestaurantSuggestions() {
     // fetch maps API key if we don't already have it
     if (search.isLoading) return;
 
+    let timer;
+
     if (search.error) {
       console.log(error);
     } else if (!mapsKey) {
-      dispatch(fetchMapKey());
+      // (debounce request)
+      timer = setTimeout(() => dispatch(fetchMapKey()), 100);
     }
+
+    if (timer) return () => clearTimeout(timer);
   }, [mapsKey]);
 
   useEffect(() => {
-    if (user.id && !restaurants.length)
-      dispatch(findRestaurants({ searchRadius, buddy }));
+    let timer;
+
+    if (user.id && !restaurants.length) {
+      timer = setTimeout(() => {
+        dispatch(findRestaurants({ searchRadius, buddy }));
+      }, 100);
+    }
+
+    if (timer) return () => clearTimeout(timer);
   }, [dispatch, user]);
 
   if (!restaurants) return <h1>No restaurants found :(</h1>;
