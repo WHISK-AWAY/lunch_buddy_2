@@ -131,7 +131,6 @@ const NavBar = () => {
 
   function handleToggleStatus() {
     let newStatus;
-    console.log('userState', userState);
     if (userState.status === 'active') {
       newStatus = 'inactive';
       setLocationTriggered(false);
