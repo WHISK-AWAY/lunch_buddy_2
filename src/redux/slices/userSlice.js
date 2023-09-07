@@ -67,6 +67,8 @@ export const updateUser = createAsyncThunk(
     try {
       const { token, user } = await checkToken();
 
+      console.log('userUpdateData', userUpdateData);
+
       // request update
       const res = await axios.put(
         VITE_API_URL + `/api/user/${user.id}`,
@@ -188,12 +190,7 @@ const userSlice = createSlice({
   name: 'user',
   initialState: initialUserState,
   reducers: {
-    resetUserState: (state) => {
-      state.user = {};
-      state.userMeetings = [];
-      state.error = '';
-      state.isLoading = false;
-    },
+    resetUserState: () => initialUserState,
   },
   extraReducers: (builder) => {
     // FETCH USER
