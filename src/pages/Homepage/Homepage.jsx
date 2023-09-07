@@ -5,13 +5,27 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import FormButton from '../../components/FormButton';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
+import { tryToken } from '../../redux/slices';
 const Homepage = () => {
+  const dispatch = useDispatch();
+
   const auth = useSelector(selectAuth);
   AOS.init({
     duration: 2000,
     offset: 0,
   });
+
+
+  //*try token check to stay signed in if token stored in the local storage on page refresh
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      dispatch(tryToken());
+    }
+  }, []);
+
   return (
     <div className="flex md:w-screen w-full flex-col scroll-smooth gap-20 text-primary-gray pb-16 md:py-16 md:gap-56 h-fit overflow-hidden sm:gap-28 sm:py-16 py-20">
       <div
