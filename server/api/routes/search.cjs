@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Tag, Category } = require('../../db/index.cjs');
+const { User, Tag, Category, YelpListing } = require('../../db/index.cjs');
 const { requireToken } = require('../authMiddleware.cjs');
 const { Op } = require('sequelize');
 const geolib = require('geolib');
@@ -102,6 +102,9 @@ router.get('/', requireToken, async (req, res, next) => {
   }
 });
 
+/**
+ * Search for restaurant suggestions based on category matching
+ */
 router.get('/restaurants', requireToken, async (req, res, next) => {
   try {
     const YELP_BASE_URL = 'https://api.yelp.com/v3/businesses/search';
@@ -115,6 +118,8 @@ router.get('/restaurants', requireToken, async (req, res, next) => {
       categories: categories.join(','),
     };
 
+    console.log('fetching yelp results');
+
     let yelpRes = await axios.get(YELP_BASE_URL, {
       headers: {
         Authorization: 'Bearer ' + YELP_API_KEY,
@@ -124,6 +129,7 @@ router.get('/restaurants', requireToken, async (req, res, next) => {
     });
 
     // if we didn't return anything with the first try, try again w/no categories
+    // TODO: set a lower limit on filtered results and use unfiltered to flesh out a decent-sized list
     if (!yelpRes.data?.businesses?.length) {
       console.log('No category-specific results -- trying again...');
       delete params.categories;
@@ -141,11 +147,18 @@ router.get('/restaurants', requireToken, async (req, res, next) => {
     );
 
     res.status(200).json(yelpRes.data);
+
+    if (yelpRes.data?.businesses?.length > 0)
+      updateYelpStore(yelpRes.data.businesses);
   } catch (err) {
     next(err);
   }
 });
 
+/**
+ * Pull specific restaurant information to populate meeting request / notifications
+ * Try local DB first & pull Yelp info only if none available locally
+ */
 router.get(
   '/restaurants/:yelpBusinessId',
   requireToken,
@@ -153,6 +166,19 @@ router.get(
     try {
       const YELP_BY_BIZ_ID = 'https://api.yelp.com/v3/businesses/';
 
+      const localResult = await YelpListing.findByPk(req.params.yelpBusinessId);
+
+      // if we have a local result, we need to expand location & coordinates to match yelp API shape
+      // then send on to user without requesting info from Yelp
+      if (localResult) {
+        ['location', 'coordinates'].forEach((key) => {
+          localResult[key] = JSON.parse(localResult[key]);
+        });
+
+        return res.status(200).json(localResult);
+      }
+
+      // If we somehow don't have the restaurant info already, pull it from Yelp & save it for future requests
       const yelpRes = await axios.get(
         YELP_BY_BIZ_ID + req.params.yelpBusinessId,
         {
@@ -162,6 +188,8 @@ router.get(
           },
         }
       );
+
+      updateYelpStore([yelpRes.data]);
 
       console.log(
         `Yelp rate limit: ${yelpRes.headers['ratelimit-remaining']} remaining of ${yelpRes.headers['ratelimit-dailylimit']}`
@@ -175,3 +203,68 @@ router.get(
 );
 
 module.exports = router;
+
+function updateYelpStore(yelpListings) {
+  /**
+   * Given an array of yelp business listings, save (or update) each in database
+   */
+  if (!Array.isArray(yelpListings))
+    throw new Error('must provide an array of listings');
+
+  for (let listing of yelpListings) {
+    const {
+      id,
+      name,
+      image_url,
+      url,
+      review_count,
+      rating,
+      display_phone,
+      location,
+      coordinates,
+    } = listing;
+
+    YelpListing.findOrCreate({
+      where: {
+        id,
+      },
+      defaults: {
+        id,
+        name,
+        imageUrl: image_url,
+        url,
+        reviewCount: review_count,
+        rating,
+        phone: display_phone,
+        location: JSON.stringify(location),
+        coordinates: JSON.stringify(coordinates),
+      },
+    })
+      .then(([_, created]) => {
+        if (created) {
+          console.log('record created');
+          return;
+        }
+        YelpListing.update(
+          {
+            name,
+            imageUrl: image_url,
+            url,
+            reviewCount: review_count,
+            rating,
+            phone: display_phone,
+            location: JSON.stringify(location),
+            coordinates: JSON.stringify(coordinates),
+          },
+          {
+            where: {
+              id,
+            },
+          }
+        ).then(() => console.log('record updated'));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+}
