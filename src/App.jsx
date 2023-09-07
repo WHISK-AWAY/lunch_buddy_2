@@ -42,7 +42,7 @@ function App() {
   requestAnimationFrame(raf);
 
   return (
-    <div className="font-jost bg-[#0a0908]">
+    <div className="font-jost ">
       <NavBar />
       <Routes>
         <Route path="/" element={<Homepage />} />
