@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 // import { Loader } from '@googlemaps/js-api-loader';
 import { Wrapper } from '@googlemaps/react-wrapper';
 import MapComponent from '../../components/MapComponent';
@@ -13,8 +13,6 @@ import {
   selectRestaurants,
   fetchMapKey,
 } from '../../redux/slices';
-
-// TODO: rework this to read key from restaurant search results
 
 export default function RestaurantSuggestions() {
   const dispatch = useDispatch();
