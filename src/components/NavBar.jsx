@@ -4,6 +4,11 @@ import { Link } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
 import DropdownMenu from './DropdownMenu';
+import { selectAuthUser, tryToken } from '../redux/slices/authSlice';
+import { fetchUser, updateUser } from '../redux/slices/userSlice';
+import navbarIcon from '../assets/icons/navbar-icon.svg';
+import xIcon from '../assets/icons/x-icon.svg';
+import navbarIconWhite from '../assets/icons/navbar-icon-white.svg';
 import NotificationBody from '../pages/NotificationCenter/NotificationBody';
 
 import { selectAuthUser, tryToken } from '../redux/slices/authSlice';
@@ -14,6 +19,7 @@ import {
 import { fetchUser, updateUser } from '../redux/slices/userSlice';
 
 import getLocation from '../utilities/geo';
+import DarkModeToggler from './DarkModeToggler';
 
 import bellIcon from '../assets/icons/notification.svg';
 import xIcon from '../assets/icons/x-icon.svg';
@@ -156,89 +162,109 @@ const NavBar = () => {
     dropdownController.abort();
   }
 
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [menuIcon, setMenuIcon] = useState(navbarIconWhite);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      setMenuIcon(navbarIconWhite);
+    } else {
+      setMenuIcon(navbarIcon);
+    }
+  }, [isDarkMode]);
+
   return (
-    <header className="relative z-40 text-primary-gray h-[65px]">
-      <nav className="flex p-4 justify-between border-b border-primary-gray  bg-slate-50">
-        <button className="h-8 flex justify-center items-center pt-1">
-          <img
-            className="w-8"
-            src={expandMenu ? xIcon : navbarIcon}
-            alt="Three lined menu icon button"
-            onClick={() => setExpandMenu((prev) => !prev)}
-          />
-        </button>
-        <ul className="flex items-center justify-center gap-8 text-center">
-          {/* BUTTONS THAT SHOW ONLY WHEN SIGNED IN */}
-          {authUser?.firstName ? (
-            <>
-              <li className="hidden md:block">
-                <Link to="/account">
-                  HI, {authUser.firstName.toUpperCase()}
-                </Link>
-              </li>
-
-              <li className="flex items-center">
-                <label className="relative inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    value={''}
-                    className="sr-only peer"
-                    checked={userState.status === 'active'}
-                    onChange={handleToggleStatus}
-                    // onClick={handleToggleStatus}
-                  />
-                  <div className="w-11 h-6 bg-white border rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-600 after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-label peer-checked:border-white peer-checked:after:bg-white"></div>
-                </label>
-              </li>
-              <Toaster
-                position="top-right"
-                toastOptions={{
-                  duration: TOAST_DURATION,
-                }}
-              />
-              <li className="h-7 relative">
-                <button
-                  id="bell-button"
-                  className={
-                    hasNotifications &&
-                    `after:content-[''] after:absolute after:top-1 after:right-1 after:text-red-400 after:bg-headers after:rounded-full after:w-2 after:h-2`
-                  }
-                  onClick={handleNotificationClick}
-                >
-                  <img
-                    className="w-7 h-full"
-                    src={showNotificationBody ? bellIcon : bellIcon}
-                    alt="Notification bell icon"
-                  />
-                </button>
-              </li>
-            </>
-          ) : (
-            //  WHEN NOT SIGNED IN SHOW BELOW
-            <>
-              <Link to="/">
-                <h1 className="text-2xl">
-                  LUNCH
-                  <span className="font-clicker text-xl font-thin text-primary-gray">
-                    buddy
-                  </span>
-                </h1>
-              </Link>
-            </>
-          )}
-        </ul>
-      </nav>
-      {/* DROPDOWN MENU, HIDDEN UNTIL CLICKED */}
-
-      <DropdownMenu expandMenu={expandMenu} setExpandMenu={setExpandMenu} />
-      <div className="notification-body">
-        <NotificationBody
-          showNotificationBody={showNotificationBody}
-          setShowNotificationBody={setShowNotificationBody}
-          setTriggerClose={setTriggerClose}
+    <>
+      <header className="sticky top-0 z-40 text-primary-gray h-[9dvh] dark:border-white border-b border-primary-gray w-[100vw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20">
+        <DarkModeToggler
+          isDarkMode={isDarkMode}
+          setIsDarkMode={setIsDarkMode}
         />
-      </div>
-    </header>
+        <nav className="flex  justify-between w-full h-full">
+          <button className=" flex justify-center  items-center  ">
+            <img
+              className="w-7 xl:w-10 lg:w-8 5xl:w-10 6xl:w-14 portrait:xs:w-9 portrait:md:w-10"
+              src={expandMenu ? xIcon : menuIcon}
+              alt="Three lined menu icon button"
+              onClick={() => setExpandMenu((prev) => !prev)}
+            />
+          </button>
+          <ul className="flex items-center justify-center align-center h-full gap-8 text-center">
+            {/* BUTTONS THAT SHOW ONLY WHEN SIGNED IN */}
+            {authUser?.firstName ? (
+              <>
+                <li className="hidden md:block">
+                  <Link
+                    to="/account"
+                    className="text-[1.6vw] 2xl:text-[1.3vw] 3xl:text-[1.1vw] 4xl:w-[1vw] 5xl:text-[.9vw]"
+                  >
+                    HI, {authUser.firstName.toUpperCase()}
+                  </Link>
+                </li>
+
+                <li className="flex items-center">
+                  <label className="relative inline-flex items-center cursor-pointer ">
+                    <input
+                      type="checkbox"
+                      value={''}
+                      className="sr-only peer"
+                      checked={userState.status === 'active'}
+                      onChange={handleToggleStatus}
+                      // onClick={handleToggleStatus}
+                    />
+                    <div className="w-11 h-6 bg-white border rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-600 after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-label peer-checked:border-white peer-checked:after:bg-white"></div>
+                  </label>
+                </li>
+                <Toaster
+                  position="top-right"
+                  toastOptions={{
+                    duration: TOAST_DURATION,
+                  }}
+                />
+                <li className="h-7 relative">
+                  <button
+                    id="bell-button"
+                    className={
+                      hasNotifications &&
+                      `after:content-[''] after:absolute after:top-1 after:right-1 after:text-red-400 after:bg-headers after:rounded-full after:w-2 after:h-2`
+                    }
+                    onClick={handleNotificationClick}
+                  >
+                    <img
+                      className="w-7 xl:w-10 lg:w-8 5xl:w-8 6xl:w-10 h-full"
+                      src={showNotificationBody ? bellIcon : bellIcon}
+                      alt="Notification bell icon"
+                    />
+                  </button>
+                </li>
+              </>
+            ) : (
+              //  WHEN NOT SIGNED IN SHOW BELOW
+              <>
+                <Link to="/" className="dark:text-white text-primary-gray">
+                  <h1 className="text-[2vw] xxs:text-[4.9vw]">
+                    LUNCH
+                    <span className="font-clicker text-[1.5vw] font-thin xxs:text-[4.5vw]">
+                      buddy
+                    </span>
+                  </h1>
+                </Link>
+              </>
+            )}
+          </ul>
+        </nav>
+
+        <div className="notification-body">
+          <NotificationBody
+            showNotificationBody={showNotificationBody}
+            setShowNotificationBody={setShowNotificationBody}
+            setTriggerClose={setTriggerClose}
+          />
+        </div>
+      </header>
+      {/* DROPDOWN MENU, HIDDEN UNTIL CLICKED */}
+      <DropdownMenu expandMenu={expandMenu} setExpandMenu={setExpandMenu} />
+    </>
   );
 };
 

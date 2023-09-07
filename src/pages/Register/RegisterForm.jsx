@@ -150,27 +150,27 @@ const RegisterForm = () => {
   });
 
   return (
-    <div className="flex justify-center lg:grow items-center h-[calc(100vh_-_65px)] overflow-hidden text-primary-gray">
+    <div className="flex justify-center lg:grow items-center h-[calc(100vh_-_9dvh)] dark:bg-[#0a0908] bg-white overflow-hidden text-primary-gray ">
       <div
         id="form-container"
-        className="lg:basis-1/2 flex flex-col justify-center items-center  basis-full overflow-auto h-full pb-16 pt-24 scrollbar-hide"
-        data-aos="fade-down"
-        data-aos-delay="1000"
-        duration="1000"
+        className="lg:basis-1/2 flex flex-col justify-center items-center  basis-full overflow-auto h-full  scrollbar-hide xs:pt-20"
+        // data-aos="fade-down"
+        // data-aos-delay="1000"
+        // duration="1000"
       >
-        <div className="h-full lg:w-4/5 md:w-3/5 w-4/5">
-          <form className=" grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8 pb-3">
-            <h1 className="text-center text-2xl mb-6 text-headers font-bold font-sans col-span-full">
+        <div className="w-full h-full xxs:w-4/5 xxs:pb-20 sm:w-4/5 md:w-2/3 5xl:w-3/6 6xl:w-5/12  portrait:md:w-3/6 portrait:md:pb-36 portrait:lg:w-full portrait:lg:pb-56 ">
+          <form className=" grid grid-cols-6 justify-center gap-x-2 gap-y-6 lg:px-8 pb-3">
+            <h1 className="text-center text-2xl mb-6 text-headers font-bold font-sans 6xl:text-[1.5vw] portrait:lg:text-[3vw] col-span-full">
               SIGN UP
             </h1>
             <div className="relative col-span-3 w-full">
-              <label className="text-label font-semibold block text-xs  absolute -top-3 left-3 bg-white px-1">
+              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs  absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 First Name
               </label>
               <input
                 className={`${
                   inputValidator.firstName ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
+                }  w-full px-4 py-2 focus:outline-none bg-white dark:bg-[#0a0908] dark:text-white 2xl:py-2 dark:border-white rounded-sm h-10 border border-primary-gray text-[.9rem]`}
                 placeholder={
                   inputValidator.firstName ? 'Enter first name' : null
                 }
@@ -184,13 +184,13 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-3 w-full">
-              <label className="text-label font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 Last Name
               </label>
               <input
                 className={`${
                   inputValidator.lastName ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
+                }  w-full px-4 py-2 rounded-sm focus:outline-none h-10  bg-white dark:text-white dark:bg-[#0a0908] border 2xl:py-2 dark:border-white border-primary-gray text-[.9rem]`}
                 placeholder={inputValidator.lastName ? 'Enter last name' : null}
                 value={formInputs.lastName}
                 onChange={(e) =>
@@ -202,7 +202,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-full">
-              <label className="text-label font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 Email
               </label>
               <input
@@ -211,7 +211,7 @@ const RegisterForm = () => {
                 required={true}
                 className={`${
                   inputValidator.email ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
+                }  w-full px-4 py-2  h-10  rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 dark:border-white border-primary-gray dark:text-white text-[.9rem]`}
                 placeholder={inputValidator.email ? 'Enter email' : null}
                 value={formInputs.email}
                 onChange={(e) =>
@@ -220,14 +220,14 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-full">
-              <label className="text-label font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 Password
               </label>
               <input
                 type="password"
                 className={`${
                   inputValidator.password ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
+                }  w-full px-4 py-2  h-10  rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 dark:border-white border-primary-gray dark:text-white text-[.9rem]`}
                 placeholder={inputValidator.password ? 'Enter password' : null}
                 value={formInputs.password}
                 onChange={(e) =>
@@ -239,14 +239,14 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-full">
-              <label className="text-label font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 Confirm Password
               </label>
               <input
                 type="password"
                 className={`${
                   inputValidator.confirmPassword ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
+                }  w-full px-4 py-2  h-10  rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 dark:border-white border-primary-gray dark:text-white text-[.9rem]`}
                 placeholder={
                   inputValidator.confirmPassword ? 'Confirm password' : null
                 }
@@ -260,13 +260,13 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-4">
-              <label className="text-label font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 Address 1
               </label>
               <input
                 className={`${
                   inputValidator.address1 ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
+                }  w-full px-4 py-2  h-10  rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 dark:border-white border-primary-gray dark:text-white text-[.9rem]`}
                 placeholder={inputValidator.address1 ? 'Enter address' : null}
                 value={formInputs.address1}
                 onChange={(e) =>
@@ -278,11 +278,11 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-2">
-              <label className="text-label font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 Address 2
               </label>
               <input
-                className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]"
+                className="w-full px-4 py-2  h-10  rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 dark:border-white border-primary-gray dark:text-white text-[.9rem]"
                 value={formInputs.address2}
                 onChange={(e) =>
                   setFormInputs((prev) => ({
@@ -293,13 +293,13 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-4">
-              <label className="text-label font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 City
               </label>
               <input
                 className={`${
                   inputValidator.city ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
+                }  w-full px-4 py-2  h-10  rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 dark:border-white border-primary-gray dark:text-white text-[.9rem]`}
                 placeholder={inputValidator.city ? 'Enter city' : null}
                 value={formInputs.city}
                 onChange={(e) =>
@@ -308,11 +308,11 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-2">
-              <label className="text-label font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 State
               </label>
               <select
-                className="w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-xs bg-white"
+                className="w-full px-4 py-2  h-10  rounded-sm focus:outline-none  border 2xl:py-2 dark:border-white border-primary-gray dark:text-white text-xs dark:bg-[#0a0908] bg-white"
                 onChange={(e) =>
                   setFormInputs((prev) => ({ ...prev, state: e.target.value }))
                 }
@@ -328,7 +328,7 @@ const RegisterForm = () => {
               </select>
             </div>
             <div className="relative col-span-2">
-              <label className="text-label font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 Zip
               </label>
               <input
@@ -340,7 +340,7 @@ const RegisterForm = () => {
                 maxLength="9"
                 className={`${
                   inputValidator.zip ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-[.9rem]`}
+                }  w-full px-4 py-2 h-10  rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 dark:border-white border-primary-gray dark:text-white text-[.9rem]`}
                 placeholder={inputValidator.zip ? 'Enter zip' : null}
                 value={formInputs.zip}
                 onChange={(e) =>
@@ -349,7 +349,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-2">
-              <label className="text-label font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 Age
               </label>
               <input
@@ -357,7 +357,7 @@ const RegisterForm = () => {
                 placeholder="18+"
                 className={`${
                   inputValidator.age ? INVALID_CLASS : null
-                }  w-full px-4 py-2 rounded-lg focus:outline-none h-10 border border-primary-gray text-xs focus:border-primary-gray active:border-primary-gray active:ring-primary-gray focus:ring-primary-gray outline-0 focus:bg-white`}
+                }  w-full px-4 py-2  h-10  rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 dark:border-white border-primary-gray dark:text-white text-xs focus:border-primary-gray active:border-primary-gray active:ring-primary-gray focus:ring-primary-gray outline-0 focus:bg-white`}
                 value={+formInputs.age}
                 onChange={(e) =>
                   setFormInputs((prev) => ({ ...prev, age: e.target.value }))
@@ -365,11 +365,11 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-2">
-              <label className="text-label font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 Gender
               </label>
               <select
-                className="w-full px-4 py-2 rounded-lg focus:outline-none text-xs h-10 border border-primary-gray bg-white"
+                className="w-full px-4 py-2  rounded-sm focus:outline-none  2xl:py-2 dark:border-white border-primary-gray dark:text-white text-xs h-10 border   dark:bg-[#0a0908] bg-white"
                 onChange={(e) =>
                   setFormInputs((prev) => ({ ...prev, gender: e.target.value }))
                 }
@@ -382,23 +382,29 @@ const RegisterForm = () => {
               </select>
             </div>
             <div
-              className="col-span-full md:w-3/5 md:mx-auto"
-              data-aos="fade-in"
-              data-aos-delay="2000"
-              duration="1500"
+              className="col-span-full   w-full"
+              // data-aos="fade-in"
+              // data-aos-delay="2000"
+              // duration="1500"
             >
-              <FormButton handleSubmit={handleSubmit}>CONTINUE</FormButton>
+              <FormButton handleSubmit={handleSubmit}>
+                <span className="text-[1.8vw] md:text-[2vw] portrait:md:text-[3vw] xl:text-[1.4vw] 5xl:text-[1vw] xxs:text-[4.2vw] sm:text-[4.8vw] portrait:lg:text-[2vw]">
+                  CONTINUE
+                </span>
+              </FormButton>
             </div>
           </form>
           <p
-            className="text-center text-xs"
-            data-aos="fade-in"
-            data-aos-delay="2500"
-            duration="1500"
+            className="my-2 text-center dark:text-white text-primary-gray text-[1.7vw] lg:text-[1vw] portrait:md:text-[2vw]  3xl:text-[.8vw] 5xl:text-[.6vw] xxs:text-[3vw] portrait:lg:text-[1.7vw] md:text-[1.4vw]"
+            // data-aos="fade-in"
+            // data-aos-delay="2500"
+            // duration="1500"
           >
             already have an account?{' '}
             <Link to="/login">
-              <span className="text-headers hover:underline">sign in</span>
+              <span className="text-headers hover:underline underline-offset-2 ">
+                sign in
+              </span>
             </Link>
           </p>
         </div>
@@ -406,11 +412,11 @@ const RegisterForm = () => {
       <div
         id="bg-img"
         className="bg-cover 
-        bg-[url('/assets/bgImg/signUpView.jpg')] basis-1/2 hidden lg:block h-full"
+        bg-[url('/assets/bgImg/signUpView-q30.webp')] basis-1/2 hidden lg:block portrait:lg:hidden h-full"
         alt="person smearing a dip on toast, at a restaurant with wine, plates, coffee"
-        data-aos="fade-left"
-        data-aos-delay="200"
-        data-aos-duration="2800"
+        // data-aos="fade-left"
+        // data-aos-delay="200"
+        // data-aos-duration="2800"
       ></div>
     </div>
   );
