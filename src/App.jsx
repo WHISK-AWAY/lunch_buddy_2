@@ -24,7 +24,7 @@ import {
 
 function App() {
   return (
-    <div className="font-tenor">
+    <div className="font-tenor bg-[#0a0908]">
       <NavBar />
       <Routes>
         <Route path="/" element={<Homepage />} />
