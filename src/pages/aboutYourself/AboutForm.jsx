@@ -166,7 +166,7 @@ const AboutForm = () => {
   });
 
   return (
-    <div className=" flex flex-row items-center justify-center h-[calc(100vh_-_65px)] w-fit overflow-hidden scroll-smooth">
+    <div className=" flex flex-row items-center justify-center h-[calc(100vh_-_9dvh)] w-fit overflow-hidden scroll-smooth bg-white dark:bg-[#0a0908] text-primary-gray dark:text-white">
       <div
         id="form-container"
         className="lg:basis-1/2 flex flex-col  h-full justify-start align-middle overflow-auto scrollbar-hide"
@@ -208,13 +208,15 @@ const AboutForm = () => {
             setMinTags={setMinTags}
           />
         </div>
-        <div className="flex self-center sm:max-w-lg sm:min-w-[20%]  px-6 mb-16 pt-5 lg:w-2/5 w-3/5">
-          <FormButton handleSubmit={handleSubmit}>SUBMIT</FormButton>
+        <div className="flex self-center xxs:w-full  md:w-3/5  px-6 mb-16 pt-5 2xl:w-2/5  w-3/5 5xl:w-2/6">
+          <FormButton handleSubmit={handleSubmit}>
+            <span className="4xl:text-[.8vw]">SUBMIT</span>
+          </FormButton>
         </div>
       </div>
       <div
         id="bg-img"
-        className="basis-1/2 hidden lg:block h-full bg-cover bg-[url('/assets/bgImg/aboutMeView.jpg')]"
+        className="basis-1/2 hidden lg:block h-full bg-cover bg-[url('/assets/bgImg/aboutMeView-q30.webp')]"
         data-aos="fade-left"
         data-aos-delay="200"
         data-aos-duration="2000"
