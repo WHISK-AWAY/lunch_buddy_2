@@ -9,6 +9,7 @@ const initialSearchState = {
   restaurants: [],
   error: '',
   isLoading: false,
+  mapsKey: '',
 };
 
 export const findBuddies = createAsyncThunk(
@@ -96,6 +97,26 @@ export const findRestaurants = createAsyncThunk(
   }
 );
 
+export const fetchMapKey = createAsyncThunk(
+  'search/fetchMapKey',
+  async (_, { rejectWithValue }) => {
+    // request google maps api key from backend
+    try {
+      const token = window.localStorage.getItem('token');
+
+      if (!token) throw new Error('No token found in local storage.');
+
+      const { data } = await axios.get(VITE_API_URL + '/api/search/mapKey', {
+        headers: { Authorization: token },
+      });
+
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
 const searchSlice = createSlice({
   name: 'search',
   initialState: initialSearchState,
@@ -141,6 +162,21 @@ const searchSlice = createSlice({
         state.restaurants = [];
         state.error = action.payload.response.data;
         state.isLoading = false;
+      })
+
+      // fetch Maps API key
+      .addCase(fetchMapKey.fulfilled, (state, { payload }) => {
+        state.mapsKey = payload.MAPS_API_KEY;
+        state.error = '';
+        state.isLoading = false;
+      })
+      .addCase(fetchMapKey.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchMapKey.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        state.error = payload;
+        state.mapsKey = '';
       });
   },
 });
