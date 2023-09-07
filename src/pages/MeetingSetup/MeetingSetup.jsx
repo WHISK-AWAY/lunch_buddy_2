@@ -38,11 +38,11 @@ export default function MeetingSetup(props) {
       dispatch(tryToken());
     } else dispatch(fetchUser(auth.user.id));
 
+    getLocation(dispatch, navigate);
     // if inactive, flip status & pull location
-    if (auth.user?.status === 'inactive') {
-      getLocation(dispatch);
-      dispatch(updateUser({ status: 'active' }));
-    }
+    // if (auth.user?.status === 'inactive') {
+    //   // dispatch(updateUser({ status: 'active' }));
+    // }
   }, [dispatch, auth]);
 
   // come up with time slots for suggestion
@@ -87,14 +87,14 @@ export default function MeetingSetup(props) {
   return (
     <div
       id="search-params-page"
-      className="lg:bg-none w-screen flex flex-row-reverse justify-center items-center h-[calc(100vh_-_65px)] overflow-hidden bg-fixed bg-gradient-to-t from-[#FF8A00]/10 to-[#FFFFFF] text-primary-gray"
+      className="lg:bg-none w-screen flex flex-row-reverse justify-center  items-center h-[calc(100vh_-_9dvh)] bg-white dark:bg-[#0a0908] overflow-hidden bg-fixed  text-primary-gray dark:text-white"
     >
       <div className="lg:basis-1/2 flex flex-col justify-center items-center">
         <div id="search-params-container" className="">
           <form className="flex flex-col gap-5 mb-5 items-center">
-            <div id="radius-group" className="flex flex-col items-center gap-5">
+            <div id="radius-group" className="flex flex-col items-center gap-2">
               <label
-                className="text-headers text-md py-3"
+                className="text-headers xxs:text-md portrait:md:text-[3vw] 5xl:text-xl sm:text-lg lg:text-sm pb-2 3xl:text-base"
                 htmlFor="search-radius"
               >
                 SEARCH RADIUS
@@ -102,7 +102,7 @@ export default function MeetingSetup(props) {
               <select
                 name="radius"
                 id="search-radius"
-                className="rounded-full px-7 py-2 focus:border-primary-gray active:border-primary-gray text-sm active:ring-primary-gray focus:ring-primary-gray outline-0 form-select focus:bg-white"
+                className="rounded-sm bg-transparent px-7 3xl:text-sm py-2 lg:text-xs focus:border-primary-gray active:border-primary-gray xxs:text-sm portrait:md:text-[2vw] portrait:md:px-10 portrait:md:py-4 active:ring-primary-gray focus:ring-primary-gray outline-0 form-select focus:bg-white dark:bg-[#0a0908]"
                 value={searchRadius}
                 onChange={(e) => setSearchRadius(e.target.value)}
               >
@@ -117,12 +117,14 @@ export default function MeetingSetup(props) {
             </div>
             <div
               id="time-slot-wrapper"
-              className="flex flex-col items-center gap-5 w-11/12"
+              className="flex flex-col items-center gap-5 w-11/12 sm:pt-10 xxs:pt-5"
             >
-              <h2 className="text-headers text-md py-4">TIME SLOTS</h2>
+              <h2 className="text-headers 5xl:text-xl xxs:text-md portrait:md:text-[3vw] portrait:md:pt-20 lg:text-sm sm:text-lg 3xl:text-base">
+                TIME SLOTS
+              </h2>
               <div
                 id="time-slot-group"
-                className="flex flex-row flex-wrap justify-center gap-5 pb-3 text-sm"
+                className="flex flex-row flex-wrap justify-center gap-5 pb-3 xxs:text-sm 3xl:text-sm lg:text-xs 5xl:text-base portrait:md:text-[2.4vw]"
               >
                 {timeSlots.map((timeOption) => {
                   return (
@@ -132,10 +134,10 @@ export default function MeetingSetup(props) {
                         e.preventDefault();
                         setTimeSlot(timeOption);
                       }}
-                      className={`border transition duration-500 border-primary-gray rounded-full px-3 py-1  hover:bg-primary-gray/20 ${
+                      className={`border transition duration-500 border-primary-gray  rounded-sm px-3 py-1 portrait:md:p-3  hover:bg-primary-gray/20 ${
                         timeOption.startTime === timeSlot?.startTime
                           ? 'button text-white border-white'
-                          : 'bg-white border border-primary-gray'
+                          : 'bg-white dark:bg-transparent border border-primary-gray'
                       }`}
                     >
                       {`${timeOption.startTime} - ${timeOption.endTime}`}
@@ -144,19 +146,25 @@ export default function MeetingSetup(props) {
                 })}
               </div>
             </div>
-            <div id="btn-container" className="w-3/5 lg:w-2/5 pt-5">
+            <div
+              id="btn-container"
+              className=" xxs:w-5/6 xs:w-4/6 sm:w-4/6 lg:w-3/5 pt-5 portrait:lg:w-4/5 "
+            >
               <FormButton handleSubmit={handleSearchSubmit}>
-                FIND BUDDY
+                <span className="xxs:text-[3.3vw] sm:text-lg 5xl:text-xl portrait:md:text-[3vw] portrait:lg:py-2 lg:text-base">
+                  FIND BUDDY
+                </span>
               </FormButton>
             </div>
           </form>
         </div>
       </div>
-      <div
-        id="bg-img"
-        className="bg-cover
-          bg-[url('/assets/bgImg/interestFormView.jpg')] basis-1/2 hidden lg:block h-full"
-      ></div>
+
+       <div
+       id="bg-img"
+       className="bg-cover bg-no-repeat  3xl:aspect-square
+       bg-[url('/assets/bgImg/interestFormView.jpg')] 3xl:bg-[url('/assets/bgImg/test3.jpg')] basis-1/2 hidden lg:block h-full portrait:lg:hidden"
+       ></div>
     </div>
   );
 }
