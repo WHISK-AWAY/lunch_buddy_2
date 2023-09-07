@@ -173,8 +173,8 @@ const NavBar = () => {
           isDarkMode={isDarkMode}
           setIsDarkMode={setIsDarkMode}
         />
-        <nav className="flex  justify-between w-full h-full">
-          <button className=" flex justify-center  items-center  ">
+        <nav className="flex justify-between w-full h-full">
+          <button className="flex justify-center  items-center">
             <img
               className="w-7 xl:w-10 lg:w-8 5xl:w-10 6xl:w-14 portrait:xs:w-9 portrait:md:w-10"
               src={expandMenu ? xIcon : menuIcon}
@@ -218,8 +218,9 @@ const NavBar = () => {
                   <button
                     id="bell-button"
                     className={
-                      hasNotifications &&
-                      `after:content-[''] after:absolute after:top-1 after:right-1 after:text-red-400 after:bg-headers after:rounded-full after:w-2 after:h-2`
+                      hasNotifications
+                        ? "after:content-[''] after:absolute after:top-1 after:right-1 after:text-red-400 after:bg-headers after:rounded-full after:w-2 after:h-2"
+                        : ''
                     }
                     onClick={handleNotificationClick}
                   >
