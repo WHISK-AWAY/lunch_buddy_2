@@ -20,7 +20,7 @@ export default function DarkModeToggler({isDarkMode, setIsDarkMode}) {
   return (
   
       <label className="flex absolute top-0 right-1/2 items-center cursor-pointer">
-        <span className="mr-2 text-gray-600 dark:text-gray-300">Dark Mode</span>
+        <span className="mr-2 text-gray-600 dark:text-gray-300">dark mode</span>
         <div className="relative">
           <input
             type="checkbox"
