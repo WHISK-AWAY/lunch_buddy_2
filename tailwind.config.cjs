@@ -22,12 +22,18 @@ module.exports = {
       po: ['Poiret One', 'cursive'],
       ultra: ['Ultra', 'serif'],
       fed: ['Federo', 'sans - serif'],
+      archivo: ['archivo Black', 'monospace']
     },
     fontWeight: {
       thin: 100,
       xtralight: 200,
       light: 300,
+      regular: 400,
+      medium: 500,
       semibold: 600,
+      bold: 700,
+      xtrabold: 800,
+      black: 900
     },
     extend: {
       colors: {
