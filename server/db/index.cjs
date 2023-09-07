@@ -7,6 +7,7 @@ const Rating = require('./models/Rating.cjs');
 const Tag = require('./models/Tag.cjs');
 const User = require('./models/User.cjs');
 const Notification = require('./models/Notification.cjs');
+const YelpListing = require('./models/YelpListing.cjs');
 
 /**
  * ASSOCIATIONS
@@ -24,6 +25,13 @@ User.hasOne(Meeting);
 
 Meeting.hasMany(Notification);
 Notification.belongsTo(Meeting);
+
+YelpListing.hasMany(Meeting, {
+  foreignKey: 'yelpBusinessId',
+});
+Meeting.belongsTo(YelpListing, {
+  foreignKey: 'yelpBusinessId',
+});
 
 Notification.belongsTo(User, { as: 'toUser', foreignKey: 'toUserId' });
 Notification.belongsTo(User, { as: 'fromUser', foreignKey: 'fromUserId' });
@@ -279,4 +287,5 @@ module.exports = {
   Tag,
   User,
   Notification,
+  YelpListing,
 };
