@@ -8,22 +8,22 @@ import { RestaurantCard } from '../index';
 import {
   findRestaurants,
   selectSearch,
-  fetchUser,
   selectUser,
   selectAuth,
-  tryToken,
   selectRestaurants,
+  fetchMapKey,
 } from '../../redux/slices';
 
-const MAPS_API_KEY = import.meta.env.VITE_MAPS_API_KEY;
+// TODO: rework this to read key from restaurant search results
 
-export default function RestaurantSuggestions(props) {
+export default function RestaurantSuggestions() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const location = useLocation();
 
   const search = useSelector(selectSearch);
+  const mapsKey = useSelector((state) => state.search.mapsKey);
   const user = useSelector(selectUser);
   const auth = useSelector(selectAuth);
   const restaurants = useSelector(selectRestaurants);
@@ -34,6 +34,17 @@ export default function RestaurantSuggestions(props) {
   // let restResults = JSON.parse(
   //   window.localStorage.getItem('restaurantResults')
   // );
+
+  useEffect(() => {
+    // fetch maps API key if we don't already have it
+    if (search.isLoading) return;
+
+    if (search.error) {
+      console.log(error);
+    } else if (!mapsKey) {
+      dispatch(fetchMapKey());
+    }
+  }, [mapsKey]);
 
   useEffect(() => {
     if (user.id && !restaurants.length)
@@ -65,9 +76,11 @@ export default function RestaurantSuggestions(props) {
         id="lg-map-container"
         className="overflow-hidden hidden h-[calc(100vh_-_75px)] lg:block lg:basis-1/2 p-8"
       >
-        <Wrapper apiKey={MAPS_API_KEY}>
-          <MapComponent center={center} zoom={14} points={restaurants} />
-        </Wrapper>
+        {mapsKey && (
+          <Wrapper apiKey={mapsKey}>
+            <MapComponent center={center} zoom={14} points={restaurants} />
+          </Wrapper>
+        )}
       </div>
       <div
         id="restaurant-results-wrapper"
@@ -77,9 +90,11 @@ export default function RestaurantSuggestions(props) {
           RESTAURANT SUGGESTIONS
         </h1>
         <div id="sm-map-wrapper" className="lg:hidden">
-          <Wrapper apiKey={MAPS_API_KEY}>
-            <MapComponent center={center} zoom={15} points={restaurants} />
-          </Wrapper>
+          {mapsKey && (
+            <Wrapper apiKey={mapsKey}>
+              <MapComponent center={center} zoom={15} points={restaurants} />
+            </Wrapper>
+          )}
         </div>
         <div className="rest-card-wrapper flex flex-col gap-5">
           {restaurants.businesses?.slice(0, 15).map((restaurant) => {
