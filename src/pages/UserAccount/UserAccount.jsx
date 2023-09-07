@@ -85,10 +85,10 @@ const UserAccount = () => {
   return (
     <div
       id="user-container"
-      className="font-tenor flex flex-row-reverse flex-nowrap w-screen justify-center h-[calc(100vh_-_65px)] overflow-hidden text-primary-gray  bg-fixed"
+      className=" flex flex-row-reverse flex-nowrap w-screen justify-center h-[calc(100vh_-_9dvh)] overflow-hidden text-primary-gray dark:text-white bg-fixed"
     >
-      <div className="lg:basis-1/2 flex flex-col items-center  h-full relative bg-pink-100/30">
-        <div className="sticky px-[10%] z-10 bg-white w-full h-40 top-0  flex flex-col justify-start  items-center">
+      <div className="lg:basis-1/2 portrait:lg:basis-auto flex flex-col items-center   h-full relative ">
+        <div className="sticky px-[10%] z-10 bg-white dark:bg-[#0a0908] w-full h-40 top-0  flex flex-col justify-start  items-center">
           <h1 className="pt-10 text-2xl text-headers ">
             {auth.user.fullName.toUpperCase()}
           </h1>
@@ -96,7 +96,7 @@ const UserAccount = () => {
           <div id="user-avatar" className=" flex justify-center relative">
             <Link
               to="/edituser"
-              className="w-14 h-14 rounded-full bg-primary-gray/20 absolute -right-5 top-7 z-0"
+              className="w-14 h-14 rounded-full bg-primary-gray/20 dark:bg-white/90 absolute -right-5 top-7 z-0"
             >
               <img
                 src={pencil}
@@ -111,17 +111,26 @@ const UserAccount = () => {
           </div>
         </div>
 
-        <div className="px-8 py-7 overflow-auto scrollbar-hide">
-          <p className="pt-12 flex items-center justify-center text-sm">
+        <div className="px-8 py-7 overflow-auto scrollbar-hide bg-label/40 dark:bg-primary-gray h-full 3xl:px-20 5xl:px-48 6xl:px-80 ">
+          <p className="pt-12 flex items-center justify-center xxs:text-sm portrait:md:text-base">
             {user.city.toUpperCase()}, {user.state}
           </p>
-          <div id="about-me" className="pt-7 text-justify text-primary-gray">
+          <div
+            id="about-me"
+            className="pt-7 text-justify text-primary-gray xxs:text-sm portrait:md:text-base dark:text-white md:px-4"
+          >
             <p>{auth.user.aboutMe}</p>
           </div>
 
-          <div id="tags-container" className="flex flex-wrap my-8">
+          <div
+            id="tags-container"
+            className="flex flex-wrap my-8 font-regular "
+          >
             {/* TODO: lots of repetition here -- prime candidate for componentization */}
-            <h2 id="social-tags" className="text-headers">
+            <h2
+              id="social-tags"
+              className="text-headers portrait:md:text-[2.5vw]"
+            >
               {socialTags[0]?.category.categoryName.toUpperCase()}
             </h2>
             <div className="w-full flex gap-x-5 gap-y-2 my-6">
@@ -134,7 +143,7 @@ const UserAccount = () => {
                   return (
                     <p
                       key={social.id}
-                      className="border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex  gap-4 items-center justify-center grow text-sm bg-white"
+                      className="border portrait:md:text-[2.1vw] 3xl:h-6 6xl:h-8 border-white rounded-full px-4 h-7 portrait:lg:h-8 lg:h-auto flex dark:bg-[#0a0908] text-white gap-4 items-center justify-center grow xxs:text-xs test"
                     >
                       {social.tagName}
                     </p>
@@ -143,7 +152,10 @@ const UserAccount = () => {
               </div>
             </div>
 
-            <h2 id="professional-tags" className="text-headers">
+            <h2
+              id="professional-tags"
+              className="text-headers portrait:md:text-[2.5vw]"
+            >
               {professionalTags[0]?.category.categoryName.toUpperCase()}
             </h2>
             <div className=" w-full flex gap-x-5 gap-y-2 my-6">
@@ -156,7 +168,7 @@ const UserAccount = () => {
                   return (
                     <p
                       key={professional.id}
-                      className="border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex  gap-4 items-center text-sm bg-white grow justify-center"
+                      className="border portrait:md:text-[2.1vw] 3xl:h-6 6xl:h-8  portrait:lg:h-8 border-white rounded-full px-4 h-7 lg:h-auto flex  gap-4 items-center text-sm dark:bg-[#0a0908] test text-white grow justify-center"
                     >
                       {professional.tagName}
                     </p>
@@ -165,7 +177,10 @@ const UserAccount = () => {
               </div>
             </div>
 
-            <h2 id="cuisine-tags" className="text-headers">
+            <h2
+              id="cuisine-tags"
+              className="text-headers portrait:md:text-[2.5vw]"
+            >
               {cuisineTags[0]?.category.categoryName.toUpperCase()}
             </h2>
             <div className="w-full flex gap-x-5 gap-y-2 my-6">
@@ -178,7 +193,7 @@ const UserAccount = () => {
                   return (
                     <p
                       key={cuisine.id}
-                      className="border border-primary-gray rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center text-sm capitalize bg-white grow justify-center"
+                      className="border portrait:lg:h-8 portrait:md:text-[2.1vw] 3xl:h-6 6xl:h-8 border-white rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center text-sm capitalize test text-white grow justify-center"
                     >
                       {cuisine.tagName}
                     </p>
@@ -188,7 +203,10 @@ const UserAccount = () => {
             </div>
             {dietaryTags.length > 0 && (
               <div>
-                <h2 id="dietary-tags" className="text-headers">
+                <h2
+                  id="dietary-tags"
+                  className="text-headers portrait:md:text-[2.5vw]"
+                >
                   DIETARY RESTRICTIONS
                 </h2>
 
@@ -202,7 +220,7 @@ const UserAccount = () => {
                       return (
                         <p
                           key={dietary.id}
-                          className="border capitalize border-primary-gray rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center text-sm bg-white grow justify-center"
+                          className="border portrait:lg:h-8 portrait:md:text-[2.1vw] 3xl:h-6 6xl:h-8 border-white capitalize test text-white rounded-full px-4 h-7 lg:h-auto flex gap-4 items-center text-sm dark:bg-[#0a0908] bg-white grow justify-center"
                         >
                           {dietary.tagName}
                         </p>
@@ -218,7 +236,7 @@ const UserAccount = () => {
       <div
         id="bg-img"
         className="bg-cover
-          bg-[url('/assets/bgImg/accView.jpg')] basis-1/2 hidden lg:block h-full"
+          bg-[url('/assets/bgImg/accView.jpg')] basis-1/2 hidden lg:block h-full portrait:lg:hidden"
       ></div>
     </div>
   );
