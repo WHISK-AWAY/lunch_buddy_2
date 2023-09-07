@@ -2,30 +2,34 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import bellIcon from '../assets/icons/notification.svg';
-import DropdownMenu from './DropdownMenu';
-import { selectAuthUser, tryToken } from '../redux/slices/authSlice';
-import { fetchUser, updateUser } from '../redux/slices/userSlice';
-import navbarIcon from '../assets/icons/navbar-icon.svg';
-import xIcon from '../assets/icons/x-icon.svg';
-import navbarIconWhite from '../assets/icons/navbar-icon-white.svg';
+
 import NotificationBody from '../pages/NotificationCenter/NotificationBody';
+import DropdownMenu from './DropdownMenu';
+import DarkModeToggler from './DarkModeToggler';
+import navbarIcon from '../assets/icons/navbar-icon.svg';
+import navbarIconWhite from '../assets/icons/navbar-icon-white.svg';
+import bellIcon from '../assets/icons/notification.svg';
+import xIcon from '../assets/icons/x-icon.svg';
+
 import {
   fetchAllNotifications,
   selectUnreadNotifications,
 } from '../redux/slices/notificationSlice';
+import { fetchUser, updateUser } from '../redux/slices/userSlice';
+import { selectAuthUser } from '../redux/slices/authSlice';
+
 import getLocation from '../utilities/geo';
-import DarkModeToggler from './DarkModeToggler';
 
 const NOTIFICATION_UPDATE_INTERVAL = 60000;
 const TOAST_DURATION = 10000;
 
 const NavBar = () => {
+  const dispatch = useDispatch();
+
   const [expandMenu, setExpandMenu] = useState(false);
   const [showNotificationBody, setShowNotificationBody] = useState(false);
   const [triggerClose, setTriggerClose] = useState(false);
   const [locationTriggered, setLocationTriggered] = useState(false);
-  const dispatch = useDispatch();
 
   const authUser = useSelector(selectAuthUser);
   const userState = useSelector((state) => state.user.user);
@@ -34,51 +38,26 @@ const NavBar = () => {
   // THIS VARIABLE WILL HIDE OR SHOW THE DOT INDICATING NOTIFICATIONS
   const hasNotifications = notifications?.length > 0;
 
-  // Turns off scroll when showing menu
-  document.body.style.overflow = expandMenu ? 'hidden' : 'auto';
-
   const notifController = new AbortController();
   const dropdownController = new AbortController();
   const root = document.querySelector('#root');
-  const notificationContainer = document.querySelector(
-    '#notification-container'
-  );
-
-  const handleNotificationClick = (event) => {
-    event.preventDefault();
-    if (showNotificationBody) setTriggerClose(true);
-    else {
-      setShowNotificationBody(true);
-      setTriggerClose(false);
-    }
-  };
 
   useEffect(() => {
-    if (expandMenu) {
-      root.addEventListener('click', closeDropdown, {
-        signal: dropdownController.signal,
-      });
-    } else {
-      dropdownController.abort();
-    }
-  }, [expandMenu]);
+    // check for token upon first load
+  }, []);
 
   useEffect(() => {
+    // if we're logged in, make sure the userState object is populated
+    if (authUser.id && !userState.id) dispatch(fetchUser(authUser.id));
+  }, [authUser]);
+
+  useEffect(() => {
+    // if user is active and we've not yet polled for location, do so
     if (userState.status === 'active' && !locationTriggered) {
       getLocation(dispatch);
       setLocationTriggered(true);
     }
   }, [userState, locationTriggered]);
-
-  function closeNotificationBody() {
-    setTriggerClose(true);
-    notifController.abort();
-  }
-
-  function closeDropdown() {
-    setExpandMenu(false);
-    dropdownController.abort();
-  }
 
   useEffect(() => {
     // if close is triggered while notifs are showing, trigger notif center collapse
@@ -88,60 +67,93 @@ const NavBar = () => {
 
     if (triggerClose) {
       setTriggerClose(false);
-      // notifController.abort();
     }
   }, [showNotificationBody, triggerClose]);
 
   useEffect(() => {
-    if (showNotificationBody) {
-      root.addEventListener(
-        'click',
-        (e) => {
-          if (
-            !e.target.matches('#notification-container *') &&
-            !e.target.matches('#bell-button>*')
-          ) {
-            closeNotificationBody();
-          }
-        },
-        { signal: notifController.signal }
-      );
-    } else {
-      notifController.abort();
+    // manage dropdown menu status
+    if (expandMenu) {
+      root.addEventListener('click', closeDropdown, {
+        signal: dropdownController.signal,
+      });
     }
+
+    return () => {
+      dropdownController.abort();
+    };
+  }, [expandMenu]);
+
+  useEffect(() => {
+    // manage notification menu status
+    if (showNotificationBody) {
+      root.addEventListener('click', closeNotificationBody, {
+        signal: notifController.signal,
+      });
+    }
+
+    return () => notifController.abort();
   }, [showNotificationBody]);
 
-  document.body.style.overflow = showNotificationBody ? 'hidden' : 'auto';
+  useEffect(() => {
+    // Prevent scrolling while nav menu or notification center are open
+    document.body.style.overflow =
+      showNotificationBody || expandMenu ? 'hidden' : 'auto';
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [showNotificationBody, expandMenu]);
+
+  useEffect(() => {
+    // periodically check for new notifications
+    let timer;
+
+    if (authUser.id) {
+      timer = setInterval(() => {
+        // await dispatch(fetchUser(authUser.id)); // ? I don't think this is necessary, but could be wrong - leaving for now
+        dispatch(fetchAllNotifications({ userId: authUser.id }));
+      }, NOTIFICATION_UPDATE_INTERVAL);
+    }
+
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [authUser]);
+
+  function handleNotificationClick(event) {
+    event.preventDefault();
+    if (showNotificationBody) setTriggerClose(true);
+    else {
+      setShowNotificationBody(true);
+      setTriggerClose(false);
+    }
+  }
 
   function handleToggleStatus() {
     let newStatus;
     if (userState.status === 'active') {
       newStatus = 'inactive';
       setLocationTriggered(false);
-    } else if (userState.status === 'inactive') {
+    } else if (!userState.status || userState.status === 'inactive') {
       newStatus = 'active';
-    } else {
-      alert('Sorry, currently your status is' + userState.status);
     }
     dispatch(updateUser({ status: newStatus }));
   }
 
-  useEffect(() => {
-    dispatch(tryToken());
-  }, []);
-
-  useEffect(() => {
-    async function runDispatch() {
-      if (authUser.firstName) {
-        await dispatch(fetchUser(authUser.id));
-        await dispatch(fetchAllNotifications({ userId: authUser.id }));
-      }
+  function closeNotificationBody(e) {
+    if (
+      !e.target.matches('#notification-container *') &&
+      !e.target.matches('#bell-button>*')
+    ) {
+      setTriggerClose(true);
+      notifController.abort();
     }
-    runDispatch();
-    setInterval(() => {
-      runDispatch();
-    }, NOTIFICATION_UPDATE_INTERVAL);
-  }, [authUser]);
+  }
+
+  function closeDropdown() {
+    setExpandMenu(false);
+    dropdownController.abort();
+  }
 
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [menuIcon, setMenuIcon] = useState(navbarIconWhite);
@@ -161,8 +173,8 @@ const NavBar = () => {
           isDarkMode={isDarkMode}
           setIsDarkMode={setIsDarkMode}
         />
-        <nav className="flex  justify-between w-full h-full">
-          <button className=" flex justify-center  items-center  ">
+        <nav className="flex justify-between w-full h-full">
+          <button className="flex justify-center  items-center">
             <img
               className="w-7 xl:w-10 lg:w-8 5xl:w-10 6xl:w-14 portrait:xs:w-9 portrait:md:w-10"
               src={expandMenu ? xIcon : menuIcon}
@@ -206,8 +218,9 @@ const NavBar = () => {
                   <button
                     id="bell-button"
                     className={
-                      hasNotifications &&
-                      `after:content-[''] after:absolute after:top-1 after:right-1 after:text-red-400 after:bg-headers after:rounded-full after:w-2 after:h-2`
+                      hasNotifications
+                        ? "after:content-[''] after:absolute after:top-1 after:right-1 after:text-red-400 after:bg-headers after:rounded-full after:w-2 after:h-2"
+                        : ''
                     }
                     onClick={handleNotificationClick}
                   >

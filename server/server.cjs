@@ -4,8 +4,10 @@ const path = require('path');
 const cors = require('cors');
 const dotenv = require('dotenv').config();
 const volleyball = require('volleyball');
-const PORT = process.env.PORT_NUMBER || 3000;
 const bodyParser = require('body-parser');
+
+const PORT = process.env.PORT_NUMBER || 3000;
+const CORS_ALLOWED_ORIGINS = process.env.CORS_ALLOWED_ORIGINS;
 
 // Body parsing middleware
 app.use(express.json({ limit: '25mb' }));
@@ -21,8 +23,7 @@ app.use(
 );
 app.use(volleyball);
 
-// TODO: tighten this up - all-permissive at the moment
-app.use(cors());
+app.use(cors({ origin: CORS_ALLOWED_ORIGINS.split('|') }));
 
 app.get('/', (req, res, next) => {
   res.send('backend is running');
@@ -51,6 +52,7 @@ app.use((err, req, res, next) => {
 async function init() {
   app.listen(PORT, () => {
     console.log(`Server listening on port: ${PORT}`);
+    console.log('Allowing CORS origins:', CORS_ALLOWED_ORIGINS.split('|'));
   });
 }
 

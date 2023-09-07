@@ -1,7 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const VITE_API_URL = import.meta.env.VITE_API_URL;
+
+const initialAuthState = {
+  token: '',
+  user: {},
+  isLoading: false,
+  error: '',
+};
 
 /**
  * requestLogin accepts an object { email, password } which is used to
@@ -14,7 +21,7 @@ export const requestLogin = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const { email, password } = credentials;
-      let { data } = await axios.post(API_URL + '/api/auth/login', {
+      let { data } = await axios.post(VITE_API_URL + '/api/auth/login', {
         email,
         password,
       });
@@ -33,7 +40,7 @@ export const requestLogin = createAsyncThunk(
 
 export const successfulLogin = createAsyncThunk(
   'auth/successfulLogin',
-  async (x, { getState }) => {
+  async (_, { getState }) => {
     return getState().auth;
   }
 );
@@ -44,37 +51,36 @@ export const successfulLogin = createAsyncThunk(
  */
 export const tryToken = createAsyncThunk(
   'tryToken',
-  async (placeholder, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
+    const NO_TOKEN = 'No token found in localStorage';
+    const VALIDATION_FAILED = 'Token validation failed';
+
     try {
       const token = localStorage.getItem('token');
 
       if (!token) {
-        throw new Error('No token found in localStorage');
+        throw new Error(NO_TOKEN);
       }
 
-      const { data } = await axios.get(API_URL + '/api/auth', {
+      const { data } = await axios.get(VITE_API_URL + '/api/auth', {
         headers: {
           authorization: token,
         },
       });
 
-      if (!data) throw new Error('Token validation failed');
+      if (!data) throw new Error(VALIDATION_FAILED);
 
       return { data, token };
     } catch (err) {
-      return rejectWithValue(err);
+      if ([NO_TOKEN, VALIDATION_FAILED].includes(err?.message))
+        return rejectWithValue(err.message);
     }
   }
 );
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    token: '',
-    user: {},
-    isLoading: false,
-    error: '',
-  },
+  initialState: initialAuthState,
   reducers: {
     resetAuthStatus: (state) => {
       state.isLoading = false;
@@ -90,13 +96,15 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+
+      /** requestLogin */
       .addCase(requestLogin.fulfilled, (state, { payload }) => {
         state.token = payload.token;
         state.user = {};
         state.isLoading = false;
         state.error = '';
       })
-      .addCase(requestLogin.pending, (state, { payload }) => {
+      .addCase(requestLogin.pending, (state) => {
         state.token = '';
         state.user = {};
         state.isLoading = true;
@@ -108,13 +116,16 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload.response.data;
       })
-      .addCase(tryToken.fulfilled, (state, { payload }) => {
+
+      /** tryToken */
+      .addCase(tryToken.fulfilled, (state, action) => {
+        const payload = action?.payload;
         state.user = payload.data;
         state.isLoading = false;
         state.error = '';
         state.token = payload.token;
       })
-      .addCase(tryToken.pending, (state, { payload }) => {
+      .addCase(tryToken.pending, (state) => {
         state.isLoading = true;
         state.error = '';
       })
@@ -123,11 +134,11 @@ const authSlice = createSlice({
         state.token = '';
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.response.data;
+        state.error = action.payload;
       })
 
       // async check to make sure a user successfully logs in before redirecting
-      .addCase(successfulLogin.fulfilled, (state, action) => {
+      .addCase(successfulLogin.fulfilled, (_, action) => {
         return action.payload;
       });
   },

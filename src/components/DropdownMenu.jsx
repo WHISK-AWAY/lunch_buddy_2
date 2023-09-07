@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   clearNotificationState,
+  resetUserState,
   selectUnreadNotifications,
 } from '../redux/slices';
 import { selectAuthUser, logOut } from '../redux/slices/authSlice';
@@ -33,6 +34,7 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
   function handleLogout() {
     setExpandMenu(false);
     dispatch(clearNotificationState());
+    dispatch(resetUserState());
     dispatch(logOut());
     navigate('/');
   }
@@ -65,10 +67,10 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
             }
           )
           .then(() => navigate('/match'));
-        console.log(center);
+        // console.log(center);
       },
-      function (error) {
-        console.log('user denied location services permission');
+      function (err) {
+        console.log('user denied location services permission:', err);
       }
     );
 

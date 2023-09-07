@@ -1,14 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 import axios from 'axios';
+
+const initialTagState = {
+  tags: [],
+  tag: {},
+  isLoading: false,
+  error: '',
+};
 
 const token = window.localStorage.getItem('token');
 
 export const fetchAllTags = createAsyncThunk(
   'tag/getAll',
-  async (placeholder, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(API_URL + '/api/tags', {
+      const { data } = await axios.get(VITE_API_URL + '/api/tags', {
         headers: {
           authorization: token,
         },
@@ -25,7 +32,7 @@ export const fetchSingleTag = createAsyncThunk(
   'tag/getOne',
   async ({ token, id }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(API_URL + `/api/tags/${id}`, {
+      const { data } = await axios.get(VITE_API_URL + `/api/tags/${id}`, {
         headers: {
           authorization: token,
         },
@@ -42,11 +49,15 @@ export const editTag = createAsyncThunk(
   'tag/editTag',
   async ({ token, id, updates }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.put(API_URL + `/api/tags/${id}`, updates, {
-        headers: {
-          authorization: token,
-        },
-      });
+      const { data } = await axios.put(
+        VITE_API_URL + `/api/tags/${id}`,
+        updates,
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
       return data;
     } catch (error) {
       console.log('Axios error trying to edit tag');
@@ -59,7 +70,7 @@ export const deleteTag = createAsyncThunk(
   'tag/deleteTag',
   async ({ token, id }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.delete(API_URL + `/api/tags/${id}`, {
+      const { data } = await axios.delete(VITE_API_URL + `/api/tags/${id}`, {
         headers: {
           authorization: token,
         },
@@ -76,7 +87,7 @@ export const addTag = createAsyncThunk(
   'tag/addTag',
   async ({ token, newTag }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(API_URL + `/api/tags`, newTag, {
+      const { data } = await axios.post(VITE_API_URL + `/api/tags`, newTag, {
         headers: {
           authorization: token,
         },
@@ -91,12 +102,7 @@ export const addTag = createAsyncThunk(
 
 const tagSlice = createSlice({
   name: 'tags',
-  initialState: {
-    tags: [],
-    tag: {},
-    isLoading: false,
-    error: '',
-  },
+  initialState: initialTagState,
   reducers: {
     resetTagStatus: (state) => {
       state.error = '';

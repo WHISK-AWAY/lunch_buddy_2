@@ -56,6 +56,7 @@ const UserAccount = () => {
   const tags = user.tags;
 
   useEffect(() => {
+    // TODO: surely there's a cleaner / less repetitive way to write this
     const social = tags?.filter(
       (tag) => tag.category.categoryName === 'social'
     );
@@ -75,6 +76,7 @@ const UserAccount = () => {
     setCuisineTags(cuisine || []);
   }, [user]);
 
+  // TODO: can we thin these down a bit (if not get rid of them altogether)?
   if (auth.user.isLoading) return <p>Loading user info...</p>;
   if (!auth.user?.id || !user.id) return <p>User login check failed...</p>;
 
@@ -118,6 +120,7 @@ const UserAccount = () => {
           </div>
 
           <div id="tags-container" className="flex flex-wrap my-8">
+            {/* TODO: lots of repetition here -- prime candidate for componentization */}
             <h2 id="social-tags" className="text-headers">
               {socialTags[0]?.category.categoryName.toUpperCase()}
             </h2>

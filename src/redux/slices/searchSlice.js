@@ -2,7 +2,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import checkToken from '../../utilities/checkToken';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const VITE_API_URL = import.meta.env.VITE_API_URL;
+
+const initialSearchState = {
+  searchResults: [],
+  restaurants: [],
+  error: '',
+  isLoading: false,
+};
 
 export const findBuddies = createAsyncThunk(
   'search/findBuddies',
@@ -15,7 +22,7 @@ export const findBuddies = createAsyncThunk(
       // ... not easy to do from here before search call gets executed
       if (user.status === 'inactive') {
         await axios.put(
-          API_URL + `/api/user/${user.id}`,
+          VITE_API_URL + `/api/user/${user.id}`,
           { status: 'active' },
           { headers: { authorization: token } }
         );
@@ -24,7 +31,7 @@ export const findBuddies = createAsyncThunk(
       // default search radius to 5 mi
       const radius = searchParams?.searchRadius || 5;
 
-      const res = await axios.get(API_URL + '/api/search', {
+      const res = await axios.get(VITE_API_URL + '/api/search', {
         headers: { authorization: token },
         params: { radius },
       });
@@ -75,7 +82,7 @@ export const findRestaurants = createAsyncThunk(
       params.categories = overlappingCuisineTags;
 
       // we send the request to our own backend -- cannot reach Yelp from frontend
-      const res = await axios.get(API_URL + '/api/search/restaurants', {
+      const res = await axios.get(VITE_API_URL + '/api/search/restaurants', {
         params,
         headers: {
           authorization: token,
@@ -91,12 +98,7 @@ export const findRestaurants = createAsyncThunk(
 
 const searchSlice = createSlice({
   name: 'search',
-  initialState: {
-    searchResults: [],
-    restaurants: [],
-    error: '',
-    isLoading: false,
-  },
+  initialState: initialSearchState,
   reducers: {
     resetSearchState: (state) => {
       state.searchResults = [];
