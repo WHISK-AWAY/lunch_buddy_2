@@ -10,30 +10,30 @@ export default function BuddyCard(props) {
   const { buddy, myTagList, selectBuddy } = props;
 
   return (
-    <div className="buddy_card relative w-4/5 md:w-3/5 lg:w-4/5 3xl:w-9/12 flex flex-col md:flex-row lg:flex-col xl:flex-row justify-between shrink items-center gap-6 p-4 pb-6 bg-light-gray shadow-md mb-20 rounded-xl">
+    <div className="buddy_card font-jost relative xxs:w-[90%] w-4/5 md:w-3/5 lg:w-4/5 3xl:w-9/12 flex flex-col md:flex-row lg:flex-col xl:flex-row justify-between shrink items-center gap-6 p-4 pb-6 bg-primary-gray/20 dark:bg-white/10 shadow-md mb-20 xxs:mb-8 rounded-3xl portrait:md:w-[80%]">
       <div className="buddy_avatar shrink-0 grow-0 justify-center items-center md:self-start lg:self-center xl:self-start relative top-2">
         <img
-          className="bg-white object-cover aspect-square w-32 h-32 rounded-[100%] z-10 p-1 relative self-end drop-shadow-md"
+          className="bg-white object-cover aspect-square w-32 h-32 xxs:w-28 xxs:h-28 rounded-[100%] z-10 p-1 relative self-end "
           src={buddy.avatarUrl}
           alt="A buddy's avatar image"
         />
         <button
-          className="select_buddy button-round rounded-full w-12 aspect-square absolute -top-4 -right-3 md:-left-4 lg:-right-3 xl:-left-4 flex justify-center items-center"
+          className="select_buddy button-round rounded-full w-12 xxs:w-10 aspect-square absolute -top-4 -right-3 md:-left-4 lg:-right-3 xl:-left-4 flex justify-center items-center"
           onClick={() => selectBuddy(buddy)}
         >
-          <img src={plus} className="w-8 aspect-square" />
+          <img src={plus} className="w-8 aspect-square " />
         </button>
       </div>
       <div className="buddy-info flex flex-col gap-4 shrink grow-0 basis-4/5">
         <div className="buddy-header-wrapper flex flex-col gap-1">
-          <div className="buddy_name text-headers font-semibold self-center text-lg">
+          <div className="buddy_name text-headers font-semibold self-center text-lg xxs:text-base portrait:md:text-lg">
             <p>{buddy.fullName.toUpperCase()}</p>
           </div>
-          <div className="buddy-location self-center text-sm">
+          <div className="buddy-location self-center text-sm xxs:text-xs portrait:md:text-sm">
             <p>{`${buddy.city}, ${buddy.state}`}</p>
           </div>
         </div>
-        <div className="buddy_bio w-full text-center">
+        <div className="buddy_bio w-full text-center xxs:text-[3.6vw] portrait:text-base">
           <p>{buddy.aboutMe}</p>
         </div>
         <div className="taglist-wrapper flex flex-row flex-nowrap justify-start w-full">
@@ -50,7 +50,7 @@ export default function BuddyCard(props) {
             </button>
           </div>
           <div
-            className={`buddy_tags_container flex flex-row flex-wrap gap-3 justify-around items-center ${
+            className={`buddy_tags_container flex flex-row flex-wrap gap-3 justify-around items-center text-primary-gray   ${
               tagExpand ? 'h-auto' : 'h-8 overflow-hidden'
             }`}
           >
@@ -60,7 +60,7 @@ export default function BuddyCard(props) {
                 return (
                   <div
                     key={tag.id}
-                    className="buddy_tag grow text-center rounded-full text-sm px-3 py-1 button text-white"
+                    className="buddy_tag grow text-center rounded-full text-sm portrait:md:text-sm xxs:text-xs px-3 py-1 button text-white "
                   >
                     <p>{tag.tagName}</p>
                   </div>
@@ -72,7 +72,7 @@ export default function BuddyCard(props) {
                 return (
                   <div
                     key={tag.id}
-                    className="buddy_tag grow text-center rounded-full text-sm px-3 py-1 bg-white border border-primary-gray"
+                    className="buddy_tag grow text-center  rounded-full portrait:md:text-sm text-sm xxs:text-xs px-3 py-1 bg-white border dark:bg-[#0a0908] dark:text-white border-primary-gray"
                   >
                     <p>{tag.tagName}</p>
                   </div>
