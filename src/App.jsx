@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import ChatBox from './components/ChatBox';
+import Lenis from '@studio-freight/lenis';
 
 import {
   MeetingSetup,
@@ -21,6 +22,34 @@ import {
 } from './pages';
 
 function App() {
+
+
+      const lenis = new Lenis({
+        duration: 2.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        // orientation: 'vertical',
+        // gestureOrientation: 'vertical',
+        wheelMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+        infinite: false,
+        // lerp: 3,
+        // duration: 1,
+        smoothWheel: true,
+      });
+
+      // lenis.on('scroll', ScrollTrigger.update);
+
+      // lenis.on('scroll', (e: any) => {
+      //   // console.log(e);
+      // });
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+
+      requestAnimationFrame(raf);
   return (
     <div className="font-tenor bg-[#0a0908]">
       <NavBar />
