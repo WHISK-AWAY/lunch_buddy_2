@@ -24,22 +24,22 @@ import {
 function App() {
 
   //LENIS smooth scroll
-  const lenis = new Lenis({
-    duration: 2.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    wheelMultiplier: 1,
-    smoothTouch: false,
-    touchMultiplier: 2,
-    infinite: false,
-    smoothWheel: true,
-  });
+  // const lenis = new Lenis({
+  //   duration: 2.2,
+  //   easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  //   wheelMultiplier: 1,
+  //   smoothTouch: false,
+  //   touchMultiplier: 2,
+  //   infinite: false,
+  //   smoothWheel: true,
+  // });
 
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
+  // function raf(time) {
+  //   lenis.raf(time);
+  //   requestAnimationFrame(raf);
+  // }
 
-  requestAnimationFrame(raf);
+  // requestAnimationFrame(raf);
 
   return (
     <div className="font-jost ">
