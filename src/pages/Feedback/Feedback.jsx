@@ -148,7 +148,7 @@ const Feedback = () => {
   });
 
   return (
-    <div className="h-[calc(100vh_-_9dvh)] w-screen  flex justify-center items-center dark:text-white text-primary-gray overflow-hidden bg-fixed bg-white dark:bg-[#0a0908]">
+    <div className="h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]   w-screen  flex justify-center items-center dark:text-white text-primary-gray overflow-hidden bg-fixed bg-white dark:bg-[#0a0908]">
       <div
         className="flex flex-col items-center   text-center w-full mx-auto lg:basis-1/2"
         data-aos="fade-down"
