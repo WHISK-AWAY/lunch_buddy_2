@@ -36,7 +36,7 @@ export default function RatingRequest({ notification, setTriggerClose }) {
   return (
     <div
       id="rating-request-card"
-      className="flex flex-col w-full h-34 bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between py-5"
+      className="flex flex-col w-full h-34 bg-white rounded-sm drop-shadow-sm my-3 items-center justify-between py-5"
     >
       <div id="notification-details">
         <p className="px-4 text-center">
