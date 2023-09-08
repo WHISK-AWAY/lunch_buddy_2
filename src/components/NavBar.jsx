@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { tryToken } from '../redux/slices/authSlice';
 
 import NotificationBody from '../pages/NotificationCenter/NotificationBody';
 import DropdownMenu from './DropdownMenu';
@@ -47,6 +48,11 @@ const NavBar = () => {
 
   useEffect(() => {
     // check for token upon first load
+    const token = window.localStorage.getItem('token');
+
+    if (token) {
+      dispatch(tryToken());
+    }
   }, []);
 
   useEffect(() => {
@@ -60,7 +66,7 @@ const NavBar = () => {
       getLocation(dispatch, navigate);
       setLocationTriggered(true);
     }
-  }, [ locationTriggered]);
+  }, [locationTriggered]);
 
   useEffect(() => {
     // if close is triggered while notifs are showing, trigger notif center collapse
@@ -134,9 +140,7 @@ const NavBar = () => {
     }
   }
 
-
-
-//*! user status toggler - currently unused
+  //*! user status toggler - currently unused
   // function handleToggleStatus() {
   //   let newStatus;
   //   if (userState.status === 'active') {
@@ -268,8 +272,8 @@ const NavBar = () => {
 
         <div className="notification-body">
           <NotificationBody
-          isDarkMode={isDarkMode}
-          setIsDarkMode={setIsDarkMode}
+            isDarkMode={isDarkMode}
+            setIsDarkMode={setIsDarkMode}
             showNotificationBody={showNotificationBody}
             setShowNotificationBody={setShowNotificationBody}
             setTriggerClose={setTriggerClose}
