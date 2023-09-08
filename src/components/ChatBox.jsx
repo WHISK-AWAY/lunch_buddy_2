@@ -133,16 +133,6 @@ export default function ChatBox() {
     return () => observer.disconnect();
   }, [chatContainer.current]);
 
-  // useEffect(() => {
-  //   if (messageEl.current) {
-  //     messageEl.current.addEventListener('DOMNodeInserted', (event) => {
-  //       const { currentTarget: target } = event;
-  //       console.log('target:', target);
-  //       target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
-  //     });
-  //   }
-  // }, []);
-
   const handleEnterClick = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       onMessageSubmit(e);
