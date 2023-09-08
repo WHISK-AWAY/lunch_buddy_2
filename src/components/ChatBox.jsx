@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
@@ -14,16 +14,13 @@ const VITE_SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 // const socket = io.connect(VITE_SOCKET_URL);
 
 export default function ChatBox() {
-  // used later for getting proper params
-  const { meetingId } = useParams();
   const dispatch = useDispatch();
+
+  const { meetingId } = useParams();
+
   const [newMessage, setNewMessage] = useState('');
   const meeting = useSelector((state) => state.meetings.meeting);
   const auth = useSelector((state) => state.auth.user);
-  const today = new Date();
-  const dayOfMonth = today.getUTCDate();
-  const monthToday = today.getMonth();
-  const yearToday = today.getUTCFullYear();
 
   const messageEl = useRef(null);
   const socket = useRef(null);
@@ -38,10 +35,10 @@ export default function ChatBox() {
     const asyncStart = async () => {
       const disMeeting = await dispatch(
         getMeetingMessages({
-          token: token,
           meetingId,
         })
       );
+
       socket.current.emit('joinRoom', disMeeting.payload.id);
     };
 
@@ -61,10 +58,7 @@ export default function ChatBox() {
 
   useEffect(() => {
     if (socket.current) {
-      // REMOVE .OFF WHEN DEPLOYING OR ELSE WILL NEVER SEND MSG
-      socket.current.on('receive-message', (d) => {
-        console.log('message received?');
-
+      socket.current.on('receive-message', () => {
         const asyncEvent = async () => {
           setTimeout(() => {
             dispatch(
@@ -74,6 +68,7 @@ export default function ChatBox() {
               })
             );
           }, 500);
+
           setTimeout(() => {
             const scrollAnchor = document.getElementById('scroll-here');
             scrollAnchor.scrollIntoView();
@@ -82,8 +77,6 @@ export default function ChatBox() {
         asyncEvent();
       });
     }
-
-    // return () => socket.current.disconnect();
   }, [socket]);
 
   const onMessageSubmit = async (e) => {
