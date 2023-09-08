@@ -22,7 +22,7 @@ export default function ChatBox() {
   const meeting = useSelector((state) => state.meetings.meeting);
   const auth = useSelector((state) => state.auth.user);
 
-  const messageEl = useRef(null);
+  const chatContainer = useRef(null);
   const socket = useRef(null);
 
   const token = localStorage.getItem('token');
@@ -113,13 +113,33 @@ export default function ChatBox() {
       : meeting.user?.firstName;
 
   useEffect(() => {
-    if (messageEl.current) {
-      messageEl.current.addEventListener('DOMNodeInserted', (event) => {
-        const { currentTarget: target } = event;
-        target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+    // Set up mutation observer to scroll when new messages are appended to dom
+
+    // Configure observer to monitor for addition of child nodes
+    const config = { childList: true, subtree: true };
+
+    const observer = new MutationObserver(() => {
+      chatContainer.current.scroll({
+        top: chatContainer.current.scrollHeight,
+        behavior: 'smooth',
       });
-    }
-  }, []);
+    });
+
+    observer.observe(chatContainer.current, config);
+
+    // clean up
+    return () => observer.disconnect();
+  }, [chatContainer.current]);
+
+  // useEffect(() => {
+  //   if (messageEl.current) {
+  //     messageEl.current.addEventListener('DOMNodeInserted', (event) => {
+  //       const { currentTarget: target } = event;
+  //       console.log('target:', target);
+  //       target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+  //     });
+  //   }
+  // }, []);
 
   const handleEnterClick = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -173,17 +193,14 @@ export default function ChatBox() {
           id="msg-feed"
           className="basis-4/6 lg:bg-[#c4c4c4] lg:bg-opacity-20 lg:rounded-3xl grow overflow-y-auto scroll-smooth w-full lg:w-11/12 lg:pl-4"
         >
-          <div
-            ref={messageEl}
-            className="h-full grow overflow-y-auto scrollbar-hide"
-          >
+          <div className="h-full grow overflow-y-auto scrollbar-hide">
             {!meeting?.messages?.length ? (
               <div className="text-center text-sm pt-4">
                 don't be shy! be the first to talk to your buddy
               </div>
             ) : (
               <>
-                <div id="msg-list">
+                <div id="msg-list" ref={chatContainer}>
                   {meeting.messages.map((message, idx) => {
                     const prevSenderId = meeting.messages[idx + 1]?.senderId;
                     const url =
