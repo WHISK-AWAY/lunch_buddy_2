@@ -203,7 +203,7 @@ const NavBar = () => {
                 <li className="hidden md:block">
                   <Link
                     to="/account"
-                    className="text-[1.6vw] 2xl:text-[1.3vw] 3xl:text-[1.1vw] 4xl:w-[1vw] 5xl:text-[.9vw] dark:text-white"
+                    className="text-[1.3vw] 2xl:text-[1.1vw] 3xl:text-[1vw] 4xl:w-[.9vw] 5xl:text-[.8vw] dark:text-white portrait:md:text-base"
                   >
                     HI, {authUser.firstName.toUpperCase()}
                   </Link>
@@ -241,7 +241,7 @@ const NavBar = () => {
                     onClick={handleNotificationClick}
                   >
                     <img
-                      className="w-7 xl:w-10 lg:w-8 5xl:w-8 6xl:w-10 h-full"
+                      className="w-6 lg:w-6 5xl:w-7 6xl:w-8 h-full"
                       src={showNotificationBody ? bellMenuIcon : bellMenuIcon}
                       alt="Notification bell icon"
                     />
@@ -268,6 +268,8 @@ const NavBar = () => {
 
         <div className="notification-body">
           <NotificationBody
+          isDarkMode={isDarkMode}
+          setIsDarkMode={setIsDarkMode}
             showNotificationBody={showNotificationBody}
             setShowNotificationBody={setShowNotificationBody}
             setTriggerClose={setTriggerClose}
