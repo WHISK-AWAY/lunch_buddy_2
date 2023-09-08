@@ -174,8 +174,6 @@ const NavBar = () => {
   const [bellMenuIcon, setBellMenuIcon] = useState(bellIconWhite);
 
   useEffect(() => {
-    console.log('dark mode is:', isDarkMode);
-
     if (isDarkMode) {
       setMenuIcon(navbarIconWhite);
       setXMenuIcon(xIconWhite);
