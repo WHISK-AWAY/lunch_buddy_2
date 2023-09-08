@@ -1,13 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import chevronRight from '../../assets/icons/chevron-right-gray.svg';
+import chevronRightWhite from '../../assets/icons/chevron-right-white.svg';
 import plus from '../../assets/icons/plus-white.svg';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectDarkMode, darkModeOn, darkModeOff } from '../../redux/slices/darkModeSlice';
 
 const MAX_BUDDY_TAGS_SHOWING = 3;
 
 export default function BuddyCard(props) {
   const [tagExpand, setTagExpand] = useState(false);
+  const dispatch = useDispatch();
+  const darkModeSelector = useSelector(selectDarkMode);
 
   const { buddy, myTagList, selectBuddy } = props;
+
+  const [chevronIcon, setChevronIcon] = useState(chevronRight);
+
+  useEffect(() => {
+    if (!darkModeSelector) {
+      dispatch(darkModeOff());
+      setChevronIcon(chevronRight);
+    } else {
+      dispatch(darkModeOn());
+      setChevronIcon(chevronRightWhite);
+    }
+  }, [darkModeSelector]);
 
   return (
     <div className="buddy_card font-jost relative xxs:w-[90%] w-4/5 md:w-[90%] lg:w-4/5 3xl:w-9/12 flex flex-col md:flex-row lg:flex-col xl:flex-row justify-between shrink items-center gap-6 p-4 pb-6 bg-primary-gray/20 dark:bg-white/10 shadow-md mb-20 xxs:mb-8 rounded-3xl portrait:md:w-[80%] md:p-10 4xl:p-16 ">
@@ -44,7 +61,7 @@ export default function BuddyCard(props) {
             >
               <img
                 className={`w-6 transition-all ${tagExpand ? 'rotate-90' : ''}`}
-                src={chevronRight}
+                src={chevronIcon}
                 alt="Expand/Retract Arrow"
               />
             </button>
