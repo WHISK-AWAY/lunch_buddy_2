@@ -52,7 +52,7 @@ export default function MeetingRecap(props) {
   });
 
   return (
-    <div className="recap-card h-[calc(100vh_-_9dvh)] w-screen flex flex-col gap-12 items-center   bg-white dark:bg-[#0a0908]  lg:flex-row lg:items-center bg-fixed dark:text-white text-primary-gray overflow-hidden">
+    <div className="recap-card  w-screen flex flex-col gap-12 items-center   bg-white dark:bg-[#0a0908]  lg:flex-row lg:items-center bg-fixed dark:text-white text-primary-gray overflow-hidden h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)] ">
       <div
         className="recap-image hidden bg-left lg:block lg:h-full lg:basis-1/2 bg-[url('/assets/bgImg/meetingConfView-q30.webp')] portrait:lg:hidden bg-cover overflow-hidden"
         // data-aos="fade-right"

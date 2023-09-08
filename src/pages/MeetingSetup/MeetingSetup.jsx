@@ -87,7 +87,7 @@ export default function MeetingSetup(props) {
   return (
     <div
       id="search-params-page"
-      className="lg:bg-none w-screen flex flex-row-reverse justify-center  items-center h-[calc(100vh_-_9dvh)] bg-white dark:bg-[#0a0908] overflow-hidden bg-fixed  text-primary-gray dark:text-white"
+      className="lg:bg-none w-screen flex flex-row-reverse justify-center  items-center h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]  bg-white dark:bg-[#0a0908] overflow-hidden bg-fixed  text-primary-gray dark:text-white"
     >
       <div className="lg:basis-1/2 flex flex-col justify-center items-center">
         <div id="search-params-container" className="">
@@ -160,11 +160,11 @@ export default function MeetingSetup(props) {
         </div>
       </div>
 
-       <div
-       id="bg-img"
-       className="bg-cover bg-no-repeat  3xl:aspect-square
+      <div
+        id="bg-img"
+        className="bg-cover bg-no-repeat  3xl:aspect-square
        bg-[url('/assets/bgImg/interestFormView.jpg')] 3xl:bg-[url('/assets/bgImg/test3.jpg')] basis-1/2 hidden lg:block h-full portrait:lg:hidden"
-       ></div>
+      ></div>
     </div>
   );
 }
