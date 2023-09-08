@@ -430,6 +430,7 @@ router.put(
         attributes: {
           exclude: ['password'],
         },
+        include: { model: Tag, include: Category },
       });
 
       if (!thisUser)
