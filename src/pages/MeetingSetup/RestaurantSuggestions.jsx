@@ -14,6 +14,8 @@ import {
   fetchMapKey,
 } from '../../redux/slices';
 
+import debounce from '../../utilities/debounce';
+
 export default function RestaurantSuggestions() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,38 +30,30 @@ export default function RestaurantSuggestions() {
 
   const { searchRadius, timeSlot, buddy } = location.state;
 
-  // for dev: store restaurant results in local storage to reduce # of calls to yelp
-  // let restResults = JSON.parse(
-  //   window.localStorage.getItem('restaurantResults')
-  // );
+  const dbFetchKey = debounce(() => dispatch(fetchMapKey()));
+  const dbFindRestaurants = debounce(() =>
+    dispatch(findRestaurants({ searchRadius, buddy }))
+  );
 
   useEffect(() => {
     // fetch maps API key if we don't already have it
     if (search.isLoading) return;
 
-    let timer;
+    // let timer;
 
     if (search.error) {
       console.log(error);
     } else if (!mapsKey) {
       // (debounce request)
-      timer = setTimeout(() => dispatch(fetchMapKey()), 100);
+      dbFetchKey();
     }
-
-    if (timer) return () => clearTimeout(timer);
   }, [mapsKey]);
 
   useEffect(() => {
-    let timer;
-
     if (user.id && !restaurants.length) {
-      timer = setTimeout(() => {
-        dispatch(findRestaurants({ searchRadius, buddy }));
-      }, 100);
+      dbFindRestaurants();
     }
-
-    if (timer) return () => clearTimeout(timer);
-  }, [dispatch, user]);
+  }, [user]);
 
   if (!restaurants) return <h1>No restaurants found :(</h1>;
 
