@@ -36,7 +36,7 @@ export default function MeetingAccepted({ notification }) {
   return (
     <div
       id="meeting-card"
-      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between "
+      className="flex w-full h-fit bg-white rounded-2xl drop-shadow-sm my-3 items-center justify-between "
     >
       <div
         id="notification-details"
