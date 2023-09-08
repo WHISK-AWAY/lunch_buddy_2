@@ -13,7 +13,9 @@ const ReportForm = ({
   console.log('noReport text', noReportText);
 
   return (
-    <div className={`w-full flex flex-col items-center`}>
+    <div
+      className={`w-full flex flex-col items-center lg:w-4/5 2xl:w-3/5 5xl:w-2/5`}
+    >
       <textarea
         name="report"
         placeholder="Please give reason for reporting"
@@ -24,7 +26,7 @@ const ReportForm = ({
           setReportInput(e.target.value);
           setNoReportText((prev) => !!prev);
         }}
-        className={`border border-primary-gray resize-none focus:outline-none rounded-3xl w-11/12 p-4 placeholder:text-slate-500 text-xs ${
+        className={`border dark:bg-[#0a0908] bg-white border-primary-gray dark:border-white resize-none focus:outline-none rounded-sm w-11/12 p-4 text-slate-500 dark:placeholder:text-white text-sm ${
           noReportText ? 'placeholder:text-headers' : ''
         }`}
       />

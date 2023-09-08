@@ -200,20 +200,20 @@ const EditUserForm = () => {
   };
 
   return (
-    <div className="h-[calc(100vh_-_65px)] flex lg:justify-between lg:grow items-center text-primary-gray justify-center">
-      <div className="flex flex-col items-center w-4/5 lg:basis-1/2 sm:w-3/5 md:w-2/5">
-        <form className="bg-white grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8 mb-10">
-          <h1 className="text-center text-2xl mb-6 text-red-400 font-bold font-sans col-span-full">
+    <div className="h-[calc(100vh_-_9dvh)] dark:bg-[#0a0908] bg-white dark:text-white flex lg:justify-between lg:portrait:justify-center lg:grow items-center text-primary-gray justify-center ">
+      <div className="flex flex-col items-center w-full  2xl:justify-center sm:w-4/5 md:w-2/3 5xl:w-3/6 6xl:w-5/12  portrait:md:w-3/6 portrait:md:pb-36 portrait:lg:w-3/5 ">
+        <form className="bg-white 2xl:w-3/5 5xl:w-2/5 dark:bg-[#0a0908] grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8 mb-10 ">
+          <h1 className="text-center text-2xl mb-6 text-headers font-regular lg:text-3xl col-span-full">
             EDIT
           </h1>
           <div className="relative col-span-3 w-full">
-            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+            <label className="text-label font-regular block text-xs md:text-sm absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1">
               First Name
             </label>
             <input
               className={`${
                 inputValidator.firstName ? invalidClass : null
-              }  w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray text-[.9rem]`}
+              }  w-full px-4 py-2 rounded-sm focus:outline-none h-9 border bg-white dark:bg-[#0a0908] border-primary-gray text-[.9rem]`}
               value={formInputs.firstName}
               onChange={(e) =>
                 setFormInputs((prev) => ({
@@ -224,13 +224,13 @@ const EditUserForm = () => {
             />
           </div>
           <div className="relative col-span-3 w-full">
-            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+            <label className="text-label md:text-sm font-regular block text-xs absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1">
               Last Name
             </label>
             <input
               className={`${
                 inputValidator.lastName ? invalidClass : null
-              }  w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray text-[.9rem]`}
+              }  w-full px-4 py-2 rounded-sm focus:outline-none h-9 border bg-white dark:bg-[#0a0908] border-primary-gray text-[.9rem]`}
               value={formInputs.lastName}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, lastName: e.target.value }))
@@ -238,13 +238,13 @@ const EditUserForm = () => {
             />
           </div>
           <div className="relative col-span-4 text-primary-gray">
-            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+            <label className="text-label md:text-sm font-regular block text-xs absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1">
               Address 1
             </label>
             <input
               className={`${
                 inputValidator.address1 ? invalidClass : null
-              }  w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray text-[.9rem]`}
+              }  w-full px-4 py-2 rounded-sm focus:outline-none h-9 border bg-white dark:bg-[#0a0908] dark:text-white border-primary-gray text-[.9rem]`}
               value={formInputs.address1}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, address1: e.target.value }))
@@ -252,11 +252,11 @@ const EditUserForm = () => {
             />
           </div>
           <div className="relative col-span-2">
-            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+            <label className="text-label md:text-sm font-regular block text-xs absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1">
               Address 2
             </label>
             <input
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray text-[.9rem]"
+              className="w-full px-4 py-2 rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] h-9 border border-primary-gray text-[.9rem]"
               value={formInputs.address2}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, address2: e.target.value }))
@@ -264,13 +264,13 @@ const EditUserForm = () => {
             />
           </div>
           <div className="relative col-span-4">
-            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+            <label className="text-label md:text-sm font-regular block text-xs absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1">
               City
             </label>
             <input
               className={`${
                 inputValidator.lastName ? invalidClass : null
-              }  w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray text-[.9rem]`}
+              }  w-full px-4 py-2 rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] h-9 border border-primary-gray text-[.9rem]`}
               value={formInputs.city}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, city: e.target.value }))
@@ -278,11 +278,11 @@ const EditUserForm = () => {
             />
           </div>
           <div className="relative col-span-2">
-            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+            <label className="text-label  font-regular block text-xs md:text-sm absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1">
               State
             </label>
             <select
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray text-xs bg-white"
+              className="w-full px-4 py-2 rounded-sm focus:outline-none h-9 border border-primary-gray text-xs bg-white dark:bg-[#0a0908]"
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, state: e.target.value }))
               }
@@ -298,13 +298,13 @@ const EditUserForm = () => {
             </select>
           </div>
           <div className="relative col-span-2">
-            <label className="text-red-400 font-semibold block text-xs  absolute -top-3 left-3 bg-white px-1">
+            <label className="text-label md:text-sm font-regular block text-xs  absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1">
               Zip
             </label>
             <input
               className={`${
                 inputValidator.zip ? invalidClass : null
-              }  w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray text-[.9rem]`}
+              }  w-full px-4 py-2 rounded-sm focus:outline-none h-9 border bg-white dark:bg-[#0a0908] border-primary-gray text-[.9rem]`}
               value={formInputs.zip}
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, zip: e.target.value }))
@@ -312,13 +312,13 @@ const EditUserForm = () => {
             />
           </div>
           <div className="relative col-span-2">
-            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+            <label className="text-label md:text-sm font-regular block text-xs absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1">
               Age
             </label>
             <input
               className={`${
                 inputValidator.age ? invalidClass : null
-              }  w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray text-[.9rem]`}
+              }  w-full px-4 py-2 rounded-sm focus:outline-none h-9 border bg-white dark:bg-[#0a0908] border-primary-gray text-[.9rem]`}
               type="text"
               value={formInputs.age}
               onChange={(e) =>
@@ -328,11 +328,11 @@ const EditUserForm = () => {
             />
           </div>
           <div className="relative col-span-2">
-            <label className="text-red-400 font-semibold block text-xs absolute -top-3 left-3 bg-white px-1">
+            <label className="text-label md:text-sm font-regular block text-xs absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1">
               Gender
             </label>
             <select
-              className="w-full px-4 py-2 rounded-lg focus:outline-none h-9 border border-primary-gray bg-white text-xs"
+              className="w-full px-4 py-2 rounded-sm focus:outline-none h-9 border border-primary-gray bg-white dark:bg-[#0a0908] text-xs"
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, gender: e.target.value }))
               }
@@ -345,11 +345,11 @@ const EditUserForm = () => {
             </select>
           </div>
           <div className="relative col-span-2 ">
-            <label className="text-label block text-xs px-1 uppercase">
+            <label className="text-label block md:text-sm text-xs bg-white dark:bg-[#0a0908] w-[30vw]">
               Upload Image
             </label>
             <input
-              className={` `}
+              className="bg-white dark:bg-[#0a0908] "
               type="file"
               onChange={(e) => {
                 uploadImage(e);
@@ -361,13 +361,17 @@ const EditUserForm = () => {
               }}
             />
           </div>
-          <div className="col-span-full md:w-3/5 md:mx-auto">
-            <FormButton handleSubmit={handleSubmit}>CONTINUE</FormButton>
+          <div className="col-span-full w-full  md:mx-auto">
+            <FormButton handleSubmit={handleSubmit}>
+              <span className="text-[1.8vw] md:text-[2vw] portrait:md:text-[2vw] xl:text-[1.4vw] 5xl:text-[1vw] xxs:text-[4.2vw] sm:text-[4.8vw] portrait:lg:text-[2vw]">
+                CONTINUE
+              </span>
+            </FormButton>
           </div>
         </form>
       </div>
       <div
-        className="image-wrapper overflow-hidden hidden lg:block basis-1/2 h-[calc(100vh_-_65px)] bg-cover bg-[url('/assets/bgImg/signUpView.jpg')]"
+        className="image-wrapper overflow-hidden hidden portrait:lg:hidden lg:block basis-1/2 h-[calc(100vh_-_65px)] bg-cover bg-[url('/assets/bgImg/signUpView-q30.webp')]"
         alt="person smearing a dip on toast, at a restaurant with wine, plates, coffee"
       ></div>
     </div>

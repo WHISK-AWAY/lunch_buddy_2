@@ -104,14 +104,14 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
   }
 
   //prevent scroll on overflow when the menu is open
-  useEffect(() => {
-    if (expandMenu) {
-      document.body.style.overflow = 'hidden';
-      return () => {
-        document.body.style.overflow = '';
-      };
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (expandMenu) {
+  //     document.body.style.overflow = 'hidden';
+  //     return () => {
+  //       document.body.style.overflow = '';
+  //     };
+  //   }
+  // }, []);
   return (
     <div className={expandMenu ? '' : `group hover`}>
       <div

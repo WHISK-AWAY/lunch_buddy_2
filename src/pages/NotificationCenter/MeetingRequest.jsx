@@ -18,6 +18,8 @@ import NewMessageReceived from './NewMessageReceived';
 import MeetingCancelled from './MeetingCancelled';
 import Rating from '../Feedback/Rating';
 import ReportSubmitted from './ToastFeedback/ReportSubmitted';
+
+import NotificationButton from '../../components/NotificationButton';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const TOAST_POPUP_DELAY = 1000;
@@ -124,9 +126,9 @@ export default function MeetingRequest({ notification }) {
   return (
     <div
       id="meeting-card"
-      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 py-3 items-center justify-between px-4"
+      className="flex w-full h-fit bg-white dark:bg-[#0a0908] dark:text-white rounded-sm drop-shadow-sm my-3 py-3 items-center justify-between px-4"
     >
-      <div id="img-section" className="flex px-2 shrink-0 self-center">
+      <div id="img-section" className="flex  shrink-0 self-center">
         <img
           src={notification.fromUser.avatarUrl}
           alt="user avatar"
@@ -156,8 +158,12 @@ export default function MeetingRequest({ notification }) {
           id="btn-container"
           className="flex flex-col sm:flex-row sm:gap-4 sm:w-3/5 lg:flex-row lg:gap-7 gap-2 lg:w-full w-full h-fit self-center text-xs space-5 justify-center items-center lg:pt-3 pt-5 lg:px-5 relative"
         >
-          <FormButton handleSubmit={handleAccept}>ACCEPT </FormButton>
-          <FormButton handleSubmit={handleReject}>REJECT </FormButton>
+          <NotificationButton handleSubmit={handleAccept}>
+            ACCEPT{' '}
+          </NotificationButton>
+          <NotificationButton handleSubmit={handleReject}>
+            REJECT{' '}
+          </NotificationButton>
         </div>
       </div>
     </div>

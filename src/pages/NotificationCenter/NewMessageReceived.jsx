@@ -1,16 +1,19 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   updateNotificationStatus,
   fetchAllNotifications,
 } from '../../redux/slices';
-import FormButton from '../../components/FormButton';
+import NotificationButton from '../../components/NotificationButton';
 import xIcon from '../../assets/icons/x-icon.svg';
+import xIconWhite from '../../assets/icons/x-icon-white.svg';
 
-export default function NewMessageReceived({ notification }) {
+export default function NewMessageReceived({ notification, isDarkMode, setIsDarkMode }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
 
   function acknowledgeAndGoToMessages() {
     acknowledge();
@@ -33,19 +36,28 @@ export default function NewMessageReceived({ notification }) {
     );
   }
 
+
+  useEffect(() => {
+    if (isDarkMode) {
+      setXMenuIcon(xIconWhite);
+    } else {
+      setXMenuIcon(xIcon);
+    }
+  }, [isDarkMode]);
+
   return (
     <div
       id="meeting-card"
-      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between py-3"
+      className="flex w-full h-fit bg-white dark:bg-[#0a0908] dark:text-white rounded-sm drop-shadow-sm my-3 items-center justify-between py-3"
     >
       <div
         id="x-icon"
         className="absolute w-5 right-3 top-3 cursor-pointer"
         onClick={acknowledge}
       >
-        <img src={xIcon} />
+        <img src={xMenuIcon} />
       </div>
-      <div id="img-section" className="flex px-2 shrink-0 self-center pl-5">
+      <div id="img-section" className="flex  shrink-0 self-center pl-4">
         <img
           src={notification.fromUser.avatarUrl}
           alt="user avatar"
@@ -54,9 +66,9 @@ export default function NewMessageReceived({ notification }) {
       </div>
       <div
         id="notification-details"
-        className="flex flex-col self-center text-center text-sm w-full py-3 px-3"
+        className="flex flex-col 2xl:text-sm self-center text-center text-xs w-full py-3 pr-5 sm:text-sm portrait:lg:text-lg md:text-xs"
       >
-        <p className="pb-6">
+        <p className="pb-6 pt-4">
           {' '}
           New message from {notification.fromUser.firstName}
         </p>
@@ -65,9 +77,9 @@ export default function NewMessageReceived({ notification }) {
           id="btn-container"
           className="flex flex-row gap-5 w-3/5 h-5 self-center text-xs space-5 items-center"
         >
-          <FormButton handleSubmit={() => acknowledgeAndGoToMessages()}>
-            REPLY
-          </FormButton>
+          <NotificationButton handleSubmit={() => acknowledgeAndGoToMessages()}>
+            <span className='md:text-[1vw] 4xl:text-xs'>REPLY</span>
+          </NotificationButton>
         </div>
       </div>
     </div>

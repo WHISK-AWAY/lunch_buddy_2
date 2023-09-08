@@ -12,6 +12,7 @@ import {
   selectAuth,
   selectRestaurants,
   fetchMapKey,
+  tryToken
 } from '../../redux/slices';
 
 import debounce from '../../utilities/debounce';
@@ -54,6 +55,14 @@ export default function RestaurantSuggestions() {
       dbFindRestaurants();
     }
   }, [user]);
+
+  //*try token check to stay signed in if token stored in the local storage on page refresh
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      dispatch(tryToken());
+    }
+  }, []);
 
   if (!restaurants) return <h1>No restaurants found :(</h1>;
 

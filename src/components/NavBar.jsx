@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { tryToken } from '../redux/slices/authSlice';
 
 import NotificationBody from '../pages/NotificationCenter/NotificationBody';
 import DropdownMenu from './DropdownMenu';
@@ -47,6 +48,11 @@ const NavBar = () => {
 
   useEffect(() => {
     // check for token upon first load
+    const token = window.localStorage.getItem('token');
+
+    if (token) {
+      dispatch(tryToken());
+    }
   }, []);
 
   useEffect(() => {
@@ -60,7 +66,7 @@ const NavBar = () => {
       getLocation(dispatch, navigate);
       setLocationTriggered(true);
     }
-  }, [ locationTriggered]);
+  }, [locationTriggered]);
 
   useEffect(() => {
     // if close is triggered while notifs are showing, trigger notif center collapse
@@ -134,9 +140,7 @@ const NavBar = () => {
     }
   }
 
-
-
-//*! user status toggler - currently unused
+  //*! user status toggler - currently unused
   // function handleToggleStatus() {
   //   let newStatus;
   //   if (userState.status === 'active') {
@@ -203,7 +207,7 @@ const NavBar = () => {
                 <li className="hidden md:block">
                   <Link
                     to="/account"
-                    className="text-[1.6vw] 2xl:text-[1.3vw] 3xl:text-[1.1vw] 4xl:w-[1vw] 5xl:text-[.9vw] dark:text-white"
+                    className="text-[1.3vw] 2xl:text-[1.1vw] 3xl:text-[1vw] 4xl:w-[.9vw] 5xl:text-[.8vw] dark:text-white portrait:md:text-base"
                   >
                     HI, {authUser.firstName.toUpperCase()}
                   </Link>
@@ -241,7 +245,7 @@ const NavBar = () => {
                     onClick={handleNotificationClick}
                   >
                     <img
-                      className="w-7 xl:w-10 lg:w-8 5xl:w-8 6xl:w-10 h-full"
+                      className="w-6 lg:w-6 5xl:w-7 6xl:w-8 h-full"
                       src={showNotificationBody ? bellMenuIcon : bellMenuIcon}
                       alt="Notification bell icon"
                     />
@@ -268,6 +272,8 @@ const NavBar = () => {
 
         <div className="notification-body">
           <NotificationBody
+            isDarkMode={isDarkMode}
+            setIsDarkMode={setIsDarkMode}
             showNotificationBody={showNotificationBody}
             setShowNotificationBody={setShowNotificationBody}
             setTriggerClose={setTriggerClose}

@@ -99,7 +99,7 @@ const SignInForm = () => {
   });
 
   return (
-    <div className="h-[calc(100dvh_-_9dvh)] w-screen flex justify-center items-center text-primary-gray bg-white dark:bg-[#0a0908]">
+    <div className="h-[calc(100dvh_-_9dvh)] w-screen flex justify-center items-center font-jost text-primary-gray bg-white dark:bg-[#0a0908]">
       <div
         className="form-container basis-full lg:basis-1/2 h-full flex flex-col justify-center items-center "
         // data-aos="fade-down"
@@ -108,12 +108,12 @@ const SignInForm = () => {
       >
         <div className="w-full xxs:w-4/5  sm:w-4/5 md:w-2/3 5xl:w-3/6 6xl:w-5/12  portrait:md:w-3/6 portrait:md:pb-36 portrait:lg:w-full portrait:lg:pb-56">
           <form className=" lg:w-3/4 mx-auto flex flex-col">
-            <h1 className="text-center text-2xl mb-6 text-headers font-bold font-sans 6xl:text-[1.5vw] portrait:lg:text-[3vw]">
+            <h1 className="text-center text-2xl mb-6 text-headers font-medium  6xl:text-[1.5vw] portrait:lg:text-[3vw]">
               SIGN IN
             </h1>
             <div className="relative my-6">
               <label
-                className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1 6xl:text-[.5vw]"
+                className="text-label font-regular md:text-sm portrait:lg:text-[1.5vw] block text-xs absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1 6xl:text-[.5vw]"
                 htmlFor="email"
               >
                 Email
@@ -121,10 +121,10 @@ const SignInForm = () => {
               <input
                 className={`${
                   isInvalid ? INVALID_CLASS : null
-                } w-full px-4 py-1  focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 dark:border-white border-primary-gray 6xl:text-[.7vw] rounded-sm dark:text-white portrait:xxs:py-2`}
+                } w-full px-4 py-1  focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 placeholder:bg-transparent  border-primary-gray 6xl:text-[.7vw] rounded-sm dark:text-white portrait:xxs:py-2`}
                 type="text"
                 name="email"
-                autoComplete='email'
+                autoComplete="email"
                 value={formInputs.email}
                 placeholder={isInvalid ? 'Invalid credentials' : null}
                 onChange={(e) =>
@@ -134,7 +134,7 @@ const SignInForm = () => {
             </div>
             <div className="relative mt-6">
               <label
-                className="text-label font-semibold block text-xs portrait:lg:text-[1.5vw] absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1 6xl:text-[.5vw]"
+                className="text-label md:text-sm font-regular block text-xs portrait:lg:text-[1.5vw] absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1 6xl:text-[.5vw]"
                 htmlFor="password"
               >
                 Password
@@ -142,10 +142,10 @@ const SignInForm = () => {
               <input
                 className={`${
                   isInvalid ? INVALID_CLASS : null
-                } w-full px-4 py-1  dark:bg-[#0a0908] dark:border-white dark:focus:bg-[#0a0908] dark:placeholder:bg-[#0a0908] focus:outline-none border rounded-sm dark:text-white border-primary-gray 2xl:py-2 6xl:text-[.7vw] portrait:xxs:py-2`}
+                } w-full px-4 py-1  dark:bg-[#0a0908]  dark:focus:bg-[#0a0908] dark:placeholder:bg-[#0a0908] focus:outline-none border rounded-sm dark:text-white border-primary-gray 2xl:py-2 6xl:text-[.7vw] portrait:xxs:py-2`}
                 type="password"
                 name="password"
-                autoComplete='password'
+                autoComplete="password"
                 value={formInputs.password}
                 placeholder={isInvalid ? 'Invalid credentials' : null}
                 onChange={(e) =>
@@ -164,7 +164,7 @@ const SignInForm = () => {
               // duration="1500"
             >
               <FormButton handleSubmit={handleSubmit}>
-                <span className="text-[1.8vw] md:text-[2vw] portrait:md:text-[3vw] xl:text-[1.4vw] 5xl:text-[1vw] xxs:text-[4.2vw] sm:text-[4.8vw] portrait:lg:text-[2vw]">
+                <span className="text-[1.8vw] md:text-[2vw] portrait:md:text-[2vw] xl:text-[1.4vw] 5xl:text-[1vw] xxs:text-[4.2vw] sm:text-[4.8vw] portrait:lg:text-[2vw]">
                   SIGN IN
                 </span>
               </FormButton>
