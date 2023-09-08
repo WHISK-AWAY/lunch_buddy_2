@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 // import { Loader } from '@googlemaps/js-api-loader';
 import { Wrapper } from '@googlemaps/react-wrapper';
 import MapComponent from '../../components/MapComponent';
@@ -8,37 +8,52 @@ import { RestaurantCard } from '../index';
 import {
   findRestaurants,
   selectSearch,
-  fetchUser,
   selectUser,
   selectAuth,
-  tryToken,
   selectRestaurants,
+  fetchMapKey,
 } from '../../redux/slices';
 
-const MAPS_API_KEY = import.meta.env.VITE_MAPS_API_KEY;
+import debounce from '../../utilities/debounce';
 
-export default function RestaurantSuggestions(props) {
+export default function RestaurantSuggestions() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const location = useLocation();
 
   const search = useSelector(selectSearch);
+  const mapsKey = useSelector((state) => state.search.mapsKey);
   const user = useSelector(selectUser);
   const auth = useSelector(selectAuth);
   const restaurants = useSelector(selectRestaurants);
 
   const { searchRadius, timeSlot, buddy } = location.state;
 
-  // for dev: store restaurant results in local storage to reduce # of calls to yelp
-  // let restResults = JSON.parse(
-  //   window.localStorage.getItem('restaurantResults')
-  // );
+  const dbFetchKey = debounce(() => dispatch(fetchMapKey()));
+  const dbFindRestaurants = debounce(() =>
+    dispatch(findRestaurants({ searchRadius, buddy }))
+  );
 
   useEffect(() => {
-    if (user.id && !restaurants.length)
-      dispatch(findRestaurants({ searchRadius, buddy }));
-  }, [dispatch, user]);
+    // fetch maps API key if we don't already have it
+    if (search.isLoading) return;
+
+    // let timer;
+
+    if (search.error) {
+      console.log(error);
+    } else if (!mapsKey) {
+      // (debounce request)
+      dbFetchKey();
+    }
+  }, [mapsKey]);
+
+  useEffect(() => {
+    if (user.id && !restaurants.length) {
+      dbFindRestaurants();
+    }
+  }, [user]);
 
   if (!restaurants) return <h1>No restaurants found :(</h1>;
 
@@ -65,9 +80,11 @@ export default function RestaurantSuggestions(props) {
         id="lg-map-container"
         className="overflow-hidden hidden h-[calc(100vh_-_75px)] lg:block lg:basis-1/2 p-8"
       >
-        <Wrapper apiKey={MAPS_API_KEY}>
-          <MapComponent center={center} zoom={14} points={restaurants} />
-        </Wrapper>
+        {mapsKey && (
+          <Wrapper apiKey={mapsKey}>
+            <MapComponent center={center} zoom={14} points={restaurants} />
+          </Wrapper>
+        )}
       </div>
       <div
         id="restaurant-results-wrapper"
@@ -77,9 +94,11 @@ export default function RestaurantSuggestions(props) {
           RESTAURANT SUGGESTIONS
         </h1>
         <div id="sm-map-wrapper" className="lg:hidden">
-          <Wrapper apiKey={MAPS_API_KEY}>
-            <MapComponent center={center} zoom={15} points={restaurants} />
-          </Wrapper>
+          {mapsKey && (
+            <Wrapper apiKey={mapsKey}>
+              <MapComponent center={center} zoom={15} points={restaurants} />
+            </Wrapper>
+          )}
         </div>
         <div className="rest-card-wrapper flex flex-col gap-5">
           {restaurants.businesses?.slice(0, 15).map((restaurant) => {

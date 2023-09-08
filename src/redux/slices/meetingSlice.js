@@ -67,6 +67,7 @@ export const getMeeting = createAsyncThunk(
 
       if (!token) throw new Error('No token provided');
 
+      // ? How can the userId be undefined?
       if (userId !== undefined) {
         route = VITE_API_URL + `/api/user/${userId}/meeting/${meetingId}`;
       } else {

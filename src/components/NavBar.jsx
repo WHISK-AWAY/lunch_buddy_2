@@ -112,6 +112,8 @@ const NavBar = () => {
     let timer;
 
     if (authUser.id) {
+      dispatch(fetchAllNotifications({ userId: authUser.id }));
+
       timer = setInterval(() => {
         // await dispatch(fetchUser(authUser.id)); // ? I don't think this is necessary, but could be wrong - leaving for now
         dispatch(fetchAllNotifications({ userId: authUser.id }));

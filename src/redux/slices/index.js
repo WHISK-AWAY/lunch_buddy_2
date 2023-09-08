@@ -32,6 +32,7 @@ export {
   findBuddies,
   findRestaurants,
   resetSearchState,
+  fetchMapKey,
 } from './searchSlice';
 
 // TAGS

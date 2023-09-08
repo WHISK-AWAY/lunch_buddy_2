@@ -11,6 +11,7 @@ const { SAFE_USER_FIELDS } = require('../../constants.cjs');
 
 /**
  * GET /api/user/:userId/notifications
+ * Called by fetchAllNotifications
  * Pull all notifications addressed to requested user
  */
 router.get('/', requireToken, sameUserOrAdmin, async (req, res, next) => {
