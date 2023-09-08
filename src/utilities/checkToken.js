@@ -11,6 +11,7 @@ export default async function checkToken() {
   const res = await axios.get(API_URL + '/api/auth', {
     headers: { authorization: token },
   });
+
   const user = res.data;
 
   if (!user) throw new Error('Failed token validation');
