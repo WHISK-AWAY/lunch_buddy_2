@@ -72,7 +72,7 @@ export default function CurrentMeeting({
     <div className={`minimize-wrapper ${minimize && 'group is-minimized'}`}>
       <div
         id="meeting-card"
-        className="group-[.is-minimized]:scale-0 group-[.is-minimized]:hidden scale-100 flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between pb-3"
+        className="group-[.is-minimized]:scale-0 group-[.is-minimized]:hidden scale-100 flex w-full h-fit bg-white rounded-sm drop-shadow-sm my-3 items-center justify-between pb-3"
       >
         <div
           id="notification-details"
