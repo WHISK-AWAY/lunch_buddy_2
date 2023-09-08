@@ -8,6 +8,8 @@ import {
   getMeeting,
 } from '../redux/slices/meetingSlice';
 import paperPlane from '../assets/icons/paper-plane.svg';
+import paperPlaneWhite from '../assets/icons/paper-plane-white.svg';
+import { selectDarkMode, darkModeOff, darkModeOn } from '../redux/slices/darkModeSlice';
 
 const PORT = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3333';
 
@@ -25,6 +27,8 @@ export default function ChatBox() {
   const monthToday = today.getMonth();
   const yearToday = today.getUTCFullYear();
   const messageEl = useRef(null);
+  const darkModeSelector = useSelector(selectDarkMode)
+  const [paperPlaneIcon, setPaperPlaneIcon] = useState(paperPlaneWhite)
 
   const token = localStorage.getItem('token');
   useEffect(() => {
@@ -139,36 +143,45 @@ export default function ChatBox() {
     );
   }
 
-  // h-[calc(100svh_-180px)]
+
+  useEffect(() => {
+    if (!darkModeSelector) {
+      dispatch(darkModeOff());
+      setPaperPlaneIcon(paperPlane);
+    } else {
+      dispatch(darkModeOn());
+      setPaperPlaneIcon(paperPlaneWhite);
+    }
+  }, [darkModeSelector]);
 
   return (
-    <div className="flex overflow-hidden h-[calc(100vh_-_65px)] lg:bg-none orange-linear-bg text-primary-gray w-screen">
-      {' '}
+    <div className="flex overflow-hidden dark:bg-[#0a0908]  lg:bg-none bg-white dark:text-white text-primary-gray w-screen h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)] ">
       <div
         id="bg-img"
-        src="assets/bgImg/chatView.jpg"
         alt="Two people eating a bowl of food with chopsticks"
-        className="bg-cover bg-[url('/assets/bgImg/chatView.jpg')] basis-1/2 hidden lg:block h-full"
+        className="bg-cover bg-[url('/assets/bgImg/chatView-q30.webp')] basis-1/2 hidden portrait:hidden lg:block h-full"
       ></div>
       <div
         id="chat-container"
-        className="flex flex-col w-full lg:basis-1/2 overflow-hidden justify-between h-[calc(100vh_-_65px)] items-center ml-4 lg:ml-0"
+        className="flex flex-col w-full lg:basis-1/2 portrait:lg:basis-full overflow-hidden justify-between h-full items-center  lg:ml-0"
       >
-        <div id="header" className="basis-1/12 shrink-0 grow-0">
-          <h2 className="text-center font-tenor pt-6 text-lg">
+        <div id="header" className="basis-1/12 shrink-0 grow-0 flex justify-center items-center bg-zinc-200 dark:bg-neutral-900 w-full">
+          <h2 className="text-center  text-base portrait:lg:text-lg">
             {buddyName.toUpperCase()}
           </h2>
         </div>
+
+
         <div
           id="msg-feed"
-          className="basis-4/6 lg:bg-[#c4c4c4] lg:bg-opacity-20 lg:rounded-3xl grow overflow-y-auto scroll-smooth w-full lg:w-11/12 lg:pl-4"
+          className="basis-4/6 xl:w-4/5  pl-4 lg:bg-opacity-20 pt-5 lg:rounded-3xl grow overflow-y-auto w-full lg:w-11/12 lg:pl-4 portrait:md:px-14"
         >
           <div
             ref={messageEl}
-            className="h-full grow overflow-y-auto scrollbar-hide"
+            className="h-full grow overflow-y-auto scrollbar-hide "
           >
             {!meeting?.messages?.length ? (
-              <div className="text-center text-sm pt-4">
+              <div className="text-center text-sm  pt-4">
                 don't be shy! be the first to talk to your buddy
               </div>
             ) : (
@@ -182,7 +195,7 @@ export default function ChatBox() {
                         : meeting.user?.avatarUrl;
                     return (
                       <div key={message.id} className="flex py-1">
-                        <div className="w-14">
+                        <div className="w-14 grow-0 shrink-0">
                           {message.senderId !== auth.id &&
                             prevSenderId !== message.senderId && (
                               <img
@@ -194,10 +207,10 @@ export default function ChatBox() {
                             )}
                         </div>
                         <p
-                          className={`py-3 px-10 min-w-[60px] mx-5  break-words font-light focus:outline-none text-xs self-start ${
+                          className={`py-3 px-10 min-w-[60px] mx-5  break-words font-light focus:outline-none text-xs sm:text-sm lg:text-xs portrait:lg:text-base portrait:lg:my-1 self-start ${
                             message.senderId === auth.id
-                              ? 'bg-label/70 ml-auto text-white rounded-l-full rounded-tr-full  py-1'
-                              : 'bg-buddy-message rounded-r-full rounded-tl-full h-fit'
+                              ? 'bg-label/70 ml-auto dark:bg-neutral-500/80 text-white rounded-l-full rounded-tr-full  '
+                              : 'bg-buddy-message dark:bg-neutral-800/80 rounded-r-full rounded-tl-full h-fit'
                           }`}
                         >
                           {message.message}
@@ -215,24 +228,24 @@ export default function ChatBox() {
         </div>
         <div
           id="form-container"
-          className="flex justify-center basis-1/6 w-full px-4 py-4"
+          className="flex justify-center basis-1/6 w-full  py-4"
         >
           <form
             id="form"
-            className="w-11/12  self-center flex gap-3 bg-transparent"
+            className="w-11/12  self-center flex  bg-transparent"
           >
             <textarea
               type="text"
-              className=" border border-primary-gray w-full rounded-2xl h-20 py-2 px-6 scrollbar-hide resize-none focus:outline-none text-sm"
+              className=" border border-primary-gray w-full dark:bg-neutral-900 rounded-2xl 4xl:h-40 h-20 py-2 px-6 scrollbar-hide resize-none portrait:lg:text-base portrait:md:h-36 focus:outline-none text-sm lg:text-xs"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyDown={handleEnterClick}
             />
-            <button id="paper-plane" className="flex flex-col self-center">
+            <button id="paper-plane" className="flex flex-col self-center pl-5">
               {' '}
               <img
-                className=" sm:w-6 sm:block xs:hidden -rotate-45"
-                src={paperPlane}
+                className=" w-6 md:block portrait:hidden hidden -rotate-45 5xl:w-7 6xl:w-8"
+                src={paperPlaneIcon}
                 alt="paper plane icon"
                 onClick={onMessageSubmit}
               />
