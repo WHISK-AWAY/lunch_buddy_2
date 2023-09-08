@@ -150,7 +150,7 @@ const RegisterForm = () => {
   });
 
   return (
-    <div className="flex justify-center  lg:grow items-center h-[calc(100vh_-_9dvh)] dark:bg-[#0a0908] bg-white overflow-hidden text-primary-gray ">
+    <div className="flex justify-center  lg:grow items-center  dark:bg-[#0a0908] bg-white overflow-hidden text-primary-gray h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]  ">
       <div
         id="form-container"
         className="lg:basis-1/2 flex flex-col justify-center items-center  basis-full overflow-auto   scrollbar-hide xs:pt-20 lg:pt-5"
