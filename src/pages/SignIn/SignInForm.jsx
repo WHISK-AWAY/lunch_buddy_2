@@ -113,7 +113,7 @@ const SignInForm = () => {
             </h1>
             <div className="relative my-6">
               <label
-                className="text-label font-regular portrait:lg:text-[1.5vw] block text-xs absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1 6xl:text-[.5vw]"
+                className="text-label font-regular md:text-sm portrait:lg:text-[1.5vw] block text-xs absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1 6xl:text-[.5vw]"
                 htmlFor="email"
               >
                 Email
@@ -121,7 +121,7 @@ const SignInForm = () => {
               <input
                 className={`${
                   isInvalid ? INVALID_CLASS : null
-                } w-full px-4 py-1  focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 dark:border-white border-primary-gray 6xl:text-[.7vw] rounded-sm dark:text-white portrait:xxs:py-2`}
+                } w-full px-4 py-1  focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2  border-primary-gray 6xl:text-[.7vw] rounded-sm dark:text-white portrait:xxs:py-2`}
                 type="text"
                 name="email"
                 autoComplete="email"
@@ -134,7 +134,7 @@ const SignInForm = () => {
             </div>
             <div className="relative mt-6">
               <label
-                className="text-label font-regular block text-xs portrait:lg:text-[1.5vw] absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1 6xl:text-[.5vw]"
+                className="text-label md:text-sm font-regular block text-xs portrait:lg:text-[1.5vw] absolute -top-3 left-3 bg-white dark:bg-[#0a0908] px-1 6xl:text-[.5vw]"
                 htmlFor="password"
               >
                 Password
@@ -142,7 +142,7 @@ const SignInForm = () => {
               <input
                 className={`${
                   isInvalid ? INVALID_CLASS : null
-                } w-full px-4 py-1  dark:bg-[#0a0908] dark:border-white dark:focus:bg-[#0a0908] dark:placeholder:bg-[#0a0908] focus:outline-none border rounded-sm dark:text-white border-primary-gray 2xl:py-2 6xl:text-[.7vw] portrait:xxs:py-2`}
+                } w-full px-4 py-1  dark:bg-[#0a0908]  dark:focus:bg-[#0a0908] dark:placeholder:bg-[#0a0908] focus:outline-none border rounded-sm dark:text-white border-primary-gray 2xl:py-2 6xl:text-[.7vw] portrait:xxs:py-2`}
                 type="password"
                 name="password"
                 autoComplete="password"
@@ -164,7 +164,7 @@ const SignInForm = () => {
               // duration="1500"
             >
               <FormButton handleSubmit={handleSubmit}>
-                <span className="text-[1.8vw] md:text-[2vw] portrait:md:text-[3vw] xl:text-[1.4vw] 5xl:text-[1vw] xxs:text-[4.2vw] sm:text-[4.8vw] portrait:lg:text-[2vw]">
+                <span className="text-[1.8vw] md:text-[2vw] portrait:md:text-[2vw] xl:text-[1.4vw] 5xl:text-[1vw] xxs:text-[4.2vw] sm:text-[4.8vw] portrait:lg:text-[2vw]">
                   SIGN IN
                 </span>
               </FormButton>
