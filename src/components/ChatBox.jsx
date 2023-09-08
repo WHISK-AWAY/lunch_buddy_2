@@ -115,6 +115,8 @@ export default function ChatBox() {
   useEffect(() => {
     // Set up mutation observer to scroll when new messages are appended to dom
 
+    if (!chatContainer.current) return;
+
     // Configure observer to monitor for addition of child nodes
     const config = { childList: true, subtree: true };
 
