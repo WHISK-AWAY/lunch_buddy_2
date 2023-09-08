@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   clearNotificationState,
@@ -74,16 +74,6 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
       }
     );
 
-    //prevent scroll on overflow when the menu is open
-    useEffect(() => {
-      if (expandMenu) {
-        document.body.style.overflow = 'hidden';
-        return () => {
-          document.body.style.overflow = '';
-        };
-      }
-    }, []);
-
     // setTimeout(async () => {
     //   const center = {
     //     latitude: userState.lastLat,
@@ -113,6 +103,15 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
     // maybe a demo mode toast?
   }
 
+  //prevent scroll on overflow when the menu is open
+  useEffect(() => {
+    if (expandMenu) {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = '';
+      };
+    }
+  }, []);
   return (
     <div className={expandMenu ? '' : `group hover`}>
       <div
