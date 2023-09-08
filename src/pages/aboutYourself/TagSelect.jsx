@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import chevronRight from '../../assets/icons/chevron-right.svg';
+import chevronRightWhite from '../../assets/icons/chevron-right-white.svg';
 import plus from '../../assets/icons/plus.svg';
 import minusWhite from '../../assets/icons/minus-white.svg';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { selectDarkMode, darkModeOff, darkModeOn } from '../../redux/slices/darkModeSlice';
 const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
   const [tagExpand, setTagExpand] = useState(true);
 
@@ -29,7 +31,25 @@ const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
     setter(tempTags);
     localStorage.setItem(category, JSON.stringify(tags));
   }
-  // shadow-[0_35px_40px_-25px_rgba(0,0,0,0.2)]
+
+
+    const dispatch = useDispatch();
+    const darkModeSelector = useSelector(selectDarkMode);
+    const [chevronRightIcon, setChevronRigthIcon] = useState(chevronRightWhite)
+
+
+  useEffect(() => {
+    if (!darkModeSelector) {
+      dispatch(darkModeOff());
+      setChevronRigthIcon(chevronRight)
+    } else {
+      dispatch(darkModeOn());
+      setChevronRigthIcon(chevronRightWhite)
+    }
+  }, [darkModeSelector]);
+
+
+
   return (
     <div className="sm:px-8 pl-4 pt-6">
       <div className="text-headers mr-auto">
@@ -54,7 +74,7 @@ const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
         >
           <img
             className={`w-5 transition-all ${tagExpand ? '' : 'rotate-90'}`}
-            src={chevronRight}
+            src={chevronRightIcon}
             alt="Expand/Retract Arrow"
           />
         </button>
@@ -63,7 +83,7 @@ const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
             return (
               <button
                 key={idx}
-                className={`border transition duration-500 border-primary-gray dark:border-white rounded-full px-4 h-7 flex grow gap-4 items-center hover:bg-primary-gray/20 text-xs ${
+                className={`border transition duration-500 border-primary-gray  rounded-full px-4 h-7 flex grow gap-4 items-center hover:bg-primary-gray/20 text-xs ${
                   tag.clicked ? 'button text-white  border-white ' : ''
                 }`}
                 onClick={() => handleTagClick(idx, setter)}
