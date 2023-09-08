@@ -63,7 +63,6 @@ export default function CurrentMeeting({
     }
   }, [isDarkMode])
 
-  // function cancelMeeting() {}
 
   function acknowledge() {
     dispatch(
