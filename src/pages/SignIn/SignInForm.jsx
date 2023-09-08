@@ -121,7 +121,7 @@ const SignInForm = () => {
               <input
                 className={`${
                   isInvalid ? INVALID_CLASS : null
-                } w-full px-4 py-1  focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 placeholder:bg-transparent  border-primary-gray 6xl:text-[.7vw] rounded-sm dark:text-white portrait:xxs:py-2`}
+                } w-full px-4 py-1 autofill:bg-none focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 placeholder:bg-transparent  border-primary-gray 6xl:text-[.7vw] rounded-sm dark:text-white portrait:xxs:py-2`}
                 type="text"
                 name="email"
                 autoComplete="email"
@@ -142,7 +142,7 @@ const SignInForm = () => {
               <input
                 className={`${
                   isInvalid ? INVALID_CLASS : null
-                } w-full px-4 py-1  dark:bg-[#0a0908]  dark:focus:bg-[#0a0908] dark:placeholder:bg-[#0a0908] focus:outline-none border rounded-sm dark:text-white border-primary-gray 2xl:py-2 6xl:text-[.7vw] portrait:xxs:py-2`}
+                } w-full px-4 py-1 autofill:bg-none dark:bg-[#0a0908]  dark:focus:bg-[#0a0908] dark:placeholder:bg-[#0a0908] focus:outline-none border rounded-sm dark:text-white border-primary-gray 2xl:py-2 6xl:text-[.7vw] portrait:xxs:py-2`}
                 type="password"
                 name="password"
                 autoComplete="password"
