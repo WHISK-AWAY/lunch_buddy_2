@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import RejectInvite from './ToastFeedback/RejectInvite';
@@ -12,7 +12,7 @@ import FormButton from '../../components/FormButton';
 import xIcon from '../../assets/icons/x-icon.svg';
 import xIconWhite from '../../assets/icons/x-icon-white.svg';
 import NotificationButton from '../../components/NotificationButton';
-
+import { selectDarkMode } from '../../redux/slices/darkModeSlice';
 // delay between cancel button & feedback note popup (ms)
 const TOAST_POPUP_DELAY = 1000;
 
@@ -20,12 +20,12 @@ export default function CurrentMeeting({
   notification,
   meetings,
   setTriggerClose,
-  isDarkMode, setIsDarkMode
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [triggerCancel, setTriggerCancel] = useState(false);
   const [minimize, setMinimize] = useState(false);
+  const darkMode = useSelector(selectDarkMode)
 
   const [xMenuIcon, setXMenuIcon] = useState(xIconWhite)
 
@@ -56,12 +56,12 @@ export default function CurrentMeeting({
   }
 
   useEffect(() => {
-    if(isDarkMode) {
+    if(darkMode) {
       setXMenuIcon(xIconWhite)
     } else {
       setXMenuIcon(xIcon)
     }
-  }, [isDarkMode])
+  }, [darkMode])
 
 
   function acknowledge() {
