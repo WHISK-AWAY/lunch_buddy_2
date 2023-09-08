@@ -9,16 +9,13 @@
       // first check localstorage for set preferences
       const localTheme = localStorage.getItem('color-theme');
 
-      console.log('localTheme:', localTheme);
-
       if (localTheme) {
         if (localTheme === 'dark') {
-          console.log('dark mode');
-          document.documentElement.classList.add('dark');
         } else {
-          console.log('light mode');
+          document.documentElement.classList.remove('dark');
         }
       } else {
+        // if no localStorage preference is present, fallback to system preference (if set; otherwise default to light)
         if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
           console.log('matchmedia dark');
           document.documentElement.classList.add('dark');
