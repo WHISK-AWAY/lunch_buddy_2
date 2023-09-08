@@ -15,10 +15,11 @@ io.on('connection', async (socket) => {
     if (room === '') {
       return;
     } else {
-      socket.to(room).emit('recieve-message');
+      socket.to(room).emit('receive-message');
     }
   });
   socket.on('joinRoom', async (room) => {
+    console.log('room:', room);
     if (socket.rooms.has(room)) {
       return;
     } else {

@@ -9,9 +9,9 @@ import {
 } from '../redux/slices/meetingSlice';
 import paperPlane from '../assets/icons/paper-plane.svg';
 
-const PORT = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3333';
+const VITE_SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 
-const socket = io.connect(PORT);
+// const socket = io.connect(VITE_SOCKET_URL);
 
 export default function ChatBox() {
   // used later for getting proper params
@@ -24,9 +24,16 @@ export default function ChatBox() {
   const dayOfMonth = today.getUTCDate();
   const monthToday = today.getMonth();
   const yearToday = today.getUTCFullYear();
+
   const messageEl = useRef(null);
+  const socket = useRef(null);
 
   const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    socket.current = io(VITE_SOCKET_URL);
+  }, []);
+
   useEffect(() => {
     const asyncStart = async () => {
       const disMeeting = await dispatch(
@@ -35,9 +42,11 @@ export default function ChatBox() {
           meetingId,
         })
       );
-      socket.emit('joinRoom', disMeeting.payload.id);
+      socket.current.emit('joinRoom', disMeeting.payload.id);
     };
+
     asyncStart();
+
     setTimeout(() => {
       const scrollAnchor = document.getElementById('scroll-here');
       scrollAnchor?.scrollIntoView();
@@ -51,24 +60,30 @@ export default function ChatBox() {
   }, [auth]);
 
   useEffect(() => {
-    // REMOVE .OFF WHEN DEPLOYING OR ELSE WILL NEVER SEND MSG
-    socket.on('recieve-message', (d) => {
-      const asyncEvent = async () => {
-        setTimeout(() => {
-          dispatch(
-            getMeetingMessages({
-              token: token,
-              meetingId,
-            })
-          );
-        }, 500);
-        setTimeout(() => {
-          const scrollAnchor = document.getElementById('scroll-here');
-          scrollAnchor.scrollIntoView();
-        }, 100);
-      };
-      asyncEvent();
-    });
+    if (socket.current) {
+      // REMOVE .OFF WHEN DEPLOYING OR ELSE WILL NEVER SEND MSG
+      socket.current.on('receive-message', (d) => {
+        console.log('message received?');
+
+        const asyncEvent = async () => {
+          setTimeout(() => {
+            dispatch(
+              getMeetingMessages({
+                token: token,
+                meetingId,
+              })
+            );
+          }, 500);
+          setTimeout(() => {
+            const scrollAnchor = document.getElementById('scroll-here');
+            scrollAnchor.scrollIntoView();
+          }, 100);
+        };
+        asyncEvent();
+      });
+    }
+
+    // return () => socket.current.disconnect();
   }, [socket]);
 
   const onMessageSubmit = async (e) => {
@@ -93,7 +108,7 @@ export default function ChatBox() {
       if (message?.error?.message) {
         alert('An error has occurred. Please try again later.');
       } else {
-        socket.emit('message-event', meeting.id);
+        socket.current.emit('message-event', meeting.id);
         setNewMessage('');
       }
     }
@@ -118,6 +133,7 @@ export default function ChatBox() {
       onMessageSubmit(e);
     }
   };
+
   // checks if user is logged in
   if (!auth.id) {
     return (
@@ -130,6 +146,7 @@ export default function ChatBox() {
       </h1>
     );
   }
+
   // checks if user has a buddy
   if (meeting.buddyId === undefined) {
     return (
