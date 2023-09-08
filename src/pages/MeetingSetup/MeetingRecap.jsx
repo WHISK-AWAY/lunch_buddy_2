@@ -52,28 +52,28 @@ export default function MeetingRecap(props) {
   });
 
   return (
-    <div className="recap-card h-[calc(100vh_-_65px)] w-screen flex flex-col gap-12 items-center orange-linear-bg lg:bg-none lg:bg-white  lg:flex-row lg:items-center bg-fixed text-primary-gray overflow-hidden">
+    <div className="recap-card h-[calc(100vh_-_9dvh)] w-screen flex flex-col gap-12 items-center   bg-white dark:bg-[#0a0908]  lg:flex-row lg:items-center bg-fixed dark:text-white text-primary-gray overflow-hidden">
       <div
-        className="recap-image hidden bg-left lg:block lg:h-full lg:basis-1/2 bg-[url('/assets/bgImg/meetingConfView.jpg')] bg-cover overflow-hidden"
-        data-aos="fade-right"
-        data-aos-delay="800"
-        data-aos-duration="1500"
+        className="recap-image hidden bg-left lg:block lg:h-full lg:basis-1/2 bg-[url('/assets/bgImg/meetingConfView-q30.webp')] portrait:lg:hidden bg-cover overflow-hidden"
+        // data-aos="fade-right"
+        // data-aos-delay="800"
+        // data-aos-duration="1500"
       ></div>
-      <div className="recap-info flex flex-col basis-full h-full pt-16 lg:basis-1/2 gap-12 items-center overflow-auto justify-center">
+      <div className="recap-info flex flex-col basis-full h-full  lg:basis-1/2 gap-12 items-center overflow-auto justify-center portrait:lg:basis-full portrait:md:pb-44">
         <div
-          className="recap-header text-headers text-xl font-semibold"
-          data-aos="fade-up"
-          data-aos-delay="400"
-          data-aos-duration="1000"
+          className="recap-header text-headers text-xl portrait:lg:text-2xl font-semibold md:text-lg 5xl:text-2xl"
+          // data-aos="fade-up"
+          // data-aos-delay="400"
+          // data-aos-duration="1000"
         >
           <h1>MEETING RECAP</h1>
         </div>
         <div className="recap-body flex flex-col items-center gap-1">
           <div
             className="buddy-avatar-container rounded-full mb-6"
-            data-aos="zoom-in"
-            data-aos-delay="800"
-            data-aos-duration="1800"
+            // data-aos="zoom-in"
+            // data-aos-delay="800"
+            // data-aos-duration="1800"
           >
             <img
               src={buddy.avatarUrl}
@@ -84,32 +84,34 @@ export default function MeetingRecap(props) {
           <div
             id="meeting-detail-container"
             className="flex flex-col justify-center items-center"
-            data-aos="fade-down"
-            data-aos-delay="800"
-            data-aos-duration="2000"
+            // data-aos="fade-down"
+            // data-aos-delay="800"
+            // data-aos-duration="2000"
           >
-            <h2 className="text-lg text-headers pb-4">
+            <h2 className="text-lg text-headers pb-4 portrait:lg:text-xl md:text-base lg:text-sm">
               {buddy.fullName.toUpperCase()}
             </h2>
-            <p>
+            <p className="portrait:lg:text-lg md:text-sm lg:text-xs">
               {timeSlot.startTime} - {timeSlot.endTime}
             </p>
-            <p className="font-semibold">
+            <p className="font-semibold portrait:lg:text-xl lg:text-sm">
               <a href={restaurant.url} target="_blank">
                 {restaurant.name.toUpperCase()}
               </a>
             </p>
-            <p>{restaurant.location?.display_address?.join(' ')}</p>
+            <p className="portrait:lg:text-lg md:text-sm lg:text-xs">
+              {restaurant.location?.display_address?.join(' ')}
+            </p>
           </div>
           <div
             id="btn-container"
-            className="recap-button flex flex-col items-center pt-9 lg:w-3/5 text-xs w-4/5"
-            data-aos="fade-in"
-            data-aos-delay="800"
-            data-aos-duration="3000"
+            className="recap-button flex flex-col items-center pt-9 text-xs w-full portrait:w-full"
+            // data-aos="fade-in"
+            // data-aos-delay="800"
+            // data-aos-duration="3000"
           >
             <FormButton handleSubmit={(e) => handleMeeting(e)}>
-              INVITE BUDDY
+              <span className="sm:text-lg md:text-sm">INVITE BUDDY</span>
             </FormButton>
           </div>
         </div>
