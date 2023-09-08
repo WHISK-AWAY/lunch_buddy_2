@@ -6,9 +6,10 @@ import {
   fetchAllNotifications,
 } from '../../redux/slices';
 import FormButton from '../../components/FormButton';
+import NotificationButton from '../../components/NotificationButton';
 import xIcon from '../../assets/icons/x-icon.svg';
 
-export default function NewMessageReceived({ notification }) {
+export default function NewMessageReceived({ notification, isDarkMode, setIsDarkMode }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -36,7 +37,7 @@ export default function NewMessageReceived({ notification }) {
   return (
     <div
       id="meeting-card"
-      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between py-3"
+      className="flex w-full h-fit bg-white dark:bg-[#0a0908] dark:text-white rounded-sm drop-shadow-sm my-3 items-center justify-between py-3"
     >
       <div
         id="x-icon"
@@ -54,7 +55,7 @@ export default function NewMessageReceived({ notification }) {
       </div>
       <div
         id="notification-details"
-        className="flex flex-col self-center text-center text-sm w-full py-3 px-3"
+        className="flex flex-col self-center text-center text-xs w-full py-3 px-3"
       >
         <p className="pb-6">
           {' '}
@@ -65,9 +66,9 @@ export default function NewMessageReceived({ notification }) {
           id="btn-container"
           className="flex flex-row gap-5 w-3/5 h-5 self-center text-xs space-5 items-center"
         >
-          <FormButton handleSubmit={() => acknowledgeAndGoToMessages()}>
+          <NotificationButton handleSubmit={() => acknowledgeAndGoToMessages()}>
             REPLY
-          </FormButton>
+          </NotificationButton>
         </div>
       </div>
     </div>

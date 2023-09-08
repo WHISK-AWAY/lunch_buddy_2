@@ -76,14 +76,16 @@ const NotificationBody = ({
                     )} */}
                     {notification.notificationType === 'newMessage' && (
                       <NewMessageReceived
+                        isDarkMode={isDarkMode}
+                        setIsDarkMode={setIsDarkMode}
                         notification={notification}
                         setShowNotificationBody={setShowNotificationBody}
                       />
                     )}
                     {notification.notificationType === 'currentMeeting' && (
                       <CurrentMeeting
-                      isDarkMode={isDarkMode}
-                      setIsDarkMode={setIsDarkMode}
+                        isDarkMode={isDarkMode}
+                        setIsDarkMode={setIsDarkMode}
                         notification={notification}
                         meetings={meetings}
                         setShowNotificationBody={setShowNotificationBody}
