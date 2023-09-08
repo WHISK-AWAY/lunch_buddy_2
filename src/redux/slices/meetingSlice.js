@@ -141,8 +141,11 @@ export const deleteMeeting = createAsyncThunk(
 
 export const getMeetingMessages = createAsyncThunk(
   'meeting/getMessages',
-  async ({ token, meetingId }, { rejectWithValue }) => {
+  async ({ meetingId }, { rejectWithValue }) => {
     try {
+      const token = window.localStorage.getItem('token');
+      if (!token) throw new Error('Token missing');
+
       const { data } = await axios.get(
         VITE_API_URL + `/api/meeting/${meetingId}/messages`,
         {
@@ -151,6 +154,7 @@ export const getMeetingMessages = createAsyncThunk(
           },
         }
       );
+
       return data;
     } catch (error) {
       console.log(error);
@@ -306,9 +310,9 @@ const meetingSlice = createSlice({
       })
 
       // Get a messages for a particular meeting
-      .addCase(getMeetingMessages.fulfilled, (state, action) => {
+      .addCase(getMeetingMessages.fulfilled, (state, { payload }) => {
         // Payload includes messages for this particular meeting
-        state.meeting = action.payload;
+        state.meeting = payload;
         state.isLoading = false;
         state.error = '';
       })
@@ -317,6 +321,7 @@ const meetingSlice = createSlice({
       })
       .addCase(getMeetingMessages.rejected, (state, action) => {
         state.isLoading = false;
+        console.log('getMeetingMessages error:', action);
         state.error = action.payload.response.data;
       })
 
