@@ -85,7 +85,7 @@ const UserAccount = () => {
   return (
     <div
       id="user-container"
-      className=" flex flex-row-reverse flex-nowrap w-screen justify-center h-[calc(100vh_-_9dvh)] overflow-hidden text-primary-gray dark:text-white bg-fixed"
+      className=" flex flex-row-reverse flex-nowrap w-screen justify-center h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]    overflow-hidden text-primary-gray dark:text-white bg-fixed"
     >
       <div className="lg:basis-1/2 portrait:lg:basis-auto flex flex-col items-center   h-full relative ">
         <div className="sticky px-[10%] z-10 bg-white dark:bg-[#0a0908] w-full h-40 top-0  flex flex-col justify-start  items-center">

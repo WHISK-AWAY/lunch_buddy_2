@@ -200,7 +200,7 @@ const EditUserForm = () => {
   };
 
   return (
-    <div className="h-[calc(100vh_-_9dvh)] dark:bg-[#0a0908] bg-white dark:text-white flex lg:justify-between lg:portrait:justify-center lg:grow items-center text-primary-gray justify-center ">
+    <div className="h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]  dark:bg-[#0a0908] bg-white dark:text-white flex lg:justify-between lg:portrait:justify-center lg:grow items-center text-primary-gray justify-center ">
       <div className="flex flex-col items-center w-full  2xl:justify-center sm:w-4/5 md:w-2/3 5xl:w-3/6 6xl:w-5/12  portrait:md:w-3/6 portrait:md:pb-36 portrait:lg:w-3/5 ">
         <form className="bg-white 2xl:w-3/5 5xl:w-2/5 dark:bg-[#0a0908] grid grid-cols-6 justify-center mx-4 gap-x-2 gap-y-6 lg:px-8 mb-10 ">
           <h1 className="text-center text-2xl mb-6 text-headers font-regular lg:text-3xl col-span-full">
@@ -345,11 +345,11 @@ const EditUserForm = () => {
             </select>
           </div>
           <div className="relative col-span-2 ">
-            <label className="text-label block md:text-sm text-xs bg-white dark:bg-[#0a0908] w-[30vw]">
+            <label className="text-label  md:text-sm text-xs bg-white dark:bg-[#0a0908] ">
               Upload Image
             </label>
             <input
-              className="bg-white dark:bg-[#0a0908] "
+              className="bg-white dark:bg-[#0a0908] max-w-screen"
               type="file"
               onChange={(e) => {
                 uploadImage(e);
@@ -371,7 +371,7 @@ const EditUserForm = () => {
         </form>
       </div>
       <div
-        className="image-wrapper overflow-hidden hidden portrait:lg:hidden lg:block basis-1/2 h-[calc(100vh_-_65px)] bg-cover bg-[url('/assets/bgImg/signUpView-q30.webp')]"
+        className="image-wrapper overflow-hidden hidden portrait:lg:hidden lg:block basis-1/2 h-full bg-cover bg-[url('/assets/bgImg/signUpView-q30.webp')]"
         alt="person smearing a dip on toast, at a restaurant with wine, plates, coffee"
       ></div>
     </div>

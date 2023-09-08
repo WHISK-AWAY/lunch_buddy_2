@@ -190,10 +190,10 @@ const EditUserBioAndTags = () => {
   });
 
   return (
-    <div className=" flex flex-row items-center justify-center h-[calc(100vh_-_65px)] w-fit overflow-hidden scroll-smooth">
+    <div className=" flex flex-row items-center justify-center h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]  w-fit overflow-hidden dark:bg-[#0a0908] dark:text-white">
       <div
         id="form-container"
-        className="lg:basis-1/2 flex flex-col  h-full justify-start align-middle overflow-auto scrollbar-hide"
+        className="lg:basis-1/2 flex flex-col  h-full justify-start align-middle overflow-auto scrollbar-hide "
         data-aos="fade-up"
         data-aos-delay="700"
         data-aos-duration="1800"
@@ -238,7 +238,7 @@ const EditUserBioAndTags = () => {
       </div>
       <div
         id="bg-img"
-        className="basis-1/2 hidden lg:block h-full bg-cover bg-[url('/assets/bgImg/aboutMeView.jpg')]"
+        className="basis-1/2 hidden lg:block h-full bg-cover bg-[url('/assets/bgImg/aboutMeView-q30.webp')]"
         data-aos="fade-left"
         data-aos-delay="200"
         data-aos-duration="2000"
