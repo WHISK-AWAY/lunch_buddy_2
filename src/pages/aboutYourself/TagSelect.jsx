@@ -4,9 +4,16 @@ import chevronRightWhite from '../../assets/icons/chevron-right-white.svg';
 import plus from '../../assets/icons/plus.svg';
 import minusWhite from '../../assets/icons/minus-white.svg';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectDarkMode, darkModeOff, darkModeOn } from '../../redux/slices/darkModeSlice';
+import {
+  selectDarkMode,
+  darkModeOff,
+  darkModeOn,
+} from '../../redux/slices/darkModeSlice';
 const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
   const [tagExpand, setTagExpand] = useState(true);
+  const dispatch = useDispatch();
+  const darkModeSelector = useSelector(selectDarkMode);
+  const [chevronRightIcon, setChevronRigthIcon] = useState(chevronRightWhite);
 
   function handleTagClick(idx, setter) {
     const tempTags = [...tags];
@@ -32,23 +39,15 @@ const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
     localStorage.setItem(category, JSON.stringify(tags));
   }
 
-
-    const dispatch = useDispatch();
-    const darkModeSelector = useSelector(selectDarkMode);
-    const [chevronRightIcon, setChevronRigthIcon] = useState(chevronRightWhite)
-
-
   useEffect(() => {
     if (!darkModeSelector) {
       dispatch(darkModeOff());
-      setChevronRigthIcon(chevronRight)
+      setChevronRigthIcon(chevronRight);
     } else {
       dispatch(darkModeOn());
-      setChevronRigthIcon(chevronRightWhite)
+      setChevronRigthIcon(chevronRightWhite);
     }
   }, [darkModeSelector]);
-
-
 
   return (
     <div className="sm:px-8 pl-4 pt-6">
