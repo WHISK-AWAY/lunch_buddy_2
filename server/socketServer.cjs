@@ -1,12 +1,16 @@
 const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
+const dotenv = require('dotenv').config();
+
+const WS_PORT = process.env.WS_PORT;
+const CORS_ALLOWED_ORIGINS = process.env.CORS_ALLOWED_ORIGINS;
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server, {
   cors: {
-    origin: '*',
+    origin: CORS_ALLOWED_ORIGINS.split('|'),
   },
 });
 
@@ -28,6 +32,6 @@ io.on('connection', async (socket) => {
   });
 });
 
-server.listen(process.env.SOCKET_BACKEND_PORT || 3333, () =>
-  console.log('socket server online')
+server.listen(WS_PORT, () =>
+  console.log('socket server listening on', WS_PORT)
 );
