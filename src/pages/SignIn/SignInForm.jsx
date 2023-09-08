@@ -121,7 +121,7 @@ const SignInForm = () => {
               <input
                 className={`${
                   isInvalid ? INVALID_CLASS : null
-                } w-full px-4 py-1  focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2  border-primary-gray 6xl:text-[.7vw] rounded-sm dark:text-white portrait:xxs:py-2`}
+                } w-full px-4 py-1  focus:outline-none bg-white dark:bg-[#0a0908] border 2xl:py-2 placeholder:bg-transparent  border-primary-gray 6xl:text-[.7vw] rounded-sm dark:text-white portrait:xxs:py-2`}
                 type="text"
                 name="email"
                 autoComplete="email"
