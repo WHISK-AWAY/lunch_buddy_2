@@ -1,16 +1,19 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   updateNotificationStatus,
   fetchAllNotifications,
 } from '../../redux/slices';
-import FormButton from '../../components/FormButton';
+import NotificationButton from '../../components/NotificationButton';
 import xIcon from '../../assets/icons/x-icon.svg';
+import xIconWhite from '../../assets/icons/x-icon-white.svg';
 
-export default function MeetingRejected({ notification }) {
+export default function MeetingRejected({ notification, isDarkMode, setIsDarkMode }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+    const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
 
   function acknowledgeAndFindBuddy() {
     acknowledge();
@@ -33,17 +36,27 @@ export default function MeetingRejected({ notification }) {
     );
   }
 
+
+
+  useEffect(() => {
+    if (isDarkMode) {
+      setXMenuIcon(xIconWhite);
+    } else {
+      setXMenuIcon(xIcon);
+    }
+  }, [isDarkMode]);
+
   return (
     <div
       id="meeting-card"
-      className="flex w-full h-fit bg-white rounded-sm drop-shadow-sm my-3 items-center justify-between py-3 px-3"
+      className="flex w-full h-fit bg-white dark:bg-[#0a0908] dark:text-white rounded-sm drop-shadow-sm my-3 items-center justify-between py-3 px-3"
     >
       <div
         id="notification-details"
-        className="flex flex-col self-center text-center text-base w-full py-2"
+        className="flex flex-col self-center text-center 2xl:text-sm text-xs portrait:lg:text-lg sm:text-sm w-full md:text-xs py-2"
       >
         <p className="pb-2">OH NO!</p>
-        <p className="pb-2">
+        <p className="">
           Turns out {notification.fromUser.firstName} isn't available.
         </p>
         <p className="pb-2">
@@ -54,17 +67,19 @@ export default function MeetingRejected({ notification }) {
         </p>
         <div
           id="btn-container"
-          className="flex flex-row gap-2 w-3/5 px-7 h-fit self-center text-xs space-5 justify-center items-center pt-5"
+          className="flex flex-row gap-2 w-full px-7 h-fit 6xl:w-4/5 self-center text-xs md:text-[1vw] 4xl:text-x space-5 justify-center items-center pt-2"
         >
-          <FormButton handleSubmit={acknowledgeAndFindBuddy}>
-            FIND BUDDY
-          </FormButton>
+          <NotificationButton handleSubmit={acknowledgeAndFindBuddy}>
+            <span className="md:text-[1vw] portrait:lg:text-lg 4xl:text-xs">
+              FIND BUDDY
+            </span>
+          </NotificationButton>
           <div
             id="x-icon"
-            className="absolute w-6 right-3 top-3 cursor-pointer"
+            className="absolute w-5 right-3 top-3 cursor-pointer"
             onClick={acknowledge}
           >
-            <img src={xIcon} />
+            <img src={xMenuIcon} />
           </div>
         </div>
       </div>

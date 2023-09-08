@@ -6,6 +6,7 @@ import {
   tagSlice,
   userSlice,
   notificationSlice,
+  darkModeSlice
 } from './slices';
 
 const store = configureStore({
@@ -16,6 +17,7 @@ const store = configureStore({
     search: searchSlice,
     user: userSlice,
     notifications: notificationSlice,
+    darkMode: darkModeSlice
   },
 });
 

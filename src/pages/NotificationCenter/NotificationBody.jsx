@@ -58,12 +58,16 @@ const NotificationBody = ({
                     )}
                     {notification.notificationType === 'inviteRejected' && (
                       <MeetingRejected
+                        isDarkMode={isDarkMode}
+                        setIsDarkMode={setIsDarkMode}
                         notification={notification}
                         setShowNotificationBody={setShowNotificationBody}
                       />
                     )}
                     {notification.notificationType === 'meetingCancelled' && (
                       <MeetingCancelled
+                        isDarkMode={isDarkMode}
+                        setIsDarkMode={setIsDarkMode}
                         notification={notification}
                         setShowNotificationBody={setShowNotificationBody}
                       />

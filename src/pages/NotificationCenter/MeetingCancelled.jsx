@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import {
@@ -7,10 +7,14 @@ import {
 } from '../../redux/slices';
 import FormButton from '../../components/FormButton';
 import xIcon from '../../assets/icons/x-icon.svg';
+import xIconWhite from '../../assets/icons/x-icon-white.svg';
+import NotificationButton from '../../components/NotificationButton';
 
-export default function MeetingCancelled({ notification }) {
+export default function MeetingCancelled({ notification, isDarkMode, setIsDarkMode }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
 
   function acknowledgeAndFindBuddy() {
     acknowledge();
@@ -33,14 +37,24 @@ export default function MeetingCancelled({ notification }) {
     );
   }
 
+
+    useEffect(() => {
+      if (isDarkMode) {
+        setXMenuIcon(xIconWhite);
+      } else {
+        setXMenuIcon(xIcon);
+      }
+    }, [isDarkMode]);
+
+
   return (
     <div
       id="meeting-card"
-      className="flex w-full h-fit bg-gray-100/90 rounded-2xl drop-shadow-sm my-3 items-center justify-between py-4 px-5"
+      className="flex w-full h-fit dark:bg-[#0a0908] dark:text-white  rounded-sm bg-white  drop-shadow-sm my-3 items-center justify-between py-4 px-5"
     >
       <div
         id="notification-details"
-        className="flex flex-col self-center text-center text-base w-full py-2"
+        className="flex flex-col self-center text-center text-xs w-full sm:text-sm py-2 md:text-xs 2xl:text-sm  portrait:lg:text-lg"
       >
         <p className="pb-2">Bad news...</p>
         <p className="">
@@ -56,15 +70,15 @@ export default function MeetingCancelled({ notification }) {
           id="btn-container"
           className="flex flex-row gap-2 w-full px-7 h-fit self-center text-xs space-5 justify-center items-center pt-3"
         >
-          <FormButton handleSubmit={acknowledgeAndFindBuddy}>
+          <NotificationButton handleSubmit={acknowledgeAndFindBuddy}>
             FIND BUDDY
-          </FormButton>
+          </NotificationButton>
           <div
             id="x-icon"
             className="absolute w-6 right-3 top-3 cursor-pointer"
             onClick={acknowledge}
           >
-            <img src={xIcon} />
+            <img src={xMenuIcon} />
           </div>
         </div>
       </div>
