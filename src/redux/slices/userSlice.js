@@ -249,12 +249,10 @@ const userSlice = createSlice({
         state.error = '';
       })
       .addCase(updateLocation.pending, (state, { payload }) => {
-        state.user = {};
         state.isLoading = true;
         state.error = '';
       })
       .addCase(updateLocation.rejected, (state, action) => {
-        state.user = {};
         state.isLoading = false;
         state.error = action.payload.response.data;
       })
