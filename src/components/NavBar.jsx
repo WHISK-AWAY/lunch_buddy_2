@@ -24,7 +24,7 @@ import { selectAuthUser } from '../redux/slices/authSlice';
 import getLocation from '../utilities/geo';
 
 const NOTIFICATION_UPDATE_INTERVAL = 60000;
-const TOAST_DURATION = Infinity;
+const TOAST_DURATION = 10000;
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -186,9 +186,11 @@ const NavBar = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border text-primary-gray 
+      <header
+        className="sticky top-0 z-40  text-primary-gray 
       h-14 xs:h-[71px] sm:h-[80px] portrait:md:h-[85px] portrait:lg:h-[94px] md:h-[60px] xl:h-[70px] 5xl:h-[80px]
-       w-[100vw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20">
+       w-[100vw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20"
+      >
         <DarkModeToggler
           isDarkMode={isDarkMode}
           setIsDarkMode={setIsDarkMode}
