@@ -228,11 +228,11 @@ export default function ChatBox() {
         </div>
         <div
           id="form-container"
-          className="flex justify-center basis-1/6 w-full  py-4"
+          className="flex justify-center basis-1/6 w-full  py-4  md:px-5 5xl:px-20 6xl:px-36 lg:pb-10 5xl:pb-20"
         >
           <form
             id="form"
-            className="w-11/12  self-center flex  bg-transparent"
+            className="w-full pl-5 justify-center items-center  self-center flex  bg-transparent"
           >
             <textarea
               type="text"
