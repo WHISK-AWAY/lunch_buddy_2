@@ -27,7 +27,7 @@ const Homepage = () => {
   }, []);
 
   return (
-    <div className="flex md:w-screen w-full flex-col scroll-smooth gap-20 text-primary-gray pb-16 md:py-16 md:gap-56 h-fit overflow-hidden sm:gap-28 sm:py-16 py-20">
+    <div className="flex md:w-screen w-full flex-col scroll-smooth gap-20 text-primary-gray pb-16 md:py-16 md:gap-56 h-fit overflow-hidden sm:gap-28 sm:py-16 py-20 bg-white dark:bg-[#0a0908] ">
       <div
         id="connect-section"
         className="flex md:flex-row flex-col md:w-full md:h-screen md:pl-20 pr-6 py-6 sm:p-6"
