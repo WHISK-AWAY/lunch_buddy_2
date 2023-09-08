@@ -148,9 +148,9 @@ const Feedback = () => {
   });
 
   return (
-    <div className="h-[calc(100vh_-_65px)] w-screen flex justify-center items-center text-primary-gray overflow-hidden bg-fixed">
+    <div className="h-[calc(100vh_-_9dvh)] w-screen  flex justify-center items-center dark:text-white text-primary-gray overflow-hidden bg-fixed bg-white dark:bg-[#0a0908]">
       <div
-        className="flex flex-col items-center mt-24 font-tenor text-center max-w-lg mx-auto lg:basis-1/2"
+        className="flex flex-col items-center   text-center w-full mx-auto lg:basis-1/2"
         data-aos="fade-down"
         data-aos-delay="1000"
         data-aos-duration="1500"
@@ -161,9 +161,9 @@ const Feedback = () => {
           noRating={noRating}
         />
         {!showReport && (
-          <div className="w-4/5 pt-9">
+          <div className="md:w-3/5 xxs:w-4/5 5xl:w-2/5 pt-9">
             <FormButton handleSubmit={(e) => submitRating(e)}>
-              SUBMIT REVIEW
+              <span className="xxs:text-base">SUBMIT REVIEW</span>
             </FormButton>
           </div>
         )}
