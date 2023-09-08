@@ -6,7 +6,7 @@ const dotenv = require('dotenv').config();
 const volleyball = require('volleyball');
 const bodyParser = require('body-parser');
 
-const PORT = process.env.PORT_NUMBER || 3000;
+const API_PORT = process.env.API_PORT;
 const CORS_ALLOWED_ORIGINS = process.env.CORS_ALLOWED_ORIGINS;
 
 // Body parsing middleware
@@ -50,8 +50,8 @@ app.use((err, req, res, next) => {
 });
 
 async function init() {
-  app.listen(PORT, () => {
-    console.log(`Server listening on port: ${PORT}`);
+  app.listen(API_PORT, () => {
+    console.log(`Server listening on port: ${API_PORT}`);
     console.log('Allowing CORS origins:', CORS_ALLOWED_ORIGINS.split('|'));
   });
 }

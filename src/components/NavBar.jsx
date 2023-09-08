@@ -20,6 +20,7 @@ import {
 } from '../redux/slices/notificationSlice';
 import { fetchUser, updateUser } from '../redux/slices/userSlice';
 import { selectAuthUser } from '../redux/slices/authSlice';
+import { selectDarkMode } from '../redux/slices/darkModeSlice';
 
 import getLocation from '../utilities/geo';
 
@@ -38,6 +39,7 @@ const NavBar = () => {
   const authUser = useSelector(selectAuthUser);
   const userState = useSelector((state) => state.user.user);
   const notifications = useSelector(selectUnreadNotifications);
+  const isDarkMode = useSelector(selectDarkMode);
 
   // THIS VARIABLE WILL HIDE OR SHOW THE DOT INDICATING NOTIFICATIONS
   const hasNotifications = notifications?.length > 0;
@@ -167,7 +169,6 @@ const NavBar = () => {
     dropdownController.abort();
   }
 
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [menuIcon, setMenuIcon] = useState(navbarIconWhite);
   const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
   const [bellMenuIcon, setBellMenuIcon] = useState(bellIconWhite);
@@ -192,8 +193,6 @@ const NavBar = () => {
        w-[100vw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20"
       >
         <DarkModeToggler
-          isDarkMode={isDarkMode}
-          setIsDarkMode={setIsDarkMode}
         />
         <nav className="flex justify-between w-full h-full">
           <button className="flex justify-center  items-center">
@@ -276,8 +275,6 @@ const NavBar = () => {
 
         <div className="notification-body">
           <NotificationBody
-            isDarkMode={isDarkMode}
-            setIsDarkMode={setIsDarkMode}
             showNotificationBody={showNotificationBody}
             setShowNotificationBody={setShowNotificationBody}
             setTriggerClose={setTriggerClose}
@@ -285,12 +282,7 @@ const NavBar = () => {
         </div>
       </header>
       {/* DROPDOWN MENU, HIDDEN UNTIL CLICKED */}
-      <DropdownMenu
-        expandMenu={expandMenu}
-        setExpandMenu={setExpandMenu}
-        isDarkMode={isDarkMode}
-        setIsDarkMode={setIsDarkMode}
-      />
+      <DropdownMenu expandMenu={expandMenu} setExpandMenu={setExpandMenu} />
     </>
   );
 };

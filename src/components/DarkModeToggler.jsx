@@ -6,28 +6,32 @@ import {
   darkModeOff,
 } from '../redux/slices/darkModeSlice';
 
-export default function DarkModeToggler({ isDarkMode, setIsDarkMode }) {
+export default function DarkModeToggler() {
   const dispatch = useDispatch();
 
-  const darkModeSelector = useSelector(selectDarkMode);
+  const isDarkMode = useSelector(selectDarkMode);
 
-  // console.log(darkModeSelector);
   useEffect(() => {
-    if (!isDarkMode) dispatch(darkModeOff());
-    else dispatch(darkModeOn());
-  }, [isDarkMode]);
+    // sync initial redux state with result of <HEAD> script (see index.html)
+    if (document.documentElement.classList.contains('dark')) {
+      dispatch(darkModeOn());
+    } else {
+      dispatch(darkModeOff());
+    }
+  }, []);
 
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
-
-  useEffect(() => {
+    // toggle state on user click
     if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
+      dispatch(darkModeOff());
       document.documentElement.classList.remove('dark');
+      window.localStorage.setItem('color-theme', 'light');
+    } else {
+      dispatch(darkModeOn());
+      document.documentElement.classList.add('dark');
+      window.localStorage.setItem('color-theme', 'dark');
     }
-  }, [isDarkMode]);
+  };
 
   return (
     <label className="flex absolute top-0 right-1/2 items-center cursor-pointer">

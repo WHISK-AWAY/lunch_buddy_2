@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
@@ -11,37 +11,43 @@ import paperPlane from '../assets/icons/paper-plane.svg';
 import paperPlaneWhite from '../assets/icons/paper-plane-white.svg';
 import { selectDarkMode, darkModeOff, darkModeOn } from '../redux/slices/darkModeSlice';
 
-const PORT = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3333';
+const VITE_SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 
-const socket = io.connect(PORT);
+// const socket = io.connect(VITE_SOCKET_URL);
 
 export default function ChatBox() {
-  // used later for getting proper params
-  const { meetingId } = useParams();
   const dispatch = useDispatch();
+
+  const { meetingId } = useParams();
+
   const [newMessage, setNewMessage] = useState('');
   const meeting = useSelector((state) => state.meetings.meeting);
   const auth = useSelector((state) => state.auth.user);
-  const today = new Date();
-  const dayOfMonth = today.getUTCDate();
-  const monthToday = today.getMonth();
-  const yearToday = today.getUTCFullYear();
-  const messageEl = useRef(null);
-  const darkModeSelector = useSelector(selectDarkMode)
+    const darkModeSelector = useSelector(selectDarkMode)
   const [paperPlaneIcon, setPaperPlaneIcon] = useState(paperPlaneWhite)
 
+  const chatContainer = useRef(null);
+  const socket = useRef(null);
+
   const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    socket.current = io(VITE_SOCKET_URL);
+  }, []);
+
   useEffect(() => {
     const asyncStart = async () => {
       const disMeeting = await dispatch(
         getMeetingMessages({
-          token: token,
           meetingId,
         })
       );
-      socket.emit('joinRoom', disMeeting.payload.id);
+
+      socket.current.emit('joinRoom', disMeeting.payload.id);
     };
+
     asyncStart();
+
     setTimeout(() => {
       const scrollAnchor = document.getElementById('scroll-here');
       scrollAnchor?.scrollIntoView();
@@ -55,24 +61,26 @@ export default function ChatBox() {
   }, [auth]);
 
   useEffect(() => {
-    // REMOVE .OFF WHEN DEPLOYING OR ELSE WILL NEVER SEND MSG
-    socket.on('recieve-message', (d) => {
-      const asyncEvent = async () => {
-        setTimeout(() => {
-          dispatch(
-            getMeetingMessages({
-              token: token,
-              meetingId,
-            })
-          );
-        }, 500);
-        setTimeout(() => {
-          const scrollAnchor = document.getElementById('scroll-here');
-          scrollAnchor.scrollIntoView();
-        }, 100);
-      };
-      asyncEvent();
-    });
+    if (socket.current) {
+      socket.current.on('receive-message', () => {
+        const asyncEvent = async () => {
+          setTimeout(() => {
+            dispatch(
+              getMeetingMessages({
+                token: token,
+                meetingId,
+              })
+            );
+          }, 500);
+
+          setTimeout(() => {
+            const scrollAnchor = document.getElementById('scroll-here');
+            scrollAnchor.scrollIntoView();
+          }, 100);
+        };
+        asyncEvent();
+      });
+    }
   }, [socket]);
 
   const onMessageSubmit = async (e) => {
@@ -97,7 +105,7 @@ export default function ChatBox() {
       if (message?.error?.message) {
         alert('An error has occurred. Please try again later.');
       } else {
-        socket.emit('message-event', meeting.id);
+        socket.current.emit('message-event', meeting.id);
         setNewMessage('');
       }
     }
@@ -109,19 +117,32 @@ export default function ChatBox() {
       : meeting.user?.firstName;
 
   useEffect(() => {
-    if (messageEl.current) {
-      messageEl.current.addEventListener('DOMNodeInserted', (event) => {
-        const { currentTarget: target } = event;
-        target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+    // Set up mutation observer to scroll when new messages are appended to dom
+
+    if (!chatContainer.current) return;
+
+    // Configure observer to monitor for addition of child nodes
+    const config = { childList: true, subtree: true };
+
+    const observer = new MutationObserver(() => {
+      chatContainer.current.scroll({
+        top: chatContainer.current.scrollHeight,
+        behavior: 'smooth',
       });
-    }
-  }, []);
+    });
+
+    observer.observe(chatContainer.current, config);
+
+    // clean up
+    return () => observer.disconnect();
+  }, [chatContainer.current]);
 
   const handleEnterClick = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       onMessageSubmit(e);
     }
   };
+
   // checks if user is logged in
   if (!auth.id) {
     return (
@@ -134,6 +155,7 @@ export default function ChatBox() {
       </h1>
     );
   }
+
   // checks if user has a buddy
   if (meeting.buddyId === undefined) {
     return (
@@ -177,7 +199,6 @@ export default function ChatBox() {
           className="basis-4/6 xl:w-4/5  pl-4 lg:bg-opacity-20 pt-5 lg:rounded-3xl grow overflow-y-auto w-full lg:w-11/12 lg:pl-4 portrait:md:px-14"
         >
           <div
-            ref={messageEl}
             className="h-full grow overflow-y-auto scrollbar-hide "
           >
             {!meeting?.messages?.length ? (
@@ -186,7 +207,7 @@ export default function ChatBox() {
               </div>
             ) : (
               <>
-                <div id="msg-list">
+                <div id="msg-list" ref={chatContainer}>
                   {meeting.messages.map((message, idx) => {
                     const prevSenderId = meeting.messages[idx + 1]?.senderId;
                     const url =

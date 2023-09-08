@@ -3,19 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <script>
-  // It's best to inline this in `head` to avoid FOUC (flash of unstyled content) when changing pages or themes
-  if (
-    localStorage.getItem('color-theme') === 'dark' ||
-    (!('color-theme' in localStorage) &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches)
-  ) {
-    document.documentElement.classList.add('dark');
-  } else {
-    document.documentElement.classList.remove('dark');
-  }
-</script>
-    <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
+      // It's best to inline this in `head` to avoid FOUC (flash of unstyled content) when changing pages or themes
+
+      const localTheme = localStorage.getItem('color-theme');
+
+      // Priority: locally-set > prefers-color-scheme: dark > light
+      if (localTheme) {
+        darkMode(localTheme === 'dark');
+      } else {
+        darkMode(window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+
+      function darkMode(isDarkMode) {
+        if (isDarkMode) {
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('color-theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+          localStorage.setItem('color-theme', 'light');
+        }
+      }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Free Sandwich Icon by Andinur Studio (https://iconscout.com/contributors/andinur) -->
+    <link rel="icon" type="image/png" href="/assets/sandwich.png" />
     <title>Lunch Buddy</title>
   </head>
   <body>
