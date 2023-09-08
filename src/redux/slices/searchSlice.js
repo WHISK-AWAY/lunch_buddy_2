@@ -160,7 +160,7 @@ const searchSlice = createSlice({
       })
       .addCase(findRestaurants.rejected, (state, action) => {
         state.restaurants = [];
-        state.error = action.payload.response.data;
+        state.error = action.payload.response?.data;
         state.isLoading = false;
       })
 
