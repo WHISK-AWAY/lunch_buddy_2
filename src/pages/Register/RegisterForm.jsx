@@ -160,11 +160,11 @@ const RegisterForm = () => {
       >
         <div className="w-full h-full xxs:w-4/5 xxs:pb-20 sm:w-4/5 md:w-2/3 5xl:w-3/6 6xl:w-5/12  portrait:md:w-3/6 portrait:md:pb-36 portrait:lg:w-full portrait:lg:pb-56 ">
           <form className=" grid grid-cols-6 justify-center gap-x-2 gap-y-6 lg:px-8 pb-3">
-            <h1 className="text-center text-2xl mb-6 text-headers font-bold font-sans 6xl:text-[1.5vw] portrait:lg:text-[3vw] col-span-full">
+            <h1 className="text-center text-2xl mb-6 text-headers font-medium  6xl:text-[1.5vw] portrait:lg:text-[3vw] col-span-full">
               SIGN UP
             </h1>
             <div className="relative col-span-3 w-full">
-              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs  absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1 6xl:text-[.5vw]">
+              <label className="text-label portrait:lg:text-[1.5vw] font-regular block text-xs  absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1 6xl:text-[.5vw]">
                 First Name
               </label>
               <input
@@ -184,7 +184,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-3 w-full">
-              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1 6xl:text-[.5vw]">
+              <label className="text-label portrait:lg:text-[1.5vw] font-regular block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1 6xl:text-[.5vw]">
                 Last Name
               </label>
               <input
@@ -202,7 +202,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-full">
-              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] 6xl:text-[.5vw] bg-white px-1">
+              <label className="text-label portrait:lg:text-[1.5vw] font-regular block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] 6xl:text-[.5vw] bg-white px-1">
                 Email
               </label>
               <input
@@ -220,7 +220,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-full">
-              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 6xl:text-[.5vw] left-3 dark:bg-[#0a0908] bg-white px-1">
+              <label className="text-label portrait:lg:text-[1.5vw] font-regular block text-xs absolute -top-3 6xl:text-[.5vw] left-3 dark:bg-[#0a0908] bg-white px-1">
                 Password
               </label>
               <input
@@ -239,7 +239,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-full">
-              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 6xl:text-[.5vw] left-3 dark:bg-[#0a0908] bg-white px-1">
+              <label className="text-label portrait:lg:text-[1.5vw] font-regular block text-xs absolute -top-3 6xl:text-[.5vw] left-3 dark:bg-[#0a0908] bg-white px-1">
                 Confirm Password
               </label>
               <input
@@ -260,7 +260,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-4">
-              <label className="text-label portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 6xl:text-[.5vw] left-3 dark:bg-[#0a0908] bg-white px-1">
+              <label className="text-label portrait:lg:text-[1.5vw] font-regular block text-xs absolute -top-3 6xl:text-[.5vw] left-3 dark:bg-[#0a0908] bg-white px-1">
                 Address 1
               </label>
               <input
@@ -278,7 +278,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-2">
-              <label className="text-label 6xl:text-[.5vw] portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
+              <label className="text-label 6xl:text-[.5vw] portrait:lg:text-[1.5vw] font-regular block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 Address 2
               </label>
               <input
@@ -293,7 +293,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-4">
-              <label className="text-label 6xl:text-[.5vw] portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
+              <label className="text-label 6xl:text-[.5vw] portrait:lg:text-[1.5vw] font-regular block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 City
               </label>
               <input
@@ -308,7 +308,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-2">
-              <label className="text-label 6xl:text-[.5vw] portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
+              <label className="text-label 6xl:text-[.5vw] portrait:lg:text-[1.5vw] font-regular block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 State
               </label>
               <select
@@ -328,7 +328,7 @@ const RegisterForm = () => {
               </select>
             </div>
             <div className="relative col-span-2">
-              <label className="text-label 6xl:text-[.5vw] portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
+              <label className="text-label 6xl:text-[.5vw] portrait:lg:text-[1.5vw] font-regular block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 Zip
               </label>
               <input
@@ -349,7 +349,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-2">
-              <label className="text-label 6xl:text-[.5vw] portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
+              <label className="text-label 6xl:text-[.5vw] portrait:lg:text-[1.5vw] font-regular block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 Age
               </label>
               <input
@@ -365,7 +365,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="relative col-span-2">
-              <label className="text-label 6xl:text-[.5vw] portrait:lg:text-[1.5vw] font-semibold block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
+              <label className="text-label 6xl:text-[.5vw] portrait:lg:text-[1.5vw] font-regular block text-xs absolute -top-3 left-3 dark:bg-[#0a0908] bg-white px-1">
                 Gender
               </label>
               <select

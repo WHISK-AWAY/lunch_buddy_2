@@ -16,6 +16,7 @@ const NotificationBody = ({
   showNotificationBody,
   setShowNotificationBody,
   setTriggerClose,
+  isDarkMode, setIsDarkMode
 }) => {
   const notifications = useSelector(selectUnreadNotifications);
   const meetings = useSelector(selectMeetings);
@@ -37,7 +38,7 @@ const NotificationBody = ({
         className={`transform group-[.is-closed]:scale-0 scale-100 absolute transition-transform duration-[300ms] ease-[cubic-bezier(0.19, 1, 0.22, 1)] origin-top-right opacity-95 right-0 w-fit`}
       >
         <div className="flex flex-col">
-          <div className="z-40 bg-primary-gray/20 self-end h-fit w-[87vw] md:w-[70vw] lg:w-[35rem] rounded-bl-sm px-3 pl-6 py-3">
+          <div className="z-40 bg-primary-gray/20 self-end h-fit 3xl:w-[30vw] md:w-[40vw] 5xl:w-[20vw] xxs:w-[80vw] portrait:md:w-[60vw]  rounded-bl-sm px-3 pl-6 py-3">
             <ul>
               {notifications?.map((notification) => {
                 return (
@@ -81,6 +82,8 @@ const NotificationBody = ({
                     )}
                     {notification.notificationType === 'currentMeeting' && (
                       <CurrentMeeting
+                      isDarkMode={isDarkMode}
+                      setIsDarkMode={setIsDarkMode}
                         notification={notification}
                         meetings={meetings}
                         setShowNotificationBody={setShowNotificationBody}

@@ -10,6 +10,8 @@ import {
   getMeeting,
 } from '../../redux/slices';
 import FormButton from '../../components/FormButton';
+import NotificationButton from '../../components/NotificationButton';
+
 
 export default function RatingRequest({ notification, setTriggerClose }) {
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ export default function RatingRequest({ notification, setTriggerClose }) {
   return (
     <div
       id="rating-request-card"
-      className="flex flex-col w-full h-34 bg-white rounded-sm drop-shadow-sm my-3 items-center justify-between py-5"
+      className="flex flex-col w-full h-34 bg-white dark:bg-[#0a0908] rounded-sm drop-shadow-sm my-3 items-center dark:text-white justify-between py-5 text-xs sm:text-sm portrait:lg:text-lg md:text-xs 2xl:text-sm"
     >
       <div id="notification-details">
         <p className="px-4 text-center">
@@ -46,9 +48,11 @@ export default function RatingRequest({ notification, setTriggerClose }) {
       </div>
       <div
         id="btn-container"
-        className="flex flex-row gap-2 w-fit lg:w-2/5 h-fit self-center text-xs space-5 justify-center items-center pt-4"
+        className="flex flex-row gap-2 w-fit lg:w-2/5 h-fit self-center  space-5 justify-center items-center pt-4"
       >
-        <FormButton handleSubmit={handleRating}>LEAVE FEEDBACK</FormButton>
+        <NotificationButton handleSubmit={handleRating}>
+          <span className="xxs:text-xs md:text-[1vw] 4xl:text-xs">LEAVE FEEDBACK</span>
+        </NotificationButton>
       </div>
     </div>
   );
