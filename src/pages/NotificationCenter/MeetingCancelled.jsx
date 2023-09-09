@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import {
@@ -10,15 +10,16 @@ import xIconWhite from '../../assets/icons/x-icon-white.svg';
 import NotificationButton from '../../components/NotificationButton';
 import { selectDarkMode } from '../../redux/slices/darkModeSlice';
 
-export default function MeetingCancelled({ notification}) {
+export default function MeetingCancelled({ notification, closeMenu }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
-  const darkMode = useSelector(selectDarkMode)
+  const darkMode = useSelector(selectDarkMode);
 
   function acknowledgeAndFindBuddy() {
     acknowledge();
+    closeMenu();
     navigate('/match');
   }
 
@@ -38,7 +39,6 @@ export default function MeetingCancelled({ notification}) {
     );
   }
 
-
   useEffect(() => {
     if (darkMode) {
       setXMenuIcon(xIconWhite);
@@ -46,7 +46,6 @@ export default function MeetingCancelled({ notification}) {
       setXMenuIcon(xIcon);
     }
   }, [darkMode]);
-
 
   return (
     <div
@@ -63,7 +62,11 @@ export default function MeetingCancelled({ notification}) {
         </p>
         <p className="pb-2">
           No worries, right? Let's go find you{' '}
-          <Link to="/match" className="text-headers">
+          <Link
+            to="/match"
+            className="text-headers"
+            onClick={() => closeMenu()}
+          >
             another buddy
           </Link>
         </p>

@@ -16,18 +16,14 @@ import { selectDarkMode } from '../../redux/slices/darkModeSlice';
 // delay between cancel button & feedback note popup (ms)
 const TOAST_POPUP_DELAY = 1000;
 
-export default function CurrentMeeting({
-  notification,
-  meetings,
-  setTriggerClose,
-}) {
+export default function CurrentMeeting({ notification, meetings, closeMenu }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [triggerCancel, setTriggerCancel] = useState(false);
   const [minimize, setMinimize] = useState(false);
-  const darkMode = useSelector(selectDarkMode)
+  const darkMode = useSelector(selectDarkMode);
 
-  const [xMenuIcon, setXMenuIcon] = useState(xIconWhite)
+  const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
 
   const yelpBusinessId = notification.meeting.yelpBusinessId;
   const yelpBusinessAddress =
@@ -35,7 +31,7 @@ export default function CurrentMeeting({
 
   useEffect(() => {
     if (triggerCancel) {
-      setTriggerClose(true);
+      // setTriggerClose(true);
       acknowledge();
       dispatch(
         cancelMeeting({
@@ -51,18 +47,18 @@ export default function CurrentMeeting({
   }, [triggerCancel]);
 
   function goToMessages() {
-    setTriggerClose(true);
+    // setTriggerClose(true);
     navigate(`/meeting/${notification.meetingId}/chat`);
+    closeMenu();
   }
 
   useEffect(() => {
-    if(darkMode) {
-      setXMenuIcon(xIconWhite)
+    if (darkMode) {
+      setXMenuIcon(xIconWhite);
     } else {
-      setXMenuIcon(xIcon)
+      setXMenuIcon(xIcon);
     }
-  }, [darkMode])
-
+  }, [darkMode]);
 
   function acknowledge() {
     dispatch(
@@ -118,13 +114,19 @@ export default function CurrentMeeting({
                 MESSAGE {notification.fromUser.firstName.toUpperCase()}
               </span>
             </NotificationButton>
-            <NotificationButton handleSubmit={() => setTriggerCancel(true)}>
-              <span className='md:text-[1vw] 4xl:text-xs'> CANCEL MEETING</span>
+            <NotificationButton
+              handleSubmit={() => {
+                setTriggerCancel(true);
+              }}
+            >
+              <span className="md:text-[1vw] 4xl:text-xs"> CANCEL MEETING</span>
             </NotificationButton>
             <div
               id="x-icon"
               className="absolute w-5  right-3 top-3 cursor-pointer"
-              onClick={() => setMinimize(true)}
+              onClick={() => {
+                setMinimize(true);
+              }}
             >
               <img src={xMenuIcon} />
             </div>

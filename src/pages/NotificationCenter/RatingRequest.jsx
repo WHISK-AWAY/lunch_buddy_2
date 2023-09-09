@@ -12,8 +12,7 @@ import {
 import FormButton from '../../components/FormButton';
 import NotificationButton from '../../components/NotificationButton';
 
-
-export default function RatingRequest({ notification, setTriggerClose }) {
+export default function RatingRequest({ notification, closeMenu }) {
   const dispatch = useDispatch();
   const meetings = useSelector(selectMeetings);
   const navigate = useNavigate();
@@ -30,8 +29,9 @@ export default function RatingRequest({ notification, setTriggerClose }) {
   }, [notification]);
 
   const handleRating = async (evt) => {
+    closeMenu();
     evt.preventDefault();
-    setTriggerClose(true);
+    // setTriggerClose(true);
     navigate(`/meeting/${notification.meetingId}/feedback`);
   };
 
@@ -51,7 +51,9 @@ export default function RatingRequest({ notification, setTriggerClose }) {
         className="flex flex-row gap-2 w-fit lg:w-2/5 h-fit self-center  space-5 justify-center items-center pt-4"
       >
         <NotificationButton handleSubmit={handleRating}>
-          <span className="xxs:text-xs md:text-[1vw] 4xl:text-xs">LEAVE FEEDBACK</span>
+          <span className="xxs:text-xs md:text-[1vw] 4xl:text-xs">
+            LEAVE FEEDBACK
+          </span>
         </NotificationButton>
       </div>
     </div>

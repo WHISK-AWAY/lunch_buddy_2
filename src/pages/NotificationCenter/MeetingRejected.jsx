@@ -10,17 +10,16 @@ import xIcon from '../../assets/icons/x-icon.svg';
 import xIconWhite from '../../assets/icons/x-icon-white.svg';
 import { selectDarkMode } from '../../redux/slices/darkModeSlice';
 
-export default function MeetingRejected({
-  notification,
-}) {
+export default function MeetingRejected({ notification, closeMenu }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
-  const darkMode = useSelector(selectDarkMode)
+  const darkMode = useSelector(selectDarkMode);
 
   function acknowledgeAndFindBuddy() {
     acknowledge();
+    closeMenu();
     navigate('/match');
   }
 
@@ -63,7 +62,11 @@ export default function MeetingRejected({
         </p>
         <p className="pb-2">
           Let's go find you{' '}
-          <Link to="/match" className="text-headers">
+          <Link
+            to="/match"
+            className="text-headers"
+            onClick={() => closeMenu()}
+          >
             another buddy
           </Link>
         </p>

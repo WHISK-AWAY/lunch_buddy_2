@@ -22,7 +22,6 @@ import {
 } from './pages';
 
 function App() {
-
   //LENIS smooth scroll
   // const lenis = new Lenis({
   //   duration: 2.2,
@@ -42,7 +41,7 @@ function App() {
   // requestAnimationFrame(raf);
 
   return (
-    <div className="font-jost ">
+    <div className="font-jost bg-white dark:bg-dark">
       <NavBar />
       <Routes>
         <Route path="/" element={<Homepage />} />
