@@ -19,15 +19,15 @@ const TOAST_POPUP_DELAY = 1000;
 export default function CurrentMeeting({
   notification,
   meetings,
-  setTriggerClose,
-  isDarkMode, setIsDarkMode
+  isDarkMode,
+  setIsDarkMode,
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [triggerCancel, setTriggerCancel] = useState(false);
   const [minimize, setMinimize] = useState(false);
 
-  const [xMenuIcon, setXMenuIcon] = useState(xIconWhite)
+  const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
 
   const yelpBusinessId = notification.meeting.yelpBusinessId;
   const yelpBusinessAddress =
@@ -35,7 +35,7 @@ export default function CurrentMeeting({
 
   useEffect(() => {
     if (triggerCancel) {
-      setTriggerClose(true);
+      // setTriggerClose(true);
       acknowledge();
       dispatch(
         cancelMeeting({
@@ -51,17 +51,17 @@ export default function CurrentMeeting({
   }, [triggerCancel]);
 
   function goToMessages() {
-    setTriggerClose(true);
+    // setTriggerClose(true);
     navigate(`/meeting/${notification.meetingId}/chat`);
   }
 
   useEffect(() => {
-    if(isDarkMode) {
-      setXMenuIcon(xIconWhite)
+    if (isDarkMode) {
+      setXMenuIcon(xIconWhite);
     } else {
-      setXMenuIcon(xIcon)
+      setXMenuIcon(xIcon);
     }
-  }, [isDarkMode])
+  }, [isDarkMode]);
 
   // function cancelMeeting() {}
 
@@ -120,7 +120,7 @@ export default function CurrentMeeting({
               </span>
             </NotificationButton>
             <NotificationButton handleSubmit={() => setTriggerCancel(true)}>
-              <span className='md:text-[1vw] 4xl:text-xs'> CANCEL MEETING</span>
+              <span className="md:text-[1vw] 4xl:text-xs"> CANCEL MEETING</span>
             </NotificationButton>
             <div
               id="x-icon"

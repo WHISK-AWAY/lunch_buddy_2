@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import {
@@ -9,11 +9,15 @@ import NotificationButton from '../../components/NotificationButton';
 import xIcon from '../../assets/icons/x-icon.svg';
 import xIconWhite from '../../assets/icons/x-icon-white.svg';
 
-export default function MeetingRejected({ notification, isDarkMode, setIsDarkMode }) {
+export default function MeetingRejected({
+  notification,
+  isDarkMode,
+  setIsDarkMode,
+}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-    const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
+  const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
 
   function acknowledgeAndFindBuddy() {
     acknowledge();
@@ -35,8 +39,6 @@ export default function MeetingRejected({ notification, isDarkMode, setIsDarkMod
       })
     );
   }
-
-
 
   useEffect(() => {
     if (isDarkMode) {
