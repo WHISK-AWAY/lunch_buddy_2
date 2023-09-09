@@ -9,20 +9,30 @@ import {
   darkModeOff,
   darkModeOn,
 } from '../../redux/slices/darkModeSlice';
+
 const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
-  const [tagExpand, setTagExpand] = useState(true);
   const dispatch = useDispatch();
+
   const darkModeSelector = useSelector(selectDarkMode);
-  const [chevronRightIcon, setChevronRigthIcon] = useState(chevronRightWhite);
+  const [chevronRightIcon, setChevronRightIcon] = useState(chevronRightWhite);
+  const [tagExpand, setTagExpand] = useState(true);
 
   function handleTagClick(idx, setter) {
     const tempTags = [...tags];
+
     let tagToChange = tempTags[idx];
     let updatedCount = minTags[category].numClicked;
+
     tagToChange.clicked = !tagToChange.clicked;
-    if (tagToChange.clicked) updatedCount++;
-    else updatedCount--;
+
+    if (tagToChange.clicked) {
+      updatedCount++;
+    } else {
+      updatedCount--;
+    }
+
     const minTagsCopy = { ...minTags[category] };
+
     setMinTags((prev) => ({
       ...prev,
       [category]: {
@@ -42,10 +52,10 @@ const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
   useEffect(() => {
     if (!darkModeSelector) {
       dispatch(darkModeOff());
-      setChevronRigthIcon(chevronRight);
+      setChevronRightIcon(chevronRight);
     } else {
       dispatch(darkModeOn());
-      setChevronRigthIcon(chevronRightWhite);
+      setChevronRightIcon(chevronRightWhite);
     }
   }, [darkModeSelector]);
 
@@ -54,9 +64,13 @@ const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
       <div className="text-headers mr-auto">
         <h2 className="ml-2">
           {category.toUpperCase()}{' '}
-          {minTags[category]?.show && (
-            <span className="text-gray-400 ml-2 text-sm">
-              select at least {minTags[category]?.minimum}
+          {minTags[category]?.minimum > 0 && (
+            <span
+              className={`ml-2 text-sm ${
+                minTags[category].show ? 'text-red-500' : 'text-gray-400'
+              }`}
+            >
+              (choose at least {minTags[category]?.minimum})
             </span>
           )}
         </h2>
