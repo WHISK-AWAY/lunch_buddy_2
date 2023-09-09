@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   updateNotificationStatus,
@@ -8,12 +8,14 @@ import {
 import NotificationButton from '../../components/NotificationButton';
 import xIcon from '../../assets/icons/x-icon.svg';
 import xIconWhite from '../../assets/icons/x-icon-white.svg';
+import { selectDarkMode } from '../../redux/slices/darkModeSlice';
 
-export default function NewMessageReceived({ notification, isDarkMode, setIsDarkMode }) {
+export default function NewMessageReceived({ notification }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
+  const darkMode = useSelector(selectDarkMode)
 
   function acknowledgeAndGoToMessages() {
     acknowledge();
@@ -36,14 +38,14 @@ export default function NewMessageReceived({ notification, isDarkMode, setIsDark
     );
   }
 
-
   useEffect(() => {
-    if (isDarkMode) {
+    if (darkMode) {
       setXMenuIcon(xIconWhite);
     } else {
       setXMenuIcon(xIcon);
     }
-  }, [isDarkMode]);
+  }, [darkMode]);
+
 
   return (
     <div

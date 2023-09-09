@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import chevronRight from '../../assets/icons/chevron-right-gray.svg';
 import chevronRightWhite from '../../assets/icons/chevron-right-white.svg';
 import plus from '../../assets/icons/plus-white.svg';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectDarkMode, darkModeOn, darkModeOff } from '../../redux/slices/darkModeSlice';
+import { useSelector } from 'react-redux';
+import { selectDarkMode } from '../../redux/slices/darkModeSlice';
 
 const MAX_BUDDY_TAGS_SHOWING = 3;
 
 export default function BuddyCard(props) {
   const [tagExpand, setTagExpand] = useState(false);
-  const dispatch = useDispatch();
   const darkModeSelector = useSelector(selectDarkMode);
 
   const { buddy, myTagList, selectBuddy } = props;
@@ -18,10 +17,8 @@ export default function BuddyCard(props) {
 
   useEffect(() => {
     if (!darkModeSelector) {
-      dispatch(darkModeOff());
       setChevronIcon(chevronRight);
     } else {
-      dispatch(darkModeOn());
       setChevronIcon(chevronRightWhite);
     }
   }, [darkModeSelector]);

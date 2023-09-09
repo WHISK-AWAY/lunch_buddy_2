@@ -9,7 +9,7 @@ import {
 } from '../redux/slices/meetingSlice';
 import paperPlane from '../assets/icons/paper-plane.svg';
 import paperPlaneWhite from '../assets/icons/paper-plane-white.svg';
-import { selectDarkMode, darkModeOff, darkModeOn } from '../redux/slices/darkModeSlice';
+import { selectDarkMode } from '../redux/slices/darkModeSlice';
 
 const VITE_SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 
@@ -23,8 +23,8 @@ export default function ChatBox() {
   const [newMessage, setNewMessage] = useState('');
   const meeting = useSelector((state) => state.meetings.meeting);
   const auth = useSelector((state) => state.auth.user);
-    const darkModeSelector = useSelector(selectDarkMode)
-  const [paperPlaneIcon, setPaperPlaneIcon] = useState(paperPlaneWhite)
+  const darkModeSelector = useSelector(selectDarkMode);
+  const [paperPlaneIcon, setPaperPlaneIcon] = useState(paperPlaneWhite);
 
   const chatContainer = useRef(null);
   const socket = useRef(null);
@@ -165,13 +165,10 @@ export default function ChatBox() {
     );
   }
 
-
   useEffect(() => {
     if (!darkModeSelector) {
-      dispatch(darkModeOff());
       setPaperPlaneIcon(paperPlane);
     } else {
-      dispatch(darkModeOn());
       setPaperPlaneIcon(paperPlaneWhite);
     }
   }, [darkModeSelector]);
@@ -187,20 +184,20 @@ export default function ChatBox() {
         id="chat-container"
         className="flex flex-col w-full lg:basis-1/2 portrait:lg:basis-full overflow-hidden justify-between h-full items-center  lg:ml-0"
       >
-        <div id="header" className="basis-1/12 shrink-0 grow-0 flex justify-center items-center bg-zinc-200 dark:bg-neutral-900 w-full">
+        <div
+          id="header"
+          className="basis-1/12 shrink-0 grow-0 flex justify-center items-center bg-zinc-200 dark:bg-neutral-900 w-full"
+        >
           <h2 className="text-center  text-base portrait:lg:text-lg">
             {buddyName.toUpperCase()}
           </h2>
         </div>
 
-
         <div
           id="msg-feed"
           className="basis-4/6 xl:w-4/5  pl-4 lg:bg-opacity-20 pt-5 lg:rounded-3xl grow overflow-y-auto w-full lg:w-11/12 lg:pl-4 portrait:md:px-14"
         >
-          <div
-            className="h-full grow overflow-y-auto scrollbar-hide "
-          >
+          <div className="h-full grow overflow-y-auto scrollbar-hide ">
             {!meeting?.messages?.length ? (
               <div className="text-center text-sm  pt-4">
                 don't be shy! be the first to talk to your buddy

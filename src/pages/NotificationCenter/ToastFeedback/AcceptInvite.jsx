@@ -1,35 +1,25 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import FormButton from '../../../components/FormButton';
 import xIcon from '../../../assets/icons/x-icon.svg';
 import xIconWhite from '../../../assets/icons/x-icon-white.svg';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import NotificationButton from '../../../components/NotificationButton';
-import {
-  selectDarkMode,
-  darkModeOff,
-  darkModeOn,
-} from '../../../redux/slices/darkModeSlice';
+import { selectDarkMode } from '../../../redux/slices/darkModeSlice';
 
 export default function AcceptInvite({ notification, meetings, t }) {
   const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const darkModeSelector = useSelector(selectDarkMode);
-    const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
+  const darkModeSelector = useSelector(selectDarkMode);
+  const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
   const yelpBusinessId = notification.meeting.yelpBusinessId;
 
-
-    useEffect(() => {
-      if (!darkModeSelector) {
-        dispatch(darkModeOff());
-        setXMenuIcon(xIcon);
-      } else {
-        dispatch(darkModeOn());
-        setXMenuIcon(xIconWhite);
-      }
-    }, [darkModeSelector]);
-
+  useEffect(() => {
+    if (!darkModeSelector) {
+      setXMenuIcon(xIcon);
+    } else {
+      setXMenuIcon(xIconWhite);
+    }
+  }, [darkModeSelector]);
 
   return (
     <div

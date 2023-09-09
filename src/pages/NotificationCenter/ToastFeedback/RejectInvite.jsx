@@ -1,43 +1,31 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import FormButton from '../../../components/FormButton';
 import NotificationButton from '../../../components/NotificationButton';
 import xIcon from '../../../assets/icons/x-icon.svg';
 import xIconWhite from '../../../assets/icons/x-icon-white.svg';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectDarkMode, darkModeOff, darkModeOn } from '../../../redux/slices/darkModeSlice';
-
+import { useSelector } from 'react-redux';
+import {
+  selectDarkMode,
+} from '../../../redux/slices/darkModeSlice';
 
 export default function RejectInvite({ notification, t }) {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const darkModeSelector  = useSelector(selectDarkMode);
-  const [xMenuIcon, setXMenuIcon] = useState(xIconWhite)
-
-
+  const darkModeSelector = useSelector(selectDarkMode);
+  const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
 
   function findBuddy() {
     toast.remove(t.id);
     navigate('/match');
   }
 
-
-
-
   useEffect(() => {
     if (!darkModeSelector) {
-
-      dispatch(darkModeOff());
-      setXMenuIcon(xIcon)
-    } 
-    else {
-
-      dispatch(darkModeOn());
-      setXMenuIcon(xIconWhite)
+      setXMenuIcon(xIcon);
+    } else {
+      setXMenuIcon(xIconWhite);
     }
   }, [darkModeSelector]);
-
 
   return (
     <div
