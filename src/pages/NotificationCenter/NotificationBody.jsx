@@ -25,6 +25,10 @@ const NotificationBody = ({
   const meetings = useSelector(selectMeetings);
 
   useEffect(() => {
+    if (menuMode === 'notifications' && notifications.length === 0) closeMenu();
+  }, [notifications]);
+
+  useEffect(() => {
     if (menuMode === 'notifications') {
       previousModeRef.current = 'notifications';
       const ctx = gsap.context(() => {
@@ -45,10 +49,12 @@ const NotificationBody = ({
             '<'
           );
       });
-
       return () => ctx.revert();
     } else {
-      if (previousModeRef.current === 'notifications') {
+      if (
+        previousModeRef.current === 'notifications' &&
+        notifications.length > 0
+      ) {
         const ctx = gsap.context(() => {
           const tl = gsap.timeline();
 
