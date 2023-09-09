@@ -190,6 +190,7 @@ const SignInForm = () => {
         // data-aos="fade-left"
         // data-aos-delay="200"
         // data-aos-duration="2800"
+        alt="large company sitting at the dining table"
       ></div>
     </div>
   );
