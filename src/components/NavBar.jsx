@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
@@ -31,9 +31,52 @@ const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [expandMenu, setExpandMenu] = useState(false);
-  const [showNotificationBody, setShowNotificationBody] = useState(false);
-  const [triggerClose, setTriggerClose] = useState(false);
+  const root = document.querySelector('#root');
+
+  /**
+   * NEW MENU STUFF HERE
+   */
+
+  const navRef = useRef(null); // used to dynamically measure height of navbar
+  const [menuMode, setMenuMode] = useState(null); // 'dropdown' | 'notifications' | null
+
+  function closeMenu() {
+    console.log('closeMenu()');
+    setMenuMode(null);
+  }
+
+  function clickOff(e) {
+    if (
+      e.target.matches('#notification-container *') ||
+      e.target.matches('#dropdown-container *')
+    ) {
+      // Ignore clicks on specific targets
+      return;
+    }
+    closeMenu();
+  }
+
+  useEffect(() => {
+    // set up click-off event listener
+    console.log('menuMode:', menuMode);
+    if (menuMode) {
+      root.addEventListener('click', clickOff);
+    }
+
+    // prevent scrolling while menu is active
+    document.body.style.overflow = menuMode ? 'hidden' : 'auto';
+
+    // clean up
+    return () => {
+      root.removeEventListener('click', clickOff);
+      document.body.style.overflow = 'auto';
+    };
+  }, [menuMode]);
+
+  /**
+   * END NEW MENU STUFF
+   */
+
   const [locationTriggered, setLocationTriggered] = useState(false);
 
   const authUser = useSelector(selectAuthUser);
@@ -43,10 +86,6 @@ const NavBar = () => {
 
   // THIS VARIABLE WILL HIDE OR SHOW THE DOT INDICATING NOTIFICATIONS
   const hasNotifications = notifications?.length > 0;
-
-  const notifController = new AbortController();
-  const dropdownController = new AbortController();
-  const root = document.querySelector('#root');
 
   useEffect(() => {
     // check for token upon first load
@@ -71,51 +110,6 @@ const NavBar = () => {
   }, [locationTriggered]);
 
   useEffect(() => {
-    // if close is triggered while notifs are showing, trigger notif center collapse
-    if (showNotificationBody && triggerClose) {
-      setShowNotificationBody(false);
-    }
-
-    if (triggerClose) {
-      setTriggerClose(false);
-    }
-  }, [showNotificationBody, triggerClose]);
-
-  useEffect(() => {
-    // manage dropdown menu status
-    if (expandMenu) {
-      root.addEventListener('click', closeDropdown, {
-        signal: dropdownController.signal,
-      });
-    }
-
-    return () => {
-      dropdownController.abort();
-    };
-  }, [expandMenu]);
-
-  useEffect(() => {
-    // manage notification menu status
-    if (showNotificationBody) {
-      root.addEventListener('click', closeNotificationBody, {
-        signal: notifController.signal,
-      });
-    }
-
-    return () => notifController.abort();
-  }, [showNotificationBody]);
-
-  useEffect(() => {
-    // Prevent scrolling while nav menu or notification center are open
-    document.body.style.overflow =
-      showNotificationBody || expandMenu ? 'hidden' : 'auto';
-
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [showNotificationBody, expandMenu]);
-
-  useEffect(() => {
     // periodically check for new notifications
     let timer;
 
@@ -133,15 +127,6 @@ const NavBar = () => {
     };
   }, [authUser]);
 
-  function handleNotificationClick(event) {
-    event.preventDefault();
-    if (showNotificationBody) setTriggerClose(true);
-    else {
-      setShowNotificationBody(true);
-      setTriggerClose(false);
-    }
-  }
-
   //*! user status toggler - currently unused
   // function handleToggleStatus() {
   //   let newStatus;
@@ -153,21 +138,6 @@ const NavBar = () => {
   //   }
   //   dispatch(updateUser({ status: newStatus }));
   // }
-
-  function closeNotificationBody(e) {
-    if (
-      !e.target.matches('#notification-container *') &&
-      !e.target.matches('#bell-button>*')
-    ) {
-      setTriggerClose(true);
-      notifController.abort();
-    }
-  }
-
-  function closeDropdown() {
-    setExpandMenu(false);
-    dropdownController.abort();
-  }
 
   const [menuIcon, setMenuIcon] = useState(navbarIconWhite);
   const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
@@ -188,19 +158,22 @@ const NavBar = () => {
   return (
     <>
       <header
+        ref={navRef}
         className="sticky top-0 z-40  text-primary-gray 
       h-14 xs:h-[71px] sm:h-[80px] portrait:md:h-[85px] portrait:lg:h-[94px] md:h-[60px] xl:h-[70px] 5xl:h-[80px]
        w-[100vw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20"
       >
-        <DarkModeToggler
-        />
+        <DarkModeToggler />
         <nav className="flex justify-between w-full h-full">
           <button className="flex justify-center  items-center">
             <img
               className="w-7 xl:w-10 lg:w-8 5xl:w-10 6xl:w-14 portrait:xs:w-9 portrait:md:w-10"
-              src={expandMenu ? xMenuIcon : menuIcon}
+              src={menuMode === 'dropdown' ? xMenuIcon : menuIcon}
               alt="Three lined menu icon button"
-              onClick={() => setExpandMenu((prev) => !prev)}
+              // onClick={() => setExpandMenu((prev) => !prev)}
+              onClick={() =>
+                setMenuMode((prev) => (prev === 'dropdown' ? null : 'dropdown'))
+              }
             />
           </button>
           <ul className="flex items-center justify-center align-center h-full gap-8 text-center">
@@ -245,11 +218,16 @@ const NavBar = () => {
                         ? "after:content-[''] after:absolute after:top-1 after:right-1 after:text-red-400 after:bg-headers after:rounded-full after:w-2 after:h-2"
                         : ''
                     }
-                    onClick={handleNotificationClick}
+                    // onClick={handleNotificationClick}
+                    onClick={() =>
+                      setMenuMode((prev) =>
+                        prev === 'notifications' ? null : 'notifications'
+                      )
+                    }
                   >
                     <img
                       className="w-6 lg:w-6 5xl:w-7 6xl:w-8 h-full"
-                      src={showNotificationBody ? bellMenuIcon : bellMenuIcon}
+                      src={bellMenuIcon}
                       alt="Notification bell icon"
                     />
                   </button>
@@ -275,14 +253,18 @@ const NavBar = () => {
 
         <div className="notification-body">
           <NotificationBody
-            showNotificationBody={showNotificationBody}
-            setShowNotificationBody={setShowNotificationBody}
-            setTriggerClose={setTriggerClose}
+            menuMode={menuMode}
+            closeMenu={closeMenu}
+            navHeight={navRef.current?.clientHeight}
           />
         </div>
       </header>
       {/* DROPDOWN MENU, HIDDEN UNTIL CLICKED */}
-      <DropdownMenu expandMenu={expandMenu} setExpandMenu={setExpandMenu} />
+      <DropdownMenu
+        menuMode={menuMode}
+        closeMenu={closeMenu}
+        navHeight={navRef.current?.clientHeight}
+      />
     </>
   );
 };

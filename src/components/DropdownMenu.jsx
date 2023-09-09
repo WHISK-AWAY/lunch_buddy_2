@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   clearNotificationState,
@@ -13,11 +13,17 @@ import { selectUnreadActiveMeeting } from '../redux/slices/notificationSlice';
 import getLocation from '../utilities/geo';
 import axios from 'axios';
 
+import gsap from 'gsap';
+
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
-const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
+const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const wrapperRef = useRef(null);
+  const tlRef = useRef(null);
+
   const authUser = useSelector(selectAuthUser);
   const notifications = useSelector(selectUnreadNotifications);
   const userState = useSelector((state) => state.user.user);
@@ -25,14 +31,38 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
     (notification) => notification.notificationType === 'currentMeeting'
   )[0];
 
+  useEffect(() => {
+    if (menuMode === 'dropdown') {
+      const ctx = gsap.context(() => {
+        const tl = gsap.timeline();
+        tlRef.current = tl;
+
+        tl.to(wrapperRef.current, {
+          y: navHeight,
+          duration: 0.5,
+        });
+      });
+
+      return () => {
+        if (tlRef.current) {
+          tlRef.current.reverse().then(() => {
+            tlRef.current = null;
+            ctx.revert();
+          });
+        } else ctx.revert();
+      };
+    }
+  }, [menuMode, wrapperRef.current]);
+
   const activeMeeting = useSelector(selectUnreadActiveMeeting);
 
   function handleClick() {
-    setExpandMenu(false);
+    // setExpandMenu(false);
+    closeMenu();
   }
 
   function handleLogout() {
-    setExpandMenu(false);
+    // setExpandMenu(false);
     dispatch(clearNotificationState());
     dispatch(resetUserState());
     dispatch(logOut());
@@ -40,7 +70,8 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
   }
 
   async function handleDemoMode() {
-    setExpandMenu(false);
+    // TODO: move this to its own spot (or into geo module)
+    // setExpandMenu(false);
     // getLocation(dispatch);
 
     navigator.geolocation.getCurrentPosition(
@@ -113,61 +144,56 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
   //   }
   // }, []);
   return (
-    <div className={expandMenu ? '' : `group hover`}>
-      <div
-        className={`transform group-[.hover]:scale-y-0 scale-y-100  overflow:hidden dark:text-white dark:bg-[#0a0908] absolute transition-transform duration-[600ms] ease-in-out origin-top-left -bottom-screen bg-white w-screen opacity-95 transition-opacity-0 z-50 `}
-      >
-        <ul className="flex flex-col items-center ">
-          {!authUser.firstName ? (
-            <>
-              {/* NAV LINKS WHEN NOT SIGNED IN */}
-              <DropDownItem handleClick={handleClick} linkTo="/register">
-                SIGN UP
+    <div
+      ref={wrapperRef}
+      id="dropdown-container"
+      className="overflow:hidden dark:text-white dark:bg-[#0a0908] -translate-y-full absolute top-0 bg-white w-screen opacity-95 z-50"
+    >
+      <ul className="flex flex-col items-center ">
+        {!authUser.firstName ? (
+          <>
+            {/* NAV LINKS WHEN NOT SIGNED IN */}
+            <DropDownItem handleClick={handleClick} linkTo="/register">
+              SIGN UP
+            </DropDownItem>
+            <DropDownItem handleClick={handleClick} linkTo="/login">
+              LOG IN
+            </DropDownItem>
+            <DropDownItem handleClick={handleClick} linkTo="/">
+              HOME
+            </DropDownItem>
+          </>
+        ) : (
+          <>
+            {/* NAV LINKS WHEN SIGNED IN */}
+            <DropDownItem handleClick={handleClick} linkTo="/">
+              HOME
+            </DropDownItem>
+            <DropDownItem handleClick={handleClick} linkTo="/account">
+              ACCOUNT
+            </DropDownItem>
+            {!currentMeetingNotification?.id ? (
+              <DropDownItem handleClick={handleClick} linkTo="/match">
+                NEW MEETING
               </DropDownItem>
-              <DropDownItem handleClick={handleClick} linkTo="/login">
-                LOG IN
+            ) : (
+              <DropDownItem handleClick={handleClick} linkTo="/meeting/current">
+                CURRENT MEETING
               </DropDownItem>
-              <DropDownItem handleClick={handleClick} linkTo="/">
-                HOME
+            )}
+            {currentMeetingNotification?.id && (
+              <DropDownItem
+                handleClick={handleClick}
+                linkTo={`/meeting/${currentMeetingNotification.meetingId}/chat`}
+              >
+                MESSAGES
               </DropDownItem>
-            </>
-          ) : (
-            <>
-              {/* NAV LINKS WHEN SIGNED IN */}
-              <DropDownItem handleClick={handleClick} linkTo="/">
-                HOME
-              </DropDownItem>
-              <DropDownItem handleClick={handleClick} linkTo="/account">
-                ACCOUNT
-              </DropDownItem>
-              {!currentMeetingNotification?.id ? (
-                <DropDownItem handleClick={handleClick} linkTo="/match">
-                  NEW MEETING
-                </DropDownItem>
-              ) : (
-                <DropDownItem
-                  handleClick={handleClick}
-                  linkTo="/meeting/current"
-                >
-                  CURRENT MEETING
-                </DropDownItem>
-              )}
-              {currentMeetingNotification?.id && (
-                <DropDownItem
-                  handleClick={handleClick}
-                  linkTo={`/meeting/${currentMeetingNotification.meetingId}/chat`}
-                >
-                  MESSAGES
-                </DropDownItem>
-              )}
-              <DropDownItem handleClick={handleDemoMode}>
-                DEMO MODE
-              </DropDownItem>
-              <DropDownItem handleClick={handleLogout}>LOG OUT</DropDownItem>
-            </>
-          )}
-        </ul>
-      </div>
+            )}
+            <DropDownItem handleClick={handleDemoMode}>DEMO MODE</DropDownItem>
+            <DropDownItem handleClick={handleLogout}>LOG OUT</DropDownItem>
+          </>
+        )}
+      </ul>
     </div>
   );
 };
