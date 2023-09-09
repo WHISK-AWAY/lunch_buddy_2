@@ -63,9 +63,9 @@ export default function BuddyList(props) {
 
   return (
     <div className="buddies-list-page  bg-white dark:bg-[#0a0908] dark:text-white flex flex-col justify-center items-center lg:flex-row lg:justify-between text-primary-gray   h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]   ">
-      <div className="buddies-image-container h-full basis-1/2 hidden lg:block bg-cover bg-[url('/assets/bgImg/buddyListView-q30.webp')] overflow-hidden"></div>
-      <div className="buddies-list-wrapper flex flex-col items-center h-full lg:basis-1/2 gap-3 portrait:md:gap-1  overflow-auto">
-        <h1 className="text-headers   md:text-2xl xxs:pb-5 md:pb-10 md:pt-10 pt-20 xxs:pt-6 xxs:text-xl font-semibold portrait:md:pb-4 4xl:text-3xl portrait:md:text-2xl">
+      <div className="buddies-image-container h-full basis-full hidden lg:block bg-cover bg-[url('/assets/bgImg/signInView-q30.webp')] xl:bg-[url('/assets/bgImg/test10-lq_30-lq_10.webp')] overflow-hidden"></div>
+      <div className="buddies-list-wrapper flex flex-col items-center h-full lg:basis-7/12 gap-3 portrait:md:gap-1  overflow-auto">
+        <h1 className="text-headers   md:text-lg xxs:pb-5 md:pb-10 md:pt-10 pt-20 xxs:pt-6 xxs:text-xl font-semibold portrait:md:pb-4 4xl:text-3xl portrait:md:text-2xl">
           AVAILABLE BUDDIES
         </h1>
         {buddiesList.searchResults.length > 0 ? (

@@ -24,8 +24,8 @@ export default function BuddyCard(props) {
   }, [darkModeSelector]);
 
   return (
-    <div className="buddy_card font-jost relative xxs:w-[90%] w-4/5 md:w-[90%] lg:w-4/5 3xl:w-9/12 flex flex-col md:flex-row lg:flex-col xl:flex-row justify-between shrink items-center gap-6 p-4 pb-6 bg-primary-gray/20 dark:bg-white/10 shadow-md mb-20 xxs:mb-8 rounded-3xl portrait:md:w-[80%] md:p-10 4xl:p-16 ">
-      <div className="buddy_avatar shrink-0 grow-0 justify-center items-center md:self-start lg:self-center xl:self-start relative top-2">
+    <div className="buddy_card font-jost relative xxs:w-[90%] w-4/5 md:w-[90%] lg:w-4/5 3xl:w-9/12 flex flex-col md:flex-row lg:flex-col  justify-between shrink items-center gap-6 p-4 pb-6 bg-primary-gray/20 dark:bg-white/10 shadow-md mb-20 xxs:mb-8 rounded-3xl portrait:md:w-[80%] md:p-10 4xl:p-16 ">
+      <div className="buddy_avatar shrink-0 grow-0 justify-center items-center md:self-start lg:self-center  relative top-2">
         <img
           className="bg-white object-cover aspect-square w-32 h-32 xxs:w-28 xxs:h-28 rounded-[100%] z-10 p-1 relative self-end "
           src={buddy.avatarUrl}
@@ -40,16 +40,18 @@ export default function BuddyCard(props) {
       </div>
       <div className="buddy-info flex flex-col gap-4 shrink grow-0 basis-4/5">
         <div className="buddy-header-wrapper flex flex-col gap-1">
-          <div className="buddy_name text-headers font-semibold self-center md:text-md xxs:text-base portrait:md:text-lg 4xl:text-xl 5xl:text-2xl">
+          <div className="buddy_name text-headers self-center md:text-sm xxs:text-base portrait:md:text-lg 4xl:text-lg ">
             <p>{buddy.fullName.toUpperCase()}</p>
           </div>
-          <div className="buddy-location self-center text-sm xxs:text-xs portrait:md:text-sm 4xl:text-base 5xl:text-lg">
+          <div className="buddy-location self-center text-xs xxs:text-xs portrait:md:text-sm 4xl:text-base ">
             <p>{`${buddy.city}, ${buddy.state}`}</p>
           </div>
         </div>
-        <div className="buddy_bio w-full text-center xxs:text-[3.6vw] portrait:text-base md:text-sm 4xl:text-base md:pb-6 5xl:text-2xl">
+        <div className="buddy_bio w-full text-center xxs:text-[3.6vw] portrait:text-base md:text-xs 4xl:text-base md:pb-2 ">
           <p>{buddy.aboutMe}</p>
         </div>
+
+        
         <div className="taglist-wrapper flex flex-row flex-nowrap justify-start w-full">
           <div className="tag-expand-button self-start shrink-0 pr-5">
             <button
@@ -64,7 +66,7 @@ export default function BuddyCard(props) {
             </button>
           </div>
           <div
-            className={`buddy_tags_container flex flex-row flex-wrap gap-3 justify-around items-center text-primary-gray   ${
+            className={`buddy_tags_container flex flex-row flex-wrap gap-3 justify-around items-center text-primary-gray w-full  ${
               tagExpand ? 'h-auto' : 'h-8 5xl:h-10 overflow-hidden'
             }`}
           >
@@ -74,7 +76,7 @@ export default function BuddyCard(props) {
                 return (
                   <div
                     key={tag.id}
-                    className="buddy_tag grow text-center 4xl:text-sm 5xl:text-xl rounded-full text-sm portrait:md:text-sm xxs:text-xs px-3 py-1 button text-white "
+                    className="buddy_tag grow text-center 4xl:text-sm 5xl:text-lg rounded-full text-sm portrait:md:text-sm xxs:text-xs px-3 py-1 button text-white "
                   >
                     <p>{tag.tagName}</p>
                   </div>
@@ -86,7 +88,7 @@ export default function BuddyCard(props) {
                 return (
                   <div
                     key={tag.id}
-                    className="buddy_tag grow text-center 4xl:text-sm rounded-full 5xl:text-xl portrait:md:text-sm text-sm xxs:text-xs px-3 py-1 bg-white border dark:bg-[#0a0908] dark:text-white border-primary-gray"
+                    className="buddy_tag grow text-center 4xl:text-sm rounded-full 5xl:text-lg portrait:md:text-sm text-sm xxs:text-xs px-9 py-1 bg-white border dark:bg-[#0a0908] dark:text-white border-primary-gray "
                   >
                     <p>{tag.tagName}</p>
                   </div>
