@@ -18,7 +18,7 @@ import {
   fetchAllNotifications,
   selectUnreadNotifications,
 } from '../redux/slices/notificationSlice';
-import { fetchUser, updateUser } from '../redux/slices/userSlice';
+import { fetchUser } from '../redux/slices/userSlice';
 import { selectAuthUser } from '../redux/slices/authSlice';
 import { selectDarkMode } from '../redux/slices/darkModeSlice';
 
@@ -250,17 +250,14 @@ const NavBar = () => {
             )}
           </ul>
         </nav>
-
-        <div className="notification-body">
-          <NotificationBody
-            menuMode={menuMode}
-            closeMenu={closeMenu}
-            navHeight={navRef.current?.clientHeight}
-          />
-        </div>
       </header>
       {/* DROPDOWN MENU, HIDDEN UNTIL CLICKED */}
       <DropdownMenu
+        menuMode={menuMode}
+        closeMenu={closeMenu}
+        navHeight={navRef.current?.clientHeight}
+      />
+      <NotificationBody
         menuMode={menuMode}
         closeMenu={closeMenu}
         navHeight={navRef.current?.clientHeight}
