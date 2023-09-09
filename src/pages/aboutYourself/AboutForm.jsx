@@ -35,7 +35,7 @@ const AboutForm = () => {
   const userLoading = useSelector(selectUserLoading);
   const userError = useSelector(selectUserError);
 
-  const [bio, setBio] = useState('' || localStorage.getItem('aboutBio'));
+  const [bio, setBio] = useState(localStorage.getItem('aboutBio') || '');
 
   const [socialTags, setSocialTags] = useState([]);
   const [professionalTags, setProfessionalTags] = useState([]);
