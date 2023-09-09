@@ -144,7 +144,6 @@ const RegisterForm = () => {
 
   const checkEmailAvailability = async (email) => {
     // Early uniqueness validation on email
-    // TODO: check using lowercase
     if (email === '') return;
 
     if (!validateEmail(email)) {
@@ -252,9 +251,10 @@ const RegisterForm = () => {
                     : null
                 }
                 value={formInputs.email}
-                onChange={(e) =>
-                  setFormInputs((prev) => ({ ...prev, email: e.target.value }))
-                }
+                onChange={(e) => {
+                  setFormInputs((prev) => ({ ...prev, email: e.target.value }));
+                  setEmailIsUnavailable(false);
+                }}
                 onBlur={(e) => checkEmailAvailability(e.target.value)}
               />
             </div>
