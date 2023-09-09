@@ -33,15 +33,10 @@ const NavBar = () => {
 
   const root = document.querySelector('#root');
 
-  /**
-   * NEW MENU STUFF HERE
-   */
-
   const navRef = useRef(null); // used to dynamically measure height of navbar
   const [menuMode, setMenuMode] = useState(null); // 'dropdown' | 'notifications' | null
 
   function closeMenu() {
-    console.log('closeMenu()');
     setMenuMode(null);
   }
 
@@ -58,7 +53,6 @@ const NavBar = () => {
 
   useEffect(() => {
     // set up click-off event listener
-    console.log('menuMode:', menuMode);
     if (menuMode) {
       root.addEventListener('click', clickOff);
     }
@@ -72,10 +66,6 @@ const NavBar = () => {
       document.body.style.overflow = 'auto';
     };
   }, [menuMode]);
-
-  /**
-   * END NEW MENU STUFF
-   */
 
   const [locationTriggered, setLocationTriggered] = useState(false);
 
@@ -219,6 +209,7 @@ const NavBar = () => {
                         : ''
                     }
                     // onClick={handleNotificationClick}
+                    disabled={!hasNotifications}
                     onClick={() =>
                       setMenuMode((prev) =>
                         prev === 'notifications' ? null : 'notifications'
