@@ -159,6 +159,8 @@ const RegisterForm = () => {
     const res = await fetch(fullUrl);
     const { emailExists } = await res.json();
 
+    setInputValidator((prev) => ({ ...prev, email: emailExists }));
+
     setEmailIsUnavailable(emailExists);
   };
 
