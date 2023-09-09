@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import {
@@ -10,7 +10,12 @@ import xIcon from '../../assets/icons/x-icon.svg';
 import xIconWhite from '../../assets/icons/x-icon-white.svg';
 import NotificationButton from '../../components/NotificationButton';
 
-export default function MeetingCancelled({ notification, isDarkMode, setIsDarkMode }) {
+export default function MeetingCancelled({
+  notification,
+  isDarkMode,
+  setIsDarkMode,
+  closeMenu,
+}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -18,6 +23,7 @@ export default function MeetingCancelled({ notification, isDarkMode, setIsDarkMo
 
   function acknowledgeAndFindBuddy() {
     acknowledge();
+    closeMenu();
     navigate('/match');
   }
 
@@ -37,15 +43,13 @@ export default function MeetingCancelled({ notification, isDarkMode, setIsDarkMo
     );
   }
 
-
-    useEffect(() => {
-      if (isDarkMode) {
-        setXMenuIcon(xIconWhite);
-      } else {
-        setXMenuIcon(xIcon);
-      }
-    }, [isDarkMode]);
-
+  useEffect(() => {
+    if (isDarkMode) {
+      setXMenuIcon(xIconWhite);
+    } else {
+      setXMenuIcon(xIcon);
+    }
+  }, [isDarkMode]);
 
   return (
     <div
@@ -62,7 +66,11 @@ export default function MeetingCancelled({ notification, isDarkMode, setIsDarkMo
         </p>
         <p className="pb-2">
           No worries, right? Let's go find you{' '}
-          <Link to="/match" className="text-headers">
+          <Link
+            to="/match"
+            className="text-headers"
+            onClick={() => closeMenu()}
+          >
             another buddy
           </Link>
         </p>

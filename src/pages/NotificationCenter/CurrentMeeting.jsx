@@ -21,6 +21,7 @@ export default function CurrentMeeting({
   meetings,
   isDarkMode,
   setIsDarkMode,
+  closeMenu,
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -53,6 +54,7 @@ export default function CurrentMeeting({
   function goToMessages() {
     // setTriggerClose(true);
     navigate(`/meeting/${notification.meetingId}/chat`);
+    closeMenu();
   }
 
   useEffect(() => {
@@ -119,13 +121,19 @@ export default function CurrentMeeting({
                 MESSAGE {notification.fromUser.firstName.toUpperCase()}
               </span>
             </NotificationButton>
-            <NotificationButton handleSubmit={() => setTriggerCancel(true)}>
+            <NotificationButton
+              handleSubmit={() => {
+                setTriggerCancel(true);
+              }}
+            >
               <span className="md:text-[1vw] 4xl:text-xs"> CANCEL MEETING</span>
             </NotificationButton>
             <div
               id="x-icon"
               className="absolute w-5  right-3 top-3 cursor-pointer"
-              onClick={() => setMinimize(true)}
+              onClick={() => {
+                setMinimize(true);
+              }}
             >
               <img src={xMenuIcon} />
             </div>

@@ -13,6 +13,7 @@ export default function MeetingRejected({
   notification,
   isDarkMode,
   setIsDarkMode,
+  closeMenu,
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ export default function MeetingRejected({
 
   function acknowledgeAndFindBuddy() {
     acknowledge();
+    closeMenu();
     navigate('/match');
   }
 
@@ -63,7 +65,11 @@ export default function MeetingRejected({
         </p>
         <p className="pb-2">
           Let's go find you{' '}
-          <Link to="/match" className="text-headers">
+          <Link
+            to="/match"
+            className="text-headers"
+            onClick={() => closeMenu()}
+          >
             another buddy
           </Link>
         </p>

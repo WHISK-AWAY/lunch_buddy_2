@@ -12,7 +12,7 @@ import {
 import FormButton from '../../components/FormButton';
 import NotificationButton from '../../components/NotificationButton';
 
-export default function RatingRequest({ notification }) {
+export default function RatingRequest({ notification, closeMenu }) {
   const dispatch = useDispatch();
   const meetings = useSelector(selectMeetings);
   const navigate = useNavigate();
@@ -29,6 +29,7 @@ export default function RatingRequest({ notification }) {
   }, [notification]);
 
   const handleRating = async (evt) => {
+    closeMenu();
     evt.preventDefault();
     // setTriggerClose(true);
     navigate(`/meeting/${notification.meetingId}/feedback`);
