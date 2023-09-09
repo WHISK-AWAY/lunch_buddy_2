@@ -413,7 +413,7 @@ const RegisterForm = () => {
         id="bg-img"
         className="bg-cover 
         bg-[url('/assets/bgImg/test9-lq_10.webp')] basis-full hidden lg:block portrait:lg:hidden h-full"
-        alt="person smearing a dip on toast, at a restaurant with wine, plates, coffee"
+        alt="large company sitting at the dining table"
         // data-aos="fade-left"
         // data-aos-delay="200"
         // data-aos-duration="2800"
