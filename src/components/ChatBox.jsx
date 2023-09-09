@@ -178,7 +178,7 @@ export default function ChatBox() {
       <div
         id="bg-img"
         alt="Two people eating a bowl of food with chopsticks"
-        className="bg-cover bg-[url('/assets/bgImg/chatView-q30.webp')] basis-1/2 hidden portrait:hidden lg:block h-full"
+        className="bg-cover bg-[url('/assets/bgImg/chatView-q30.webp')] 2xl:bg-[url('/assets/bgImg/test11-lq_10.webp')] basis-1/2  3xl:basis-full hidden portrait:hidden lg:block h-full"
       ></div>
       <div
         id="chat-container"

@@ -408,7 +408,7 @@ const RegisterForm = () => {
             </Link>
           </p>
         </div>
-      </div>
+      </div> 
       <div
         id="bg-img"
         className="bg-cover 

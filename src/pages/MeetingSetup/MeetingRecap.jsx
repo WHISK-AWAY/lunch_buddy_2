@@ -52,14 +52,14 @@ export default function MeetingRecap(props) {
   });
 
   return (
-    <div className="recap-card  w-screen flex flex-col gap-12 items-center   bg-white dark:bg-[#0a0908]  lg:flex-row lg:items-center bg-fixed dark:text-white text-primary-gray overflow-hidden h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)] ">
+    <div className="recap-card  w-screen flex flex-col gap-5 items-center   bg-white dark:bg-[#0a0908]  lg:flex-row lg:items-center bg-fixed dark:text-white text-primary-gray overflow-hidden h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)] ">
       <div
-        className="recap-image hidden bg-left lg:block lg:h-full lg:basis-1/2 bg-[url('/assets/bgImg/meetingConfView-q30.webp')] portrait:lg:hidden bg-cover overflow-hidden"
+        className="recap-image hidden bg-left lg:block lg:h-full lg:basis-full bg-[url('/assets/bgImg/test15-lq_10.webp')] portrait:lg:hidden bg-cover overflow-hidden"
         // data-aos="fade-right"
         // data-aos-delay="800"
         // data-aos-duration="1500"
       ></div>
-      <div className="recap-info flex flex-col basis-full h-full  lg:basis-1/2 gap-12 items-center overflow-auto justify-center portrait:lg:basis-full portrait:md:pb-44">
+      <div className="recap-info flex flex-col basis-full h-full  lg:basis-7/12 gap-12 items-center overflow-auto justify-center portrait:lg:basis-full portrait:md:pb-44">
         <div
           className="recap-header text-headers text-xl portrait:lg:text-2xl font-semibold md:text-lg 5xl:text-2xl"
           // data-aos="fade-up"
