@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import {
@@ -10,15 +10,16 @@ import xIcon from '../../assets/icons/x-icon.svg';
 import xIconWhite from '../../assets/icons/x-icon-white.svg';
 import { selectDarkMode } from '../../redux/slices/darkModeSlice';
 
-export default function NewMessageReceived({ notification }) {
+export default function NewMessageReceived({ notification, closeMenu }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
-  const darkMode = useSelector(selectDarkMode)
+  const darkMode = useSelector(selectDarkMode);
 
   function acknowledgeAndGoToMessages() {
     acknowledge();
+    closeMenu();
     navigate(`/meeting/${notification.meetingId}/chat`);
   }
 
@@ -45,7 +46,6 @@ export default function NewMessageReceived({ notification }) {
       setXMenuIcon(xIcon);
     }
   }, [darkMode]);
-
 
   return (
     <div
@@ -80,7 +80,7 @@ export default function NewMessageReceived({ notification }) {
           className="flex flex-row gap-5 w-3/5 h-5 self-center text-xs space-5 items-center"
         >
           <NotificationButton handleSubmit={() => acknowledgeAndGoToMessages()}>
-            <span className='md:text-[1vw] 4xl:text-xs'>REPLY</span>
+            <span className="md:text-[1vw] 4xl:text-xs">REPLY</span>
           </NotificationButton>
         </div>
       </div>

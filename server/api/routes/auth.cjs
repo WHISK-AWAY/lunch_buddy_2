@@ -13,10 +13,36 @@ router.get('/', requireToken, (req, res, next) => {
   }
 });
 
+router.get('/check-email', async (req, res, next) => {
+  // return object containing boolean indicating whether email already exists
+  // intended to be used during registration process for early validation
+
+  try {
+    const { email } = req.query;
+
+    if (!email)
+      return res
+        .status(400)
+        .json({ message: 'Error: no e-mail address specified' });
+
+    const emailCheck = await User.findOne({
+      where: { email: email.toLowerCase() },
+    });
+
+    return res.status(200).json({ emailExists: !!emailCheck });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+});
+
 router.post('/login', async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const token = await User.authenticate({ email, password });
+    const token = await User.authenticate({
+      email: email.toLowerCase(),
+      password,
+    });
     if (token) {
       return res.status(200).send({ token });
     } else {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+
 import FormButton from '../../components/FormButton';
 import { listOfStates } from '../../utilities/registerHelpers';
 import { INVALID_CLASS } from '../../utilities/invalidInputClass';
@@ -40,6 +41,7 @@ const RegisterForm = () => {
   const navigate = useNavigate();
 
   const [formInputs, setFormInputs] = useState(inputs);
+  const [emailIsUnavailable, setEmailIsUnavailable] = useState(false);
 
   const [inputValidator, setInputValidator] = useState(
     requiredFields.reduce((accumulator, field) => {
@@ -54,6 +56,13 @@ const RegisterForm = () => {
       navigate('/');
     }
   }, []);
+
+  useEffect(() => {
+    // Set error status (and therefore styling / feedback) according to email availability check
+    if (emailIsUnavailable) {
+      setFormInputs((prev) => ({ ...prev, email: '' }));
+    }
+  }, [emailIsUnavailable]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -133,6 +142,26 @@ const RegisterForm = () => {
     return valid.test(email);
   };
 
+  const checkEmailAvailability = async (email) => {
+    // Early uniqueness validation on email
+    if (email === '') return;
+
+    if (!validateEmail(email)) {
+      // no need to check for uniqueness if format is invalid
+      setInputValidator((prev) => ({ ...prev, email: true }));
+    }
+
+    const queryParams = new URLSearchParams({ email });
+
+    const fullUrl =
+      import.meta.env.VITE_API_URL + '/api/auth/check-email?' + queryParams;
+
+    const res = await fetch(fullUrl);
+    const { emailExists } = await res.json();
+
+    setEmailIsUnavailable(emailExists);
+  };
+
   const validatePassword = () => {
     return (
       formInputs.password.length >= 8 &&
@@ -210,13 +239,21 @@ const RegisterForm = () => {
                 type="email"
                 required={true}
                 className={`${
-                  inputValidator.email ? INVALID_CLASS : null
+                  inputValidator.email || emailIsUnavailable ? INVALID_CLASS : null
                 }  w-full px-4 py-1 autofill:bg-none rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border md:py-2  border-primary-gray dark:text-white text-xs 6xl:text-sm 6xl:py-4`}
-                placeholder={inputValidator.email ? 'Enter email' : null}
-                value={formInputs.email}
-                onChange={(e) =>
-                  setFormInputs((prev) => ({ ...prev, email: e.target.value }))
+                placeholder={
+                  emailIsUnavailable
+                    ? 'Sorry, that email is already registered.'
+                    : inputValidator.email
+                    ? 'Enter email'
+                    : null
                 }
+                value={formInputs.email}
+                onChange={(e) => {
+                  setFormInputs((prev) => ({ ...prev, email: e.target.value }));
+                  setEmailIsUnavailable(false);
+                }}
+                onBlur={(e) => checkEmailAvailability(e.target.value)}
               />
             </div>
             <div className="relative col-span-full">

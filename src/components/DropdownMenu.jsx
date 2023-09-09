@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   clearNotificationState,
@@ -13,11 +13,18 @@ import { selectUnreadActiveMeeting } from '../redux/slices/notificationSlice';
 import getLocation from '../utilities/geo';
 import axios from 'axios';
 
+import gsap from 'gsap';
+
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
-const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
+const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const wrapperRef = useRef(null);
+  const screenRef = useRef(null);
+  const previousModeRef = useRef(null);
+
   const authUser = useSelector(selectAuthUser);
   const notifications = useSelector(selectUnreadNotifications);
   const userState = useSelector((state) => state.user.user);
@@ -25,14 +32,67 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
     (notification) => notification.notificationType === 'currentMeeting'
   )[0];
 
+  useEffect(() => {
+    if (menuMode === 'dropdown') {
+      previousModeRef.current = 'dropdown';
+      const ctx = gsap.context(() => {
+        const tl = gsap.timeline({});
+
+        tl.set(screenRef.current, { display: 'block' })
+          .to(wrapperRef.current, {
+            y: '+=100%',
+            duration: 0.25,
+            ease: 'power1.in',
+          })
+          .to(
+            screenRef.current,
+            {
+              backdropFilter: 'blur(8px)',
+              duration: 0.25,
+            },
+            '<'
+          );
+      });
+
+      return () => ctx.revert();
+    } else {
+      if (previousModeRef.current === 'dropdown') {
+        const ctx = gsap.context(() => {
+          const tl = gsap.timeline();
+
+          tl.from(wrapperRef.current, {
+            y: '+=100%',
+            ease: 'power1.in',
+            duration: 0.25,
+          })
+            .from(
+              screenRef.current,
+              {
+                backdropFilter: 'blur(8px)',
+                display: 'block',
+                duration: 0.25,
+              },
+              '<'
+            )
+            .set(screenRef.current, { display: 'none' });
+        });
+
+        previousModeRef.current = null;
+
+        return () => ctx.revert();
+      }
+    }
+  }, [menuMode, wrapperRef.current]);
+
   const activeMeeting = useSelector(selectUnreadActiveMeeting);
 
   function handleClick() {
-    setExpandMenu(false);
+    // setExpandMenu(false);
+    closeMenu();
   }
 
   function handleLogout() {
-    setExpandMenu(false);
+    // setExpandMenu(false);
     dispatch(clearNotificationState());
     dispatch(resetUserState());
     dispatch(logOut());
@@ -40,7 +100,8 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
   }
 
   async function handleDemoMode() {
-    setExpandMenu(false);
+    // TODO: move this to its own spot (or into geo module)
+    // setExpandMenu(false);
     // getLocation(dispatch);
 
     navigator.geolocation.getCurrentPosition(
@@ -73,49 +134,25 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
         console.log('user denied location services permission:', err);
       }
     );
-
-    // setTimeout(async () => {
-    //   const center = {
-    //     latitude: userState.lastLat,
-    //     longitude: userState.lastLong,
-    //   };
-
-    //   await axios.post(
-    //     API_URL + '/api/user/generate/demo',
-    //     {
-    //       center,
-    //       radius: 1,
-    //       city: userState.city,
-    //       state: userState.state,
-    //       id: userState.id,
-    //     },
-    //     {
-    //       headers: {
-    //         Authorization: window.localStorage.getItem('token'),
-    //       },
-    //     }
-    //   );
-    //   console.log('userState:', userState);
-    //   navigate('/match');
-    // }, 5000);
-    // set status to active
-    // call the demo mode route
-    // maybe a demo mode toast?
   }
 
-  //prevent scroll on overflow when the menu is open
-  // useEffect(() => {
-  //   if (expandMenu) {
-  //     document.body.style.overflow = 'hidden';
-  //     return () => {
-  //       document.body.style.overflow = '';
-  //     };
-  //   }
-  // }, []);
+  /**
+   * Removed from wrapper class list:
+   *
+   * top-0
+   */
+
   return (
-    <div className={expandMenu ? '' : `group hover`}>
+    <>
       <div
-        className={`transform group-[.hover]:scale-y-0 scale-y-100  overflow:hidden dark:text-white dark:bg-[#0a0908] absolute transition-transform duration-[600ms] ease-in-out origin-top-left -bottom-screen bg-white w-screen opacity-95 transition-opacity-0 z-50 `}
+        ref={screenRef}
+        className="fixed bottom-0 h-screen w-screen backdrop-blur-0 bg-transparent z-20"
+        style={{ display: 'none' }}
+      ></div>
+      <div
+        ref={wrapperRef}
+        id="dropdown-container"
+        className={`dark:text-white dark:bg-[#0a0908] -translate-y-full overflow-clip fixed bg-white w-screen opacity-95 z-30 -top-${navHeight}`}
       >
         <ul className="flex flex-col items-center ">
           {!authUser.firstName ? (
@@ -168,7 +205,7 @@ const DropdownMenu = ({ expandMenu, setExpandMenu }) => {
           )}
         </ul>
       </div>
-    </div>
+    </>
   );
 };
 

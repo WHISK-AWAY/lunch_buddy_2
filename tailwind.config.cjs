@@ -30,7 +30,6 @@ module.exports = {
       roboto: ['Roboto Mono', 'monospce'],
       inso: ['Inconsolata', 'monospace'],
       jost: ['Jost', 'monospace'],
-      
     },
     fontWeight: {
       thin: 100,
@@ -45,6 +44,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        dark: '#0a0908',
         headers: '#F68080',
         'primary-gray': '#4A4B51',
         label: '#F68080',

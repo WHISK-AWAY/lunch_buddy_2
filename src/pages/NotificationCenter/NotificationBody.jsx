@@ -1,41 +1,98 @@
-import { React, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { selectUnreadNotifications, selectMeetings } from '../../redux/slices';
 
 import MeetingRequest from './MeetingRequest';
 import RatingRequest from './RatingRequest';
 import MeetingRejected from './MeetingRejected';
-import MeetingAccepted from './MeetingAccepted';
 import NewMessageReceived from './NewMessageReceived';
 import CurrentMeeting from './CurrentMeeting';
 import MeetingCancelled from './MeetingCancelled';
-// import RatingRequest from './RatingRequest';
+
+import gsap from 'gsap';
 
 const NotificationBody = ({
-  showNotificationBody,
-  setShowNotificationBody,
-  setTriggerClose,
-  isDarkMode, setIsDarkMode
+  isDarkMode,
+  setIsDarkMode,
+  menuMode,
+  closeMenu,
 }) => {
+  const wrapperRef = useRef(null);
+  const screenRef = useRef(null);
+  const previousModeRef = useRef(null);
+
   const notifications = useSelector(selectUnreadNotifications);
   const meetings = useSelector(selectMeetings);
 
   useEffect(() => {
-    if (!notifications?.length && showNotificationBody) {
-      setTriggerClose(true);
-      // setShowNotificationBody(false);
+    if (menuMode === 'notifications' && notifications.length === 0) closeMenu();
+  }, [notifications]);
+
+  useEffect(() => {
+    if (menuMode === 'notifications') {
+      previousModeRef.current = 'notifications';
+      const ctx = gsap.context(() => {
+        const tl = gsap.timeline({});
+
+        tl.set(screenRef.current, { display: 'block' })
+          .to(wrapperRef.current, {
+            x: '0%',
+            duration: 0.25,
+            ease: 'power1.in',
+          })
+          .to(
+            screenRef.current,
+            {
+              backdropFilter: 'blur(8px)',
+              duration: 0.25,
+            },
+            '<'
+          );
+      });
+      return () => ctx.revert();
+    } else {
+      if (
+        previousModeRef.current === 'notifications' &&
+        notifications.length > 0
+      ) {
+        const ctx = gsap.context(() => {
+          const tl = gsap.timeline();
+
+          tl.from(wrapperRef.current, {
+            x: '0%',
+            ease: 'power1.in',
+            duration: 0.25,
+          })
+            .from(
+              screenRef.current,
+              {
+                backdropFilter: 'blur(8px)',
+                display: 'block',
+                duration: 0.25,
+              },
+              '<'
+            )
+            .set(screenRef.current, { display: 'none' });
+        });
+
+        previousModeRef.current = null;
+
+        return () => ctx.revert();
+      }
     }
-  }, [notifications, showNotificationBody]);
+  }, [menuMode, wrapperRef.current]);
 
   return (
-    <div
-      id="notification-container"
-      className={`w-fit ${showNotificationBody ? '' : 'group is-closed'}`}
-    >
-      {/* -bottom-screen  transition-opacity-0  overflow:hidden*/}
+    <>
       <div
-        className={`transform group-[.is-closed]:scale-0 scale-100 absolute transition-transform duration-[300ms] ease-[cubic-bezier(0.19, 1, 0.22, 1)] origin-top-right opacity-95 right-0 w-fit`}
+        ref={screenRef}
+        className="fixed bottom-0 h-screen w-screen backdrop-blur-0 bg-transparent z-20"
+        style={{ display: 'none' }}
+      ></div>
+      <div
+        id="notification-container"
+        ref={wrapperRef}
+        className="fixed translate-x-full opacity-95 right-0 w-fit z-50"
       >
         <div className="flex flex-col">
           <div className="z-40 bg-primary-gray/20 self-end h-fit 3xl:w-[30vw] md:w-[40vw] 5xl:w-[20vw] xxs:w-[80vw] portrait:md:w-[60vw]  rounded-bl-sm px-3 pl-6 py-3">
@@ -47,25 +104,25 @@ const NotificationBody = ({
                       <MeetingRequest
                         notification={notification}
                         setShowNotificationBody={setShowNotificationBody}
+                        closeMenu={closeMenu}
                       />
                     )}
                     {notification.notificationType === 'ratingRequested' && (
                       <RatingRequest
                         notification={notification}
-                        setShowNotificationBody={setShowNotificationBody}
-                        setTriggerClose={setTriggerClose}
+                        closeMenu={closeMenu}
                       />
                     )}
                     {notification.notificationType === 'inviteRejected' && (
                       <MeetingRejected
                         notification={notification}
-                        setShowNotificationBody={setShowNotificationBody}
+                        closeMenu={closeMenu}
                       />
                     )}
                     {notification.notificationType === 'meetingCancelled' && (
                       <MeetingCancelled
                         notification={notification}
-                        setShowNotificationBody={setShowNotificationBody}
+                        closeMenu={closeMenu}
                       />
                     )}
                     {/* {notification.notificationType === 'inviteAccepted' && (
@@ -77,15 +134,14 @@ const NotificationBody = ({
                     {notification.notificationType === 'newMessage' && (
                       <NewMessageReceived
                         notification={notification}
-                        setShowNotificationBody={setShowNotificationBody}
+                        closeMenu={closeMenu}
                       />
                     )}
                     {notification.notificationType === 'currentMeeting' && (
                       <CurrentMeeting
                         notification={notification}
                         meetings={meetings}
-                        setShowNotificationBody={setShowNotificationBody}
-                        setTriggerClose={setTriggerClose}
+                        closeMenu={closeMenu}
                       />
                     )}
                   </li>
@@ -95,7 +151,7 @@ const NotificationBody = ({
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

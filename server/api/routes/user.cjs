@@ -104,6 +104,7 @@ router.post('/', async (req, res, next) => {
   try {
     // destructure to filter out any other weird things that might be
     // passed along on the body object
+    // wish I had known about Zod when I first wrote this months ago... -pb
     const {
       firstName,
       lastName,
@@ -126,7 +127,7 @@ router.post('/', async (req, res, next) => {
     const newUserData = {
       firstName,
       lastName,
-      email,
+      email: email.toLowerCase(),
       password,
       age,
       gender,
@@ -255,7 +256,7 @@ router.put(
       const updatePackage = {
         firstName,
         lastName,
-        email,
+        email: email?.toLowerCase(),
         password,
         age,
         gender,
