@@ -5,6 +5,7 @@ const VITE_API_URL = import.meta.env.VITE_API_URL;
 const initialMeetingState = {
   meetings: [],
   meeting: {},
+  currentMeeting: {},
   isLoading: false,
   error: '',
   status: {},
@@ -59,26 +60,29 @@ export const updateMeeting = createAsyncThunk(
 );
 
 export const getMeeting = createAsyncThunk(
-  'meeting/getOne',
+  'meeting/getMeeting',
   async ({ meetingId, userId }, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem('token');
-      let route;
-
       if (!token) throw new Error('No token provided');
 
       // ? How can the userId be undefined?
-      if (userId !== undefined) {
-        route = VITE_API_URL + `/api/user/${userId}/meeting/${meetingId}`;
-      } else {
-        route = VITE_API_URL + `/api/meeting/${meetingId}`;
-      }
+      // let route;
 
-      const { data } = await axios.get(route, {
-        headers: {
-          authorization: token,
-        },
-      });
+      // if (userId !== undefined) {
+      //   route = ;
+      // } else {
+      //   route = VITE_API_URL + `/api/meeting/${meetingId}`;
+      // }
+
+      const { data } = await axios.get(
+        VITE_API_URL + `/api/user/${userId}/meeting/${meetingId}`,
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
 
       if (data.yelpBusinessId) {
         const yelpRes = await axios.get(
@@ -96,6 +100,25 @@ export const getMeeting = createAsyncThunk(
     } catch (error) {
       console.log(error);
       return rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchCurrentMeeting = createAsyncThunk(
+  'meeting/fetchCurrentMeeting',
+  async ({ userId }, { rejectWithValue }) => {
+    try {
+      const token = window.localStorage.getItem('token');
+      if (!token) throw new Error('No token in localstorage');
+
+      const { data } = await axios.get(
+        VITE_API_URL + `/api/user/${userId}/meeting/current-meeting`,
+        { headers: { Authorization: token } }
+      );
+
+      return data;
+    } catch (err) {
+      rejectWithValue(err.message);
     }
   }
 );
@@ -232,13 +255,9 @@ const meetingSlice = createSlice({
   name: 'meetings',
   initialState: initialMeetingState,
   reducers: {
-    resetMeetingStatus: (state) => {
-      state.status = {};
-      state.meetings = [];
-      state.meeting = {};
-      state.error = '';
-      state.isLoading = false;
-    },
+    resetMeetingStatus: () => ({
+      ...initialMeetingState,
+    }),
   },
   extraReducers: (builder) => {
     builder
@@ -377,6 +396,23 @@ const meetingSlice = createSlice({
       .addCase(getBusinessInfo.pending, (state, action) => {
         state.isLoading = true;
         state.error = '';
+      })
+
+      .addCase(fetchCurrentMeeting.fulfilled, (state, { payload }) => {
+        state.currentMeeting = payload;
+        state.isLoading = false;
+        state.error = '';
+      })
+      .addCase(fetchCurrentMeeting.pending, (state, { payload }) => {
+        state.currentMeeting = payload;
+        state.isLoading = false;
+        state.error = '';
+      })
+      .addCase(fetchCurrentMeeting.rejected, (state, { payload }) => {
+        console.log('fetchCurrentMeeting rejected:', payload);
+        // state.currentMeeting = payload;
+        state.isLoading = false;
+        state.error = payload.message;
       });
   },
 });
