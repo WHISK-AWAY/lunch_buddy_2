@@ -5,11 +5,9 @@ import NotificationButton from '../../../components/NotificationButton';
 import xIcon from '../../../assets/icons/x-icon.svg';
 import xIconWhite from '../../../assets/icons/x-icon-white.svg';
 import { useSelector } from 'react-redux';
-import {
-  selectDarkMode,
-} from '../../../redux/slices/darkModeSlice';
+import { selectDarkMode } from '../../../redux/slices/darkModeSlice';
 
-export default function RejectInvite({ notification, t }) {
+export default function RejectInvite({ buddyFirstName, t }) {
   const navigate = useNavigate();
   const darkModeSelector = useSelector(selectDarkMode);
   const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
@@ -38,7 +36,7 @@ export default function RejectInvite({ notification, t }) {
       >
         <p className="pb-2">OH NO!</p>
         <p className="pb-2 text-xs ">
-          We'll break it to {notification.fromUser.firstName} gently...
+          We'll break it to {buddyFirstName} gently...
         </p>
         <div
           id="btn-container"
