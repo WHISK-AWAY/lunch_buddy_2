@@ -103,7 +103,6 @@ const NotificationBody = ({
                     {notification.notificationType === 'meetingInvite' && (
                       <MeetingRequest
                         notification={notification}
-                        setShowNotificationBody={setShowNotificationBody}
                         closeMenu={closeMenu}
                       />
                     )}
