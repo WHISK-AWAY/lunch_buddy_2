@@ -143,6 +143,14 @@ export default function ChatBox() {
     }
   };
 
+  useEffect(() => {
+    if (!darkModeSelector) {
+      setPaperPlaneIcon(paperPlane);
+    } else {
+      setPaperPlaneIcon(paperPlaneWhite);
+    }
+  }, [darkModeSelector]);
+
   // checks if user is logged in
   if (!auth.id) {
     return (
@@ -164,14 +172,6 @@ export default function ChatBox() {
       </div>
     );
   }
-
-  useEffect(() => {
-    if (!darkModeSelector) {
-      setPaperPlaneIcon(paperPlane);
-    } else {
-      setPaperPlaneIcon(paperPlaneWhite);
-    }
-  }, [darkModeSelector]);
 
   return (
     <div className="flex overflow-hidden dark:bg-[#0a0908]  lg:bg-none bg-white dark:text-white text-primary-gray w-screen h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)] ">
