@@ -89,28 +89,28 @@ const CurrentMeeting = ({}) => {
   });
 
   return (
-    <div className="recap-card h-[calc(100vh_-_65px)] w-screen self-center orange-linear-bg lg:bg-none justify-between lg:items-center bg-fixed text-primary-gray overflow-hidden flex flex-row">
+    <div className="recap-card  w-screen self-center   justify-between lg:items-center  dark:bg-[#0a0908]  bg-white dark:text-white text-primary-gray  h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]   overflow-hidden flex flex-row">
       <div
-        className="recap-image hidden bg-left lg:block lg:h-full lg:basis-1/2 bg-[url('/assets/bgImg/meetingConfView.jpg')] bg-cover overflow-hidden"
-        data-aos="fade-right"
-        data-aos-delay="800"
-        data-aos-duration="1500"
+        className="recap-image hidden h-screen lg:block lg:h-full lg:basis-1/2 2xl:basis-full bg-[url('/assets/bgImg/test22-lq_10.webp')] bg-center bg-cover overflow-hidden"
+        // data-aos="fade-right"
+        // data-aos-delay="800"
+        // data-aos-duration="1500"
       ></div>
       <div className="recap-info flex flex-col h-full lg:basis-1/2 gap-12 items-center overflow-auto justify-center basis-full">
         <div
-          className="recap-header text-headers text-lg font-semibold"
-          data-aos="fade-up"
-          data-aos-delay="400"
-          data-aos-duration="1000"
+          className="recap-header text-headers text-lg "
+          // data-aos="fade-up"
+          // data-aos-delay="400"
+          // data-aos-duration="1000"
         >
           <h1>MEETING DETAILS</h1>
         </div>
         <div className="recap-body flex flex-col items-center gap-1 w-4/5">
           <div
             className="buddy-avatar-container rounded-full mb-6"
-            data-aos="zoom-in"
-            data-aos-delay="800"
-            data-aos-duration="1800"
+            // data-aos="zoom-in"
+            // data-aos-delay="800"
+            // data-aos-duration="1800"
           >
             <img
               src={currentMeeting?.buddy?.avatarUrl}
@@ -121,29 +121,33 @@ const CurrentMeeting = ({}) => {
           <div
             id="meeting-detail-container"
             className="flex flex-col justify-center items-center"
-            data-aos="fade-down"
-            data-aos-delay="800"
-            data-aos-duration="2000"
+            // data-aos="fade-down"
+            // data-aos-delay="800"
+            // data-aos-duration="2000"
           >
             <h2 className="text-md text-headers pb-4">
               {currentMeeting.buddy.fullName.toUpperCase()}
             </h2>
-            <p>
+            <p className="text-xs">
               {currentMeeting &&
                 new Date(currentMeeting.lunchDate).toLocaleDateString()}
             </p>
-            <p className="text-base">
+            <p className="text-xs">
               {currentMeeting &&
                 new Date(currentMeeting?.lunchDate).toLocaleTimeString([], {
                   timeStyle: 'short',
                 })}
             </p>
-            <p className="font-semibold">
-              <a href={currentMeeting?.yelpListing.url} target="_blank">
+            <p className="text-center font-semibold pt-2">
+              <a
+                href={currentMeeting?.yelpListing.url}
+                target="_blank"
+                className="cursor-pointer hover:underline underline-offset-2"
+              >
                 {currentMeeting?.yelpListing.name.toUpperCase()}
               </a>
             </p>
-            <p>
+            <p className="text-xs">
               {currentMeeting &&
                 JSON.parse(
                   currentMeeting?.yelpListing.location
@@ -152,10 +156,10 @@ const CurrentMeeting = ({}) => {
           </div>
           <div
             id="btn-container"
-            className="flex gap-8 justify-between lg:w-3/5 pt-9 text-xs w-11/12"
-            data-aos="fade-in"
-            data-aos-delay="800"
-            data-aos-duration="3000"
+            className="flex gap-8 justify-between lg:w-3/5 pt-9 text-xs w-11/12 pb-5"
+            // data-aos="fade-in"
+            // data-aos-delay="800"
+            // data-aos-duration="3000"
           >
             <FormButton handleSubmit={handleChat}>CHAT</FormButton>
             <FormButton handleSubmit={handleCancelButton}>CANCEL</FormButton>
