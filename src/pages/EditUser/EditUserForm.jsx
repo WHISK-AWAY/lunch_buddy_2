@@ -363,7 +363,7 @@ const EditUserForm = () => {
           </div>
           <div className="col-span-full w-full  md:mx-auto">
             <FormButton handleSubmit={handleSubmit}>
-              <span className="text-[1.8vw] md:text-[2vw] portrait:md:text-[2vw] xl:text-[1.4vw] 5xl:text-[1vw] xxs:text-[4.2vw] sm:text-[4.8vw] portrait:lg:text-[2vw]">
+              <span className="md:text-[2vw] portrait:md:text-[2vw] xl:text-[1.4vw] 5xl:text-[1vw] text-[4.2vw] sm:text-[4.8vw] portrait:lg:text-[2vw]">
                 CONTINUE
               </span>
             </FormButton>

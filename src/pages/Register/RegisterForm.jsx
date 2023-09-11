@@ -187,7 +187,7 @@ const RegisterForm = () => {
         // data-aos-delay="1000"
         // duration="1000"
       >
-        <div className="w-full h-full xxs:w-4/5 xxs:pb-20 sm:w-4/5 lg:w-full md:w-2/3  6xl:w-5/12 2xl:w-3/5 5xl:w-2/5 portrait:md:w-3/6 portrait:md:pb-36 portrait:lg:w-full portrait:lg:pb-56 ">
+        <div className="h-full w-4/5 pb-20 sm:w-4/5 lg:w-full md:w-2/3  6xl:w-5/12 2xl:w-3/5 5xl:w-2/5 portrait:md:w-3/6 portrait:md:pb-36 portrait:lg:w-full portrait:lg:pb-56 ">
           <form className=" grid grid-cols-6 justify-center gap-x-2 gap-y-6 lg:px-8 pb-3 xl:px-12 2xl:px-1">
             <h1 className="text-center text-2xl mb-6 text-headers font-regular lg:text-[1.6vw] xl:text-[1.4vw] 3xl:text-[1.3vw]  portrait:lg:text-[3vw] col-span-full 4xl:text-[1.1vw] 5xl:text-[1vw]">
               SIGN UP
@@ -427,14 +427,14 @@ const RegisterForm = () => {
               // duration="1500"
             >
               <FormButton handleSubmit={handleSubmit}>
-                <span className="text-[1.8vw] md:text-[2vw] portrait:md:text-[2vw] xl:text-[1.2vw] 5xl:text-[.6vw] xxs:text-[4.2vw] sm:text-[4.8vw] portrait:lg:text-[2vw] lg:text-[1.4vw] 3xl:text-[1vw] 4xl:text-[.8vw]">
+                <span className="md:text-[2vw] portrait:md:text-[2vw] xl:text-[1.2vw] 5xl:text-[.6vw] text-[4.2vw] sm:text-[4.8vw] portrait:lg:text-[2vw] lg:text-[1.4vw] 3xl:text-[1vw] 4xl:text-[.8vw]">
                   CONTINUE
                 </span>
               </FormButton>
             </div>
           </form>
           <p
-            className=" text-center dark:text-white text-primary-gray text-[1.7vw] lg:text-[1vw] portrait:md:text-[2vw]  3xl:text-[.7vw] 5xl:text-[.6vw] xxs:text-[3vw] portrait:lg:text-[1.7vw] md:text-[1.4vw] 6xl:text-[.4vw]"
+            className=" text-center dark:text-white text-primary-gray lg:text-[1vw] portrait:md:text-[2vw]  3xl:text-[.7vw] 5xl:text-[.6vw] text-[3vw] portrait:lg:text-[1.7vw] md:text-[1.4vw] 6xl:text-[.4vw]"
             // data-aos="fade-in"
             // data-aos-delay="2500"
             // duration="1500"

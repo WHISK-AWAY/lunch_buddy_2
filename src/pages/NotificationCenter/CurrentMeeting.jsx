@@ -89,13 +89,13 @@ export default function CurrentMeeting({ notification, meetings, closeMenu }) {
           <p className="pb-2 lg:pt-7 pt-8">
             You've got a confirmed lunch buddy!
           </p>
-          <p className="text-headers text-lg xxs:text-xs portrait:lg:text-lg 2xl:text-sm">
+          <p className="text-headers text-xs portrait:lg:text-lg 2xl:text-sm">
             {notification.fromUser.fullName.toUpperCase()}
           </p>
-          <p className="text-sm xxs:text-xs portrait:lg:text-base md:text-[1.1vw] xl:text-xs">
+          <p className="text-xs portrait:lg:text-base md:text-[1.1vw] xl:text-xs">
             {new Date(notification.meeting.lunchDate).toLocaleDateString()}
           </p>
-          <p className="text-sm xxs:text-xs portrait:lg:text-base md:text-[1.1vw] xl:text-xs">
+          <p className="text-xs portrait:lg:text-base md:text-[1.1vw] xl:text-xs">
             {new Date(notification.meeting.lunchDate).toLocaleTimeString([], {
               timeStyle: 'short',
             })}

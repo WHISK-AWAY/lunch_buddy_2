@@ -94,7 +94,7 @@ export default function MeetingSetup(props) {
           <form className="flex flex-col gap-5 mb-5 items-center">
             <div id="radius-group" className="flex flex-col items-center gap-2">
               <label
-                className="text-headers xxs:text-md font-semibold portrait:md:text-[3vw] 5xl:text-xl sm:text-lg md:text-sm pb-2 3xl:text-base"
+                className="text-headers text-md font-semibold portrait:md:text-[3vw] 5xl:text-xl sm:text-lg md:text-sm pb-2 3xl:text-base"
                 htmlFor="search-radius"
               >
                 SEARCH RADIUS
@@ -102,7 +102,7 @@ export default function MeetingSetup(props) {
               <select
                 name="radius"
                 id="search-radius"
-                className="rounded-sm bg-transparent px-7 3xl:text-sm py-2 md:text-xs  focus:border-primary-gray active:border-primary-gray xxs:text-sm portrait:md:text-[2vw] portrait:md:px-10 portrait:md:py-4 active:ring-primary-gray focus:ring-primary-gray outline-0 form-select focus:bg-white dark:bg-[#0a0908]"
+                className="rounded-sm bg-transparent px-7 3xl:text-sm py-2 md:text-xs  focus:border-primary-gray active:border-primary-gray text-sm portrait:md:text-[2vw] portrait:md:px-10 portrait:md:py-4 active:ring-primary-gray focus:ring-primary-gray outline-0 form-select focus:bg-white dark:bg-[#0a0908]"
                 value={searchRadius}
                 onChange={(e) => setSearchRadius(e.target.value)}
               >
@@ -117,14 +117,14 @@ export default function MeetingSetup(props) {
             </div>
             <div
               id="time-slot-wrapper"
-              className="flex flex-col items-center gap-5 w-11/12 sm:pt-10 xxs:pt-5"
+              className="flex flex-col items-center gap-5 w-11/12 sm:pt-10 pt-5"
             >
-              <h2 className="text-headers font-semibold 5xl:text-xl xxs:text-md portrait:md:text-[3vw] portrait:md:pt-20 md:text-sm sm:text-lg 3xl:text-base">
+              <h2 className="text-headers font-semibold 5xl:text-xl text-md portrait:md:text-[3vw] portrait:md:pt-20 md:text-sm sm:text-lg 3xl:text-base">
                 TIME SLOTS
               </h2>
               <div
                 id="time-slot-group"
-                className="flex flex-row flex-wrap justify-center gap-5 pb-3 xxs:text-sm 3xl:text-sm md:text-xs 5xl:text-base portrait:md:text-[2.4vw]"
+                className="flex flex-row flex-wrap justify-center gap-5 pb-3 text-sm 3xl:text-sm md:text-xs 5xl:text-base portrait:md:text-[2.4vw]"
               >
                 {timeSlots.map((timeOption) => {
                   return (
@@ -148,10 +148,10 @@ export default function MeetingSetup(props) {
             </div>
             <div
               id="btn-container"
-              className=" xxs:w-5/6 xs:w-4/6 sm:w-4/6 lg:w-3/5 pt-5 portrait:lg:w-4/5 "
+              className="w-5/6 xs:w-4/6 sm:w-4/6 lg:w-3/5 pt-5 portrait:lg:w-4/5"
             >
               <FormButton handleSubmit={handleSearchSubmit}>
-                <span className="xxs:text-[3.3vw]  sm:text-lg 5xl:text-xl portrait:md:text-[3vw] portrait:lg:py-2 3xl:text-sm md:text-xs">
+                <span className="text-[3.3vw]  sm:text-lg 5xl:text-xl portrait:md:text-[3vw] portrait:lg:py-2 3xl:text-sm md:text-xs">
                   FIND BUDDY
                 </span>
               </FormButton>

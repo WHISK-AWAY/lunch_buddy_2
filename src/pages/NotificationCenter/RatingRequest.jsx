@@ -51,7 +51,7 @@ export default function RatingRequest({ notification, closeMenu }) {
         className="flex flex-row gap-2 w-fit lg:w-2/5 h-fit self-center  space-5 justify-center items-center pt-4"
       >
         <NotificationButton handleSubmit={handleRating}>
-          <span className="xxs:text-xs md:text-[1vw] 4xl:text-xs">
+          <span className="text-xs md:text-[1vw] 4xl:text-xs">
             LEAVE FEEDBACK
           </span>
         </NotificationButton>
