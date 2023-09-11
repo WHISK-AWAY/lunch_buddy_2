@@ -186,7 +186,7 @@ const Feedback = () => {
       <div
         id="bg-img"
         alt="Man and woman at a restaurant sharing a pizza, smiling"
-        className="hidden lg:block h-screen image-wrapper basis-1/2 bg-cover bg-[url('/assets/bgImg/rating&report.jpg')]"
+        className="hidden lg:block h-screen image-wrapper basis-1/2 bg-cover bg-[url('/assets/bgImg/rating-report.jpg')] supports-[background-image:_url('/assets/bgImg/rating-report-q30.webp')]:bg-[url('/assets/bgImg/rating-report-q30.webp')]"
         data-aos="fade-left"
         data-aos-delay="200"
         data-aos-duration="2000"

@@ -152,7 +152,7 @@ export default function MeetingSetup(props) {
             >
               <FormButton handleSubmit={handleSearchSubmit}>
                 <span className="xxs:text-[3.3vw]  sm:text-lg 5xl:text-xl portrait:md:text-[3vw] portrait:lg:py-2 3xl:text-sm md:text-xs">
-                  FIND BUDDY 
+                  FIND BUDDY
                 </span>
               </FormButton>
             </div>
@@ -163,7 +163,7 @@ export default function MeetingSetup(props) {
       <div
         id="bg-img"
         className="bg-cover bg-no-repeat 
-       bg-[url('/assets/bgImg/test23-lq_10.webp')]  basis-full  hidden lg:block h-full portrait:lg:hidden"
+       bg-[url('/assets/bgImg/meetingSetup.jpg')] supports-[background-image:_url('/assets/bgImg/meetingSetup-lq_10.webp')]:bg-[url('/assets/bgImg/meetingSetup-lq_10.webp')] basis-full hidden lg:block h-full portrait:lg:hidden"
       ></div>
     </div>
   );

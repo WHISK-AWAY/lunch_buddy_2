@@ -98,7 +98,7 @@ const CurrentMeeting = ({}) => {
   return (
     <div className="recap-card  w-screen self-center   justify-between lg:items-center  dark:bg-[#0a0908]  bg-white dark:text-white text-primary-gray  h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]   overflow-hidden flex flex-row">
       <div
-        className="recap-image hidden h-screen lg:block lg:h-full lg:basis-1/2 2xl:basis-full bg-[url('/assets/bgImg/test22-lq_10.webp')] bg-center bg-cover overflow-hidden"
+        className="recap-image hidden h-screen lg:block lg:h-full lg:basis-1/2 2xl:basis-full bg-[url('/assets/bgImg/currentMeeting.jpg')] supports-[background-image:_url('/assets/bgImg/currentMeeting-lq_10.webp')]:bg-[url('/assets/bgImg/currentMeeting-lq_10.webp')] bg-center bg-cover overflow-hidden"
         // data-aos="fade-right"
         // data-aos-delay="800"
         // data-aos-duration="1500"

@@ -186,7 +186,7 @@ const SignInForm = () => {
         </div>
       </div>
       <div
-        className="image-wrapper  hidden lg:block basis-full h-full bg-cover bg-no-repeat bg-[url('/assets/bgImg/test9-lq_10.webp')] portrait:lg:hidden"
+        className="image-wrapper hidden lg:block basis-full h-full bg-cover bg-no-repeat bg-[url('/assets/bgImg/registerForm.jpg')] supports-[background-image:_url('/assets/bgImg/registerForm-lq_10.webp')]:bg-[url('/assets/bgImg/registerForm-lq_10.webp')] portrait:lg:hidden"
         // data-aos="fade-left"
         // data-aos-delay="200"
         // data-aos-duration="2800"

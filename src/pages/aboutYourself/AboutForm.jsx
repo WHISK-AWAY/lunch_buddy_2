@@ -216,7 +216,7 @@ const AboutForm = () => {
       </div>
       <div
         id="bg-img"
-        className="basis-1/2 hidden lg:block h-full bg-cover bg-[url('/assets/bgImg/aboutMeView-q30.webp')]"
+        className="basis-1/2 hidden lg:block h-full bg-cover supports-[background-image:_url('/assets/bgImg/aboutMeView-q30.webp')]:bg-[url('/assets/bgImg/aboutMeView-q30.webp')] bg-[url('/assets/bgImg/aboutMeView.jpg')"
         data-aos="fade-left"
         data-aos-delay="200"
         data-aos-duration="2000"

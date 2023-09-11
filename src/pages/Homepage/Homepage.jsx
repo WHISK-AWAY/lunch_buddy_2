@@ -17,7 +17,6 @@ const Homepage = () => {
     offset: 0,
   });
 
-
   //*try token check to stay signed in if token stored in the local storage on page refresh
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -35,7 +34,7 @@ const Homepage = () => {
         <div
           id="bg-img-container"
           alt="two women holding coffee smiling at each other"
-          className=" bg-[url('/assets/bgImg/connect.jpg')] self-right md:h-screen md:w-full md:bg-cover bg-cover h-[60svh] bg-no-repeat md:self-start sm:bg-right "
+          className="bg-[url('/assets/bgImg/connect.jpg')] supports-[background-image:_url('/assets/bgImg/connect-q30.webp')]:bg-[url('/assets/bgImg/connect-q30.webp')] self-right md:h-screen md:w-full md:bg-cover bg-cover h-[60svh] bg-no-repeat md:self-start sm:bg-right "
           // data-aos="fade-up"
           // data-aos-delay="400"
           // duration="1000"
@@ -59,8 +58,8 @@ const Homepage = () => {
             // data-aos-delay="1300"
             // duration="500"
           >
-            explore seamless way to connect with like-minded people in your
-            area, build meaningful relationships
+            explore the seamless way to connect with like-minded people in your
+            area & build meaningful relationships
           </span>
         </div>
       </div>
@@ -72,7 +71,7 @@ const Homepage = () => {
         <div
           id="bg-img-container"
           alt="dark plate on the table with toast on the bed of spinach, avocado slices and eggs on top"
-          className="md:w-1/2 bg-[url('/assets/bgImg/explore.jpg')] h-[70svh] md:h-screen bg-no-repeat bg-cover bg-left self-end w-full pl-6 md:self-end"
+          className="md:w-1/2 bg-[url('/assets/bgImg/explore.jpg')] supports-[background-image:_url('/assets/bgImg/explore-q30.webp')]:bg-[url('/assets/bgImg/explore-q30.webp')] h-[70svh] md:h-screen bg-no-repeat bg-cover bg-left self-end w-full pl-6 md:self-end"
           // data-aos="fade-right"
           // data-aos-delay="300"
           // data-aos-duration="1500"
@@ -108,7 +107,7 @@ const Homepage = () => {
         <div
           id="bg-img-container"
           alt="two women giggling while sitting at the table in the cafe"
-          className="bg-[url('/assets/bgImg/expand.jpg')] h-[65svh] md:h-screen md:w-full bg-no-repeat bg-cover self-right sm:bg-right "
+          className="bg-[url('/assets/bgImg/expand.jpg')] supports-[background-image:_url('/assets/bgImg/expand-q30.webp')]:bg-[url('/assets/bgImg/expand-q30.webp')] h-[65svh] md:h-screen md:w-full bg-no-repeat bg-cover self-right sm:bg-right "
           // data-aos="zoom-in-right"
           // data-aos-delay="300"
         ></div>
@@ -145,7 +144,7 @@ const Homepage = () => {
         <div
           id="bg-img-container"
           alt="lady sitting at the table with her feet on the chair with a bowl of pasta, holding her phone in the left hand"
-          className="md:w-1/2 bg-[url('/assets/bgImg/join.jpg')] md:h-screen bg-no-repeat bg-right w-full bg-cover self-end h-[60svh]"
+          className="md:w-1/2 bg-[url('/assets/bgImg/join.jpg')] supports-[background-image:_url('/assets/bgImg/join-q30.webp')]:bg-[url('/assets/bgImg/join-q30.webp')] md:h-screen bg-no-repeat bg-right w-full bg-cover self-end h-[60svh]"
           // data-aos="fade-left"
           // data-aos-delay="300"
           // data-aos-duration="1500"

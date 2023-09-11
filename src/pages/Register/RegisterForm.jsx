@@ -239,7 +239,9 @@ const RegisterForm = () => {
                 type="email"
                 required={true}
                 className={`${
-                  inputValidator.email || emailIsUnavailable ? INVALID_CLASS : null
+                  inputValidator.email || emailIsUnavailable
+                    ? INVALID_CLASS
+                    : null
                 }  w-full px-4 py-1 autofill:bg-none rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border md:py-2  border-primary-gray dark:text-white text-xs 6xl:text-sm 6xl:py-4`}
                 placeholder={
                   emailIsUnavailable
@@ -445,11 +447,11 @@ const RegisterForm = () => {
             </Link>
           </p>
         </div>
-      </div> 
+      </div>
       <div
         id="bg-img"
         className="bg-cover 
-        bg-[url('/assets/bgImg/test9-lq_10.webp')] basis-full hidden lg:block portrait:lg:hidden h-full"
+        bg-[url('/assets/bgImg/registerForm.jpg')] supports-[background-image:_url('/assets/bgImg/registerForm-lq_10.webp')]:bg-[url('/assets/bgImg/registerForm-lq_10.webp')] basis-full hidden lg:block portrait:lg:hidden h-full"
         alt="large company sitting at the dining table"
         // data-aos="fade-left"
         // data-aos-delay="200"
