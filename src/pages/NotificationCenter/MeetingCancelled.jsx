@@ -82,7 +82,7 @@ export default function MeetingCancelled({ notification, closeMenu }) {
             className="absolute w-6 right-3 top-3 cursor-pointer"
             onClick={acknowledge}
           >
-            <img src={xMenuIcon} />
+            <img src={xMenuIcon} alt="close this notification" />
           </div>
         </div>
       </div>

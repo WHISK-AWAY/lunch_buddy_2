@@ -65,7 +65,7 @@ export default function MeetingAccepted({ notification }) {
             className="absolute w-6 right-3 top-3 cursor-pointer"
             onClick={acknowledge}
           >
-            <img src={xIcon} />
+            <img src={xIcon} alt="close this notification" />
           </div>
         </div>
       </div>

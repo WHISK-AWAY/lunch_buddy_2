@@ -100,12 +100,13 @@ const UserAccount = () => {
             >
               <img
                 src={pencil}
+                alt="edit user account"
                 className="h-[16px] w-6 m-auto relative top-[11px] rotate-3 left-2"
               />
             </Link>
             <img
               src={auth.user.avatarUrl}
-              alt="user avatar"
+              alt="your avatar image"
               className="object-cover aspect-square w-28 h-28 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative translate-y-[30%] place-self-end"
             />
           </div>
@@ -137,6 +138,7 @@ const UserAccount = () => {
               <img
                 className="w-2 relative rotate-45 top-[8px] self-start"
                 src={squaresSolid}
+                alt=""
               />
               <div className="flex flex-row flex-wrap gap-3">
                 {socialTags.map((social) => {
@@ -162,6 +164,7 @@ const UserAccount = () => {
               <img
                 className="w-2 relative rotate-45 bottom-[-30%] top-[8px] self-start"
                 src={squaresSolid}
+                alt=""
               />
               <div className="flex flex-row flex-wrap gap-3">
                 {professionalTags.map((professional) => {
@@ -187,6 +190,7 @@ const UserAccount = () => {
               <img
                 className="w-2 relative rotate-45 top-[8px] self-start"
                 src={squaresSolid}
+                alt=""
               />
               <div className="flex flex-row flex-wrap gap-3">
                 {cuisineTags.map((cuisine) => {
@@ -214,6 +218,7 @@ const UserAccount = () => {
                   <img
                     className="w-2 relative rotate-45 top-[8px] self-start"
                     src={squaresSolid}
+                    alt=""
                   />
                   <div className="flex flex-wrap gap-3">
                     {dietaryTags.map((dietary) => {

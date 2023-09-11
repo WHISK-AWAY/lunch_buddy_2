@@ -47,6 +47,8 @@ export default function NewMessageReceived({ notification, closeMenu }) {
     }
   }, [darkMode]);
 
+  const webpUrl = notification.fromUser.avatarUrl.split('.').at(0) + '-q1.webp';
+
   return (
     <div
       id="meeting-card"
@@ -57,14 +59,19 @@ export default function NewMessageReceived({ notification, closeMenu }) {
         className="absolute w-5 right-3 top-3 cursor-pointer"
         onClick={acknowledge}
       >
-        <img src={xMenuIcon} />
+        <img src={xMenuIcon} alt="close this notification" />
       </div>
       <div id="img-section" className="flex  shrink-0 self-center pl-4">
-        <img
-          src={notification.fromUser.avatarUrl}
-          alt="user avatar"
-          className="object-cover aspect-square w-16 h-16 lg:w-20 lg:h-20 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative"
-        />
+        <picture>
+          <source srcSet={webpUrl} />
+          <img
+            src={notification.fromUser.avatarUrl}
+            alt={`${notification.fromUser.firstName}'s avatar image`}
+            width={1240}
+            height={1850}
+            className="object-cover aspect-square w-16 h-16 lg:w-20 lg:h-20 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative"
+          />
+        </picture>
       </div>
       <div
         id="notification-details"

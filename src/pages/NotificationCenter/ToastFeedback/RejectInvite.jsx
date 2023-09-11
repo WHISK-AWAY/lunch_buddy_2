@@ -50,7 +50,7 @@ export default function RejectInvite({ buddyFirstName, t }) {
             className="absolute top-3 w-5 right-3 cursor-pointer"
             onClick={() => toast.remove(t.id)}
           >
-            <img src={xMenuIcon} />
+            <img src={xMenuIcon} alt="close this notification" />
           </div>
         </div>
       </div>

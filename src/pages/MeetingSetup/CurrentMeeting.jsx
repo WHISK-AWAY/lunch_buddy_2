@@ -88,6 +88,13 @@ const CurrentMeeting = ({}) => {
     offset: 0,
   });
 
+  const buddy =
+    currentMeeting.userId === authUser.id
+      ? currentMeeting.buddy
+      : currentMeeting.user;
+
+  const webpUrl = buddy.avatarUrl.split('.').at(0) + '-q1.webp';
+
   return (
     <div className="recap-card  w-screen self-center   justify-between lg:items-center  dark:bg-[#0a0908]  bg-white dark:text-white text-primary-gray  h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]   overflow-hidden flex flex-row">
       <div
@@ -112,11 +119,16 @@ const CurrentMeeting = ({}) => {
             // data-aos-delay="800"
             // data-aos-duration="1800"
           >
-            <img
-              src={currentMeeting?.buddy?.avatarUrl}
-              alt="Your buddy's avatar image"
-              className="bg-white object-cover aspect-square h-28 w-28 lg:w-32 lg:h-32 rounded-full z-10 p-1 drop-shadow-md"
-            />
+            <picture>
+              <source srcSet={webpUrl} type="image/webp" />
+              <img
+                src={buddy.avatarUrl}
+                alt={`${buddy.firstName}'s avatar image`}
+                width={1240}
+                height={1850}
+                className="bg-white object-cover aspect-square h-28 w-28 lg:w-32 lg:h-32 rounded-full z-10 p-1 drop-shadow-md"
+              />
+            </picture>
           </div>
           <div
             id="meeting-detail-container"
@@ -126,7 +138,7 @@ const CurrentMeeting = ({}) => {
             // data-aos-duration="2000"
           >
             <h2 className="text-md text-headers pb-4">
-              {currentMeeting.buddy.fullName.toUpperCase()}
+              {buddy.fullName.toUpperCase()}
             </h2>
             <p className="text-xs">
               {currentMeeting &&

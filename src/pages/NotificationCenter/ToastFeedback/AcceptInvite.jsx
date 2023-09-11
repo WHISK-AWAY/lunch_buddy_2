@@ -67,7 +67,7 @@ export default function AcceptInvite({ notification, meetings, t }) {
             className="absolute w-5 right-3 top-3 cursor-pointer"
             onClick={() => toast.remove(t.id)}
           >
-            <img src={xMenuIcon} />
+            <img src={xMenuIcon} alt="close this notification" />
           </div>
         </div>
       </div>

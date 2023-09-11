@@ -159,7 +159,9 @@ const NavBar = () => {
             <img
               className="w-7 xl:w-10 lg:w-8 5xl:w-10 6xl:w-14 portrait:xs:w-9 portrait:md:w-10"
               src={menuMode === 'dropdown' ? xMenuIcon : menuIcon}
-              alt="Three lined menu icon button"
+              alt={`click to ${
+                menuMode === 'dropdown' ? 'close' : 'open'
+              } navigation menu`}
               // onClick={() => setExpandMenu((prev) => !prev)}
               onClick={() =>
                 setMenuMode((prev) => (prev === 'dropdown' ? null : 'dropdown'))

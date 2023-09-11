@@ -23,19 +23,30 @@ export default function BuddyCard(props) {
     }
   }, [darkModeSelector]);
 
+  const webpUrl = buddy?.avatarUrl.split('.').at(0) + '-q1.webp';
+
   return (
     <div className="buddy_card font-jost relative xxs:w-[90%] w-4/5 md:w-[90%] lg:w-4/5 3xl:w-9/12 flex flex-col md:flex-row lg:flex-col  justify-between shrink items-center gap-6 p-4 pb-6 bg-primary-gray/20 dark:bg-white/10 shadow-md mb-20 xxs:mb-8 rounded-3xl portrait:md:w-[80%] md:p-10 4xl:p-16 ">
       <div className="buddy_avatar shrink-0 grow-0 justify-center items-center md:self-start lg:self-center  relative top-2">
-        <img
-          className="bg-white object-cover aspect-square w-32 h-32 xxs:w-28 xxs:h-28 rounded-[100%] z-10 p-1 relative self-end "
-          src={buddy.avatarUrl}
-          alt="A buddy's avatar image"
-        />
+        <picture>
+          <source srcSet={webpUrl} type="image/webp" />
+          <img
+            className="bg-white object-cover aspect-square w-32 h-32 xxs:w-28 xxs:h-28 rounded-[100%] z-10 p-1 relative self-end "
+            src={buddy.avatarUrl}
+            width={1240}
+            height={1850}
+            alt={`${buddy.firstName}'s avatar image`}
+          />
+        </picture>
         <button
           className="select_buddy button-round rounded-full w-12 xxs:w-10 aspect-square absolute -top-4 -right-3 md:-left-4 lg:-right-3 xl:-left-4 flex justify-center items-center"
           onClick={() => selectBuddy(buddy)}
         >
-          <img src={plus} className="w-8 aspect-square " />
+          <img
+            src={plus}
+            className="w-8 aspect-square"
+            alt="choose this buddy"
+          />
         </button>
       </div>
       <div className="buddy-info flex flex-col gap-4 shrink grow-0 basis-4/5">
@@ -51,7 +62,6 @@ export default function BuddyCard(props) {
           <p>{buddy.aboutMe}</p>
         </div>
 
-        
         <div className="taglist-wrapper flex flex-row flex-nowrap justify-start w-full">
           <div className="tag-expand-button self-start shrink-0 pr-5">
             <button
