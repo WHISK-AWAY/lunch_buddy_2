@@ -103,7 +103,8 @@ export const updateLocation = createAsyncThunk(
 
       return updatedUser;
     } catch (err) {
-      return rejectWithValue(err);
+      console.dir(err);
+      return rejectWithValue(err.message);
     }
   }
 );
@@ -254,7 +255,8 @@ const userSlice = createSlice({
       })
       .addCase(updateLocation.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload.response.data;
+        console.log(action);
+        state.error = action.payload;
       })
 
       // BAN USER
