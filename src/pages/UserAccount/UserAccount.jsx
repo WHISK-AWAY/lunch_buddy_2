@@ -241,7 +241,7 @@ const UserAccount = () => {
       <div
         id="bg-img"
         className="bg-cover
-          bg-[url('/assets/bgImg/accView.jpg')] basis-1/2 hidden lg:block h-full portrait:lg:hidden"
+          supports-[background-image:_url('/assets/bgImg/accView-q30.webp')]:bg-[url('/assets/bgImg/accView-q30.webp')] bg-[url('/assets/bgImg/accView.jpg')] basis-1/2 hidden lg:block h-full portrait:lg:hidden"
       ></div>
     </div>
   );
