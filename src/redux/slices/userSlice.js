@@ -103,7 +103,6 @@ export const updateLocation = createAsyncThunk(
 
       return updatedUser;
     } catch (err) {
-      console.dir(err);
       return rejectWithValue(err.message);
     }
   }
@@ -255,7 +254,6 @@ const userSlice = createSlice({
       })
       .addCase(updateLocation.rejected, (state, action) => {
         state.isLoading = false;
-        console.log(action);
         state.error = action.payload;
       })
 
