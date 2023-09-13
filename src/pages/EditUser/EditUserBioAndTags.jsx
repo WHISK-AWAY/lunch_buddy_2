@@ -13,7 +13,7 @@ import {
   fetchUser,
   selectUser,
 } from '../../redux/slices/userSlice';
-import { tryToken, selectAuthUser } from '../../redux/slices';
+import { selectAuthUser } from '../../redux/slices';
 import { useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -54,16 +54,16 @@ const EditUserBioAndTags = () => {
   const [validBio, setValidBio] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      dispatch(tryToken());
-      dispatch(fetchAllTags());
-    }
+    // const token = localStorage.getItem('token');
+    // if (token) {
+    // dispatch(tryToken());
+    dispatch(fetchAllTags());
+    // }
   }, []);
 
   useEffect(() => {
     if (authUser?.id) {
-      dispatch(fetchUser(authUser.id));
+      dispatch(fetchUser());
     }
   }, [authUser]);
 
