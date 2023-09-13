@@ -180,9 +180,9 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
       <div
         ref={wrapperRef}
         id="dropdown-container"
-        className={`dark:text-white dark:bg-[#0a0908] -translate-y-full  fixed bg-white w-screen opacity-95 z-30 h-[100svh]  `}
+        className={`dark:text-white dark:bg-[#0a0908]/60 bg-white/60 -translate-y-full fixed  w-screen opacity-95 z-30 landscape:lg:h-[60svh] landscape:h-[calc(100svh_-_56px)] portrait:h-[100svh] `}
       >
-        <ul className="flex flex-col items-center short:py-6  portrait:xxs:justify-center md:justify-start tall:pt-7  overflow-y-auto h-fit border">
+        <ul className="flex flex-col items-center short:py-6  justify-center   overflow-y-auto portrait:h-full landscape:lg:h-full landscape:h-full border align-center ">
           {!authUser.firstName ? (
             <>
               {/* NAV LINKS WHEN NOT SIGNED IN */}

@@ -5,16 +5,16 @@ const DropDownItem = (props) => {
   return (
     <li
       onClick={props.handleClick}
-      className="transition-all w-full text-center font-thin hover:bg-[#f4978e]/20 hover:ease-in-out duration-500 h-fit"
+      className="transition-all w-full text-center font-thin hover:bg-[#f4978e]/20 hover:ease-in-out duration-500 h-fit landscape:py-2"
       style={{
         transitionDelay: '0.1s',
       }}
     >
       <Link
         to={props.linkTo}
-        className="py-2 base:py-0 block  align-middle grande:py-0 short:py-0 tall portrait:md:py-3 portrait:lg:py-4 "
+        className="  block  align-middle  portrait:py-1 portrait:md:py-3 portrait:lg:py-4 landscape:xl:py-2"
       >
-        <div className=" text-3xl md:mt-0 short:mt-0 tall:py-2 md:py-2  grande:py-0 sm:text-4xl short:text-xl portrait:md:text-5xl portrait:lg:text-6xl">
+        <div className=" text-2xl md:mt-0 short:mt-0 landscape:xl:text-[3.1rem] landscape:short:text-[2rem]  portrait:text-4xl short:text-xl portrait:md:text-5xl portrait:lg:text-6xl ">
           {props.children.toUpperCase()}
         </div>
       </Link>
