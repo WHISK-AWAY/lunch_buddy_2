@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
 import NotificationBody from '../pages/NotificationCenter/NotificationBody';
