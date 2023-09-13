@@ -26,7 +26,8 @@ export default function BuddyCard(props) {
   const webpUrl = buddy?.avatarUrl.split('.').at(0) + '-q1.webp';
 
   return (
-    <div className="buddy_card font-jost relative w-[90%] md:w-[90%] lg:w-4/5 3xl:w-9/12 flex flex-col md:flex-row lg:flex-col  justify-between shrink items-center gap-6 p-4 pb-6 bg-primary-gray/20 dark:bg-white/10 shadow-md md:mb-20 mb-8 rounded-3xl portrait:md:w-[80%] md:p-10 4xl:p-16 ">
+    <div className="buddy_card font-jost relative w-[90%] md:w-[90%] lg:w-4/5 3xl:w-9/12 flex flex-col md:flex-row lg:flex-col  justify-between shrink items-center gap-6 p-4 pb-6 bg-primary-gray/20 dark:bg-white/10 shadow-md landscape:md:mb-10 mb-8 rounded-3xl portrait:md:w-[80%] md:p-10 4xl:p-16 ">
+   
       <div className="buddy_avatar shrink-0 grow-0 justify-center items-center md:self-start lg:self-center  relative top-2">
         <picture>
           <source srcSet={webpUrl} type="image/webp" />
@@ -51,14 +52,14 @@ export default function BuddyCard(props) {
       </div>
       <div className="buddy-info flex flex-col gap-4 shrink grow-0 basis-4/5">
         <div className="buddy-header-wrapper flex flex-col gap-1">
-          <div className="buddy_name text-headers self-center md:text-sm text-base portrait:md:text-lg 4xl:text-lg ">
+          <div className="buddy_name text-headers text-center self-center md:text-sm text-base portrait:md:text-lg 4xl:text-lg landscape:xs:text-[1rem]">
             <p>{buddy.fullName.toUpperCase()}</p>
           </div>
           <div className="buddy-location self-center text-xs portrait:md:text-sm 4xl:text-base ">
             <p>{`${buddy.city}, ${buddy.state}`}</p>
           </div>
         </div>
-        <div className="buddy_bio w-full text-center text-[3.6vw] portrait:text-base md:text-xs 4xl:text-base md:pb-2 ">
+        <div className="buddy_bio w-full text-center text-[3.6vw] portrait:text-xs md:text-xs 4xl:text-base md:pb-2 landscape:text-[.8rem] landscape:sm:text-[.9rem] portrait:md:text-sm portrait:lg:text-base">
           <p>{buddy.aboutMe}</p>
         </div>
 
