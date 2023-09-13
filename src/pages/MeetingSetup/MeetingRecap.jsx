@@ -1,15 +1,33 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createMeeting } from '../../redux/slices';
 import FormButton from '../../components/FormButton';
+
+import gsap from 'gsap';
 import AOS from 'aos';
 // import 'aos/dist/aos.css';
 
 export default function MeetingRecap({ state }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const topImageRef = useRef(null);
+
   const { buddy, timeSlot, restaurant } = state;
+
+  useEffect(() => {
+    // fade bg image in only after it's downloaded
+
+    const bgImg = new Image();
+    bgImg.src = '/assets/bgImg/meetingRecap-lq_10.webp';
+
+    gsap.set(topImageRef.current, { opacity: 0 });
+
+    bgImg.onload = () => {
+      gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
+    };
+  }, []);
 
   function handleMeeting(e) {
     e.preventDefault();
@@ -35,6 +53,7 @@ export default function MeetingRecap({ state }) {
   return (
     <div className="recap-card  w-screen flex flex-col gap-5 items-center   bg-white dark:bg-dark lg:flex-row lg:items-center bg-fixed dark:text-white text-primary-gray overflow-hidden h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)] ">
       <div
+        ref={topImageRef}
         className="recap-image hidden bg-left lg:block lg:h-full lg:basis-full bg-[url('/assets/bgImg/meetingRecap.jpg')] supports-[background-image:_url('/assets/bgImg/meetingRecap-lq_10.webp')]:bg-[url('/assets/bgImg/meetingRecap-lq_10.webp')] portrait:lg:hidden bg-cover overflow-hidden"
         // data-aos="fade-right"
         // data-aos-delay="800"

@@ -1,29 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { selectAuth } from '../../redux/slices';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import FormButton from '../../components/FormButton';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import gsap from 'gsap';
+
+import { selectAuth } from '../../redux/slices';
+// import AOS from 'aos';
+// import 'aos/dist/aos.css';
 
 // import { tryToken } from '../../redux/slices';
 const Homepage = () => {
-  const dispatch = useDispatch();
-
   const auth = useSelector(selectAuth);
-  AOS.init({
-    duration: 2000,
-    offset: 0,
-  });
 
-  // //*try token check to stay signed in if token stored in the local storage on page refresh
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   if (token) {
-  //     dispatch(tryToken());
-  //   }
-  // }, []);
+  const topImageRef = useRef(null);
+
+  // AOS.init({
+  //   duration: 2000,
+  //   offset: 0,
+  // });
+
+  useEffect(() => {
+    // fade bg image in only after it's downloaded
+
+    const bgImg = new Image();
+    bgImg.src = '/assets/bgImg/connect-q30.webp';
+
+    gsap.set(topImageRef.current, { opacity: 0 });
+
+    bgImg.onload = () => {
+      gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
+    };
+  }, []);
 
   return (
     <div className="flex md:w-screen w-full flex-col scroll-smooth gap-20 text-primary-gray pb-16 md:py-16 md:gap-56 h-fit overflow-hidden sm:gap-28 sm:py-16 py-20 bg-white dark:bg-[#0a0908] ">
@@ -32,9 +38,10 @@ const Homepage = () => {
         className="flex md:flex-row flex-col md:w-full md:h-screen md:pl-20 pr-6 py-6 sm:p-6"
       >
         <div
+          ref={topImageRef}
           id="bg-img-container"
           alt="two women holding coffee smiling at each other"
-          className="bg-[url('/assets/bgImg/connect.jpg')] supports-[background-image:_url('/assets/bgImg/connect-q30.webp')]:bg-[url('/assets/bgImg/connect-q30.webp')] self-right md:h-screen md:w-full md:bg-cover bg-cover h-[60svh] bg-no-repeat md:self-start sm:bg-right "
+          className="opacity-0 bg-[url('/assets/bgImg/connect.jpg')] supports-[background-image:_url('/assets/bgImg/connect-q30.webp')]:bg-[url('/assets/bgImg/connect-q30.webp')] self-right md:h-screen md:w-full md:bg-cover bg-cover h-[60svh] bg-no-repeat md:self-start sm:bg-right "
           // data-aos="fade-up"
           // data-aos-delay="400"
           // duration="1000"

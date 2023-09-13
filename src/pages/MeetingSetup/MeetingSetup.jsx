@@ -21,10 +21,24 @@ export default function MeetingSetup(props) {
   );
 
   const wrapperRef = useRef(null);
+  const topImageRef = useRef(null);
 
   const [timeSlot, setTimeSlot] = useState(null);
   const [readyToProceed, setReadyToProceed] = useState(false);
   const [searchRadius, setSearchRadius] = useState(1);
+
+  useEffect(() => {
+    // fade bg image in only after it's downloaded
+
+    const bgImg = new Image();
+    bgImg.src = '/assets/bgImg/meetingSetup-lq_10.webp';
+
+    gsap.set(topImageRef.current, { opacity: 0 });
+
+    bgImg.onload = () => {
+      gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
+    };
+  }, []);
 
   useEffect(() => {
     // use token to keep track of logged-in user (id)
@@ -168,6 +182,7 @@ export default function MeetingSetup(props) {
       </div>
 
       <div
+        ref={topImageRef}
         id="bg-img"
         className="bg-cover bg-no-repeat 
        bg-[url('/assets/bgImg/meetingSetup.jpg')] supports-[background-image:_url('/assets/bgImg/meetingSetup-lq_10.webp')]:bg-[url('/assets/bgImg/meetingSetup-lq_10.webp')] basis-full hidden lg:block h-full portrait:lg:hidden"

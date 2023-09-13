@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-// import { Loader } from '@googlemaps/js-api-loader';
 import { Wrapper } from '@googlemaps/react-wrapper';
 import MapComponent from '../../components/MapComponent';
 import { RestaurantCard } from '../index';
@@ -14,8 +13,6 @@ import {
 
 export default function RestaurantSuggestions({ state }) {
   const navigate = useNavigate();
-
-  const location = useLocation();
 
   const search = useSelector(selectSearch);
   const mapsKey = useSelector((state) => state.search.mapsKey);

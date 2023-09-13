@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,6 +6,8 @@ import { requestLogin, successfulLogin } from '../../redux/slices/authSlice';
 import { INVALID_CLASS } from '../../utilities/invalidInputClass';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+
+import gsap from 'gsap';
 
 const inputs = {
   email: '',
@@ -20,6 +22,21 @@ const SignInForm = () => {
 
   const [isInvalid, setIsInvalid] = useState(false);
   const [formInputs, setFormInputs] = useState(inputs);
+
+  const topImageRef = useRef(null);
+
+  useEffect(() => {
+    // fade bg image in only after it's downloaded
+
+    const bgImg = new Image();
+    bgImg.src = '/assets/bgImg/registerForm-lq_10.webp';
+
+    gsap.set(topImageRef.current, { opacity: 0 });
+
+    bgImg.onload = () => {
+      gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
+    };
+  }, []);
 
   useEffect(() => {
     // move to homepage when authUser becomes defined (either on entry or on login)
@@ -188,11 +205,11 @@ const SignInForm = () => {
         </div>
       </div>
       <div
+        ref={topImageRef}
         className="image-wrapper hidden lg:block basis-full h-full bg-cover bg-no-repeat bg-[url('/assets/bgImg/registerForm.jpg')] supports-[background-image:_url('/assets/bgImg/registerForm-lq_10.webp')]:bg-[url('/assets/bgImg/registerForm-lq_10.webp')] portrait:lg:hidden"
         // data-aos="fade-left"
         // data-aos-delay="200"
         // data-aos-duration="2800"
-        alt="large company sitting at the dining table"
       ></div>
     </div>
   );
