@@ -1,20 +1,14 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-import {
-  createMeeting,
-  selectMeetings,
-  resetMeetingStatus,
-} from '../../redux/slices';
+import { createMeeting, resetMeetingStatus } from '../../redux/slices';
 import FormButton from '../../components/FormButton';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-export default function MeetingRecap(props) {
+export default function MeetingRecap() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const meetings = useSelector(selectMeetings);
 
   const location = useLocation();
 
@@ -22,16 +16,6 @@ export default function MeetingRecap(props) {
     // on load, make sure meeting state is cleared
     dispatch(resetMeetingStatus());
   }, []);
-
-  // kick back out to match screen if we attempt to navigate directly to this page via url bar, etc
-  // if (
-  //   !location.state ||
-  //   !location.state?.buddy ||
-  //   !location.state?.lunchDate ||
-  //   !location.state?.yelpBusinessId
-  // ) {
-  //   navigate('/match');
-  // }
 
   const { buddy, timeSlot, restaurant } = location.state;
 
@@ -54,7 +38,7 @@ export default function MeetingRecap(props) {
   const webpUrl = buddy.avatarUrl.split('.').at(0) + '-q1.webp';
 
   return (
-    <div className="recap-card  w-screen flex flex-col gap-5 items-center   bg-white dark:bg-[#0a0908]  lg:flex-row lg:items-center bg-fixed dark:text-white text-primary-gray overflow-hidden h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)] ">
+    <div className="recap-card  w-screen flex flex-col gap-5 items-center   bg-white dark:bg-dark lg:flex-row lg:items-center bg-fixed dark:text-white text-primary-gray overflow-hidden h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)] ">
       <div
         className="recap-image hidden bg-left lg:block lg:h-full lg:basis-full bg-[url('/assets/bgImg/meetingRecap.jpg')] supports-[background-image:_url('/assets/bgImg/meetingRecap-lq_10.webp')]:bg-[url('/assets/bgImg/meetingRecap-lq_10.webp')] portrait:lg:hidden bg-cover overflow-hidden"
         // data-aos="fade-right"

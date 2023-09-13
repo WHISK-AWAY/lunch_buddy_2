@@ -90,13 +90,10 @@ const EditUserForm = () => {
   }, []);
 
   useEffect(() => {
-    async function getUser() {
-      await dispatch(fetchUser(authUser.id));
-    }
     if (authUser.id) {
-      getUser();
+      dispatch(fetchUser());
     }
-  }, [authUser]);
+  }, [authUser.id]);
 
   useEffect(() => {
     if (userInfo.id) {

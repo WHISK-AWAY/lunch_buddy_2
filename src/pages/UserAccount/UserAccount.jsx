@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
-import { tryToken, selectAuth } from '../../redux/slices/authSlice';
-import {
-  fetchUser,
-  selectUser,
-  updateUser,
-} from '../../redux/slices/userSlice';
-import getLocation from '../../utilities/geo';
+import { Link } from 'react-router-dom';
+import { selectAuth } from '../../redux/slices/authSlice';
+import { fetchUser, selectUser } from '../../redux/slices/userSlice';
 import squaresSolid from '../../assets/icons/squares-solid.svg';
 import pencil from '../../assets/icons/pencil.svg';
 
 const UserAccount = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const auth = useSelector(selectAuth);
   const user = useSelector(selectUser);
@@ -22,36 +16,12 @@ const UserAccount = () => {
   const [socialTags, setSocialTags] = useState([]);
   const [dietaryTags, setDietaryTags] = useState([]);
   const [cuisineTags, setCuisineTags] = useState([]);
-  const token = window.localStorage.getItem('token');
 
   useEffect(() => {
-    if (!token) {
-      navigate('/login');
-    } else {
-      dispatch(tryToken());
+    if (auth.user?.id) {
+      dispatch(fetchUser());
     }
-  }, []);
-
-  useEffect(() => {
-    // use token to keep track of logged-in user (id)
-    // once that's known we can pull down user data
-    // if (auth.error) {
-    //   navigate('/login');
-    // } else if (!auth.user?.id) {
-    //   dispatch(tryToken());
-    // } else dispatch(fetchUser(auth.user.id));
-    // if inactive, flip status & pull location
-    // if (auth.user?.status === 'inactive') {
-    //   getLocation(dispatch);
-    //   dispatch(updateUser({ status: 'active' }));
-    // }
-  }, [dispatch, auth]);
-
-  useEffect(() => {
-    if (token && auth.user.id) {
-      dispatch(fetchUser(auth.user.id));
-    }
-  }, [dispatch, auth]);
+  }, [auth.user?.id]);
 
   const tags = user.tags;
 

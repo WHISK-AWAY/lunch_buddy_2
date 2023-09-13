@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  fetchUser,
-  selectUser,
-  selectAuth,
-  tryToken,
-  updateUser,
-} from '../../redux/slices';
-import getLocation from '../../utilities/geo';
+import { selectUser, selectAuth, findBuddies } from '../../redux/slices';
+// import getLocation from '../../utilities/geo';
 import FormButton from '../../components/FormButton';
 
 const SEARCH_RADIUS_LIST = [0.5, 1, 3, 5];
@@ -24,26 +18,14 @@ export default function MeetingSetup(props) {
   const [timeSlot, setTimeSlot] = useState(null);
   const [searchRadius, setSearchRadius] = useState(1);
 
-  // test for token; back to login if it's not there
-
-  const token = window.localStorage.getItem('token');
-  if (!token) navigate('/login');
-
   useEffect(() => {
     // use token to keep track of logged-in user (id)
     // once that's known we can pull down user data
-    if (auth.error) {
+    if (auth.error || !auth.user?.id || !user.id) {
+      console.warn('missing authentication information - navigating to login');
       navigate('/login');
-    } else if (!auth.user?.id) {
-      dispatch(tryToken());
-    } else dispatch(fetchUser(auth.user.id));
-
-    getLocation(dispatch, navigate);
-    // if inactive, flip status & pull location
-    // if (auth.user?.status === 'inactive') {
-    //   // dispatch(updateUser({ status: 'active' }));
-    // }
-  }, [dispatch, auth]);
+    }
+  }, [auth.user?.id]);
 
   // come up with time slots for suggestion
   function getNextTime(startTime, incrementInMinutes = 15) {
@@ -78,6 +60,8 @@ export default function MeetingSetup(props) {
 
     // hang on to selected time slot -- we'll need it a couple screens from now
     window.localStorage.setItem('meetingTimeslot', JSON.stringify(timeSlot));
+
+    dispatch(findBuddies({ searchRadius }));
 
     navigate('/match/results', {
       state: { searchRadius, timeSlot },

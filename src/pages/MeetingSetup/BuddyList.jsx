@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
-  findBuddies,
   selectSearch,
-  fetchUser,
   selectUser,
   selectAuth,
-  tryToken,
+  findRestaurants,
 } from '../../redux/slices';
 import { BuddyCard } from '../index';
 
@@ -23,27 +21,23 @@ export default function BuddyList(props) {
 
   useEffect(() => {
     // return to login if no token exists
-    if (!window.localStorage.getItem('token')) navigate('/login');
-
-    // populate auth state
+    // otherwise, pull potential matches
     if (!auth.user?.id) {
-      dispatch(tryToken());
+      console.warn('missing login information - returning to login screen');
+      navigate('/login');
+    } else if (!searchRadius || !timeSlot) {
+      console.warn(
+        'missing meeting setup information - returning to home screen'
+      );
+      navigate('/');
     }
-
-    if (!searchRadius || !timeSlot) {
-      console.warn('searchRadius/timeSlot missing');
-    } else {
-      dispatch(findBuddies({ searchRadius }));
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (auth.user?.id && !user.id) dispatch(fetchUser(auth.user.id));
-  }, [dispatch, auth]);
+  }, [searchRadius, timeSlot, auth.user?.id]);
 
   function selectBuddy(buddy) {
+    dispatch(findRestaurants({ searchRadius, buddy }));
+
     navigate('/match/restaurants', {
-      state: { searchRadius, timeSlot, buddy },
+      state: { timeSlot, buddy },
     });
   }
 
@@ -62,7 +56,7 @@ export default function BuddyList(props) {
     );
 
   return (
-    <div className="buddies-list-page  bg-white dark:bg-[#0a0908] dark:text-white flex flex-col justify-center items-center lg:flex-row lg:justify-between text-primary-gray   h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]   ">
+    <div className="buddies-list-page  bg-white dark:bg-dark dark:text-white flex flex-col justify-center items-center lg:flex-row lg:justify-between text-primary-gray   h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]   ">
       <div className="buddies-image-container h-full basis-full hidden bg-[url('/assets/bgImg/signInView.jpg')] lg:block bg-cover supports-[background-image:_url('/assets/bgImg/signInView-q30.webp')]:bg-[url('/assets/bgImg/signInView-q30.webp')] xl:bg-[url('/assets/bgImg/buddyList-lq_10.webp')] overflow-hidden"></div>
       <div className="buddies-list-wrapper flex flex-col items-center h-full lg:basis-7/12 gap-3 portrait:md:gap-1  overflow-auto">
         <h1 className="text-headers   md:text-lg xxs:pb-5 md:pb-10 md:pt-10 pt-20 xxs:pt-6 xxs:text-xl font-semibold portrait:md:pb-4 4xl:text-3xl portrait:md:text-2xl">

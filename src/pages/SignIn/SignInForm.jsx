@@ -2,12 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  requestLogin,
-  successfulLogin,
-  tryToken,
-} from '../../redux/slices/authSlice';
-import { selectAuthStatus } from '../../redux/slices/authSlice';
+import { requestLogin, successfulLogin } from '../../redux/slices/authSlice';
 import { INVALID_CLASS } from '../../utilities/invalidInputClass';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -20,16 +15,23 @@ const inputs = {
 const SignInForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isInvalid, setIsInvalid] = useState(false);
 
+  const authUser = useSelector((state) => state.auth.user);
+
+  const [isInvalid, setIsInvalid] = useState(false);
   const [formInputs, setFormInputs] = useState(inputs);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      navigate('/');
-    }
-  }, []);
+    // move to homepage when authUser becomes defined (either on entry or on login)
+    if (authUser?.id) navigate('/');
+  }, [authUser?.id]);
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   if (token) {
+  //     navigate('/');
+  //   }
+  // }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,8 +80,8 @@ const SignInForm = () => {
       setIsInvalid(true);
       console.log(authState.payload.error);
     } else {
-      dispatch(tryToken());
-      navigate('/');
+      // dispatch(tryToken());
+      // navigate('/');
     }
   };
 

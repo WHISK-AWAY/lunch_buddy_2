@@ -35,11 +35,11 @@ const CurrentMeeting = ({}) => {
   }, []);
 
   useEffect(() => {
-    if (authUser?.id) {
+    if (authUser.id) {
       // console.log('authUser:', authUser);
       dispatch(fetchCurrentMeeting({ userId: authUser.id }));
     }
-  }, [authUser]);
+  }, [authUser.id]);
 
   function handleCancelButton() {
     // cancel the meeting
