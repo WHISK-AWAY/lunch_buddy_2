@@ -1,22 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { createMeeting, resetMeetingStatus } from '../../redux/slices';
+import { createMeeting } from '../../redux/slices';
 import FormButton from '../../components/FormButton';
 import AOS from 'aos';
-import 'aos/dist/aos.css';
+// import 'aos/dist/aos.css';
 
 export default function MeetingRecap({ state }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { buddy, timeSlot, restaurant } = state;
-
-  useEffect(() => {
-    // on load, make sure meeting state is cleared
-    // dispatch(resetMeetingStatus());
-  }, []);
-
-  console.log('state:', state);
 
   function handleMeeting(e) {
     e.preventDefault();
