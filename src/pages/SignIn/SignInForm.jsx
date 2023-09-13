@@ -108,7 +108,7 @@ const SignInForm = () => {
         // data-aos-delay="1000"
         // duration="1000"
       >
-        <div className="w-4/5  sm:w-4/5 landscape:lg:w-full border border-red-300 lg:w-full  landscape:4xl:w-4/6 landscape:5xl:w-3/6 landscape:6xl:w-5/12  portrait:md:w-3/6 portrait:md:pb-36 portrait:lg:w-full portrait:lg:pb-56 landscape:w-3/5">
+        <div className="w-4/5  sm:w-4/5 landscape:lg:w-full lg:w-full  landscape:4xl:w-4/6 landscape:5xl:w-3/6 landscape:6xl:w-5/12  portrait:md:w-3/6 portrait:md:pb-36 portrait:lg:w-full portrait:lg:pb-56 landscape:w-3/5">
           <form className=" lg:w-3/4 mx-auto flex flex-col">
             <h1 className="text-center text-2xl mb-6 text-headers font-regular xl:text-[1.4vw] 3xl:text-[1.3vw] 4xl:text-[1.1vw] 5xl:text-[1vw] lg:text-[1.6vw] 6xl:text-[.8vw] portrait:lg:text-[3vw] landscape:pt-5 landscape:mb-1">
               SIGN IN
@@ -160,7 +160,7 @@ const SignInForm = () => {
             </div>
             <div
               id="btn-container"
-              className="pt-6 landscape:pt-2"
+              className="pt-6 landscape:pt-2 landscape:lg:pt-6"
               // data-aos="fade-in"
               // data-aos-delay="2000"
               // duration="1500"
