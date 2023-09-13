@@ -1,9 +1,9 @@
 export default function debounce(cb, timeout = 300) {
   let timer = undefined;
 
-  return () => {
+  return (...args) => {
     if (!timer) {
-      cb();
+      cb(args);
     }
 
     clearTimeout(timer);
