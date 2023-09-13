@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import checkToken from '../../utilities/checkToken';
-
 const initialUserState = {
   user: {},
   userMeetings: [],
@@ -16,13 +14,14 @@ if (!VITE_API_URL) throw new Error('NO API URL PROVIDED - CHECK ENV VARIABLES');
 
 export const fetchUser = createAsyncThunk(
   'user/fetchUser',
-  async (userId, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
-      const { token } = await checkToken();
+      // const { token } = await checkToken();
+      const { token, user } = getState().auth;
 
-      if (userId === undefined) throw new Error('No user ID provided');
+      if (!token || !user?.id) throw new Error('Auth state not initialized.');
 
-      const res = await axios.get(VITE_API_URL + `/api/user/${userId}`, {
+      const res = await axios.get(VITE_API_URL + `/api/user/${user.id}`, {
         headers: { authorization: token },
       });
       const userInfo = res.data;
@@ -31,6 +30,7 @@ export const fetchUser = createAsyncThunk(
 
       return userInfo;
     } catch (err) {
+      console.log('err:', err);
       return rejectWithValue(err);
     }
   }
@@ -63,9 +63,10 @@ export const createNewUser = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
   'user/updateUser',
-  async (userUpdateData, { rejectWithValue }) => {
+  async (userUpdateData, { rejectWithValue, getState }) => {
     try {
-      const { token, user } = await checkToken();
+      // const { token, user } = await checkToken();
+      const { token, user } = getState().auth;
 
       // request update
       const res = await axios.put(
@@ -88,9 +89,10 @@ export const updateUser = createAsyncThunk(
 
 export const updateLocation = createAsyncThunk(
   'user/updateLocation',
-  async (location, { rejectWithValue }) => {
+  async (location, { rejectWithValue, getState }) => {
     try {
-      const { token, user } = await checkToken();
+      // const { token, user } = await checkToken();
+      const { token, user } = getState().auth;
 
       const res = await axios.put(
         VITE_API_URL + `/api/user/${user.id}/location`,
@@ -110,9 +112,10 @@ export const updateLocation = createAsyncThunk(
 
 export const banUser = createAsyncThunk(
   'user/banUser',
-  async (userId, { rejectWithValue }) => {
+  async (userId, { rejectWithValue, getState }) => {
     try {
-      const { token, user } = await checkToken();
+      // const { token, user } = await checkToken();
+      const { token, user } = getState().auth;
 
       const res = await axios.put(
         VITE_API_URL + `/api/user/${userId}`,
@@ -133,9 +136,10 @@ export const banUser = createAsyncThunk(
 
 export const removeBan = createAsyncThunk(
   'user/removeBan',
-  async (userId, { rejectWithValue }) => {
+  async (userId, { rejectWithValue, getState }) => {
     try {
-      const { token, user } = await checkToken();
+      // const { token, user } = await checkToken();
+      const { token, user } = getState().auth;
 
       const res = await axios.put(
         VITE_API_URL + `/api/user/${userId}`,
@@ -156,9 +160,10 @@ export const removeBan = createAsyncThunk(
 
 export const fetchUserMeetings = createAsyncThunk(
   'user/fetchUserMeetings',
-  async (userId, { rejectWithValue }) => {
+  async (userId, { rejectWithValue, getState }) => {
     try {
-      const { user, token } = await checkToken();
+      // const { user, token } = await checkToken();
+      const { token, user } = getState().auth;
 
       // if userId isn't passed in, use the one from the token
       if (userId === undefined) userId = user.id;
