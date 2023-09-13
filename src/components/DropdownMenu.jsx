@@ -1,17 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
+import gsap from 'gsap';
+
 import {
   clearNotificationState,
   resetUserState,
   selectUnreadNotifications,
 } from '../redux/slices';
 import { selectAuthUser, logOut } from '../redux/slices/authSlice';
-import DropDownItem from './DropDownItem';
-import { useNavigate } from 'react-router-dom';
-import { selectUnreadActiveMeeting } from '../redux/slices/notificationSlice';
-import axios from 'axios';
 
-import gsap from 'gsap';
+import DropDownItem from './DropDownItem';
+import DemoMode from '../pages/NotificationCenter/ToastFeedback/DemoMode';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -111,8 +113,11 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
 
   async function handleDemoMode() {
     // TODO: move this to its own spot (or into geo module)
-    // setExpandMenu(false);
-    // getLocation(dispatch);
+    closeMenu();
+
+    setDemoModeAvailable(false);
+
+    toast.custom((t) => <DemoMode t={t} />, { duration: 6000 });
 
     navigator.geolocation.getCurrentPosition(
       function (position) {
