@@ -61,22 +61,13 @@ export const updateMeeting = createAsyncThunk(
 
 export const getMeeting = createAsyncThunk(
   'meeting/getMeeting',
-  async ({ meetingId, userId }, { rejectWithValue }) => {
+  async ({ meetingId }, { rejectWithValue, getState }) => {
     try {
-      const token = localStorage.getItem('token');
+      const { token, user } = getState().auth;
       if (!token) throw new Error('No token provided');
 
-      // ? How can the userId be undefined?
-      // let route;
-
-      // if (userId !== undefined) {
-      //   route = ;
-      // } else {
-      //   route = VITE_API_URL + `/api/meeting/${meetingId}`;
-      // }
-
       const { data } = await axios.get(
-        VITE_API_URL + `/api/user/${userId}/meeting/${meetingId}`,
+        VITE_API_URL + `/api/user/${user.id}/meeting/${meetingId}`,
         {
           headers: {
             authorization: token,
@@ -98,8 +89,9 @@ export const getMeeting = createAsyncThunk(
 
       return data;
     } catch (error) {
-      console.log(error);
-      return rejectWithValue(error);
+      return rejectWithValue(
+        error.message || 'Unhandled error from getMeeting'
+      );
     }
   }
 );
@@ -305,9 +297,8 @@ const meetingSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getMeeting.rejected, (state, action) => {
-        console.log('ERROR PAYLOAD', action.payload);
         state.isLoading = false;
-        state.error = action.payload.response.data;
+        state.error = action.payload;
       })
       // Delete a meeting
       .addCase(deleteMeeting.fulfilled, (state, action) => {
