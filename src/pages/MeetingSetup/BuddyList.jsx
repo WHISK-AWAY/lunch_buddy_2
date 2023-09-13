@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import gsap from 'gsap';
 import {
   selectSearch,
   selectUser,
@@ -11,11 +12,16 @@ import { BuddyCard } from '../index';
 
 export default function BuddyList({ state }) {
   const dispatch = useDispatch();
-  // const location = useLocation();
+  const navigate = useNavigate();
+
   const buddiesList = useSelector(selectSearch);
+  const restaurantsLoading = useSelector((state) => state.search.isLoading);
   const user = useSelector(selectUser);
   const auth = useSelector(selectAuth);
-  const navigate = useNavigate();
+
+  const wrapperRef = useRef(null);
+  const [readyToProceed, setReadyToProceed] = useState(false);
+  const [buddy, setBuddy] = useState(null);
 
   const { searchRadius, timeSlot } = state;
 
@@ -33,12 +39,20 @@ export default function BuddyList({ state }) {
     }
   }, [searchRadius, timeSlot, auth.user?.id]);
 
-  function selectBuddy(buddy) {
-    dispatch(findRestaurants({ searchRadius, buddy })).then(() => {
+  useEffect(() => {
+    if (readyToProceed && !restaurantsLoading) {
       navigate('/match/restaurants', {
         state: { timeSlot, buddy },
       });
-    });
+    }
+  }, [readyToProceed, restaurantsLoading, timeSlot, buddy]);
+
+  function selectBuddy(buddy) {
+    dispatch(findRestaurants({ searchRadius, buddy }));
+    setReadyToProceed(true);
+    setBuddy(buddy);
+
+    gsap.to(wrapperRef.current, { opacity: 0 });
   }
 
   const myTagList = user.tags?.map((tag) => tag.id) || [];
@@ -56,7 +70,10 @@ export default function BuddyList({ state }) {
     );
 
   return (
-    <div className="buddies-list-page  bg-white dark:bg-dark dark:text-white flex flex-col justify-center items-center lg:flex-row lg:justify-between text-primary-gray   h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]   ">
+    <div
+      ref={wrapperRef}
+      className="buddies-list-page  bg-white dark:bg-dark dark:text-white flex flex-col justify-center items-center lg:flex-row lg:justify-between text-primary-gray   h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]   "
+    >
       <div className="buddies-image-container h-full basis-full hidden bg-[url('/assets/bgImg/signInView.jpg')] lg:block bg-cover supports-[background-image:_url('/assets/bgImg/signInView-q30.webp')]:bg-[url('/assets/bgImg/signInView-q30.webp')] xl:bg-[url('/assets/bgImg/buddyList-lq_10.webp')] overflow-hidden"></div>
       <div className="buddies-list-wrapper flex flex-col items-center h-full lg:basis-7/12 gap-3 portrait:md:gap-1  overflow-auto">
         <h1 className="text-headers   md:text-lg xxs:pb-5 md:pb-10 md:pt-10 pt-20 xxs:pt-6 xxs:text-xl font-semibold portrait:md:pb-4 4xl:text-3xl portrait:md:text-2xl">

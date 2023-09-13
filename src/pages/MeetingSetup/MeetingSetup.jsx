@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import gsap from 'gsap';
+
 import { selectUser, selectAuth, findBuddies } from '../../redux/slices';
 // import getLocation from '../../utilities/geo';
 import FormButton from '../../components/FormButton';
@@ -14,8 +16,14 @@ export default function MeetingSetup(props) {
 
   const user = useSelector(selectUser);
   const auth = useSelector(selectAuth);
+  const { isLoading: searchResultsLoading } = useSelector(
+    (state) => state.search
+  );
+
+  const wrapperRef = useRef(null);
 
   const [timeSlot, setTimeSlot] = useState(null);
+  const [readyToProceed, setReadyToProceed] = useState(false);
   const [searchRadius, setSearchRadius] = useState(1);
 
   useEffect(() => {
@@ -26,6 +34,19 @@ export default function MeetingSetup(props) {
       navigate('/login');
     }
   }, [auth.user?.id]);
+
+  useEffect(() => {
+    dispatch(findBuddies({ searchRadius }));
+  }, [searchRadius]);
+
+  useEffect(() => {
+    // move to next step once all the ducks are in a row
+    if (readyToProceed && !searchResultsLoading) {
+      navigate('/match/results', {
+        state: { searchRadius, timeSlot },
+      });
+    }
+  }, [readyToProceed, searchResultsLoading, searchRadius, timeSlot]);
 
   // come up with time slots for suggestion
   function getNextTime(startTime, incrementInMinutes = 15) {
@@ -61,15 +82,17 @@ export default function MeetingSetup(props) {
     // hang on to selected time slot -- we'll need it a couple screens from now
     window.localStorage.setItem('meetingTimeslot', JSON.stringify(timeSlot));
 
-    dispatch(findBuddies({ searchRadius })).then(() => {
-      navigate('/match/results', {
-        state: { searchRadius, timeSlot },
-      });
+    // indicate that we can move to next step as long as we're not still waiting for data
+    setReadyToProceed(true);
+
+    // fade to 0 to visually indicate transition
+    gsap.to(wrapperRef.current, {
+      opacity: 0,
     });
   }
-
   return (
     <div
+      ref={wrapperRef}
       id="search-params-page"
       className="lg:bg-none w-screen flex flex-row-reverse justify-center  items-center h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]  bg-white dark:bg-[#0a0908] overflow-hidden bg-fixed  text-primary-gray dark:text-white"
     >
