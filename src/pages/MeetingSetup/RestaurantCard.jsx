@@ -11,13 +11,17 @@ export default function RestaurantCard({ restaurant, chooseRestaurant }) {
         <img
           className="bg-white object-cover aspect-square w-32 h-32 rounded-[100%] z-10 p-1 relative self-end drop-shadow-md"
           src={restaurant.image_url}
-          alt=""
+          alt="restaurant image provided by yelp"
         />
         <button
           onClick={(e) => chooseRestaurant(e, restaurant)}
           className="button-round rounded-full w-12 aspect-square absolute -top-4 -left-4 flex justify-center items-center"
         >
-          <img src={plus} className="w-8 aspect-square" />
+          <img
+            src={plus}
+            className="w-8 aspect-square"
+            alt="choose this restaurant"
+          />
         </button>
       </div>
       <div className="info-wrapper">

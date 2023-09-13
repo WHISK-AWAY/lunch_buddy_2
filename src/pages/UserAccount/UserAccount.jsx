@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
-import { tryToken, selectAuth } from '../../redux/slices/authSlice';
-import {
-  fetchUser,
-  selectUser,
-  updateUser,
-} from '../../redux/slices/userSlice';
-import getLocation from '../../utilities/geo';
+import { Link } from 'react-router-dom';
+import { selectAuth } from '../../redux/slices/authSlice';
+import { fetchUser, selectUser } from '../../redux/slices/userSlice';
 import squaresSolid from '../../assets/icons/squares-solid.svg';
 import pencil from '../../assets/icons/pencil.svg';
 
 const UserAccount = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const auth = useSelector(selectAuth);
   const user = useSelector(selectUser);
@@ -22,36 +16,12 @@ const UserAccount = () => {
   const [socialTags, setSocialTags] = useState([]);
   const [dietaryTags, setDietaryTags] = useState([]);
   const [cuisineTags, setCuisineTags] = useState([]);
-  const token = window.localStorage.getItem('token');
 
   useEffect(() => {
-    if (!token) {
-      navigate('/login');
-    } else {
-      dispatch(tryToken());
+    if (auth.user?.id) {
+      dispatch(fetchUser());
     }
-  }, []);
-
-  useEffect(() => {
-    // use token to keep track of logged-in user (id)
-    // once that's known we can pull down user data
-    // if (auth.error) {
-    //   navigate('/login');
-    // } else if (!auth.user?.id) {
-    //   dispatch(tryToken());
-    // } else dispatch(fetchUser(auth.user.id));
-    // if inactive, flip status & pull location
-    // if (auth.user?.status === 'inactive') {
-    //   getLocation(dispatch);
-    //   dispatch(updateUser({ status: 'active' }));
-    // }
-  }, [dispatch, auth]);
-
-  useEffect(() => {
-    if (token && auth.user.id) {
-      dispatch(fetchUser(auth.user.id));
-    }
-  }, [dispatch, auth]);
+  }, [auth.user?.id]);
 
   const tags = user.tags;
 
@@ -100,12 +70,13 @@ const UserAccount = () => {
             >
               <img
                 src={pencil}
+                alt="edit user account"
                 className="h-[16px] w-6 m-auto relative top-[11px] rotate-3 left-2"
               />
             </Link>
             <img
               src={auth.user.avatarUrl}
-              alt="user avatar"
+              alt="your avatar image"
               className="object-cover aspect-square w-28 h-28 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative translate-y-[30%] place-self-end"
             />
           </div>
@@ -137,6 +108,7 @@ const UserAccount = () => {
               <img
                 className="w-2 relative rotate-45 top-[8px] self-start"
                 src={squaresSolid}
+                alt=""
               />
               <div className="flex flex-row flex-wrap gap-3">
                 {socialTags.map((social) => {
@@ -162,6 +134,7 @@ const UserAccount = () => {
               <img
                 className="w-2 relative rotate-45 bottom-[-30%] top-[8px] self-start"
                 src={squaresSolid}
+                alt=""
               />
               <div className="flex flex-row flex-wrap gap-3">
                 {professionalTags.map((professional) => {
@@ -187,6 +160,7 @@ const UserAccount = () => {
               <img
                 className="w-2 relative rotate-45 top-[8px] self-start"
                 src={squaresSolid}
+                alt=""
               />
               <div className="flex flex-row flex-wrap gap-3">
                 {cuisineTags.map((cuisine) => {
@@ -214,6 +188,7 @@ const UserAccount = () => {
                   <img
                     className="w-2 relative rotate-45 top-[8px] self-start"
                     src={squaresSolid}
+                    alt=""
                   />
                   <div className="flex flex-wrap gap-3">
                     {dietaryTags.map((dietary) => {
@@ -236,7 +211,7 @@ const UserAccount = () => {
       <div
         id="bg-img"
         className="bg-cover
-          bg-[url('/assets/bgImg/accView.jpg')] basis-1/2 hidden lg:block h-full portrait:lg:hidden"
+          supports-[background-image:_url('/assets/bgImg/accView-q30.webp')]:bg-[url('/assets/bgImg/accView-q30.webp')] bg-[url('/assets/bgImg/accView.jpg')] basis-1/2 hidden lg:block h-full portrait:lg:hidden"
       ></div>
     </div>
   );

@@ -90,13 +90,10 @@ const EditUserForm = () => {
   }, []);
 
   useEffect(() => {
-    async function getUser() {
-      await dispatch(fetchUser(authUser.id));
-    }
     if (authUser.id) {
-      getUser();
+      dispatch(fetchUser());
     }
-  }, [authUser]);
+  }, [authUser.id]);
 
   useEffect(() => {
     if (userInfo.id) {
@@ -371,7 +368,7 @@ const EditUserForm = () => {
         </form>
       </div>
       <div
-        className="image-wrapper overflow-hidden hidden portrait:lg:hidden lg:block basis-1/2 h-full bg-cover bg-[url('/assets/bgImg/signUpView-q30.webp')]"
+        className="image-wrapper overflow-hidden hidden portrait:lg:hidden lg:block basis-1/2 h-full bg-cover bg-[url('/assets/bgImg/signUpView.jpg')] supports-[background-image:_url('/assets/bgImg/signUpView-q30.webp')]:bg-[url('/assets/bgImg/signUpView-q30.webp')]"
         alt="person smearing a dip on toast, at a restaurant with wine, plates, coffee"
       ></div>
     </div>

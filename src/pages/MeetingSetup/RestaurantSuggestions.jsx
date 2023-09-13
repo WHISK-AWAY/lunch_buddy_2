@@ -1,24 +1,18 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 // import { Loader } from '@googlemaps/js-api-loader';
 import { Wrapper } from '@googlemaps/react-wrapper';
 import MapComponent from '../../components/MapComponent';
 import { RestaurantCard } from '../index';
 import {
-  findRestaurants,
   selectSearch,
   selectUser,
   selectAuth,
   selectRestaurants,
-  fetchMapKey,
-  tryToken
 } from '../../redux/slices';
 
-import debounce from '../../utilities/debounce';
-
 export default function RestaurantSuggestions() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -29,40 +23,11 @@ export default function RestaurantSuggestions() {
   const auth = useSelector(selectAuth);
   const restaurants = useSelector(selectRestaurants);
 
-  const { searchRadius, timeSlot, buddy } = location.state;
-
-  const dbFetchKey = debounce(() => dispatch(fetchMapKey()));
-  const dbFindRestaurants = debounce(() =>
-    dispatch(findRestaurants({ searchRadius, buddy }))
-  );
+  const { timeSlot, buddy } = location.state;
 
   useEffect(() => {
-    // fetch maps API key if we don't already have it
-    if (search.isLoading) return;
-
-    // let timer;
-
-    if (search.error) {
-      console.log(error);
-    } else if (!mapsKey) {
-      // (debounce request)
-      dbFetchKey();
-    }
-  }, [mapsKey]);
-
-  useEffect(() => {
-    if (user.id && !restaurants.length) {
-      dbFindRestaurants();
-    }
-  }, [user]);
-
-  //*try token check to stay signed in if token stored in the local storage on page refresh
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      dispatch(tryToken());
-    }
-  }, []);
+    if (!auth.user?.id) navigate('/login');
+  }, [auth.user?.id]);
 
   if (!restaurants) return <h1>No restaurants found :(</h1>;
 

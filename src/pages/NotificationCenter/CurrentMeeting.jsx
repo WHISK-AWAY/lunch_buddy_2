@@ -128,7 +128,7 @@ export default function CurrentMeeting({ notification, meetings, closeMenu }) {
                 setMinimize(true);
               }}
             >
-              <img src={xMenuIcon} />
+              <img src={xMenuIcon} alt="close this notification" />
             </div>
           </div>
         </div>

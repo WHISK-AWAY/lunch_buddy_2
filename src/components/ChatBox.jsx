@@ -22,7 +22,7 @@ export default function ChatBox() {
 
   const [newMessage, setNewMessage] = useState('');
   const meeting = useSelector((state) => state.meetings.meeting);
-  const auth = useSelector((state) => state.auth.user);
+  const authUser = useSelector((state) => state.auth.user);
   const darkModeSelector = useSelector(selectDarkMode);
   const [paperPlaneIcon, setPaperPlaneIcon] = useState(paperPlaneWhite);
 
@@ -55,10 +55,12 @@ export default function ChatBox() {
   }, []);
 
   useEffect(() => {
-    if (auth.user?.id) {
-      dispatch(getMeeting({ meetingId: +meetingId, userId: auth.user?.id }));
+    if (authUser.user?.id) {
+      dispatch(
+        getMeeting({ meetingId: +meetingId, userId: authUser.user?.id })
+      );
     }
-  }, [auth]);
+  }, [authUser]);
 
   useEffect(() => {
     if (socket.current) {
@@ -111,11 +113,6 @@ export default function ChatBox() {
     }
   };
 
-  const buddyName =
-    meeting.user?.firstName === auth.firstName
-      ? meeting.buddy?.firstName
-      : meeting.user?.firstName;
-
   useEffect(() => {
     // Set up mutation observer to scroll when new messages are appended to dom
 
@@ -143,8 +140,16 @@ export default function ChatBox() {
     }
   };
 
+  useEffect(() => {
+    if (!darkModeSelector) {
+      setPaperPlaneIcon(paperPlane);
+    } else {
+      setPaperPlaneIcon(paperPlaneWhite);
+    }
+  }, [darkModeSelector]);
+
   // checks if user is logged in
-  if (!auth.id) {
+  if (!authUser.id) {
     return (
       <h1>
         Please{' '}
@@ -165,20 +170,15 @@ export default function ChatBox() {
     );
   }
 
-  useEffect(() => {
-    if (!darkModeSelector) {
-      setPaperPlaneIcon(paperPlane);
-    } else {
-      setPaperPlaneIcon(paperPlaneWhite);
-    }
-  }, [darkModeSelector]);
+  const buddy = meeting.userId === authUser.id ? meeting.buddy : meeting.user;
+  const buddyName = buddy.firstName;
+  const webpUrl = buddy.avatarUrl.split('.').at(0) + '-q1.webp';
 
   return (
     <div className="flex overflow-hidden dark:bg-[#0a0908]  bg-white dark:text-white text-primary-gray w-screen h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)] ">
       <div
         id="bg-img"
-        alt="Two people eating a bowl of food with chopsticks"
-        className="bg-cover bg-[url('/assets/bgImg/chatView-q30.webp')] 2xl:bg-[url('/assets/bgImg/test11-lq_10.webp')] basis-1/2  3xl:basis-full hidden portrait:hidden lg:block h-full"
+        className="bg-cover supports-[background-image:_url('/assets/bgImg/chatView-q30.webp')]:bg-[url('/assets/bgImg/chatView-q30.webp')] supports-[background-image:_url('/assets/bgImg/chatbox-background-lq_10.webp')]:2xl:bg-[url('/assets/bgImg/chatbox-background-lq_10.webp')] bg-[url('/assets/bgImg/chatview.jpg')] basis-1/2  3xl:basis-full hidden portrait:hidden lg:block h-full"
       ></div>
       <div
         id="chat-container"
@@ -207,26 +207,28 @@ export default function ChatBox() {
                 <div id="msg-list" ref={chatContainer}>
                   {meeting.messages.map((message, idx) => {
                     const prevSenderId = meeting.messages[idx + 1]?.senderId;
-                    const url =
-                      meeting.user?.firstName === auth.firstName
-                        ? meeting.buddy.avatarUrl
-                        : meeting.user?.avatarUrl;
+                    const url = buddy.avatarUrl;
                     return (
                       <div key={message.id} className="flex py-1">
                         <div className="w-14 grow-0 shrink-0">
-                          {message.senderId !== auth.id &&
+                          {message.senderId !== authUser.id &&
                             prevSenderId !== message.senderId && (
-                              <img
-                                id="user-pic"
-                                className="object-cover aspect-square w-14 h-14 lg:w-14 lg:h-14 rounded-[100%] bg-white p-1  drop-shadow-lg self-center mb-3"
-                                src={url}
-                                alt="buddy profile image"
-                              ></img>
+                              <picture>
+                                <source srcSet={webpUrl} type="image/webp" />
+                                <img
+                                  id="user-pic"
+                                  className="object-cover aspect-square w-14 h-14 lg:w-14 lg:h-14 rounded-[100%] bg-white p-1  drop-shadow-lg self-center mb-3"
+                                  src={url}
+                                  width={1240}
+                                  height={1850}
+                                  alt={`${buddyName}'s avatar image`}
+                                ></img>
+                              </picture>
                             )}
                         </div>
                         <p
                           className={`py-3 px-10 min-w-[60px] mx-5  break-words font-light focus:outline-none text-xs sm:text-sm lg:text-xs portrait:lg:text-base portrait:lg:my-1 self-start ${
-                            message.senderId === auth.id
+                            message.senderId === authUser.id
                               ? 'bg-label/70 ml-auto dark:bg-neutral-500/80 text-white rounded-l-full rounded-tr-full  '
                               : 'bg-buddy-message dark:bg-neutral-800/80 rounded-r-full rounded-tl-full h-fit'
                           }`}
@@ -264,7 +266,7 @@ export default function ChatBox() {
               <img
                 className=" w-6 md:block portrait:hidden hidden -rotate-45 5xl:w-7 6xl:w-8"
                 src={paperPlaneIcon}
-                alt="paper plane icon"
+                alt="send message"
                 onClick={onMessageSubmit}
               />
             </button>

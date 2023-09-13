@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import checkToken from '../../utilities/checkToken';
 
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
@@ -14,9 +13,10 @@ const initialSearchState = {
 
 export const findBuddies = createAsyncThunk(
   'search/findBuddies',
-  async (searchParams, { rejectWithValue }) => {
+  async (searchParams, { rejectWithValue, getState }) => {
     try {
-      const { token, user } = await checkToken();
+      // const { token, user } = await checkToken();
+      const { token, user } = getState().auth;
 
       // If user isn't active, make them active
       // I think we need to make sure to update location prior to calling search...
@@ -47,7 +47,8 @@ export const findRestaurants = createAsyncThunk(
   'search/findRestaurants',
   async (searchParams, { rejectWithValue, getState }) => {
     try {
-      const { token, user } = await checkToken();
+      // const { token, user } = await checkToken();
+      const { token, user } = getState().auth;
       const { buddy, searchRadius } = searchParams;
 
       if (!buddy || !searchRadius) throw new Error('Missing search parameters');

@@ -1,22 +1,23 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
+import gsap from 'gsap';
+
 import {
   clearNotificationState,
   resetUserState,
   selectUnreadNotifications,
 } from '../redux/slices';
 import { selectAuthUser, logOut } from '../redux/slices/authSlice';
-import DropDownItem from './DropDownItem';
-import Homepage from '../pages/Homepage/Homepage';
-import { useNavigate } from 'react-router-dom';
-import { selectUnreadActiveMeeting } from '../redux/slices/notificationSlice';
-import getLocation from '../utilities/geo';
-import axios from 'axios';
 
 import gsap from 'gsap';
 import { CustomEase } from 'gsap/CustomEase';
 
 gsap.registerPlugin(CustomEase);
+import DropDownItem from './DropDownItem';
+import DemoMode from '../pages/NotificationCenter/ToastFeedback/DemoMode';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -27,6 +28,8 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
   const wrapperRef = useRef(null);
   const screenRef = useRef(null);
   const previousModeRef = useRef(null);
+
+  const [demoModeAvailable, setDemoModeAvailable] = useState(false);
 
   const authUser = useSelector(selectAuthUser);
   const notifications = useSelector(selectUnreadNotifications);
@@ -87,7 +90,17 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
     }
   }, [menuMode, wrapperRef.current]);
 
-  const activeMeeting = useSelector(selectUnreadActiveMeeting);
+  useEffect(() => {
+    // if logged in, check whether user has already triggered demo mode & set variable accordingly
+    if (authUser.id) {
+      const demoFlag = window.localStorage.getItem('demoMode');
+
+      if (!demoFlag || demoFlag === 'false') {
+        window.localStorage.setItem('demoMode', 'false');
+        setDemoModeAvailable(true);
+      }
+    }
+  }, [authUser.id]);
 
   function handleClick() {
     // setExpandMenu(false);
@@ -104,8 +117,11 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
 
   async function handleDemoMode() {
     // TODO: move this to its own spot (or into geo module)
-    // setExpandMenu(false);
-    // getLocation(dispatch);
+    closeMenu();
+
+    setDemoModeAvailable(false);
+
+    toast.custom((t) => <DemoMode t={t} />, { duration: 6000 });
 
     navigator.geolocation.getCurrentPosition(
       function (position) {
@@ -130,11 +146,14 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
               },
             }
           )
-          .then(() => navigate('/match'));
+          .then(() => {
+            window.localStorage.setItem('demoMode', 'true');
+            navigate('/match');
+          });
         // console.log(center);
       },
       function (err) {
-        console.log('user denied location services permission:', err);
+        console.log('error setting up demo mode:', err);
       }
     );
   }
@@ -207,9 +226,11 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
                   MESSAGES
                 </DropDownItem>
               )}
-              <DropDownItem handleClick={handleDemoMode}>
-                DEMO MODE
-              </DropDownItem>
+              {demoModeAvailable && (
+                <DropDownItem handleClick={handleDemoMode}>
+                  DEMO MODE
+                </DropDownItem>
+              )}
               <DropDownItem handleClick={handleLogout}>LOG OUT</DropDownItem>
             </>
           )}

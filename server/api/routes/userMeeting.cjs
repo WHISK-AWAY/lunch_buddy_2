@@ -1,6 +1,8 @@
-const { Op, Sequelize } = require('sequelize');
+const { Op } = require('sequelize');
 const router = require('express').Router({ mergeParams: true });
-const { Meeting, User, Notification } = require('../../db/index.cjs');
+
+const { Meeting, Notification, YelpListing } = require('../../db/index.cjs');
+
 const { requireToken, sameUserOrAdmin } = require('../authMiddleware.cjs');
 const validUser = require('../validUserMiddleware.cjs');
 
@@ -39,6 +41,42 @@ router.get(
     } catch (error) {
       console.error('Error retrieving meetings, please try again later.');
       next(error);
+    }
+  }
+);
+
+router.get(
+  '/current-meeting',
+  requireToken,
+  validUser,
+  async (req, res, next) => {
+    try {
+      const { userId } = req.params;
+
+      const currentMeeting = await Meeting.findOne({
+        where: {
+          isClosed: false,
+          [Op.or]: [{ userId }, { buddyId: userId }],
+        },
+        include: [
+          {
+            association: 'user',
+            attributes: SAFE_USER_FIELDS,
+          },
+          {
+            association: 'buddy',
+            attributes: SAFE_USER_FIELDS,
+          },
+          YelpListing,
+        ],
+      });
+
+      if (!currentMeeting)
+        return res.status(404).json({ message: 'No current meeting found.' });
+
+      return res.status(200).json(currentMeeting);
+    } catch (err) {
+      next(err);
     }
   }
 );

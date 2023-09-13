@@ -107,7 +107,7 @@ const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
                 <img
                   className="w-5"
                   src={tag.clicked ? minusWhite : plus}
-                  alt="Toggle tag icon"
+                  alt={`click to ${tag.clicked ? 'deselect' : 'select'}`}
                 />
               </button>
             );

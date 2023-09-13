@@ -122,17 +122,24 @@ export default function MeetingRequest({ notification }) {
     }, 500);
   };
 
+  const webpUrl = notification.fromUser.avatarUrl.split('.').at(0) + '-q1.webp';
+
   return (
     <div
       id="meeting-card"
       className="flex w-full h-fit bg-white dark:bg-[#0a0908] dark:text-white rounded-sm drop-shadow-sm my-3 py-3 items-center justify-between px-4"
     >
       <div id="img-section" className="flex  shrink-0 self-center">
-        <img
-          src={notification.fromUser.avatarUrl}
-          alt="user avatar"
-          className="object-cover aspect-square w-16 h-16 lg:w-24 lg:h-24 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative "
-        />
+        <picture>
+          <source srcSet={webpUrl} type="image/webp" />
+          <img
+            src={notification.fromUser.avatarUrl}
+            width={1240}
+            height={1850}
+            alt={`${notification.fromUser.firstName}'s avatar image`}
+            className="object-cover aspect-square w-16 h-16 lg:w-24 lg:h-24 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative "
+          />
+        </picture>
       </div>
       <div
         id="notification-details"

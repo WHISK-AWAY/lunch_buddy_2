@@ -1,39 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import {
-  getMeeting,
-  selectActiveMeeting,
-} from '../../redux/slices/meetingSlice';
-import { resetMeetingStatus } from '../../redux/slices';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 import {
   cancelMeeting,
-  selectUnreadActiveMeeting,
   updateNotificationStatus,
   selectUnreadNotifications,
 } from '../../redux/slices/notificationSlice';
 import { selectAuthUser } from '../../redux/slices/authSlice';
+import { fetchCurrentMeeting } from '../../redux/slices/meetingSlice';
+import { resetMeetingStatus } from '../../redux/slices';
+
 import RejectInvite from '../NotificationCenter/ToastFeedback/RejectInvite';
 import FormButton from '../../components/FormButton';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 const TOAST_POPUP_DELAY = 1000;
 
-const CurrentMeeting = (props) => {
+const CurrentMeeting = ({}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const meeting = useSelector((state) => state.meetings);
-  const currentMeeting = useSelector(selectActiveMeeting);
-  const authUser = useSelector(selectAuthUser);
   const notifications = useSelector(selectUnreadNotifications);
 
-  const [buddy, setBuddy] = useState({});
-  const [currentMeetingNotification, setCurrentMeetingNotification] = useState(
-    {}
-  );
+  const currentMeeting = useSelector((state) => state.meetings.currentMeeting);
+
+  const authUser = useSelector(selectAuthUser);
 
   useEffect(() => {
     // on load, make sure meeting state is cleared
@@ -41,68 +35,70 @@ const CurrentMeeting = (props) => {
   }, []);
 
   useEffect(() => {
-    const thisMeeting = notifications?.filter(
-      (notification) => notification.notificationType === 'currentMeeting'
-    )[0];
-    setCurrentMeetingNotification(thisMeeting);
-  }, [notifications]);
-
-  useEffect(() => {
-    if (currentMeetingNotification?.id) {
-      dispatch(
-        getMeeting({
-          meetingId: currentMeetingNotification.meetingId,
-          userId: currentMeetingNotification.toUserId,
-        })
-      );
-
-      setBuddy(currentMeetingNotification?.fromUser);
+    if (authUser.id) {
+      // console.log('authUser:', authUser);
+      dispatch(fetchCurrentMeeting({ userId: authUser.id }));
     }
-  }, [currentMeetingNotification]);
+  }, [authUser.id]);
 
   function handleCancelButton() {
+    // cancel the meeting
     dispatch(
       cancelMeeting({
-        userId: currentMeetingNotification.toUserId,
-        meetingId: currentMeetingNotification.meetingId,
+        userId: authUser.id,
+        meetingId: currentMeeting?.id,
       })
     );
+
+    // acknowledge the meeting notification
+    const meetingNotification = notifications?.find(
+      (notification) => notification.notificationType === 'currentMeeting'
+    );
+
     dispatch(
       updateNotificationStatus({
-        userId: currentMeetingNotification.toUserId,
-        notificationId: currentMeetingNotification.id,
+        userId: authUser.id,
+        notificationId: meetingNotification?.id,
         updates: { isAcknowledged: true },
       })
     );
 
+    // user feedback
     setTimeout(() => {
       toast.custom((t) => (
-        <RejectInvite notification={currentMeetingNotification} t={t} />
+        <RejectInvite buddyFirstName={currentMeeting?.buddy?.firstName} t={t} />
       ));
     }, TOAST_POPUP_DELAY);
+
+    // navigate to home page
     navigate('/');
   }
 
   function handleChat() {
-    navigate(`/meeting/${currentMeetingNotification.meetingId}/chat`);
+    navigate(`/meeting/${currentMeeting?.id}/chat`);
   }
-  if (meeting.isLoading) {
+
+  if (!currentMeeting || !currentMeeting.id) {
     return <h1>loading...</h1>;
   }
 
-  if (!buddy?.id) {
-    return <h1>failed to load meeting info...</h1>;
-  }
-
+  // ? performance question: should this be inside a useEffect with a cleanup step?
   AOS.init({
     duration: 2000,
     offset: 0,
   });
 
+  const buddy =
+    currentMeeting.userId === authUser.id
+      ? currentMeeting.buddy
+      : currentMeeting.user;
+
+  const webpUrl = buddy.avatarUrl.split('.').at(0) + '-q1.webp';
+
   return (
     <div className="recap-card  w-screen self-center   justify-between lg:items-center  dark:bg-[#0a0908]  bg-white dark:text-white text-primary-gray  h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]   overflow-hidden flex flex-row">
       <div
-        className="recap-image hidden h-screen lg:block lg:h-full lg:basis-1/2 2xl:basis-full bg-[url('/assets/bgImg/test22-lq_10.webp')] bg-center bg-cover overflow-hidden"
+        className="recap-image hidden h-screen lg:block lg:h-full lg:basis-1/2 2xl:basis-full bg-[url('/assets/bgImg/currentMeeting.jpg')] supports-[background-image:_url('/assets/bgImg/currentMeeting-lq_10.webp')]:bg-[url('/assets/bgImg/currentMeeting-lq_10.webp')] bg-center bg-cover overflow-hidden"
         // data-aos="fade-right"
         // data-aos-delay="800"
         // data-aos-duration="1500"
@@ -123,11 +119,16 @@ const CurrentMeeting = (props) => {
             // data-aos-delay="800"
             // data-aos-duration="1800"
           >
-            <img
-              src={buddy.avatarUrl}
-              alt="Your buddy's avatar image"
-              className="bg-white object-cover aspect-square h-28 w-28 lg:w-32 lg:h-32 rounded-full z-10 p-1 drop-shadow-md"
-            />
+            <picture>
+              <source srcSet={webpUrl} type="image/webp" />
+              <img
+                src={buddy.avatarUrl}
+                alt={`${buddy.firstName}'s avatar image`}
+                width={1240}
+                height={1850}
+                className="bg-white object-cover aspect-square h-28 w-28 lg:w-32 lg:h-32 rounded-full z-10 p-1 drop-shadow-md"
+              />
+            </picture>
           </div>
           <div
             id="meeting-detail-container"
@@ -139,27 +140,30 @@ const CurrentMeeting = (props) => {
             <h2 className="text-md text-headers pb-4">
               {buddy.fullName.toUpperCase()}
             </h2>
-            <p className='text-xs'>
-              {currentMeetingNotification.id &&
-                new Date(
-                  currentMeetingNotification.meeting.lunchDate
-                ).toLocaleDateString()}
+            <p className="text-xs">
+              {currentMeeting &&
+                new Date(currentMeeting.lunchDate).toLocaleDateString()}
             </p>
             <p className="text-xs">
-              {currentMeetingNotification.id &&
-                new Date(
-                  currentMeetingNotification.meeting.lunchDate
-                ).toLocaleTimeString([], {
+              {currentMeeting &&
+                new Date(currentMeeting?.lunchDate).toLocaleTimeString([], {
                   timeStyle: 'short',
                 })}
             </p>
             <p className="text-center font-semibold pt-2">
-              <a href={currentMeeting?.restaurant?.url} target="_blank" className='cursor-pointer hover:underline underline-offset-2'>
-                {currentMeeting?.restaurant?.name.toUpperCase()}
+              <a
+                href={currentMeeting?.yelpListing.url}
+                target="_blank"
+                className="cursor-pointer hover:underline underline-offset-2"
+              >
+                {currentMeeting?.yelpListing.name.toUpperCase()}
               </a>
             </p>
-            <p className='text-xs'>
-              {currentMeeting?.restaurant?.location.display_address.join(', ')}
+            <p className="text-xs">
+              {currentMeeting &&
+                JSON.parse(
+                  currentMeeting?.yelpListing.location
+                ).display_address?.join(', ')}
             </p>
           </div>
           <div
