@@ -98,7 +98,7 @@ const EditUserForm = () => {
   useEffect(() => {
     if (userInfo.id) {
       for (let key in formInputs) {
-        setFormInputs((prev) => ({ ...prev, [key]: userInfo[key] }));
+        setFormInputs((prev) => ({ ...prev, [key]: userInfo[key] || '' }));
       }
     }
     // setFormInputs(userInfo);
