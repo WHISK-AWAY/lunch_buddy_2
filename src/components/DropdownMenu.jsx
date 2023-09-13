@@ -7,10 +7,8 @@ import {
 } from '../redux/slices';
 import { selectAuthUser, logOut } from '../redux/slices/authSlice';
 import DropDownItem from './DropDownItem';
-import Homepage from '../pages/Homepage/Homepage';
 import { useNavigate } from 'react-router-dom';
 import { selectUnreadActiveMeeting } from '../redux/slices/notificationSlice';
-import getLocation from '../utilities/geo';
 import axios from 'axios';
 
 import gsap from 'gsap';
