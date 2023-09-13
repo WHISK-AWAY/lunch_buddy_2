@@ -179,10 +179,10 @@ const RegisterForm = () => {
   });
 
   return (
-    <div className="flex justify-center  lg:grow items-center  dark:bg-[#0a0908] bg-white overflow-hidden text-primary-gray h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]  ">
+    <div className="flex justify-center  lg:grow items-center  dark:bg-[#0a0908] bg-white  text-primary-gray landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)]  ">
       <div
         id="form-container"
-        className="lg:basis-8/12 lg:px-5 xl:px-0 flex flex-col justify-center items-center  basis-full overflow-auto md:h-full xl:h-fit portrait:lg:pt-44 scrollbar-hide xs:pt-20 lg:pt-5"
+        className="lg:basis-8/12 lg:px-5 xl:px-0 flex flex-col justify-center items-center  basis-full overflow-auto md:h-full xl:h-fit portrait:lg:pt-44 scrollbar-hide pt-20 lg:pt-5 landscape:pt-72 landscape:xs:pt-10"
         // data-aos="fade-down"
         // data-aos-delay="1000"
         // duration="1000"
@@ -434,7 +434,7 @@ const RegisterForm = () => {
             </div>
           </form>
           <p
-            className=" text-center dark:text-white text-primary-gray lg:text-[1vw] portrait:md:text-[2vw]  3xl:text-[.7vw] 5xl:text-[.6vw] text-[3vw] portrait:lg:text-[1.7vw] md:text-[1.4vw] 6xl:text-[.4vw]"
+            className=" text-center dark:text-white text-primary-gray lg:text-[1vw] portrait:md:text-[2vw] pb-4 3xl:text-[.7vw] 5xl:text-[.6vw] text-[3vw] portrait:lg:text-[1.7vw] md:text-[1.4vw] 6xl:text-[.4vw]"
             // data-aos="fade-in"
             // data-aos-delay="2500"
             // duration="1500"
