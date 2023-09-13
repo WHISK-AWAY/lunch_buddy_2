@@ -14,6 +14,9 @@ import getLocation from '../utilities/geo';
 import axios from 'axios';
 
 import gsap from 'gsap';
+import { CustomEase } from 'gsap/CustomEase';
+
+gsap.registerPlugin(CustomEase);
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -142,6 +145,13 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
    * top-0
    */
 
+  // console.log(window.screen.availHeight);
+  // console.log(window.innerHeight);
+  // const ratio = window.screen.width * window.devicePixelRatio;
+  // const ratioH = window.screen.height * window.devicePixelRatio;
+  // console.log(ratio/ratioH);
+
+  // console.log(window.innerHeight/window.innerWidth)
   return (
     <>
       <div
@@ -152,9 +162,9 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
       <div
         ref={wrapperRef}
         id="dropdown-container"
-        className={`dark:text-white dark:bg-[#0a0908] -translate-y-full overflow-clip fixed bg-white w-screen opacity-95 z-30 -top-${navHeight}`}
+        className={`dark:text-white dark:bg-[#0a0908] -translate-y-full  fixed bg-white w-screen opacity-95 z-30 h-[100svh]  `}
       >
-        <ul className="flex flex-col items-center ">
+        <ul className="flex flex-col items-center short:py-6  portrait:xxs:justify-center md:justify-start tall:pt-7  overflow-y-auto h-fit border">
           {!authUser.firstName ? (
             <>
               {/* NAV LINKS WHEN NOT SIGNED IN */}
