@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import { tryToken } from '../redux/slices/authSlice';
 
 import NotificationBody from '../pages/NotificationCenter/NotificationBody';
 import DropdownMenu from './DropdownMenu';
@@ -19,22 +18,34 @@ import {
   selectUnreadNotifications,
 } from '../redux/slices/notificationSlice';
 import { fetchUser } from '../redux/slices/userSlice';
-import { selectAuthUser } from '../redux/slices/authSlice';
+import { tryToken, selectAuthUser } from '../redux/slices/authSlice';
 import { selectDarkMode } from '../redux/slices/darkModeSlice';
 
 import getLocation from '../utilities/geo';
+import { fetchMapKey } from '../redux/slices';
 
 const NOTIFICATION_UPDATE_INTERVAL = 60000;
 const TOAST_DURATION = 10000;
 
 const NavBar = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const root = document.querySelector('#root');
 
   const navRef = useRef(null); // used to dynamically measure height of navbar
+
+  const authUser = useSelector(selectAuthUser);
+  const userState = useSelector((state) => state.user.user);
+  const notifications = useSelector(selectUnreadNotifications);
+  const isDarkMode = useSelector(selectDarkMode);
+
+  const hasNotifications = notifications?.length > 0;
+
+  const [locationTriggered, setLocationTriggered] = useState(false);
   const [menuMode, setMenuMode] = useState(null); // 'dropdown' | 'notifications' | null
+  const [menuIcon, setMenuIcon] = useState(navbarIconWhite);
+  const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
+  const [bellMenuIcon, setBellMenuIcon] = useState(bellIconWhite);
 
   function closeMenu() {
     setMenuMode(null);
@@ -45,7 +56,7 @@ const NavBar = () => {
       e.target.matches('#notification-container *') ||
       e.target.matches('#dropdown-container *')
     ) {
-      // Ignore clicks on specific targets
+      // Ignore clicks on certain targets
       return;
     }
     closeMenu();
@@ -67,37 +78,30 @@ const NavBar = () => {
     };
   }, [menuMode]);
 
-  const [locationTriggered, setLocationTriggered] = useState(false);
-
-  const authUser = useSelector(selectAuthUser);
-  const userState = useSelector((state) => state.user.user);
-  const notifications = useSelector(selectUnreadNotifications);
-  const isDarkMode = useSelector(selectDarkMode);
-
-  // THIS VARIABLE WILL HIDE OR SHOW THE DOT INDICATING NOTIFICATIONS
-  const hasNotifications = notifications?.length > 0;
-
   useEffect(() => {
-    // check for token upon first load
-    const token = window.localStorage.getItem('token');
-
-    if (token) {
+    // check for token (and then auto-login) upon first load
+    if (window.localStorage.getItem('token')) {
       dispatch(tryToken());
     }
   }, []);
 
   useEffect(() => {
-    // if we're logged in, make sure the userState object is populated
-    if (authUser.id && !userState.id) dispatch(fetchUser(authUser.id));
-  }, [authUser]);
+    // once we're logged in, make sure the userState object is populated
+    if (authUser.id && !userState.id) {
+      dispatch(fetchUser());
+
+      // also go ahead and grab maps key - we'll need it later, and won't want to wait on it
+      dispatch(fetchMapKey());
+    }
+  }, [authUser.id]);
 
   useEffect(() => {
     // if user is active and we've not yet polled for location, do so
-    if (!locationTriggered) {
-      getLocation(dispatch, navigate);
+    if (authUser.id && !locationTriggered) {
+      getLocation(dispatch, authUser.id);
       setLocationTriggered(true);
     }
-  }, [locationTriggered]);
+  }, [locationTriggered, authUser.id]);
 
   useEffect(() => {
     // periodically check for new notifications
@@ -107,7 +111,6 @@ const NavBar = () => {
       dispatch(fetchAllNotifications({ userId: authUser.id }));
 
       timer = setInterval(() => {
-        // await dispatch(fetchUser(authUser.id)); // ? I don't think this is necessary, but could be wrong - leaving for now
         dispatch(fetchAllNotifications({ userId: authUser.id }));
       }, NOTIFICATION_UPDATE_INTERVAL);
     }
@@ -116,22 +119,6 @@ const NavBar = () => {
       if (timer) clearInterval(timer);
     };
   }, [authUser]);
-
-  //*! user status toggler - currently unused
-  // function handleToggleStatus() {
-  //   let newStatus;
-  //   if (userState.status === 'active') {
-  //     newStatus = 'inactive';
-  //     setLocationTriggered(false);
-  //   } else if (!userState.status || userState.status === 'inactive') {
-  //     newStatus = 'active';
-  //   }
-  //   dispatch(updateUser({ status: newStatus }));
-  // }
-
-  const [menuIcon, setMenuIcon] = useState(navbarIconWhite);
-  const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
-  const [bellMenuIcon, setBellMenuIcon] = useState(bellIconWhite);
 
   useEffect(() => {
     if (isDarkMode) {
