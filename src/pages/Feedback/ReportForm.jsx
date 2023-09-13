@@ -10,8 +10,6 @@ const ReportForm = ({
   noReportText,
   setNoReportText,
 }) => {
-  console.log('noReport text', noReportText);
-
   return (
     <div
       className={`w-full flex flex-col items-center lg:w-4/5 2xl:w-3/5 5xl:w-2/5`}
