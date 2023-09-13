@@ -44,7 +44,28 @@ router.post('/login', async (req, res, next) => {
       password,
     });
     if (token) {
-      return res.status(200).send({ token });
+      const user = await User.findOne(
+        { where: { email } },
+        {
+          attributes: {
+            exclude: [
+              'age',
+              'gender',
+              'address1',
+              'address2',
+              'city',
+              'state',
+              'zip',
+              'password',
+              'avgRating',
+              'reportCount',
+              'strikeCount',
+            ],
+          },
+        }
+      );
+
+      return res.status(200).send({ token, user });
     } else {
       err = new Error('Username or password incorrect');
       err.status = 401;
