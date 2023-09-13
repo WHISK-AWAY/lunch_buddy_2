@@ -74,9 +74,7 @@ module.exports = {
         '4xl': '1920px',
         '5xl': '2560px',
         '6xl': '3440px',
-        short: {
-          raw: '(max-height: 650px)',
-        },
+        short: { raw: '(max-height: 768px) and (min-width: 1440px)' },
       },
     },
   },
