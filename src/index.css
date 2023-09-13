@@ -10,6 +10,13 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  height: -webkit-fill-available;
+}
+body {
+  height: -webkit-fill-available;
+}
+
 @layer components {
   .button {
     @apply bg-gradient-to-r from-[#FEA530]/80 to-[#FF5269]/80;
@@ -64,4 +71,22 @@ input:-webkit-autofill {
   color: white;
   -webkit-text-fill-color: white;
   -webkit-text-stroke-color: white;
+}
+
+.txt-stroke {
+  -webkit-text-stroke: 2px #fff;
+}
+
+@media (min-height: 320px) {
+  .min-height-mobile {
+    /* min-height: 320px; */
+    background-color: aqua;
+  }
+}
+
+@media (min-height: 360px) {
+  .min-height-mobile {
+    /* min-height: 360px; */
+    background-color: brown;
+  }
 }
