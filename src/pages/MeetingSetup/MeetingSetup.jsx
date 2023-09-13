@@ -71,11 +71,11 @@ export default function MeetingSetup(props) {
   return (
     <div
       id="search-params-page"
-      className="lg:bg-none w-screen flex flex-row-reverse justify-center  items-center h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]  bg-white dark:bg-[#0a0908] overflow-hidden bg-fixed  text-primary-gray dark:text-white"
+      className="lg:bg-none w-screen flex flex-row-reverse justify-center  items-center   bg-white dark:bg-[#0a0908] overflow-hidden bg-fixed  text-primary-gray dark:text-white landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)] landscape:overflow-y-auto no-scrollbar"
     >
-      <div className="lg:basis-6/12 flex flex-col justify-center items-center">
+      <div className="lg:basis-6/12 flex flex-col justify-center items-center h-full ">
         <div id="search-params-container" className="">
-          <form className="flex flex-col gap-5 mb-5 items-center">
+          <form className="flex flex-col gap-5 mb-5 items-center landscape:pt-36 pb-7">
             <div id="radius-group" className="flex flex-col items-center gap-2">
               <label
                 className="text-headers text-md font-semibold portrait:md:text-[3vw] 5xl:text-xl sm:text-lg md:text-sm pb-2 3xl:text-base"
@@ -135,7 +135,7 @@ export default function MeetingSetup(props) {
               className="w-5/6 xs:w-4/6 sm:w-4/6 lg:w-3/5 pt-5 portrait:lg:w-4/5"
             >
               <FormButton handleSubmit={handleSearchSubmit}>
-                <span className="text-[3.3vw]  sm:text-lg 5xl:text-xl portrait:md:text-[3vw] portrait:lg:py-2 3xl:text-sm md:text-xs">
+                <span className="text-[3.3vw]  sm:text-lg 5xl:text-xl portrait:md:text-[2.4vw] portrait:lg:py-2 3xl:text-sm md:text-xs">
                   FIND BUDDY
                 </span>
               </FormButton>

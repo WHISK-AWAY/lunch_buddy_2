@@ -86,7 +86,7 @@ const NotificationBody = ({
     <>
       <div
         ref={screenRef}
-        className="fixed bottom-0 h-screen w-screen backdrop-blur-0 bg-transparent z-20"
+        className="fixed bottom-0 h-screen w-screen backdrop-blur-0 bg-transparent z-20 "
         style={{ display: 'none' }}
       ></div>
       <div
