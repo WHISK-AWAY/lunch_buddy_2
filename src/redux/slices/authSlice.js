@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
@@ -14,7 +14,7 @@ const initialAuthState = {
  * requestLogin accepts an object { email, password } which is used to
  * log the user in.
  *
- * The returned token is placed in both localStorage and the redux slice.
+ * The returned token & user object are placed in localStorage and the redux slice (respectively).
  */
 export const requestLogin = createAsyncThunk(
   'auth/requestLogin',
@@ -27,18 +27,26 @@ export const requestLogin = createAsyncThunk(
       });
 
       if (data.token) {
-        localStorage.setItem('token', data.token);
+        const token = data.token;
+        localStorage.setItem('token', token);
+
         return data;
       } else {
         throw new Error('Failed token creation');
       }
     } catch (err) {
-      return rejectWithValue(err);
+      if (err instanceof AxiosError) {
+        return rejectWithValue(err.response.data);
+      } else
+        return rejectWithValue(
+          err.message || 'unhandled error in requestLogin'
+        );
     }
   }
 );
 
 export const successfulLogin = createAsyncThunk(
+  // TODO: get rid of this
   'auth/successfulLogin',
   async (_, { getState }) => {
     return getState().auth;
@@ -100,13 +108,11 @@ const authSlice = createSlice({
       /** requestLogin */
       .addCase(requestLogin.fulfilled, (state, { payload }) => {
         state.token = payload.token;
-        state.user = {};
+        state.user = payload.user;
         state.isLoading = false;
         state.error = '';
       })
       .addCase(requestLogin.pending, (state) => {
-        state.token = '';
-        state.user = {};
         state.isLoading = true;
         state.error = '';
       })
@@ -114,7 +120,7 @@ const authSlice = createSlice({
         state.token = '';
         state.user = {};
         state.isLoading = false;
-        state.error = action.payload.response.data;
+        state.error = action.payload;
       })
 
       /** tryToken */
