@@ -175,7 +175,7 @@ export default function ChatBox() {
   const webpUrl = buddy.avatarUrl.split('.').at(0) + '-q1.webp';
 
   return (
-    <div className="flex overflow-hidden dark:bg-[#0a0908]  bg-white dark:text-white text-primary-gray w-screen h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)] ">
+    <div className="flex overflow-hidden dark:bg-[#0a0908]  bg-white dark:text-white text-primary-gray w-screen landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)] ">
       <div
         id="bg-img"
         className="bg-cover supports-[background-image:_url('/assets/bgImg/chatView-q30.webp')]:bg-[url('/assets/bgImg/chatView-q30.webp')] supports-[background-image:_url('/assets/bgImg/chatbox-background-lq_10.webp')]:2xl:bg-[url('/assets/bgImg/chatbox-background-lq_10.webp')] bg-[url('/assets/bgImg/chatview.jpg')] basis-1/2  3xl:basis-full hidden portrait:hidden lg:block h-full"
@@ -195,7 +195,7 @@ export default function ChatBox() {
 
         <div
           id="msg-feed"
-          className="basis-4/6 xl:w-4/5  pl-4 lg:bg-opacity-20 pt-5 lg:rounded-3xl grow overflow-y-auto w-full lg:w-11/12 lg:pl-4 portrait:md:px-14"
+          className="basis-4/6 xl:w-4/5  pl-4 lg:bg-opacity-20 pt-5 lg:rounded-3xl grow overflow-y-auto w-full lg:w-11/12 lg:pl-4 portrait:md:px-14 landscape:6xl:px-10"
         >
           <div className="h-full grow overflow-y-auto scrollbar-hide ">
             {!meeting?.messages?.length ? (
