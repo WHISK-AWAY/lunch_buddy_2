@@ -124,9 +124,12 @@ const searchSlice = createSlice({
   reducers: {
     resetSearchState: (state) => {
       state.searchResults = [];
-      restaurants = [];
+      state.restaurants = [];
       state.error = '';
       state.isLoading = false;
+    },
+    resetRestaurants: (state) => {
+      state.restaurants = [];
     },
   },
   // fetch buddy search results
@@ -184,5 +187,5 @@ const searchSlice = createSlice({
 
 export const selectSearch = (state) => state.search;
 export const selectRestaurants = (state) => state.search.restaurants;
-export const { resetSearchState } = searchSlice.actions;
+export const { resetSearchState, resetRestaurants } = searchSlice.actions;
 export default searchSlice.reducer;
