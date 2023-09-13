@@ -12,7 +12,7 @@ import {
 } from '../redux/slices';
 import { selectAuthUser, logOut } from '../redux/slices/authSlice';
 
-import gsap from 'gsap';
+// import gsap from 'gsap';
 import { CustomEase } from 'gsap/CustomEase';
 
 gsap.registerPlugin(CustomEase);
