@@ -1,31 +1,31 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { createMeeting, resetMeetingStatus } from '../../redux/slices';
 import FormButton from '../../components/FormButton';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-export default function MeetingRecap() {
+export default function MeetingRecap({ state }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const location = useLocation();
+  const { buddy, timeSlot, restaurant } = state;
 
   useEffect(() => {
     // on load, make sure meeting state is cleared
-    dispatch(resetMeetingStatus());
+    // dispatch(resetMeetingStatus());
   }, []);
 
-  const { buddy, timeSlot, restaurant } = location.state;
+  console.log('state:', state);
 
-  const newMeeting = {
-    buddyId: buddy.id,
-    lunchDate: timeSlot.dateObj,
-    yelpBusinessId: restaurant.id,
-  };
+  function handleMeeting(e) {
+    e.preventDefault();
+    const newMeeting = {
+      buddyId: buddy?.id,
+      lunchDate: timeSlot?.dateObj,
+      yelpBusinessId: restaurant?.id,
+    };
 
-  function handleMeeting() {
     dispatch(createMeeting({ newMeeting }));
     navigate('/');
   }
@@ -35,7 +35,9 @@ export default function MeetingRecap() {
     offset: 0,
   });
 
-  const webpUrl = buddy.avatarUrl.split('.').at(0) + '-q1.webp';
+  const webpUrl = buddy?.avatarUrl.split('.').at(0) + '-q1.webp';
+
+  if (!buddy) return <h1 className="dark:text-white">nobuddy</h1>;
 
   return (
     <div className="recap-card  w-screen flex flex-col gap-5 items-center   bg-white dark:bg-dark lg:flex-row lg:items-center bg-fixed dark:text-white text-primary-gray overflow-hidden h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)] ">
@@ -64,7 +66,7 @@ export default function MeetingRecap() {
             <picture>
               <source srcSet={webpUrl} />
               <img
-                src={buddy.avatarUrl}
+                src={buddy?.avatarUrl}
                 width={1240}
                 height={1850}
                 alt="Your buddy's avatar image"
@@ -80,18 +82,18 @@ export default function MeetingRecap() {
             // data-aos-duration="2000"
           >
             <h2 className="text-lg text-headers pb-4 portrait:lg:text-xl md:text-base lg:text-sm">
-              {buddy.fullName.toUpperCase()}
+              {buddy?.fullName.toUpperCase()}
             </h2>
             <p className="portrait:lg:text-lg md:text-sm lg:text-xs">
-              {timeSlot.startTime} - {timeSlot.endTime}
+              {timeSlot?.startTime} - {timeSlot?.endTime}
             </p>
             <p className="font-semibold portrait:lg:text-xl lg:text-sm">
-              <a href={restaurant.url} target="_blank">
-                {restaurant.name.toUpperCase()}
+              <a href={restaurant?.url} target="_blank">
+                {restaurant?.name.toUpperCase()}
               </a>
             </p>
             <p className="portrait:lg:text-lg md:text-sm lg:text-xs">
-              {restaurant.location?.display_address?.join(' ')}
+              {restaurant?.location?.display_address?.join(' ')}
             </p>
           </div>
           <div

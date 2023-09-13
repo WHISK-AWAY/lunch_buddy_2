@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   selectSearch,
   selectUser,
@@ -9,15 +9,15 @@ import {
 } from '../../redux/slices';
 import { BuddyCard } from '../index';
 
-export default function BuddyList(props) {
+export default function BuddyList({ state }) {
   const dispatch = useDispatch();
-  const location = useLocation();
+  // const location = useLocation();
   const buddiesList = useSelector(selectSearch);
   const user = useSelector(selectUser);
   const auth = useSelector(selectAuth);
   const navigate = useNavigate();
 
-  const { searchRadius, timeSlot } = location.state;
+  const { searchRadius, timeSlot } = state;
 
   useEffect(() => {
     // return to login if no token exists
@@ -34,10 +34,10 @@ export default function BuddyList(props) {
   }, [searchRadius, timeSlot, auth.user?.id]);
 
   function selectBuddy(buddy) {
-    dispatch(findRestaurants({ searchRadius, buddy }));
-
-    navigate('/match/restaurants', {
-      state: { timeSlot, buddy },
+    dispatch(findRestaurants({ searchRadius, buddy })).then(() => {
+      navigate('/match/restaurants', {
+        state: { timeSlot, buddy },
+      });
     });
   }
 
@@ -46,8 +46,8 @@ export default function BuddyList(props) {
   /**
    * TODO: make sure this set of guards is doing what we intend / sending the correct feedback
    */
-  if (!buddiesList || buddiesList?.isLoading || !user || user.isLoading)
-    return <h1>Loading...</h1>;
+  // if (!buddiesList || buddiesList?.isLoading || !user || user.isLoading)
+  //   return <h1>Loading...</h1>;
   if (buddiesList.error || user.error || auth.error)
     return (
       <h1>

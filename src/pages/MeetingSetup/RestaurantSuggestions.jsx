@@ -12,7 +12,7 @@ import {
   selectRestaurants,
 } from '../../redux/slices';
 
-export default function RestaurantSuggestions() {
+export default function RestaurantSuggestions({ state }) {
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -23,7 +23,7 @@ export default function RestaurantSuggestions() {
   const auth = useSelector(selectAuth);
   const restaurants = useSelector(selectRestaurants);
 
-  const { timeSlot, buddy } = location.state;
+  const { timeSlot, buddy } = state;
 
   useEffect(() => {
     if (!auth.user?.id) navigate('/login');
