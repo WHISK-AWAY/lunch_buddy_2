@@ -166,10 +166,10 @@ const AboutForm = () => {
   });
 
   return (
-    <div className="h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]  flex flex-row items-center justify-center w-fit overflow-hidden scroll-smooth bg-white dark:bg-[#0a0908] text-primary-gray dark:text-white">
+    <div className="landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)]  flex flex-row items-center justify-center w-fit overflow-hidden scroll-smooth bg-white dark:bg-[#0a0908] text-primary-gray dark:text-white">
       <div
         id="form-container"
-        className="lg:basis-1/2 flex flex-col  h-full justify-start align-middle overflow-auto scrollbar-hide"
+        className="landscape:lg:basis-1/2 flex flex-col  h-full justify-start align-middle overflow-auto scrollbar-hide landscape:3xl:px-12 landscape:5xl:px-36 landscape:6xl:px-56"
         data-aos="fade-up"
         data-aos-delay="700"
         data-aos-duration="1800"
@@ -210,13 +210,13 @@ const AboutForm = () => {
         </div>
         <div className="flex self-center w-full  md:w-3/5  px-6 mb-16 pt-5 2xl:w-2/5 5xl:w-2/6">
           <FormButton handleSubmit={handleSubmit}>
-            <span className="4xl:text-[.8vw]">SUBMIT</span>
+            <span className="4xl:text-[.8vw] portrait:lg:text-[1.2rem]">SUBMIT</span>
           </FormButton>
         </div>
       </div>
       <div
         id="bg-img"
-        className="basis-1/2 hidden lg:block h-full bg-cover supports-[background-image:_url('/assets/bgImg/aboutMeView-q30.webp')]:bg-[url('/assets/bgImg/aboutMeView-q30.webp')] bg-[url('/assets/bgImg/aboutMeView.jpg')"
+        className="basis-1/2 hidden landscape:lg:block h-full bg-cover supports-[background-image:_url('/assets/bgImg/aboutMeView-q30.webp')]:bg-[url('/assets/bgImg/aboutMeView-q30.webp')] bg-[url('/assets/bgImg/aboutMeView.jpg')"
         data-aos="fade-left"
         data-aos-delay="200"
         data-aos-duration="2000"
