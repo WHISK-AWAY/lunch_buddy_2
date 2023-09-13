@@ -161,9 +161,9 @@ const Feedback = () => {
           noRating={noRating}
         />
         {!showReport && (
-          <div className="md:w-3/5 xxs:w-4/5 5xl:w-2/5 pt-9">
+          <div className="md:w-3/5 w-4/5 5xl:w-2/5 pt-9">
             <FormButton handleSubmit={(e) => submitRating(e)}>
-              <span className="xxs:text-base">SUBMIT REVIEW</span>
+              <span className="text-base">SUBMIT REVIEW</span>
             </FormButton>
           </div>
         )}

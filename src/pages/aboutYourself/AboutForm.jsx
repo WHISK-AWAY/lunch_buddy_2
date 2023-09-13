@@ -208,7 +208,7 @@ const AboutForm = () => {
             setMinTags={setMinTags}
           />
         </div>
-        <div className="flex self-center xxs:w-full  md:w-3/5  px-6 mb-16 pt-5 2xl:w-2/5  w-3/5 5xl:w-2/6">
+        <div className="flex self-center w-full  md:w-3/5  px-6 mb-16 pt-5 2xl:w-2/5 5xl:w-2/6">
           <FormButton handleSubmit={handleSubmit}>
             <span className="4xl:text-[.8vw]">SUBMIT</span>
           </FormButton>

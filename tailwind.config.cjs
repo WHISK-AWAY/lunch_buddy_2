@@ -61,6 +61,9 @@ module.exports = {
       },
       screens: {
         xxs: '360px',
+        // xxs: {
+        //   max: '374px',
+        // },
         xs: '375px',
         sm: '412px',
         md: '768px',
@@ -71,6 +74,9 @@ module.exports = {
         '4xl': '1920px',
         '5xl': '2560px',
         '6xl': '3440px',
+        short: {
+          raw: '(max-height: 650px)',
+        },
       },
     },
   },
