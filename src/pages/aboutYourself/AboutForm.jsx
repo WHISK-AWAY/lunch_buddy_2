@@ -36,6 +36,7 @@ const AboutForm = () => {
   const userError = useSelector(selectUserError);
 
   const [bio, setBio] = useState(localStorage.getItem('aboutBio') || '');
+  const [baseImage, setBaseImage] = useState('');
 
   const [socialTags, setSocialTags] = useState([]);
   const [professionalTags, setProfessionalTags] = useState([]);
@@ -126,6 +127,7 @@ const AboutForm = () => {
     );
 
     prevPageFormData.aboutMe = bio;
+    prevPageFormData.avatarUrl = baseImage;
 
     if (prevPageFormData.address2 === '') {
       delete prevPageFormData.address2;
@@ -164,6 +166,27 @@ const AboutForm = () => {
     duration: 2000,
     offset: 0,
   });
+
+  const uploadImage = async (e) => {
+    const file = e.target.files[0];
+    const base64 = await convertBase64(file);
+    setBaseImage(base64);
+  };
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
   return (
     <div className="landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)]  flex flex-row items-center justify-center w-fit overflow-hidden scroll-smooth bg-white dark:bg-[#0a0908] text-primary-gray dark:text-white">
@@ -208,9 +231,29 @@ const AboutForm = () => {
             setMinTags={setMinTags}
           />
         </div>
+
+        <div className="relative pl-6">
+          <label
+            className="text-label text-center px-4 py-2 cursor-pointer hover:border border-primary-gray rounded-sm text-sm"
+            htmlFor="file-import"
+          >
+            UPLOAD IMAGE
+            <input
+              className="hidden"
+              id="file-import"
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                uploadImage(e);
+              }}
+            />
+          </label>
+        </div>
         <div className="flex self-center w-full  md:w-3/5  px-6 mb-16 pt-5 2xl:w-2/5 5xl:w-2/6">
           <FormButton handleSubmit={handleSubmit}>
-            <span className="4xl:text-[.8vw] portrait:lg:text-[1.2rem]">SUBMIT</span>
+            <span className="4xl:text-[.8vw] portrait:lg:text-[1.2rem]">
+              SUBMIT
+            </span>
           </FormButton>
         </div>
       </div>
