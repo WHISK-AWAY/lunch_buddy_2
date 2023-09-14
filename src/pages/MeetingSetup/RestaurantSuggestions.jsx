@@ -48,11 +48,12 @@ export default function RestaurantSuggestions() {
   return (
     <div
       id="restaurant-page"
-      className="w-screen h-[calc(100vh_-_75px)] flex flex-col justify-start items-center overflow-hidden lg:flex-row lg:justify-between lg:items-start bg-fixed"
+      className="w-screen  flex  justify-start items-center  landscape:lg:flex-row landscape:lg:justify-around landscape:lg:items-start landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)] overflow-hidden "
     >
+      {/**desktop map container */}
       <div
         id="lg-map-container"
-        className="overflow-hidden hidden h-[calc(100vh_-_75px)] lg:block lg:basis-1/2 p-8"
+        className=" hidden h-[100svh] landscape:lg:block landscape:lg:basis-1/2 landscape:2xl:basis-full p-8 "
       >
         {mapsKey && (
           <Wrapper apiKey={mapsKey}>
@@ -60,21 +61,29 @@ export default function RestaurantSuggestions() {
           </Wrapper>
         )}
       </div>
+
       <div
         id="restaurant-results-wrapper"
-        className="flex flex-col w-full lg:basis-1/2 px-[5%] justify-start items-center gap-16 pt-16 h-full overflow-auto"
+        className="flex  w-full landscape:lg:basis-1/2 px-[5%] portrait:gap-6 gap-16 pt-8  h-full landscape:overflow-y-auto justify-center portrait:flex-col portrait:w-full landscape:gap-2 landscape:px-1"
       >
-        <h1 className="text-2xl text-headers font-semibold">
-          RESTAURANT SUGGESTIONS
-        </h1>
-        <div id="sm-map-wrapper" className="lg:hidden">
+        {/**mobile map */}
+        <div
+          id="sm-map-wrapper"
+          className="landscape:lg:hidden sticky top-0  h-[40svh] w-full landscape:h-[80svh] landscape:w-fit "
+        >
           {mapsKey && (
             <Wrapper apiKey={mapsKey}>
               <MapComponent center={center} zoom={15} points={restaurants} />
             </Wrapper>
           )}
         </div>
-        <div className="rest-card-wrapper flex flex-col gap-5">
+
+        {/**restaurant container */}
+        <div className="rest-card-wrapper flex flex-col gap-5  landscape:lg:min-w-[400px]  portrait:w-full portrait:self-center sticky  portrait:overflow-y-auto items-center landscape:xl:max-w-[20vw] ">
+          <h1 className="text-xl text-headers font-semibold text-center portrait:text-[1rem] portrait:md:text-[1.3rem]">
+            RESTAURANT SUGGESTIONS
+          </h1>
+
           {restaurants.businesses?.slice(0, 15).map((restaurant) => {
             return (
               <RestaurantCard
