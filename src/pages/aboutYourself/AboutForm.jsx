@@ -10,12 +10,7 @@ import {
   shapeTagsForDB,
 } from '../../utilities/registerHelpers';
 import NewUserWelcome from '../NotificationCenter/ToastFeedback/NewUserWelcome';
-import {
-  createNewUser,
-  selectUserLoading,
-  selectUserError,
-  checkUserCreated,
-} from '../../redux/slices/userSlice';
+import { createNewUser, checkUserCreated } from '../../redux/slices/userSlice';
 import { requestLogin } from '../../redux/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -32,8 +27,6 @@ const TOAST_POPUP_DELAY = 1000;
 const AboutForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userLoading = useSelector(selectUserLoading);
-  const userError = useSelector(selectUserError);
   const authUser = useSelector((state) => state.auth.user);
 
   const [bio, setBio] = useState(localStorage.getItem('aboutBio') || '');
@@ -76,8 +69,6 @@ const AboutForm = () => {
       Cuisine: { minimum: MINIMUM_CUISINE, show: false, numClicked: 0 },
     }
   );
-
-  const [validBio, setValidBio] = useState(true);
 
   const tagsInState = useSelector((state) => state.tags.tags);
 
