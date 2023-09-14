@@ -139,7 +139,6 @@ const NavBar = () => {
         className="sticky top-0 z-40  text-primary-gray 
        w-[100svw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20  landscape:h-14 portrait:h-14 landscape:3xl:h-16"
       >
-        <DarkModeToggler />
         <nav className="flex justify-between w-full h-full">
           <button className="flex justify-center  items-center">
             <img
@@ -154,18 +153,19 @@ const NavBar = () => {
               }
             />
           </button>
-          <ul className="flex items-center justify-center align-center h-full gap-8 text-center">
+          <ul className="flex items-center justify-center align-center h-full gap-8 text-center ">
             {/* BUTTONS THAT SHOW ONLY WHEN SIGNED IN */}
             {authUser?.firstName ? (
               <>
-                <li className="hidden md:block">
-                  <Link
-                    to="/account"
-                    className="text-[1.3vw] 2xl:text-[1.1vw] 3xl:text-[1vw] 4xl:w-[.9vw] 5xl:text-[.8vw] 6xl:text-[.5vw] dark:text-white portrait:md:text-base"
-                  >
-                    HI, {authUser.firstName.toUpperCase()}
-                  </Link>
-                </li>
+              <li className="hidden md:block">
+              <Link
+              to="/account"
+              className="text-[1.3vw] 2xl:text-[1.1vw] 3xl:text-[1vw] 4xl:w-[.9vw] 5xl:text-[.8vw] 6xl:text-[.5vw] dark:text-white portrait:md:text-base"
+              >
+              HI, {authUser.firstName.toUpperCase()}
+              </Link>
+              </li>
+              <DarkModeToggler />
 
                 {/**
                 <li className="flex items-center">
@@ -188,7 +188,7 @@ const NavBar = () => {
                     duration: TOAST_DURATION,
                   }}
                 />
-                <li className="h-7 relative">
+                <li className="h-6 relative">
                   <button
                     id="bell-button"
                     className={
