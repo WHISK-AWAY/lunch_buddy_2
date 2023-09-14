@@ -10,6 +10,7 @@ import {
 } from '../../redux/slices/userSlice';
 
 import gsap from 'gsap';
+import { fetchAllTags } from '../../redux/slices/tagSlice';
 
 const inputs = {
   firstName: '',
@@ -41,16 +42,19 @@ const EditUserForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [formInputs, setFormInputs] = useState(inputs);
+  const authUser = useSelector((state) => state.auth.user);
+  const userInfo = useSelector((state) => state.user.user);
 
+  const [formInputs, setFormInputs] = useState(inputs);
+  const [baseImage, setBaseImage] = useState('');
+
+  // TODO: convert to memo
   const [inputValidator, setInputValidator] = useState(
     requiredFields.reduce((accumulator, field) => {
       accumulator[field] = false;
       return accumulator;
     }, {})
   );
-
-  const [baseImage, setBaseImage] = useState('');
 
   const topImageRef = useRef(null);
 
@@ -74,8 +78,30 @@ const EditUserForm = () => {
     }));
   }, [baseImage]);
 
-  const authUser = useSelector((state) => state.auth.user);
-  const userInfo = useSelector((state) => state.user.user);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/');
+    } else {
+      // fetch tags list before next view where they'll be needed
+      dispatch(fetchAllTags());
+    }
+  }, []);
+
+  useEffect(() => {
+    if (authUser.id) {
+      dispatch(fetchUser());
+    } else console.log('authuser missing');
+  }, [authUser.id]);
+
+  useEffect(() => {
+    if (userInfo.id) {
+      for (let key in formInputs) {
+        setFormInputs((prev) => ({ ...prev, [key]: userInfo[key] || '' }));
+      }
+    }
+    // setFormInputs(userInfo);
+  }, [userInfo.id]);
 
   const validateZip = (zip) => {
     const valid = /^\d+$/;
@@ -98,28 +124,6 @@ const EditUserForm = () => {
   const validateAge = () => {
     return +formInputs.age >= 18 && +formInputs.age < 135;
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/');
-    }
-  }, []);
-
-  useEffect(() => {
-    if (authUser.id) {
-      dispatch(fetchUser());
-    }
-  }, [authUser.id]);
-
-  useEffect(() => {
-    if (userInfo.id) {
-      for (let key in formInputs) {
-        setFormInputs((prev) => ({ ...prev, [key]: userInfo[key] || '' }));
-      }
-    }
-    // setFormInputs(userInfo);
-  }, [userInfo]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -181,14 +185,14 @@ const EditUserForm = () => {
     ) {
       console.log(missingFields.join(','));
     } else {
-      await dispatch(updateUser(formInputs));
-      const asyncError = await dispatch(checkUserCreated());
-      if (asyncError.payload.error) {
-        console.log('async error', typeof asyncError.payload.error);
-        console.log(`Error: ${asyncError.payload.error}`);
-      } else {
-        navigate('/edituser/tags');
-      }
+      dispatch(updateUser(formInputs));
+      // const asyncError = await dispatch(checkUserCreated());
+      // if (asyncError.payload.error) {
+      //   console.log('async error', typeof asyncError.payload.error);
+      //   console.log(`Error: ${asyncError.payload.error}`);
+      // } else {
+      navigate('/edituser/tags');
+      // }
     }
   };
 

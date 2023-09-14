@@ -69,18 +69,17 @@ export const updateUser = createAsyncThunk(
       const { token, user } = getState().auth;
 
       // request update
-      const res = await axios.put(
+      const { data } = await axios.put(
         VITE_API_URL + `/api/user/${user.id}`,
         userUpdateData,
         {
           headers: { authorization: token },
         }
       );
-      const updatedUser = res.data;
 
-      if (!updatedUser.id) throw new Error('Failed to update user');
+      if (!data.id) throw new Error('Failed to update user');
 
-      return updatedUser;
+      return data;
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -220,7 +219,6 @@ const userSlice = createSlice({
         state.error = '';
       })
       .addCase(createNewUser.pending, (state, { payload }) => {
-        state.user = {};
         state.isLoading = true;
         state.error = '';
       })
@@ -237,7 +235,6 @@ const userSlice = createSlice({
         state.error = '';
       })
       .addCase(updateUser.pending, (state, { payload }) => {
-        state.user = {};
         state.isLoading = true;
         state.error = '';
       })
@@ -269,7 +266,6 @@ const userSlice = createSlice({
         state.error = '';
       })
       .addCase(banUser.pending, (state, { payload }) => {
-        state.user = {};
         state.isLoading = true;
         state.error = '';
       })
@@ -286,7 +282,6 @@ const userSlice = createSlice({
         state.error = '';
       })
       .addCase(removeBan.pending, (state, { payload }) => {
-        state.user = {};
         state.isLoading = true;
         state.error = '';
       })
@@ -307,7 +302,6 @@ const userSlice = createSlice({
         state.error = '';
       })
       .addCase(fetchUserMeetings.pending, (state, action) => {
-        state.userMeetings = [];
         state.isLoading = true;
         state.error = '';
       })

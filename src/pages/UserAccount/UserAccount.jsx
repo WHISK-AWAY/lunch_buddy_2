@@ -5,6 +5,7 @@ import gsap from 'gsap';
 
 import { selectAuth } from '../../redux/slices/authSlice';
 import { fetchUser, selectUser } from '../../redux/slices/userSlice';
+
 import squaresSolid from '../../assets/icons/squares-solid.svg';
 import pencil from '../../assets/icons/pencil.svg';
 
@@ -22,10 +23,10 @@ const UserAccount = () => {
   const [cuisineTags, setCuisineTags] = useState([]);
 
   useEffect(() => {
-    if (auth.user?.id) {
+    if (auth.user?.id && !user.id) {
       dispatch(fetchUser());
     }
-  }, [auth.user?.id]);
+  }, [auth.user?.id, user.id]);
 
   useEffect(() => {
     // fade bg image in only after it's downloaded
@@ -77,7 +78,7 @@ const UserAccount = () => {
       <div className="lg:basis-1/2 portrait:lg:basis-auto flex flex-col items-center   h-full relative ">
         <div className="sticky px-[10%] z-10 bg-white dark:bg-[#0a0908] w-full h-40 top-0  flex flex-col justify-start  items-center">
           <h1 className="pt-10 text-2xl text-headers ">
-            {auth.user.fullName.toUpperCase()}
+            {user.fullName?.toUpperCase()}
           </h1>
 
           <div id="user-avatar" className=" flex justify-center relative">
@@ -92,7 +93,7 @@ const UserAccount = () => {
               />
             </Link>
             <img
-              src={auth.user.avatarUrl}
+              src={user.avatarUrl}
               alt="your avatar image"
               className="object-cover aspect-square w-28 h-28 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative translate-y-[30%] place-self-end"
             />
@@ -101,13 +102,13 @@ const UserAccount = () => {
 
         <div className="px-8 py-7 overflow-auto scrollbar-hide bg-label/40 dark:bg-primary-gray h-full 3xl:px-20 5xl:px-48 6xl:px-80 ">
           <p className="pt-12 flex items-center justify-center xxs:text-sm portrait:md:text-base">
-            {user.city.toUpperCase()}, {user.state}
+            {user.city?.toUpperCase()}, {user.state}
           </p>
           <div
             id="about-me"
             className="pt-7 text-justify text-primary-gray xxs:text-sm portrait:md:text-base dark:text-white md:px-4"
           >
-            <p>{auth.user.aboutMe}</p>
+            <p>{user.aboutMe}</p>
           </div>
 
           <div
