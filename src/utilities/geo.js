@@ -1,6 +1,5 @@
 import { updateLocation } from '../redux/slices';
 import axios from 'axios';
-import checkToken from './checkToken';
 
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 

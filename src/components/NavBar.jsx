@@ -93,6 +93,9 @@ const NavBar = () => {
       // also go ahead and grab maps key - we'll need it later, and won't want to wait on it
       dispatch(fetchMapKey());
     }
+
+    // also go ahead and update location
+    if (authUser.id) getLocation(dispatch, authUser.id);
   }, [authUser.id]);
 
   useEffect(() => {

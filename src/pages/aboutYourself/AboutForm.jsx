@@ -34,6 +34,7 @@ const AboutForm = () => {
   const navigate = useNavigate();
   const userLoading = useSelector(selectUserLoading);
   const userError = useSelector(selectUserError);
+  const authUser = useSelector((state) => state.auth.user);
 
   const [bio, setBio] = useState(localStorage.getItem('aboutBio') || '');
   const [baseImage, setBaseImage] = useState('');
@@ -57,6 +58,11 @@ const AboutForm = () => {
       gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
     };
   }, []);
+
+  useEffect(() => {
+    // automatically go to match screen upon successful login
+    if (authUser.id) navigate('/match');
+  }, [authUser.id]);
 
   const [minTags, setMinTags] = useState(
     JSON.parse(localStorage.getItem('minTags')) || {
@@ -172,7 +178,8 @@ const AboutForm = () => {
         setTimeout(() => {
           toast.custom((t) => <NewUserWelcome t={t} />);
         }, TOAST_POPUP_DELAY);
-        navigate('/match');
+        // navigate('/match');
+        // navigate once signed in - based on watching for authuser
       }, 500);
     }
   }

@@ -50,8 +50,9 @@ export default function MeetingSetup(props) {
   }, [auth.user?.id]);
 
   useEffect(() => {
-    dispatch(findBuddies({ searchRadius }));
-  }, [searchRadius]);
+    console.log('user:', user);
+    if (user.id && user.lastLat) dispatch(findBuddies({ searchRadius }));
+  }, [searchRadius, user.lastLat]);
 
   useEffect(() => {
     // move to next step once all the ducks are in a row
