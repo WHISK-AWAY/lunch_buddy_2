@@ -6,6 +6,7 @@ import { listOfStates } from '../../utilities/registerHelpers';
 import { INVALID_CLASS } from '../../utilities/invalidInputClass';
 
 import gsap from 'gsap';
+import { fetchAllTags } from '../../redux/slices/tagSlice';
 
 // setting a couple defaults here so we keep the starting value if we proceed without changing
 const inputs = JSON.parse(localStorage.getItem('registerForm')) || {
@@ -70,6 +71,11 @@ const RegisterForm = () => {
     if (token) {
       navigate('/');
     }
+  }, []);
+
+  useEffect(() => {
+    // prefetch tags for use in next screen
+    dispatch(fetchAllTags());
   }, []);
 
   useEffect(() => {
