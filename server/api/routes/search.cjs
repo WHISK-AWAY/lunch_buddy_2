@@ -18,8 +18,8 @@ const milesToMeters = (miles) => {
 
 router.get('/', requireToken, async (req, res, next) => {
   try {
-    if (req.user.lastLat === null || req.user.lastLong === null) {
-      res.status(400).send('No coordinates provided');
+    if (!req.user.lastLat || !req.user.lastLong) {
+      return res.status(400).json({ message: 'No coordinates provided' });
     }
 
     //will need to pass radius in query later, for now set to 5miles as a default value
@@ -252,7 +252,6 @@ function updateYelpStore(yelpListings) {
     })
       .then(([_, created]) => {
         if (created) {
-          console.log('record created');
           return;
         }
         YelpListing.update(
@@ -271,7 +270,7 @@ function updateYelpStore(yelpListings) {
               id,
             },
           }
-        ).then(() => console.log('record updated'));
+        );
       })
       .catch((err) => {
         console.log(err);
