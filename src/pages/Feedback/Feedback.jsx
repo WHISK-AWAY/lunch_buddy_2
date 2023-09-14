@@ -148,9 +148,9 @@ const Feedback = () => {
   });
 
   return (
-    <div className="h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]   w-screen  flex justify-center items-center dark:text-white text-primary-gray overflow-hidden bg-fixed bg-white dark:bg-[#0a0908]">
+    <div className=" w-screen  flex justify-center items-center dark:text-white text-primary-gray landscape:overflow-y-auto overflow-hidden bg-fixed bg-white dark:bg-[#0a0908]  landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)]">
       <div
-        className="flex flex-col items-center   text-center w-full mx-auto lg:basis-1/2"
+        className="flex flex-col items-center   text-center w-full mx-auto lg:basis-1/2 landscape:pt-28 landscape:md:pt-10"
         data-aos="fade-down"
         data-aos-delay="1000"
         data-aos-duration="1500"
@@ -186,7 +186,7 @@ const Feedback = () => {
       <div
         id="bg-img"
         alt="Man and woman at a restaurant sharing a pizza, smiling"
-        className="hidden lg:block h-screen image-wrapper basis-1/2 bg-cover bg-[url('/assets/bgImg/rating-report.jpg')] supports-[background-image:_url('/assets/bgImg/rating-report-q30.webp')]:bg-[url('/assets/bgImg/rating-report-q30.webp')]"
+        className="hidden lg:block h-full landscape:4xl:basis-full landscape:4xl:bg-left image-wrapper basis-1/2 bg-cover bg-[url('/assets/bgImg/rating-report.jpg')] supports-[background-image:_url('/assets/bgImg/rating-report-q30.webp')]:bg-[url('/assets/bgImg/rating-report-q30.webp')]"
         data-aos="fade-left"
         data-aos-delay="200"
         data-aos-duration="2000"
