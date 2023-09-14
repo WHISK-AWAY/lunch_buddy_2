@@ -342,21 +342,25 @@ const EditUserForm = () => {
             </select>
           </div>
           <div className="relative col-span-2 ">
-            <label className="text-label  md:text-sm text-xs bg-white dark:bg-[#0a0908] ">
+            <label
+              className="text-label text-center px-4 py-2 cursor-pointer hover:border hover:border-primary-gray"
+              htmlFor="file-import"
+            >
               Upload Image
+              <input
+                className="hidden"
+                id="file-import"
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  uploadImage(e);
+                  setFormInputs((prev) => ({
+                    ...prev,
+                    avatarUrl: baseImage,
+                  }));
+                }}
+              />
             </label>
-            <input
-              className="bg-white dark:bg-[#0a0908] max-w-screen"
-              type="file"
-              onChange={(e) => {
-                uploadImage(e);
-
-                setFormInputs((prev) => ({
-                  ...prev,
-                  avatarUrl: baseImage,
-                }));
-              }}
-            />
           </div>
           <div className="col-span-full w-full  md:mx-auto">
             <FormButton handleSubmit={handleSubmit}>
