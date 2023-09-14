@@ -60,7 +60,7 @@ const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
   }, [darkModeSelector]);
 
   return (
-    <div className="sm:px-8 pl-4 pt-6 portrait:lg:text-[1.4rem]">
+    <div className="sm:px-8 pl-4 pt-6 portrait:lg:text-[1.4rem] ">
       <div className="text-headers mr-auto">
         <h2 className="ml-2">
           {category.toUpperCase()}{' '}
