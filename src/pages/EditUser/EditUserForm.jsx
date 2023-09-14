@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
 import { listOfStates } from '../../utilities/registerHelpers';
@@ -8,6 +8,8 @@ import {
   fetchUser,
   updateUser,
 } from '../../redux/slices/userSlice';
+
+import gsap from 'gsap';
 
 const inputs = {
   firstName: '',
@@ -49,6 +51,21 @@ const EditUserForm = () => {
   );
 
   const [baseImage, setBaseImage] = useState('');
+
+  const topImageRef = useRef(null);
+
+  useEffect(() => {
+    // fade bg image in only after it's downloaded
+
+    const bgImg = new Image();
+    bgImg.src = '/assets/bgImg/signUpView-q30.webp';
+
+    gsap.set(topImageRef.current, { opacity: 0 });
+
+    bgImg.onload = () => {
+      gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
+    };
+  }, []);
 
   useEffect(() => {
     setFormInputs((prev) => ({
@@ -98,7 +115,7 @@ const EditUserForm = () => {
   useEffect(() => {
     if (userInfo.id) {
       for (let key in formInputs) {
-        setFormInputs((prev) => ({ ...prev, [key]: userInfo[key] }));
+        setFormInputs((prev) => ({ ...prev, [key]: userInfo[key] || '' }));
       }
     }
     // setFormInputs(userInfo);
@@ -372,6 +389,7 @@ const EditUserForm = () => {
         </form>
       </div>
       <div
+        ref={topImageRef}
         className="image-wrapper landscape:5xl:bg-center overflow-hidden hidden portrait:lg:hidden lg:block basis-1/2 h-full bg-cover bg-[url('/assets/bgImg/signUpView.jpg')] supports-[background-image:_url('/assets/bgImg/signUpView-q30.webp')]:bg-[url('/assets/bgImg/signUpView-q30.webp')]"
         alt="person smearing a dip on toast, at a restaurant with wine, plates, coffee"
       ></div>

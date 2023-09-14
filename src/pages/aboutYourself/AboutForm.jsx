@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Bio from './Bio';
 import TagSelect from './TagSelect';
 import { useSelector, useDispatch } from 'react-redux';
@@ -21,6 +21,8 @@ import { useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
+import gsap from 'gsap';
+
 // user tag minimums
 const MINIMUM_SOCIAL = 10;
 const MINIMUM_PROFESSIONAL = 1;
@@ -42,6 +44,21 @@ const AboutForm = () => {
   const [professionalTags, setProfessionalTags] = useState([]);
   const [dietaryTags, setDietaryTags] = useState([]);
   const [cuisineTags, setCuisineTags] = useState([]);
+
+  const topImageRef = useRef(null);
+
+  useEffect(() => {
+    // fade bg image in only after it's downloaded
+
+    const bgImg = new Image();
+    bgImg.src = '/assets/bgImg/aboutMeView-q30.webp';
+
+    gsap.set(topImageRef.current, { opacity: 0 });
+
+    bgImg.onload = () => {
+      gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
+    };
+  }, []);
 
   const [minTags, setMinTags] = useState(
     JSON.parse(localStorage.getItem('minTags')) || {
@@ -259,10 +276,11 @@ const AboutForm = () => {
       </div>
       <div
         id="bg-img"
-        className="basis-1/2 hidden landscape:lg:block h-full bg-cover supports-[background-image:_url('/assets/bgImg/aboutMeView-q30.webp')]:bg-[url('/assets/bgImg/aboutMeView-q30.webp')] bg-[url('/assets/bgImg/aboutMeView.jpg')"
-        data-aos="fade-left"
-        data-aos-delay="200"
-        data-aos-duration="2000"
+        ref={topImageRef}
+        className="basis-1/2 hidden lg:block h-full bg-cover supports-[background-image:_url('/assets/bgImg/aboutMeView-q30.webp')]:bg-[url('/assets/bgImg/aboutMeView-q30.webp')] bg-[url('/assets/bgImg/aboutMeView.jpg')"
+        // data-aos="fade-left"
+        // data-aos-delay="200"
+        // data-aos-duration="2000"
       ></div>
     </div>
   );

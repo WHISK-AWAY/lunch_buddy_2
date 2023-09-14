@@ -1,31 +1,42 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { createMeeting, resetMeetingStatus } from '../../redux/slices';
+import { useNavigate } from 'react-router-dom';
+import { createMeeting } from '../../redux/slices';
 import FormButton from '../../components/FormButton';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
-export default function MeetingRecap() {
+import gsap from 'gsap';
+import AOS from 'aos';
+// import 'aos/dist/aos.css';
+
+export default function MeetingRecap({ state }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const location = useLocation();
+  const topImageRef = useRef(null);
+
+  const { buddy, timeSlot, restaurant } = state;
 
   useEffect(() => {
-    // on load, make sure meeting state is cleared
-    dispatch(resetMeetingStatus());
+    // fade bg image in only after it's downloaded
+
+    const bgImg = new Image();
+    bgImg.src = '/assets/bgImg/meetingRecap-lq_10.webp';
+
+    gsap.set(topImageRef.current, { opacity: 0 });
+
+    bgImg.onload = () => {
+      gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
+    };
   }, []);
 
-  const { buddy, timeSlot, restaurant } = location.state;
+  function handleMeeting(e) {
+    e.preventDefault();
+    const newMeeting = {
+      buddyId: buddy?.id,
+      lunchDate: timeSlot?.dateObj,
+      yelpBusinessId: restaurant?.id,
+    };
 
-  const newMeeting = {
-    buddyId: buddy.id,
-    lunchDate: timeSlot.dateObj,
-    yelpBusinessId: restaurant.id,
-  };
-
-  function handleMeeting() {
     dispatch(createMeeting({ newMeeting }));
     navigate('/');
   }
@@ -35,11 +46,14 @@ export default function MeetingRecap() {
     offset: 0,
   });
 
-  const webpUrl = buddy.avatarUrl.split('.').at(0) + '-q1.webp';
+  const webpUrl = buddy?.avatarUrl.split('.').at(0) + '-q1.webp';
+
+  if (!buddy) return <h1 className="dark:text-white">nobuddy</h1>;
 
   return (
     <div className="recap-card  w-screen flex flex-col gap-5 items-center   bg-white dark:bg-dark lg:flex-row lg:items-center bg-fixed dark:text-white text-primary-gray  landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)] landscape:overflow-y-auto">
       <div
+        ref={topImageRef}
         className="recap-image hidden bg-left lg:block lg:h-full lg:basis-full bg-[url('/assets/bgImg/meetingRecap.jpg')] supports-[background-image:_url('/assets/bgImg/meetingRecap-lq_10.webp')]:bg-[url('/assets/bgImg/meetingRecap-lq_10.webp')] portrait:lg:hidden bg-cover "
         // data-aos="fade-right"
         // data-aos-delay="800"
@@ -64,7 +78,7 @@ export default function MeetingRecap() {
             <picture>
               <source srcSet={webpUrl} />
               <img
-                src={buddy.avatarUrl}
+                src={buddy?.avatarUrl}
                 width={1240}
                 height={1850}
                 alt="Your buddy's avatar image"
@@ -80,18 +94,18 @@ export default function MeetingRecap() {
             // data-aos-duration="2000"
           >
             <h2 className="text-lg text-headers pb-4 portrait:lg:text-xl md:text-base lg:text-sm">
-              {buddy.fullName.toUpperCase()}
+              {buddy?.fullName.toUpperCase()}
             </h2>
             <p className="portrait:lg:text-lg md:text-sm lg:text-xs">
-              {timeSlot.startTime} - {timeSlot.endTime}
+              {timeSlot?.startTime} - {timeSlot?.endTime}
             </p>
             <p className="font-semibold portrait:lg:text-xl lg:text-sm">
-              <a href={restaurant.url} target="_blank">
-                {restaurant.name.toUpperCase()}
+              <a href={restaurant?.url} target="_blank">
+                {restaurant?.name.toUpperCase()}
               </a>
             </p>
             <p className="portrait:lg:text-lg md:text-sm lg:text-xs">
-              {restaurant.location?.display_address?.join(' ')}
+              {restaurant?.location?.display_address?.join(' ')}
             </p>
           </div>
           <div

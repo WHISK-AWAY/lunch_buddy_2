@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-// import { Loader } from '@googlemaps/js-api-loader';
 import { Wrapper } from '@googlemaps/react-wrapper';
 import MapComponent from '../../components/MapComponent';
 import { RestaurantCard } from '../index';
@@ -12,10 +11,8 @@ import {
   selectRestaurants,
 } from '../../redux/slices';
 
-export default function RestaurantSuggestions() {
+export default function RestaurantSuggestions({ state }) {
   const navigate = useNavigate();
-
-  const location = useLocation();
 
   const search = useSelector(selectSearch);
   const mapsKey = useSelector((state) => state.search.mapsKey);
@@ -23,7 +20,7 @@ export default function RestaurantSuggestions() {
   const auth = useSelector(selectAuth);
   const restaurants = useSelector(selectRestaurants);
 
-  const { timeSlot, buddy } = location.state;
+  const { timeSlot, buddy } = state;
 
   useEffect(() => {
     if (!auth.user?.id) navigate('/login');

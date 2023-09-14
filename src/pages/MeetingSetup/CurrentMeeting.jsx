@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+
+import gsap from 'gsap';
 
 import {
   cancelMeeting,
@@ -28,6 +30,21 @@ const CurrentMeeting = ({}) => {
   const currentMeeting = useSelector((state) => state.meetings.currentMeeting);
 
   const authUser = useSelector(selectAuthUser);
+
+  const topImageRef = useRef(null);
+
+  useEffect(() => {
+    // fade bg image in only after it's downloaded
+
+    const bgImg = new Image();
+    bgImg.src = '/assets/bgImg/currentMeeting-lq_10.webp';
+
+    gsap.set(topImageRef.current, { opacity: 0 });
+
+    bgImg.onload = () => {
+      gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
+    };
+  }, []);
 
   useEffect(() => {
     // on load, make sure meeting state is cleared
@@ -98,6 +115,7 @@ const CurrentMeeting = ({}) => {
   return (
     <div className="recap-card  w-screen self-center   justify-between lg:items-center  dark:bg-[#0a0908]  bg-white dark:text-white text-primary-gray    overflow-hidden flex flex-row  landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)]">
       <div
+        ref={topImageRef}
         className="recap-image hidden h-screen lg:block lg:h-full lg:basis-1/2 2xl:basis-full bg-[url('/assets/bgImg/currentMeeting.jpg')] supports-[background-image:_url('/assets/bgImg/currentMeeting-lq_10.webp')]:bg-[url('/assets/bgImg/currentMeeting-lq_10.webp')] bg-center bg-cover overflow-hidden"
         // data-aos="fade-right"
         // data-aos-delay="800"

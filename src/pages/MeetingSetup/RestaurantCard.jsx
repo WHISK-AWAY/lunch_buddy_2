@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import plus from '../../assets/icons/plus-white.svg';
 
 export default function RestaurantCard({ restaurant, chooseRestaurant }) {

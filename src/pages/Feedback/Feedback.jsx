@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Rating from './Rating';
 import FormButton from '../../components/FormButton';
 import ReportForm from './ReportForm';
@@ -15,6 +15,8 @@ import RatingSubmitted from '../NotificationCenter/ToastFeedback/RatingSubmitted
 import ReportSubmitted from '../NotificationCenter/ToastFeedback/ReportSubmitted';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+
+import gsap from 'gsap';
 
 const TOAST_POPUP_DELAY = 1000;
 
@@ -38,6 +40,21 @@ const Feedback = () => {
   }
 
   const { meetingId } = useParams();
+
+  const topImageRef = useRef(null);
+
+  useEffect(() => {
+    // fade bg image in only after it's downloaded
+
+    const bgImg = new Image();
+    bgImg.src = '/assets/bgImg/rating-report-q30.webp';
+
+    gsap.set(topImageRef.current, { opacity: 0 });
+
+    bgImg.onload = () => {
+      gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
+    };
+  }, []);
 
   useEffect(() => {
     if (notifications?.length > 0) {
@@ -184,8 +201,8 @@ const Feedback = () => {
         )}
       </div>
       <div
+        ref={topImageRef}
         id="bg-img"
-        alt="Man and woman at a restaurant sharing a pizza, smiling"
         className="hidden lg:block h-full landscape:4xl:basis-full landscape:4xl:bg-left image-wrapper basis-1/2 bg-cover bg-[url('/assets/bgImg/rating-report.jpg')] supports-[background-image:_url('/assets/bgImg/rating-report-q30.webp')]:bg-[url('/assets/bgImg/rating-report-q30.webp')]"
         data-aos="fade-left"
         data-aos-delay="200"

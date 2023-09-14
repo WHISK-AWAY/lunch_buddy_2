@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import gsap from 'gsap';
+
 import { selectAuth } from '../../redux/slices/authSlice';
 import { fetchUser, selectUser } from '../../redux/slices/userSlice';
 import squaresSolid from '../../assets/icons/squares-solid.svg';
@@ -12,6 +14,8 @@ const UserAccount = () => {
   const auth = useSelector(selectAuth);
   const user = useSelector(selectUser);
 
+  const topImageRef = useRef(null);
+
   const [professionalTags, setProfessionalTags] = useState([]);
   const [socialTags, setSocialTags] = useState([]);
   const [dietaryTags, setDietaryTags] = useState([]);
@@ -22,6 +26,19 @@ const UserAccount = () => {
       dispatch(fetchUser());
     }
   }, [auth.user?.id]);
+
+  useEffect(() => {
+    // fade bg image in only after it's downloaded
+
+    const bgImg = new Image();
+    bgImg.src = '/assets/bgImg/accView-q30.webp';
+
+    gsap.set(topImageRef.current, { opacity: 0 });
+
+    bgImg.onload = () => {
+      gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
+    };
+  }, []);
 
   const tags = user.tags;
 
@@ -233,6 +250,7 @@ const UserAccount = () => {
         </main>
       </div>
       <div
+        ref={topImageRef}
         id="bg-img"
         className="bg-cover bg-center
           bg-[url('/assets/bgImg/accView.jpg')] supports-[background-image:_url('/assets/bgImg/test19-lq_10.webp')]:bg-[url('/assets/bgImg/test19-lq_10.webp')] basis-1/2 hidden lg:block h-full portrait:lg:hidden"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Bio from '../aboutYourself/Bio';
 import TagSelect from '../aboutYourself/TagSelect';
 import { useSelector, useDispatch } from 'react-redux';
@@ -17,6 +17,8 @@ import { selectAuthUser } from '../../redux/slices';
 import { useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+
+import gsap from 'gsap';
 
 // user tag minimums
 const MINIMUM_SOCIAL = 10;
@@ -52,6 +54,21 @@ const EditUserBioAndTags = () => {
   });
 
   const [validBio, setValidBio] = useState(true);
+
+  const topImageRef = useRef(null);
+
+  useEffect(() => {
+    // fade bg image in only after it's downloaded
+
+    const bgImg = new Image();
+    bgImg.src = '/assets/bgImg/aboutMeView-q30.webp';
+
+    gsap.set(topImageRef.current, { opacity: 0 });
+
+    bgImg.onload = () => {
+      gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
+    };
+  }, []);
 
   useEffect(() => {
     // const token = localStorage.getItem('token');
@@ -238,6 +255,7 @@ const EditUserBioAndTags = () => {
       </div>
       <div
         id="bg-img"
+        ref={topImageRef}
         className="basis-1/2 hidden lg:block h-full bg-cover bg-[url('/assets/bgImg/aboutMeView.jpg')] supports-[background-image:_url('/assets/bgImg/aboutMeView-q30.webp')]:bg-[url('/assets/bgImg/aboutMeView-q30.webp')]"
         data-aos="fade-left"
         data-aos-delay="200"
