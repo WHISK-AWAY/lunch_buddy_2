@@ -60,13 +60,13 @@ const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
   }, [darkModeSelector]);
 
   return (
-    <div className="sm:px-8 pl-4 pt-6">
+    <div className="sm:px-8 pl-4 pt-6 portrait:lg:text-[1.4rem] ">
       <div className="text-headers mr-auto">
         <h2 className="ml-2">
           {category.toUpperCase()}{' '}
           {minTags[category]?.minimum > 0 && (
             <span
-              className={`ml-2 text-sm ${
+              className={`ml-2 text-sm portrait:lg:text-base ${
                 minTags[category].show ? 'text-red-500' : 'text-gray-400'
               }`}
             >
@@ -91,17 +91,17 @@ const TagSelect = ({ setter, tags = [], category, minTags, setMinTags }) => {
             alt="Expand/Retract Arrow"
           />
         </button>
-        <div className="transition-all duration-1000 ease-in-out group-[.tag-expand]:max-h-[1000px] w-full flex flex-wrap gap-x-5 gap-y-2 max-h-16  overflow-hidden">
+        <div className="transition-all duration-1000 ease-in-out group-[.tag-expand]:max-h-[1000px] w-full flex flex-wrap gap-x-5 gap-y-2 max-h-16  overflow-hidden ">
           {tags?.map((tag, idx) => {
             return (
               <button
                 key={idx}
-                className={`border transition duration-500 border-primary-gray  rounded-full px-4 h-7 flex grow gap-4 items-center hover:bg-primary-gray/20 text-xs ${
+                className={`border  transition duration-500 border-primary-gray  rounded-full px-4 h-7 flex grow gap-4 items-center hover:bg-primary-gray/20 text-xs  ${
                   tag.clicked ? 'button text-white  border-white ' : ''
                 }`}
                 onClick={() => handleTagClick(idx, setter)}
               >
-                <p className="grow text-xs flex-col items-center capitalize">
+                <p className="grow text-xs flex-col items-center capitalize portrait:lg:text-lg">
                   {tag.tagName}
                 </p>
                 <img

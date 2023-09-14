@@ -40,7 +40,7 @@ export default function MapComponent({ center, zoom, points }) {
 
   return (
     <div
-      className="w-96 aspect-square rounded-lg shadow-md lg:w-full lg:max-h-full"
+      className="w-full  rounded-lg shadow-md landscape:lg:w-full landscape:lg:h-[80svh] landscape:xl:h-[87svh]  h-[40svh] landscape:h-[70svh] landscape:w-[50svw]"
       ref={ref}
       id="map"
     />

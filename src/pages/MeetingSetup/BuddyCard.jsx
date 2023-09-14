@@ -26,12 +26,13 @@ export default function BuddyCard(props) {
   const webpUrl = buddy?.avatarUrl.split('.').at(0) + '-q1.webp';
 
   return (
-    <div className="buddy_card font-jost relative xxs:w-[90%] w-4/5 md:w-[90%] lg:w-4/5 3xl:w-9/12 flex flex-col md:flex-row lg:flex-col  justify-between shrink items-center gap-6 p-4 pb-6 bg-primary-gray/20 dark:bg-white/10 shadow-md mb-20 xxs:mb-8 rounded-3xl portrait:md:w-[80%] md:p-10 4xl:p-16 ">
+    <div className="buddy_card font-jost relative w-[90%] md:w-[90%] lg:w-4/5 3xl:w-9/12 flex flex-col md:flex-row lg:flex-col  justify-between shrink items-center gap-6 p-4 pb-6 bg-primary-gray/20 dark:bg-white/10 shadow-md landscape:md:mb-10 mb-8 rounded-3xl portrait:md:w-[80%] md:p-10 4xl:p-16 ">
+   
       <div className="buddy_avatar shrink-0 grow-0 justify-center items-center md:self-start lg:self-center  relative top-2">
         <picture>
           <source srcSet={webpUrl} type="image/webp" />
           <img
-            className="bg-white object-cover aspect-square w-32 h-32 xxs:w-28 xxs:h-28 rounded-[100%] z-10 p-1 relative self-end "
+            className="bg-white object-cover aspect-square w-28 h-28 rounded-[100%] z-10 p-1 relative self-end "
             src={buddy.avatarUrl}
             width={1240}
             height={1850}
@@ -39,7 +40,7 @@ export default function BuddyCard(props) {
           />
         </picture>
         <button
-          className="select_buddy button-round rounded-full w-12 xxs:w-10 aspect-square absolute -top-4 -right-3 md:-left-4 lg:-right-3 xl:-left-4 flex justify-center items-center"
+          className="select_buddy button-round rounded-full w-10 aspect-square absolute -top-4 -right-3 md:-left-4 lg:-right-3 xl:-left-4 flex justify-center items-center"
           onClick={() => selectBuddy(buddy)}
         >
           <img
@@ -51,14 +52,14 @@ export default function BuddyCard(props) {
       </div>
       <div className="buddy-info flex flex-col gap-4 shrink grow-0 basis-4/5">
         <div className="buddy-header-wrapper flex flex-col gap-1">
-          <div className="buddy_name text-headers self-center md:text-sm xxs:text-base portrait:md:text-lg 4xl:text-lg ">
+          <div className="buddy_name text-headers text-center self-center md:text-sm text-base portrait:md:text-lg 4xl:text-lg landscape:xs:text-[1rem]">
             <p>{buddy.fullName.toUpperCase()}</p>
           </div>
-          <div className="buddy-location self-center text-xs xxs:text-xs portrait:md:text-sm 4xl:text-base ">
+          <div className="buddy-location self-center text-xs portrait:md:text-sm 4xl:text-base ">
             <p>{`${buddy.city}, ${buddy.state}`}</p>
           </div>
         </div>
-        <div className="buddy_bio w-full text-center xxs:text-[3.6vw] portrait:text-base md:text-xs 4xl:text-base md:pb-2 ">
+        <div className="buddy_bio w-full text-center text-[3.6vw] portrait:text-xs md:text-xs 4xl:text-base md:pb-2 landscape:text-[.8rem] landscape:sm:text-[.9rem] portrait:md:text-sm portrait:lg:text-base">
           <p>{buddy.aboutMe}</p>
         </div>
 
@@ -86,7 +87,7 @@ export default function BuddyCard(props) {
                 return (
                   <div
                     key={tag.id}
-                    className="buddy_tag grow text-center 4xl:text-sm 5xl:text-lg rounded-full text-sm portrait:md:text-sm xxs:text-xs px-3 py-1 button text-white "
+                    className="buddy_tag grow text-center 4xl:text-sm 5xl:text-lg rounded-full portrait:md:text-sm text-xs px-3 py-1 button text-white "
                   >
                     <p>{tag.tagName}</p>
                   </div>
@@ -98,7 +99,7 @@ export default function BuddyCard(props) {
                 return (
                   <div
                     key={tag.id}
-                    className="buddy_tag grow text-center 4xl:text-sm rounded-full 5xl:text-lg portrait:md:text-sm text-sm xxs:text-xs px-9 py-1 bg-white border dark:bg-[#0a0908] dark:text-white border-primary-gray "
+                    className="buddy_tag grow text-center 4xl:text-sm rounded-full 5xl:text-lg portrait:md:text-sm text-xs px-9 py-1 bg-white border dark:bg-[#0a0908] dark:text-white border-primary-gray "
                   >
                     <p>{tag.tagName}</p>
                   </div>

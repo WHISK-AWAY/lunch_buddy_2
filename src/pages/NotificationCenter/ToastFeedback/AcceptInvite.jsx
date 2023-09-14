@@ -24,7 +24,7 @@ export default function AcceptInvite({ notification, meetings, t }) {
   return (
     <div
       id="meeting-card"
-      className="flex  text-xs py-3 text-primary-gray 3xl:w-[30vw] md:w-[40vw] 5xl:w-[20vw] w-[80vw] portrait:md:w-[60vw] bg-neutral-100/90 dark:bg-neutral-800/90 dark:text-white  rounded-sm shadow-md items-center justify-between sticky mt-10 portrait:md:mt-[9%] portrait:lg:mt-[7.9%] xs:mt-14 sm:mt-16 md:mt-11 lg:mt-[4.4%] xl:mt-[4.3%] 2xl:mt-[3.8%] 3xl:mt-[3.5%] 4xl:mt-[2.9%] 5xl:mt-[2.5%]  6xl:mt-[1.8%] -mr-4"
+      className="flex  text-xs py-3 text-primary-gray 3xl:w-[30vw] md:w-[40vw] 5xl:w-[20vw] w-[80vw] portrait:md:w-[60vw] bg-neutral-100/90 dark:bg-neutral-800/90 dark:text-white  rounded-sm shadow-md items-center justify-between sticky  portrait:md:mt-[5%] portrait:lg:mt-[3.9%] mt-10 md:mt-10 lg:mt-[4.4%] xl:mt-[4.3%] 2xl:mt-[3.8%] 3xl:mt-[3.5%] 4xl:mt-[2.9%] 5xl:mt-[2.5%]  6xl:mt-[1.8%] -mr-4"
     >
       <div
         id="notification-details"

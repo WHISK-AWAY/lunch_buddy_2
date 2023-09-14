@@ -89,16 +89,19 @@ export default function BuddyList({ state }) {
   return (
     <div
       ref={wrapperRef}
-      className="buddies-list-page  bg-white dark:bg-dark dark:text-white flex flex-col justify-center items-center lg:flex-row lg:justify-between text-primary-gray   h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]   "
+      className="buddies-list-page  bg-white dark:bg-dark dark:text-white flex flex-col justify-center items-center lg:flex-row lg:justify-between text-primary-gray   landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)] "
     >
       <div
         ref={topImageRef}
         className="buddies-image-container h-full basis-full hidden bg-[url('/assets/bgImg/signInView.jpg')] lg:block bg-cover supports-[background-image:_url('/assets/bgImg/signInView-q30.webp')]:bg-[url('/assets/bgImg/signInView-q30.webp')] xl:bg-[url('/assets/bgImg/buddyList-lq_10.webp')] overflow-hidden"
       ></div>
-      <div className="buddies-list-wrapper flex flex-col items-center h-full lg:basis-7/12 gap-3 portrait:md:gap-1  overflow-auto">
-        <h1 className="text-headers   md:text-lg xxs:pb-5 md:pb-10 md:pt-10 pt-20 xxs:pt-6 xxs:text-xl font-semibold portrait:md:pb-4 4xl:text-3xl portrait:md:text-2xl">
+      <div className="buddies-list-wrapper flex flex-col items-center h-full lg:basis-7/12 gap-1 portrait:md:gap-1  overflow-auto">
+        <h1 className="text-headers   md:text-lg   md:pt-10 pt-6 text-xl font-semibold  4xl:text-3xl portrait:md:text-2xl">
           AVAILABLE BUDDIES
         </h1>
+        <p className="pb-5 md:pb-10 text-sm portrait:md:pb-4 ">
+          *highlighted tags are those you share in common
+        </p>
         {buddiesList.searchResults.length > 0 ? (
           buddiesList.searchResults?.map((buddy) => {
             return (

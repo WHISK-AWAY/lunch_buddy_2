@@ -158,17 +158,17 @@ const Feedback = () => {
   }
 
   return (
-    <div className="h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]   w-screen  flex justify-center items-center dark:text-white text-primary-gray overflow-hidden bg-fixed bg-white dark:bg-[#0a0908]">
-      <div className="flex flex-col items-center   text-center w-full mx-auto lg:basis-1/2">
+    <div className=" w-screen  flex justify-center items-center dark:text-white text-primary-gray landscape:overflow-y-auto overflow-hidden bg-fixed bg-white dark:bg-[#0a0908]  landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)]">
+      <div className="flex flex-col items-center   text-center w-full mx-auto lg:basis-1/2 landscape:pt-28 landscape:md:pt-10">
         <Rating
           starRating={starRating}
           setStarRating={setStarRating}
           noRating={noRating}
         />
         {!showReport && (
-          <div className="md:w-3/5 xxs:w-4/5 5xl:w-2/5 pt-9">
+          <div className="md:w-3/5 w-4/5 5xl:w-2/5 pt-9">
             <FormButton handleSubmit={(e) => submitRating(e)}>
-              <span className="xxs:text-base">SUBMIT REVIEW</span>
+              <span className="text-base">SUBMIT REVIEW</span>
             </FormButton>
           </div>
         )}
@@ -191,7 +191,7 @@ const Feedback = () => {
       <div
         ref={topImageRef}
         id="bg-img"
-        className="hidden lg:block h-screen image-wrapper basis-1/2 bg-cover bg-[url('/assets/bgImg/rating-report.jpg')] supports-[background-image:_url('/assets/bgImg/rating-report-q30.webp')]:bg-[url('/assets/bgImg/rating-report-q30.webp')]"
+        className="hidden lg:block h-full landscape:4xl:basis-full landscape:4xl:bg-left image-wrapper basis-1/2 bg-cover bg-[url('/assets/bgImg/rating-report.jpg')] supports-[background-image:_url('/assets/bgImg/rating-report-q30.webp')]:bg-[url('/assets/bgImg/rating-report-q30.webp')]"
       ></div>
     </div>
   );

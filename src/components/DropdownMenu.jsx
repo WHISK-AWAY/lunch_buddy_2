@@ -12,6 +12,9 @@ import {
 } from '../redux/slices';
 import { selectAuthUser, logOut } from '../redux/slices/authSlice';
 
+import { CustomEase } from 'gsap/CustomEase';
+
+gsap.registerPlugin(CustomEase);
 import DropDownItem from './DropDownItem';
 import DemoMode from '../pages/NotificationCenter/ToastFeedback/DemoMode';
 
@@ -160,6 +163,13 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
    * top-0
    */
 
+  // console.log(window.screen.availHeight);
+  // console.log(window.innerHeight);
+  // const ratio = window.screen.width * window.devicePixelRatio;
+  // const ratioH = window.screen.height * window.devicePixelRatio;
+  // console.log(ratio/ratioH);
+
+  // console.log(window.innerHeight/window.innerWidth)
   return (
     <>
       <div
@@ -170,9 +180,11 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
       <div
         ref={wrapperRef}
         id="dropdown-container"
-        className={`dark:text-white dark:bg-[#0a0908] -translate-y-full overflow-clip fixed bg-white w-screen opacity-95 z-30 -top-${navHeight}`}
+        className={` ${
+          !authUser.firstName ? 'landscape:lg:h-[40svh] ' : 'landscape:h-[60svh]'
+        } dark:text-white dark:bg-[#0a0908]/60 bg-white/60 -translate-y-full fixed  w-screen opacity-95 z-30 landscape:lg:h-[60svh] landscape:h-[calc(100svh_-_56px)] portrait:h-[100svh] `}
       >
-        <ul className="flex flex-col items-center ">
+        <ul className="flex flex-col items-center short:py-6  justify-center   overflow-y-auto portrait:h-full landscape:lg:h-full landscape:h-full align-center ">
           {!authUser.firstName ? (
             <>
               {/* NAV LINKS WHEN NOT SIGNED IN */}

@@ -73,11 +73,12 @@ const UserAccount = () => {
   return (
     <div
       id="user-container"
-      className=" flex flex-row-reverse flex-nowrap w-screen justify-center h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]    overflow-hidden text-primary-gray dark:text-white bg-fixed"
+      className=" flex flex-row-reverse flex-nowrap w-screen justify-center  overflow-hidden text-primary-gray dark:text-white bg-fixed landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)]"
     >
-      <div className="lg:basis-1/2 portrait:lg:basis-auto flex flex-col items-center   h-full relative ">
-        <div className="sticky px-[10%] z-10 bg-white dark:bg-[#0a0908] w-full h-40 top-0  flex flex-col justify-start  items-center">
-          <h1 className="pt-10 text-2xl text-headers ">
+      <div className="lg:basis-1/2 portrait:lg:basis-auto flex flex-col items-center h-full relative ">
+        {/* Header section: only on tall-enough screens */}
+        <header className="sticky px-[10%] z-10 bg-white dark:bg-[#0a0908] w-full h-40 top-0  landscape:md:flex portrait:flex flex-col justify-start  items-center hidden">
+          <h1 className="pt-10 text-xl text-headers ">
             {user.fullName?.toUpperCase()}
           </h1>
 
@@ -98,15 +99,36 @@ const UserAccount = () => {
               className="object-cover aspect-square w-28 h-28 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative translate-y-[30%] place-self-end"
             />
           </div>
-        </div>
+        </header>
 
-        <div className="px-8 py-7 overflow-auto scrollbar-hide bg-label/40 dark:bg-primary-gray h-full 3xl:px-20 5xl:px-48 6xl:px-80 ">
-          <p className="pt-12 flex items-center justify-center xxs:text-sm portrait:md:text-base">
-            {user.city?.toUpperCase()}, {user.state}
+        <main className="px-8 py-7 overflow-auto scrollbar-hide bg-label/40 dark:bg-primary-gray/10 h-full 3xl:px-20 5xl:px-48 6xl:px-80 portrait:lg:px-20">
+          {/* Identifying user info here -- only for use in shorter screens */}
+          <section className="hidden landscape:flex justify-between items-start mx-auto">
+            <div className="hidden gap-4 landscape:flex landscape:md:hidden">
+              <img
+                src={user.avatarUrl}
+                alt="your avatar image"
+                className="object-cover aspect-square w-16 bg-white dark:bg-slate-800 rounded-[100%] p-1 drop-shadow-lg"
+              />
+              <div className="flex flex-col">
+                <h1 className="text-lg text-headers">
+                  {user.fullName?.toUpperCase()}
+                </h1>
+                <p className="text-sm portrait:md:text-base">
+                  {user.city.toUpperCase()}, {user.state}
+                </p>
+                <Link to="/edituser" className="text-sm underline">
+                  Edit Profile
+                </Link>
+              </div>
+            </div>
+          </section>
+          <p className="pt-12 hidden landscape:md:flex portrait:flex items-center justify-center text-sm portrait:md:text-base">
+            {user.city.toUpperCase()}, {user.state}
           </p>
           <div
             id="about-me"
-            className="pt-7 text-justify text-primary-gray xxs:text-sm portrait:md:text-base dark:text-white md:px-4"
+            className="pt-7 text-justify text-primary-gray text-sm portrait:md:text-base dark:text-white md:px-4"
           >
             <p>{user.aboutMe}</p>
           </div>
@@ -133,7 +155,7 @@ const UserAccount = () => {
                   return (
                     <p
                       key={social.id}
-                      className="border portrait:md:text-[2.1vw] 3xl:h-6 6xl:h-8 border-white rounded-full px-4 h-7 portrait:lg:h-8  flex dark:bg-[#0a0908] text-white gap-4 items-center justify-center grow xxs:text-xs test"
+                      className="border portrait:md:text-[2.1vw] 3xl:h-6 6xl:h-8 border-white rounded-full px-4 h-7 portrait:lg:h-8  flex dark:bg-[#0a0908] text-white gap-4 items-center justify-center grow text-xs test"
                     >
                       {social.tagName}
                     </p>
@@ -224,13 +246,13 @@ const UserAccount = () => {
               </div>
             )}
           </div>
-        </div>
+        </main>
       </div>
       <div
         ref={topImageRef}
         id="bg-img"
-        className="bg-cover
-          supports-[background-image:_url('/assets/bgImg/accView-q30.webp')]:bg-[url('/assets/bgImg/accView-q30.webp')] bg-[url('/assets/bgImg/accView.jpg')] basis-1/2 hidden lg:block h-full portrait:lg:hidden"
+        className="bg-cover bg-center
+          bg-[url('/assets/bgImg/accView.jpg')] supports-[background-image:_url('/assets/bgImg/test19-lq_10.webp')]:bg-[url('/assets/bgImg/test19-lq_10.webp')] basis-1/2 hidden lg:block h-full portrait:lg:hidden"
       ></div>
     </div>
   );

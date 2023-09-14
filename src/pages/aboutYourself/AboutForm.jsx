@@ -36,6 +36,7 @@ const AboutForm = () => {
   const userError = useSelector(selectUserError);
 
   const [bio, setBio] = useState(localStorage.getItem('aboutBio') || '');
+  const [baseImage, setBaseImage] = useState('');
 
   const [socialTags, setSocialTags] = useState([]);
   const [professionalTags, setProfessionalTags] = useState([]);
@@ -141,6 +142,7 @@ const AboutForm = () => {
     );
 
     prevPageFormData.aboutMe = bio;
+    prevPageFormData.avatarUrl = baseImage;
 
     if (prevPageFormData.address2 === '') {
       delete prevPageFormData.address2;
@@ -175,11 +177,32 @@ const AboutForm = () => {
     }
   }
 
+  const uploadImage = async (e) => {
+    const file = e.target.files[0];
+    const base64 = await convertBase64(file);
+    setBaseImage(base64);
+  };
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
   return (
-    <div className="h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]  flex flex-row items-center justify-center w-fit overflow-hidden scroll-smooth bg-white dark:bg-[#0a0908] text-primary-gray dark:text-white">
+    <div className="landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)]  flex flex-row items-center justify-center w-fit overflow-hidden scroll-smooth bg-white dark:bg-[#0a0908] text-primary-gray dark:text-white">
       <div
         id="form-container"
-        className="lg:basis-1/2 flex flex-col  h-full justify-start align-middle overflow-auto scrollbar-hide"
+        className="landscape:lg:basis-1/2 flex flex-col  h-full justify-start align-middle overflow-auto scrollbar-hide landscape:3xl:px-12 landscape:5xl:px-36 landscape:6xl:px-56"
       >
         <h1 className="flex mt-20 mb-8 text-xl font-semibold text-headers self-center">
           TELL US ABOUT YOURSELF
@@ -215,9 +238,29 @@ const AboutForm = () => {
             setMinTags={setMinTags}
           />
         </div>
-        <div className="flex self-center xxs:w-full  md:w-3/5  px-6 mb-16 pt-5 2xl:w-2/5  w-3/5 5xl:w-2/6">
+
+        <div className="relative pl-6">
+          <label
+            className="text-label text-center px-4 py-2 cursor-pointer hover:border border-primary-gray rounded-sm text-sm"
+            htmlFor="file-import"
+          >
+            UPLOAD IMAGE
+            <input
+              className="hidden"
+              id="file-import"
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                uploadImage(e);
+              }}
+            />
+          </label>
+        </div>
+        <div className="flex self-center w-full  md:w-3/5  px-6 mb-16 pt-5 2xl:w-2/5 5xl:w-2/6">
           <FormButton handleSubmit={handleSubmit}>
-            <span className="4xl:text-[.8vw]">SUBMIT</span>
+            <span className="4xl:text-[.8vw] portrait:lg:text-[1.2rem]">
+              SUBMIT
+            </span>
           </FormButton>
         </div>
       </div>

@@ -9,6 +9,7 @@ import NotificationButton from '../../components/NotificationButton';
 import xIcon from '../../assets/icons/x-icon.svg';
 import xIconWhite from '../../assets/icons/x-icon-white.svg';
 import { selectDarkMode } from '../../redux/slices/darkModeSlice';
+import { useSelector } from 'react-redux';
 
 export default function MeetingRejected({ notification, closeMenu }) {
   const dispatch = useDispatch();

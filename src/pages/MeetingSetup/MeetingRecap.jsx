@@ -44,13 +44,18 @@ export default function MeetingRecap({ state }) {
   if (!buddy) return <h1 className="dark:text-white">nobuddy</h1>;
 
   return (
-    <div className="recap-card  w-screen flex flex-col gap-5 items-center   bg-white dark:bg-dark lg:flex-row lg:items-center bg-fixed dark:text-white text-primary-gray overflow-hidden h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)] ">
+    <div className="recap-card  w-screen flex flex-col gap-5 items-center   bg-white dark:bg-dark lg:flex-row lg:items-center bg-fixed dark:text-white text-primary-gray  landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)] landscape:overflow-y-auto">
       <div
         ref={topImageRef}
-        className="recap-image hidden bg-left lg:block lg:h-full lg:basis-full bg-[url('/assets/bgImg/meetingRecap.jpg')] supports-[background-image:_url('/assets/bgImg/meetingRecap-lq_10.webp')]:bg-[url('/assets/bgImg/meetingRecap-lq_10.webp')] portrait:lg:hidden bg-cover overflow-hidden"
+        className="recap-image hidden bg-left lg:block lg:h-full lg:basis-full bg-[url('/assets/bgImg/meetingRecap.jpg')] supports-[background-image:_url('/assets/bgImg/meetingRecap-lq_10.webp')]:bg-[url('/assets/bgImg/meetingRecap-lq_10.webp')] portrait:lg:hidden bg-cover "
       ></div>
-      <div className="recap-info flex flex-col basis-full h-full  lg:basis-7/12 gap-12 items-center overflow-auto justify-center portrait:lg:basis-full portrait:md:pb-44">
-        <div className="recap-header text-headers text-xl portrait:lg:text-2xl font-semibold md:text-lg 5xl:text-2xl">
+      <div className="recap-info flex flex-col basis-full h-full  lg:basis-7/12 gap-12 items-center  justify-center portrait:lg:basis-full portrait:md:pb-44 landscape:pt-48 landscape:md:pt-10">
+        <div
+          className="recap-header text-headers text-xl portrait:lg:text-2xl font-semibold md:text-lg 5xl:text-2xl"
+          // data-aos="fade-up"
+          // data-aos-delay="400"
+          // data-aos-duration="1000"
+        >
           <h1>MEETING RECAP</h1>
         </div>
         <div className="recap-body flex flex-col items-center gap-1">
@@ -87,7 +92,7 @@ export default function MeetingRecap({ state }) {
           </div>
           <div
             id="btn-container"
-            className="recap-button flex flex-col items-center pt-9 text-xs w-full portrait:w-full"
+            className="recap-button flex flex-col items-center pt-9 text-xs w-full portrait:w-full pb-5"
           >
             <FormButton handleSubmit={(e) => handleMeeting(e)}>
               <span className="sm:text-lg md:text-sm">INVITE BUDDY</span>

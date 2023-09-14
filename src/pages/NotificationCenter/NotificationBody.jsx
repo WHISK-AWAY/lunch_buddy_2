@@ -86,7 +86,7 @@ const NotificationBody = ({
     <>
       <div
         ref={screenRef}
-        className="fixed bottom-0 h-screen w-screen backdrop-blur-0 bg-transparent z-20"
+        className="fixed bottom-0 h-screen w-screen backdrop-blur-0 bg-transparent z-20 "
         style={{ display: 'none' }}
       ></div>
       <div
@@ -95,7 +95,7 @@ const NotificationBody = ({
         className="fixed translate-x-full opacity-95 right-0 w-fit z-50"
       >
         <div className="flex flex-col">
-          <div className="z-40 bg-primary-gray/20 self-end h-fit 3xl:w-[30vw] md:w-[40vw] 5xl:w-[20vw] xxs:w-[80vw] portrait:md:w-[60vw]  rounded-bl-sm px-3 pl-6 py-3">
+          <div className="z-40 bg-primary-gray/20 self-end h-fit 3xl:w-[30vw] md:w-[40vw] 5xl:w-[20vw] w-[80vw] portrait:md:w-[60vw] rounded-bl-sm px-3 pl-6 py-3">
             <ul>
               {notifications?.map((notification) => {
                 return (
