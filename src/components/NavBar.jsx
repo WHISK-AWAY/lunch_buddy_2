@@ -38,6 +38,7 @@ const NavBar = () => {
   const userState = useSelector((state) => state.user.user);
   const notifications = useSelector(selectUnreadNotifications);
   const isDarkMode = useSelector(selectDarkMode);
+  const meetingState = useSelector((state) => state.meetings);
 
   const hasNotifications = notifications?.length > 0;
 
@@ -46,21 +47,6 @@ const NavBar = () => {
   const [menuIcon, setMenuIcon] = useState(navbarIconWhite);
   const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
   const [bellMenuIcon, setBellMenuIcon] = useState(bellIconWhite);
-
-  function closeMenu() {
-    setMenuMode(null);
-  }
-
-  function clickOff(e) {
-    if (
-      e.target.matches('#notification-container *') ||
-      e.target.matches('#dropdown-container *')
-    ) {
-      // Ignore clicks on certain targets
-      return;
-    }
-    closeMenu();
-  }
 
   useEffect(() => {
     // set up click-off event listener
@@ -121,7 +107,28 @@ const NavBar = () => {
     return () => {
       if (timer) clearInterval(timer);
     };
-  }, [authUser]);
+  }, [authUser.id]);
+
+  useEffect(() => {
+    // check for new notifications shortly after creating a meeting
+
+    let timer;
+
+    if (
+      authUser.id &&
+      meetingState.meeting?.id &&
+      !meetingState.isLoading &&
+      !meetingState.error
+    ) {
+      console.log('setting timeout');
+      timer = setTimeout(() => {
+        console.log('dispatching notification fetch');
+        dispatch(fetchAllNotifications({ userId: authUser.id }));
+      }, 5000);
+    }
+
+    if (timer) return () => clearTimeout(timer);
+  }, [meetingState.meeting?.id, authUser.id]);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -134,6 +141,21 @@ const NavBar = () => {
       setBellMenuIcon(bellIcon);
     }
   }, [isDarkMode]);
+
+  function closeMenu() {
+    setMenuMode(null);
+  }
+
+  function clickOff(e) {
+    if (
+      e.target.matches('#notification-container *') ||
+      e.target.matches('#dropdown-container *')
+    ) {
+      // Ignore clicks on certain targets
+      return;
+    }
+    closeMenu();
+  }
 
   return (
     <>
