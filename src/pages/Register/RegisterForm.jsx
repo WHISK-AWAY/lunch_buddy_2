@@ -43,14 +43,6 @@ const RegisterForm = () => {
   const [formInputs, setFormInputs] = useState(inputs);
   const [emailIsUnavailable, setEmailIsUnavailable] = useState(false);
 
-    const [baseImage, setBaseImage] = useState('');
-
-    useEffect(() => {
-      setFormInputs((prev) => ({
-        ...prev,
-        avatarUrl: baseImage,
-      }));
-    }, [baseImage]);
 
 
   const [inputValidator, setInputValidator] = useState(
@@ -190,26 +182,7 @@ const RegisterForm = () => {
 
 
 
-    const uploadImage = async (e) => {
-      const file = e.target.files[0];
-      const base64 = await convertBase64(file);
-      setBaseImage(base64);
-    };
 
-    const convertBase64 = (file) => {
-      return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(file);
-
-        fileReader.onload = () => {
-          resolve(fileReader.result);
-        };
-
-        fileReader.onerror = (error) => {
-          reject(error);
-        };
-      });
-    };
 
 
   return (
@@ -455,27 +428,7 @@ const RegisterForm = () => {
               </select>
             </div>
 
-            <div className="relative col-span-full ">
-              <label
-                className="text-label text-center px-4 py-2 cursor-pointer hover:border border-primary-gray rounded-sm text-sm"
-                htmlFor="file-import"
-              >
-                Upload Image
-                <input
-                  className="hidden"
-                  id="file-import"
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    uploadImage(e);
-                    setFormInputs((prev) => ({
-                      ...prev,
-                      avatarUrl: baseImage,
-                    }));
-                  }}
-                />
-              </label>
-            </div>
+
             <div
               className="col-span-full   w-full"
               // data-aos="fade-in"
