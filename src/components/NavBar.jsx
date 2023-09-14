@@ -25,7 +25,7 @@ import getLocation from '../utilities/geo';
 import { fetchMapKey } from '../redux/slices';
 
 const NOTIFICATION_UPDATE_INTERVAL = 60000;
-const TOAST_DURATION = 10000;
+const TOAST_DURATION = Infinity;
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -137,7 +137,7 @@ const NavBar = () => {
       <header
         ref={navRef}
         className="sticky top-0 z-40  text-primary-gray 
-       w-[100svw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20 border border-red-300 landscape:h-14 portrait:h-14 landscape:3xl:h-16"
+       w-[100svw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20  landscape:h-14 portrait:h-14 landscape:3xl:h-16"
       >
         <DarkModeToggler />
         <nav className="flex justify-between w-full h-full">
