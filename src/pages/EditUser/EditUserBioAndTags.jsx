@@ -15,8 +15,6 @@ import {
 } from '../../redux/slices/userSlice';
 import { selectAuthUser } from '../../redux/slices';
 import { useNavigate } from 'react-router-dom';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 import gsap from 'gsap';
 
@@ -201,19 +199,11 @@ const EditUserBioAndTags = () => {
     }
   }
 
-  AOS.init({
-    duration: 2000,
-    offset: 0,
-  });
-
   return (
     <div className=" flex flex-row items-center justify-center h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]  w-fit overflow-hidden dark:bg-[#0a0908] dark:text-white">
       <div
         id="form-container"
         className="lg:basis-1/2 flex flex-col  h-full justify-start align-middle overflow-auto scrollbar-hide "
-        data-aos="fade-up"
-        data-aos-delay="700"
-        data-aos-duration="1800"
       >
         <h1 className="flex mt-20 mb-8 text-xl font-semibold text-headers self-center">
           TELL US ABOUT YOURSELF
@@ -257,9 +247,6 @@ const EditUserBioAndTags = () => {
         id="bg-img"
         ref={topImageRef}
         className="basis-1/2 hidden lg:block h-full bg-cover bg-[url('/assets/bgImg/aboutMeView.jpg')] supports-[background-image:_url('/assets/bgImg/aboutMeView-q30.webp')]:bg-[url('/assets/bgImg/aboutMeView-q30.webp')]"
-        data-aos="fade-left"
-        data-aos-delay="200"
-        data-aos-duration="2000"
       ></div>
     </div>
   );

@@ -4,8 +4,6 @@ import FormButton from '../../components/FormButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { requestLogin, successfulLogin } from '../../redux/slices/authSlice';
 import { INVALID_CLASS } from '../../utilities/invalidInputClass';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 import gsap from 'gsap';
 
@@ -112,19 +110,9 @@ const SignInForm = () => {
     return formInputs.password.length >= 8;
   };
 
-  AOS.init({
-    duration: 2000,
-    offset: 0,
-  });
-
   return (
     <div className="h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]  w-screen flex justify-center items-center font-jost text-primary-gray bg-white dark:bg-[#0a0908]">
-      <div
-        className="form-container basis-full lg:px-24 lg:basis-7/12 h-full flex flex-col justify-center items-center "
-        // data-aos="fade-down"
-        // data-aos-delay="1000"
-        // duration="1000"
-      >
+      <div className="form-container basis-full lg:px-24 lg:basis-7/12 h-full flex flex-col justify-center items-center ">
         <div className="w-full xxs:w-4/5  sm:w-4/5 md:w-2/3 lg:w-full 5xl:w-3/6 6xl:w-5/12  portrait:md:w-3/6 portrait:md:pb-36 portrait:lg:w-full portrait:lg:pb-56">
           <form className=" lg:w-3/4 mx-auto flex flex-col">
             <h1 className="text-center text-2xl mb-6 text-headers font-regular xl:text-[1.4vw] 3xl:text-[1.3vw] 4xl:text-[1.1vw] 5xl:text-[1vw] lg:text-[1.6vw] 6xl:text-[.8vw] portrait:lg:text-[3vw]">
@@ -175,25 +163,14 @@ const SignInForm = () => {
                 }
               />
             </div>
-            <div
-              id="btn-container"
-              className="pt-6 "
-              // data-aos="fade-in"
-              // data-aos-delay="2000"
-              // duration="1500"
-            >
+            <div id="btn-container" className="pt-6 ">
               <FormButton handleSubmit={handleSubmit}>
                 <span className="text-[1.8vw] md:text-[2vw] portrait:md:text-[2vw] xl:text-[1.4vw] 5xl:text-[.6vw] xxs:text-[4.2vw] sm:text-[4.8vw] portrait:lg:text-[2vw]  lg:text-[1.4vw] 3xl:text-[1vw] 4xl:text-[.8vw]">
                   SIGN IN
                 </span>
               </FormButton>
             </div>
-            <p
-              className="my-4 text-center dark:text-white text-primary-gray    text-[1.7vw] lg:text-[1vw] portrait:md:text-[2vw]  3xl:text-[.7vw] 5xl:text-[.6vw] xxs:text-[3vw] portrait:lg:text-[1.7vw] md:text-[1.4vw] 6xl:text-[.4vw]"
-              // data-aos="fade-in"
-              // data-aos-delay="2500"
-              // duration="1500"
-            >
+            <p className="my-4 text-center dark:text-white text-primary-gray    text-[1.7vw] lg:text-[1vw] portrait:md:text-[2vw]  3xl:text-[.7vw] 5xl:text-[.6vw] xxs:text-[3vw] portrait:lg:text-[1.7vw] md:text-[1.4vw] 6xl:text-[.4vw]">
               don't have an account? create one{'  '}
               <Link to={'/register'}>
                 <span className="text-headers hover:underline underline-offset-2 ">
@@ -207,9 +184,6 @@ const SignInForm = () => {
       <div
         ref={topImageRef}
         className="image-wrapper hidden lg:block basis-full h-full bg-cover bg-no-repeat bg-[url('/assets/bgImg/registerForm.jpg')] supports-[background-image:_url('/assets/bgImg/registerForm-lq_10.webp')]:bg-[url('/assets/bgImg/registerForm-lq_10.webp')] portrait:lg:hidden"
-        // data-aos="fade-left"
-        // data-aos-delay="200"
-        // data-aos-duration="2800"
       ></div>
     </div>
   );

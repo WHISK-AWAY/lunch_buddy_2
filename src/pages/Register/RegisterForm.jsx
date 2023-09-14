@@ -4,8 +4,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
 import { listOfStates } from '../../utilities/registerHelpers';
 import { INVALID_CLASS } from '../../utilities/invalidInputClass';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 import gsap from 'gsap';
 
@@ -190,19 +188,11 @@ const RegisterForm = () => {
     return +formInputs.age >= 18 && +formInputs.age < 120;
   };
 
-  AOS.init({
-    duration: 2000,
-    offset: 0,
-  });
-
   return (
     <div className="flex justify-center  lg:grow items-center  dark:bg-[#0a0908] bg-white overflow-hidden text-primary-gray h-[calc(100vh_-_56px)] sm:h-[calc(100dvh_-_80px)] xs:h-[calc(100dvh_-_71px)] portrait:md:h-[calc(100dvh_-_85px)] portrait:lg:h-[calc(100dvh_-_94px)] md:h-[calc(100dvh_-_60px)] xl:h-[calc(100dvh_-_70px)] 5xl:h-[calc(100dvh_-_80px)]  ">
       <div
         id="form-container"
         className="lg:basis-8/12 lg:px-5 xl:px-0 flex flex-col justify-center items-center  basis-full overflow-auto md:h-full xl:h-fit portrait:lg:pt-44 scrollbar-hide xs:pt-20 lg:pt-5"
-        // data-aos="fade-down"
-        // data-aos-delay="1000"
-        // duration="1000"
       >
         <div className="w-full h-full xxs:w-4/5 xxs:pb-20 sm:w-4/5 lg:w-full md:w-2/3  6xl:w-5/12 2xl:w-3/5 5xl:w-2/5 portrait:md:w-3/6 portrait:md:pb-36 portrait:lg:w-full portrait:lg:pb-56 ">
           <form className=" grid grid-cols-6 justify-center gap-x-2 gap-y-6 lg:px-8 pb-3 xl:px-12 2xl:px-1">
@@ -437,12 +427,7 @@ const RegisterForm = () => {
                 <option value="DidNotDisclose">Prefer Not To Say</option>
               </select>
             </div>
-            <div
-              className="col-span-full   w-full"
-              // data-aos="fade-in"
-              // data-aos-delay="2000"
-              // duration="1500"
-            >
+            <div className="col-span-full   w-full">
               <FormButton handleSubmit={handleSubmit}>
                 <span className="text-[1.8vw] md:text-[2vw] portrait:md:text-[2vw] xl:text-[1.2vw] 5xl:text-[.6vw] xxs:text-[4.2vw] sm:text-[4.8vw] portrait:lg:text-[2vw] lg:text-[1.4vw] 3xl:text-[1vw] 4xl:text-[.8vw]">
                   CONTINUE
@@ -450,12 +435,7 @@ const RegisterForm = () => {
               </FormButton>
             </div>
           </form>
-          <p
-            className=" text-center dark:text-white text-primary-gray text-[1.7vw] lg:text-[1vw] portrait:md:text-[2vw]  3xl:text-[.7vw] 5xl:text-[.6vw] xxs:text-[3vw] portrait:lg:text-[1.7vw] md:text-[1.4vw] 6xl:text-[.4vw]"
-            // data-aos="fade-in"
-            // data-aos-delay="2500"
-            // duration="1500"
-          >
+          <p className=" text-center dark:text-white text-primary-gray text-[1.7vw] lg:text-[1vw] portrait:md:text-[2vw]  3xl:text-[.7vw] 5xl:text-[.6vw] xxs:text-[3vw] portrait:lg:text-[1.7vw] md:text-[1.4vw] 6xl:text-[.4vw]">
             already have an account?{' '}
             <Link to="/login">
               <span className="text-headers hover:underline underline-offset-2 ">
@@ -471,9 +451,6 @@ const RegisterForm = () => {
         className="bg-cover 
         bg-[url('/assets/bgImg/registerForm.jpg')] supports-[background-image:_url('/assets/bgImg/registerForm-lq_10.webp')]:bg-[url('/assets/bgImg/registerForm-lq_10.webp')] basis-full hidden lg:block portrait:lg:hidden h-full"
         alt="large company sitting at the dining table"
-        // data-aos="fade-left"
-        // data-aos-delay="200"
-        // data-aos-duration="2800"
       ></div>
     </div>
   );
