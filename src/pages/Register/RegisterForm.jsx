@@ -43,6 +43,16 @@ const RegisterForm = () => {
   const [formInputs, setFormInputs] = useState(inputs);
   const [emailIsUnavailable, setEmailIsUnavailable] = useState(false);
 
+    const [baseImage, setBaseImage] = useState('');
+
+    useEffect(() => {
+      setFormInputs((prev) => ({
+        ...prev,
+        avatarUrl: baseImage,
+      }));
+    }, [baseImage]);
+
+
   const [inputValidator, setInputValidator] = useState(
     requiredFields.reduce((accumulator, field) => {
       accumulator[field] = false;
@@ -177,6 +187,30 @@ const RegisterForm = () => {
     duration: 2000,
     offset: 0,
   });
+
+
+
+    const uploadImage = async (e) => {
+      const file = e.target.files[0];
+      const base64 = await convertBase64(file);
+      setBaseImage(base64);
+    };
+
+    const convertBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+
+        fileReader.onload = () => {
+          resolve(fileReader.result);
+        };
+
+        fileReader.onerror = (error) => {
+          reject(error);
+        };
+      });
+    };
+
 
   return (
     <div className="flex justify-center  lg:grow items-center  dark:bg-[#0a0908] bg-white  text-primary-gray landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)]  ">
@@ -419,6 +453,28 @@ const RegisterForm = () => {
                 <option value="Other">Other</option>
                 <option value="DidNotDisclose">Prefer Not To Say</option>
               </select>
+            </div>
+
+            <div className="relative col-span-full ">
+              <label
+                className="text-label text-center px-4 py-2 cursor-pointer hover:border border-primary-gray rounded-sm text-sm"
+                htmlFor="file-import"
+              >
+                Upload Image
+                <input
+                  className="hidden"
+                  id="file-import"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    uploadImage(e);
+                    setFormInputs((prev) => ({
+                      ...prev,
+                      avatarUrl: baseImage,
+                    }));
+                  }}
+                />
+              </label>
             </div>
             <div
               className="col-span-full   w-full"
