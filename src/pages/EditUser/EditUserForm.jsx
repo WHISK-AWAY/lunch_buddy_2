@@ -176,6 +176,12 @@ const EditUserForm = () => {
         tempFields.age = '';
       }
     }
+
+    if (!tempFields.address2 && !userInfo.address2) delete tempFields.address2;
+    if (!tempFields.avatarUrl) delete tempFields.avatarUrl;
+
+    console.log('tempfields:', tempFields);
+
     setInputValidator(tempValidator);
     setFormInputs(tempFields);
 

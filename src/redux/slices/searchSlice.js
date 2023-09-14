@@ -38,7 +38,7 @@ export const findBuddies = createAsyncThunk(
       });
       return res.data;
     } catch (err) {
-      return rejectWithValue(err);
+      return rejectWithValue(err.response.data.message || err.message);
     }
   }
 );
@@ -147,7 +147,7 @@ const searchSlice = createSlice({
     builder
       .addCase(findBuddies.rejected, (state, action) => {
         state.searchResults = [];
-        state.error = action.payload.response.data;
+        state.error = action.payload.message || action.payload;
         state.isLoading = false;
       })
 
