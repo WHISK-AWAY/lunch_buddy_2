@@ -142,6 +142,9 @@ const AboutForm = () => {
     if (prevPageFormData.address2 === '') {
       delete prevPageFormData.address2;
     }
+    if (prevPageFormData.avatarUrl === '') {
+      delete prevPageFormData.avatarUrl;
+    }
 
     await dispatch(createNewUser(prevPageFormData));
     const { payload: errorOnCreation } = await dispatch(checkUserCreated());
