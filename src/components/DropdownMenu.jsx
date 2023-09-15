@@ -122,7 +122,7 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
 
     generateGeoDemo(userState, navigate, dispatch);
 
-    toast.custom((t) => <DemoMode t={t} />, { duration: 6000 });
+    // toast.custom((t) => <DemoMode t={t} />, { duration: 6000 });
   }
 
   return (
