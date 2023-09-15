@@ -50,3 +50,38 @@ export default function getLocation(dispatch, userId) {
 
   navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
 }
+
+export async function generateGeoDemo(userState, navigate) {
+  navigator.geolocation.getCurrentPosition(
+    function (position) {
+      const { latitude, longitude } = position.coords;
+      const center = {
+        latitude,
+        longitude,
+      };
+      axios
+        .post(
+          VITE_API_URL + '/api/user/generate/demo',
+          {
+            center,
+            radius: 0.5,
+            city: userState.city,
+            state: userState.state,
+            id: userState.id,
+          },
+          {
+            headers: {
+              Authorization: window.localStorage.getItem('token'),
+            },
+          }
+        )
+        .then(() => {
+          window.localStorage.setItem('demoMode', 'true');
+          navigate('/match');
+        });
+    },
+    function (err) {
+      console.log('error setting up demo mode:', err);
+    }
+  );
+}
