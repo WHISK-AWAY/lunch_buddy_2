@@ -121,7 +121,9 @@ const NavBar = () => {
   }, [authUser]);
 
   useEffect(() => {
+    console.log(isDarkMode)
     if (isDarkMode) {
+
       setMenuIcon(navbarIconWhite);
       setXMenuIcon(xIconWhite);
       setBellMenuIcon(bellIconWhite);
@@ -138,14 +140,14 @@ const NavBar = () => {
         ref={navRef}
         className="sticky top-0 z-40  text-primary-gray 
        w-[100svw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20  landscape:h-14 portrait:h-14 landscape:3xl:h-16"
-      >
-        <nav className="flex justify-between w-full h-full">
-          <button className="flex justify-center  items-center">
+       >
+       <nav className="flex justify-between w-full h-full">
+       <button className="flex justify-center  items-center">
             <img
-              className="w-7 xl:w-10 lg:w-8 5xl:w-10 6xl:w-14 portrait:xs:w-9 portrait:md:w-10"
-              src={menuMode === 'dropdown' ? xMenuIcon : menuIcon}
-              alt={`click to ${
-                menuMode === 'dropdown' ? 'close' : 'open'
+            className="w-7 xl:w-10 lg:w-8 5xl:w-10 6xl:w-14 portrait:xs:w-9 portrait:md:w-10"
+            src={menuMode === 'dropdown' ? xMenuIcon : menuIcon}
+            alt={`click to ${
+              menuMode === 'dropdown' ? 'close' : 'open'
               } navigation menu`}
               // onClick={() => setExpandMenu((prev) => !prev)}
               onClick={() =>
@@ -166,63 +168,64 @@ const NavBar = () => {
               </Link>
               </li>
               <DarkModeToggler />
-
-                {/**
-                <li className="flex items-center">
-                <label className="relative inline-flex items-center cursor-pointer ">
-                    <input
-                      type="checkbox"
-                      value={''}
-                      className="sr-only peer"
-                      checked={userState.status === 'active'}
-                      onChange={handleToggleStatus}
-                      // onClick={handleToggleStatus}
-                    />
-                    <div className="w-11 h-6 bg-white border rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-600 after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-label peer-checked:border-white peer-checked:after:bg-white"></div>
-                    </label>
-                    </li>
-                  */}
-                <Toaster
-                  position="top-right"
-                  toastOptions={{
+              
+              {/**
+              <li className="flex items-center">
+              <label className="relative inline-flex items-center cursor-pointer ">
+              <input
+              type="checkbox"
+              value={''}
+              className="sr-only peer"
+              checked={userState.status === 'active'}
+              onChange={handleToggleStatus}
+              // onClick={handleToggleStatus}
+              />
+              <div className="w-11 h-6 bg-white border rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-600 after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-label peer-checked:border-white peer-checked:after:bg-white"></div>
+              </label>
+              </li>
+            */}
+            <Toaster
+            position="top-right"
+            toastOptions={{
                     duration: TOAST_DURATION,
                   }}
                 />
                 <li className="h-6 relative">
-                  <button
-                    id="bell-button"
-                    className={
-                      hasNotifications
-                        ? "after:content-[''] after:absolute after:top-1 after:right-1 after:text-red-400 after:bg-headers after:rounded-full after:w-2 after:h-2"
-                        : ''
-                    }
+                <button
+                id="bell-button"
+                className={
+                  hasNotifications
+                  ? "after:content-[''] after:absolute after:top-1 after:right-1 after:text-red-400 after:bg-headers after:rounded-full after:w-2 after:h-2"
+                  : ''
+                }
                     // onClick={handleNotificationClick}
                     disabled={!hasNotifications}
                     onClick={() =>
                       setMenuMode((prev) =>
-                        prev === 'notifications' ? null : 'notifications'
+                      prev === 'notifications' ? null : 'notifications'
                       )
                     }
-                  >
+                    >
                     <img
-                      className="w-6 lg:w-6 5xl:w-7 6xl:w-8 h-full"
-                      src={bellMenuIcon}
-                      alt="Notification bell icon"
+                    className="w-6 lg:w-6 5xl:w-7 6xl:w-8 h-full"
+                    src={bellMenuIcon}
+                    alt="Notification bell icon"
                     />
-                  </button>
+                    </button>
                 </li>
               </>
-            ) : (
+              ) : (
               //  WHEN NOT SIGNED IN SHOW BELOW
               <>
+              <DarkModeToggler />
                 {/**
-            <Link to="/" className="dark:text-white text-primary-gray">
-            <h1 className="md:text-[2.4vw] xxs:text-[4.9vw]">
-            LUNCH
-            <span className="font-clicker md:text-[2vw] font-thin xxs:text-[4.5vw]">
-            buddy
-            </span>
-            </h1>
+                <Link to="/" className="dark:text-white text-primary-gray">
+                <h1 className="md:text-[2.4vw] xxs:text-[4.9vw]">
+                LUNCH
+                <span className="font-clicker md:text-[2vw] font-thin xxs:text-[4.5vw]">
+                buddy
+                </span>
+                </h1>
             </Link>
           */}
               </>
