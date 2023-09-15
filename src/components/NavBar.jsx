@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
@@ -32,8 +32,6 @@ const NavBar = () => {
   const dispatch = useDispatch();
 
   const root = document.querySelector('#root');
-
-  const navRef = useRef(null); // used to dynamically measure height of navbar
 
   const authUser = useSelector(selectAuthUser);
   const userState = useSelector((state) => state.user.user);
@@ -148,7 +146,6 @@ const NavBar = () => {
   return (
     <>
       <header
-        ref={navRef}
         className="sticky top-0 z-40  text-primary-gray 
        w-[100svw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20  landscape:h-14 portrait:h-14 landscape:3xl:h-16  border"
       >
@@ -247,16 +244,8 @@ const NavBar = () => {
         </nav>
       </header>
       {/* DROPDOWN MENU, HIDDEN UNTIL CLICKED */}
-      <DropdownMenu
-        menuMode={menuMode}
-        closeMenu={closeMenu}
-        navHeight={navRef.current?.clientHeight}
-      />
-      <NotificationBody
-        menuMode={menuMode}
-        closeMenu={closeMenu}
-        navHeight={navRef.current?.clientHeight}
-      />
+      <DropdownMenu menuMode={menuMode} closeMenu={closeMenu} />
+      <NotificationBody menuMode={menuMode} closeMenu={closeMenu} />
     </>
   );
 };

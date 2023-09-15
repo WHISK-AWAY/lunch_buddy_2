@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
-import axios from 'axios';
 import gsap from 'gsap';
 
 import {
@@ -16,12 +14,9 @@ import { CustomEase } from 'gsap/CustomEase';
 
 gsap.registerPlugin(CustomEase);
 import DropDownItem from './DropDownItem';
-import DemoMode from '../pages/NotificationCenter/ToastFeedback/DemoMode';
 import { generateGeoDemo } from '../utilities/geo';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-
-const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
+const DropdownMenu = ({ menuMode, closeMenu }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
