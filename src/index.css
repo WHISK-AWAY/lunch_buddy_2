@@ -55,6 +55,9 @@ body.dark {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+
+
 }
 
 #msg-list * {
@@ -94,4 +97,29 @@ input:-webkit-autofill {
     /* min-height: 360px; */
     background-color: brown;
   }
+}
+
+
+
+.custom-clip-path {
+  clip-path: polygon(0 0, 100% 0, 100% 68%, 0 81%);
+
+} 
+
+@media (max-width: 428px) and (orientation: portrait) {
+
+  .custom-clip-path {
+    clip-path: polygon(0 0, 100% 0, 100% 56%, 0 78%);
+    
+  } 
+}
+
+
+.connect-section {
+clip-path: polygon(0 7%, 100% 0, 100% 100%, 0 71%);
+}
+
+
+.trio-section {
+  clip-path: polygon(0 0%, 100% 45%, 100% 100%, 0 100%);
 }
