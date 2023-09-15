@@ -15,6 +15,11 @@ html {
 }
 body {
   height: -webkit-fill-available;
+  background-color: #fff
+}
+
+body.dark {
+  background-color: #0a0908
 }
 
 @layer components {
