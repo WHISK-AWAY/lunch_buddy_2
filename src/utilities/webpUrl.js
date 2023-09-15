@@ -11,7 +11,6 @@ export default function getWebpUrl(imageUrl, filenameAppend = '-q1.webp') {
   // filenames are like M4.jpg, F25,jpg)
   if (imageUrl.match(/[FM]\d+\.jpg$/)) {
     const basename = imageUrl.split('.').at(0);
-    console.log(basename + filenameAppend);
     return basename + filenameAppend;
   } else {
     return imageUrl;

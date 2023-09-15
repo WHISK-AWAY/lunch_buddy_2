@@ -8,6 +8,7 @@ import { fetchUser, selectUser } from '../../redux/slices/userSlice';
 
 import squaresSolid from '../../assets/icons/squares-solid.svg';
 import pencil from '../../assets/icons/pencil.svg';
+import getWebpUrl from '../../utilities/webpUrl';
 
 const UserAccount = () => {
   const dispatch = useDispatch();
@@ -93,11 +94,14 @@ const UserAccount = () => {
                 className="h-[16px] w-6 m-auto relative top-[11px] rotate-3 left-2"
               />
             </Link>
-            <img
-              src={user.avatarUrl}
-              alt="your avatar image"
-              className="object-cover aspect-square w-28 h-28 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative translate-y-[30%] place-self-end"
-            />
+            <picture>
+              <source srcSet={getWebpUrl(user.avatarUrl)} type="image/webp" />
+              <img
+                src={user.avatarUrl}
+                alt="your avatar image"
+                className="object-cover aspect-square w-28 h-28 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative translate-y-[30%] place-self-end"
+              />
+            </picture>
           </div>
         </header>
 
