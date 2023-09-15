@@ -90,17 +90,17 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
     }
   }, [menuMode, wrapperRef.current]);
 
+  const demoFlag = window.localStorage.getItem('demoMode');
+
   useEffect(() => {
     // if logged in, check whether user has already triggered demo mode & set variable accordingly
     if (authUser.id) {
-      const demoFlag = window.localStorage.getItem('demoMode');
-
       if (!demoFlag || demoFlag === 'false') {
         window.localStorage.setItem('demoMode', 'false');
         setDemoModeAvailable(true);
       }
     }
-  }, [authUser.id]);
+  }, [authUser.id, demoFlag]);
 
   function handleClick() {
     // setExpandMenu(false);
@@ -120,7 +120,7 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
 
     setDemoModeAvailable(false);
 
-    generateGeoDemo(userState, navigate);
+    generateGeoDemo(userState, navigate, dispatch);
 
     toast.custom((t) => <DemoMode t={t} />, { duration: 6000 });
   }

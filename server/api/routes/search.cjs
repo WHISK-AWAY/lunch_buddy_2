@@ -111,6 +111,9 @@ router.get('/restaurants', requireToken, async (req, res, next) => {
     const YELP_BASE_URL = 'https://api.yelp.com/v3/businesses/search';
     const { latitude, longitude, radius, open_now, categories } = req.query;
 
+    if (!latitude || !longitude)
+      return res.status(400).json({ message: 'No coordinates provided.' });
+
     const params = {
       latitude,
       longitude,

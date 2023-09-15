@@ -4,17 +4,34 @@ import toast from 'react-hot-toast';
 import FormButton from '../../../components/FormButton';
 import xIcon from '../../../assets/icons/x-icon.svg';
 import xIconWhite from '../../../assets/icons/x-icon-white.svg';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectDarkMode } from '../../../redux/slices/darkModeSlice';
+import { generateGeoDemo } from '../../../utilities/geo';
+import DemoMode from './DemoMode';
 
 export default function NewUserWelcome({ t }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const darkModeSelector = useSelector(selectDarkMode);
+  const userState = useSelector((state) => state.user.user);
   const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
+
+  const demoModeAvailable = ['false', undefined].includes(
+    localStorage.getItem('demoMode')
+  );
 
   function toAccount() {
     toast.remove(t.id);
     navigate('/account');
+  }
+
+  async function handleDemoMode() {
+    toast.remove(t.id);
+
+    generateGeoDemo(userState, navigate, dispatch);
+
+    toast.custom((t) => <DemoMode t={t} />, { duration: 6000 });
   }
 
   useEffect(() => {
@@ -42,9 +59,12 @@ export default function NewUserWelcome({ t }) {
 
         <div
           id="btn-container"
-          className="flex flex-col h-fit w-full px-7 self-center text-xs space-5 justify-center items-center pt-5"
+          className="flex gap-4 h-full w-full px-7 self-center text-xs space-5 justify-center items-center pt-5"
         >
           <FormButton handleSubmit={toAccount}>YOUR ACCOUNT</FormButton>
+          {demoModeAvailable && (
+            <FormButton handleSubmit={handleDemoMode}>DEMO MODE</FormButton>
+          )}
           <div
             id="x-icon"
             className="absolute top-3 w-5 right-3 cursor-pointer"

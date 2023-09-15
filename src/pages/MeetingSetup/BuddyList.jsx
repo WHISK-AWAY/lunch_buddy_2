@@ -33,12 +33,8 @@ export default function BuddyList({ state }) {
     // return to login if no token exists
     // otherwise, pull potential matches
     if (!auth.user?.id) {
-      console.warn('missing login information - returning to login screen');
       navigate('/login');
     } else if (!searchRadius || !timeSlot) {
-      console.warn(
-        'missing meeting setup information - returning to home screen'
-      );
       navigate('/');
     }
   }, [searchRadius, timeSlot, auth.user?.id]);

@@ -53,8 +53,8 @@ const AboutForm = () => {
   }, []);
 
   useEffect(() => {
-    // automatically go to match screen upon successful login
-    if (authUser.id) navigate('/match');
+    // automatically go to home screen upon successful login
+    if (authUser.id) navigate('/');
   }, [authUser.id]);
 
   const [minTags, setMinTags] = useState(

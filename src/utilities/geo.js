@@ -51,7 +51,14 @@ export default function getLocation(dispatch, userId) {
   navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
 }
 
-export async function generateGeoDemo(userState, navigate) {
+export async function generateGeoDemo(userState, navigate, dispatch) {
+  localStorage.setItem('demoMode', 'true');
+
+  navigate('/');
+
+  // possible for a brand new user to wind up here before location is ready
+  if (!userState.lastLat) getLocation(dispatch, userState.id);
+
   navigator.geolocation.getCurrentPosition(
     function (position) {
       const { latitude, longitude } = position.coords;
