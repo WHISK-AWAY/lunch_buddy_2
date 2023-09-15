@@ -124,6 +124,7 @@ const SignInForm = () => {
                 Email
               </label>
               <input
+                autoFocus={true}
                 className={`${
                   isInvalid ? INVALID_CLASS : null
                 } w-full px-4 py-1 autofill:bg-none focus:outline-none bg-white dark:bg-[#0a0908] border md:py-2 text-xs placeholder:bg-transparent  border-primary-gray 6xl:text-[.7vw] 3xl:py-3 rounded-sm dark:text-white portrait:py-2 landscape:text-[1.1rem] portrait:xs:text-sm`}

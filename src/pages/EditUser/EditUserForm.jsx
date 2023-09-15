@@ -219,6 +219,7 @@ const EditUserForm = () => {
               First Name
             </label>
             <input
+              autoFocus={true}
               className={`${
                 inputValidator.firstName ? invalidClass : null
               }  w-full px-4 py-2 rounded-sm focus:outline-none h-9 border bg-white dark:bg-[#0a0908] border-primary-gray text-[.9rem]`}

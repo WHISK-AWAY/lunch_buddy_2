@@ -221,6 +221,7 @@ const RegisterForm = () => {
               </label>
               <input
                 autoComplete="given-name"
+                autoFocus={true}
                 className={`${
                   inputValidator.firstName ? INVALID_CLASS : null
                 } autofill:bg-none w-full px-4 py-1 focus:outline-none bg-white dark:bg-[#0a0908] dark:text-white md:py-2  rounded-sm border border-primary-gray text-xs 6xl:text-sm 6xl:py-4`}
