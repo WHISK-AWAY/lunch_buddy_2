@@ -113,8 +113,6 @@ const AboutForm = () => {
 
   // Handles creation of new user based on user inputs
   async function handleSubmit() {
-    setValidBio(!!bio);
-
     for (let category in minTags) {
       const minTagsCopy = { ...minTags[category] };
       setMinTags((prev) => ({
