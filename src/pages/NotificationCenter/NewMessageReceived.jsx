@@ -9,6 +9,7 @@ import NotificationButton from '../../components/NotificationButton';
 import xIcon from '../../assets/icons/x-icon.svg';
 import xIconWhite from '../../assets/icons/x-icon-white.svg';
 import { selectDarkMode } from '../../redux/slices/darkModeSlice';
+import getWebpUrl from '../../utilities/webpUrl';
 
 export default function NewMessageReceived({ notification, closeMenu }) {
   const dispatch = useDispatch();
@@ -47,7 +48,8 @@ export default function NewMessageReceived({ notification, closeMenu }) {
     }
   }, [darkMode]);
 
-  const webpUrl = notification.fromUser.avatarUrl.split('.').at(0) + '-q1.webp';
+  // const webpUrl = notification.fromUser.avatarUrl.split('.').at(0) + '-q1.webp';
+  const webpUrl = getWebpUrl(notification?.fromUser?.avatarUrl);
 
   return (
     <div

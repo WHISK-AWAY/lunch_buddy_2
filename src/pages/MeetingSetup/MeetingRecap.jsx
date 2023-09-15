@@ -5,6 +5,7 @@ import { createMeeting } from '../../redux/slices';
 import FormButton from '../../components/FormButton';
 
 import gsap from 'gsap';
+import getWebpUrl from '../../utilities/webpUrl';
 
 export default function MeetingRecap({ state }) {
   const dispatch = useDispatch();
@@ -39,7 +40,8 @@ export default function MeetingRecap({ state }) {
     navigate('/');
   }
 
-  const webpUrl = buddy?.avatarUrl.split('.').at(0) + '-q1.webp';
+  // const webpUrl = buddy?.avatarUrl.split('.').at(0) + '-q1.webp';
+  const webpUrl = getWebpUrl(buddy?.avatarUrl);
 
   if (!buddy) return <h1 className="dark:text-white">nobuddy</h1>;
 

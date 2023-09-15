@@ -16,6 +16,7 @@ import { resetMeetingStatus } from '../../redux/slices';
 
 import RejectInvite from '../NotificationCenter/ToastFeedback/RejectInvite';
 import FormButton from '../../components/FormButton';
+import getWebpUrl from '../../utilities/webpUrl';
 
 const TOAST_POPUP_DELAY = 1000;
 
@@ -104,7 +105,8 @@ const CurrentMeeting = ({}) => {
       ? currentMeeting.buddy
       : currentMeeting.user;
 
-  const webpUrl = buddy.avatarUrl.split('.').at(0) + '-q1.webp';
+  // const webpUrl = buddy.avatarUrl.split('.').at(0) + '-q1.webp';
+  const webpUrl = getWebpUrl(buddy?.avatarUrl);
 
   return (
     <div className="recap-card  w-screen self-center   justify-between lg:items-center  dark:bg-[#0a0908]  bg-white dark:text-white text-primary-gray    overflow-hidden flex flex-row  landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)]">
