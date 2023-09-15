@@ -7,22 +7,22 @@ import gsap from 'gsap';
 export default function TransitionComponent({ children }) {
   const location = useLocation();
 
-  const testRef = useRef(null);
+  const transitionWrapperRef = useRef(null);
 
   return (
     <SwitchTransition>
       <Transition
-        nodeRef={testRef}
+        nodeRef={transitionWrapperRef}
         // unmountOnExit={true}
         key={location.pathname}
         timeout={250}
         onEnter={() => {
-          gsap.set(testRef.current, {
+          gsap.set(transitionWrapperRef.current, {
             opacity: 0,
           });
           gsap
             .timeline({ paused: true })
-            .to(testRef.current, {
+            .to(transitionWrapperRef.current, {
               opacity: 1,
               duration: 0.5,
             })
@@ -31,14 +31,14 @@ export default function TransitionComponent({ children }) {
         onExit={() => {
           gsap
             .timeline({ paused: true })
-            .to(testRef.current, {
+            .to(transitionWrapperRef.current, {
               opacity: 0,
               duration: 0.5,
             })
             .play();
         }}
       >
-        <div className="bg-white dark:bg-black" ref={testRef}>
+        <div className="bg-white dark:bg-black" ref={transitionWrapperRef}>
           {children}
         </div>
       </Transition>
