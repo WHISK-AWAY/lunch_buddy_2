@@ -82,7 +82,6 @@ const SignInForm = () => {
     setFormInputs(tempFields);
 
     if (Object.values(tempValidator).some((field) => field)) {
-      console.log('tempValidator1', tempValidator);
       setIsInvalid(true);
       return;
     }
