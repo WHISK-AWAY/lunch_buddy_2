@@ -16,7 +16,6 @@ export const fetchUser = createAsyncThunk(
   'user/fetchUser',
   async (_, { rejectWithValue, getState }) => {
     try {
-      // const { token } = await checkToken();
       const { token, user } = getState().auth;
 
       if (!token || !user?.id) throw new Error('Auth state not initialized.');
@@ -65,7 +64,6 @@ export const updateUser = createAsyncThunk(
   'user/updateUser',
   async (userUpdateData, { rejectWithValue, getState }) => {
     try {
-      // const { token, user } = await checkToken();
       const { token, user } = getState().auth;
 
       // request update
@@ -90,7 +88,6 @@ export const updateLocation = createAsyncThunk(
   'user/updateLocation',
   async (location, { rejectWithValue, getState }) => {
     try {
-      // const { token, user } = await checkToken();
       const { token, user } = getState().auth;
 
       const res = await axios.put(
@@ -113,7 +110,6 @@ export const banUser = createAsyncThunk(
   'user/banUser',
   async (userId, { rejectWithValue, getState }) => {
     try {
-      // const { token, user } = await checkToken();
       const { token, user } = getState().auth;
 
       const res = await axios.put(
@@ -137,7 +133,6 @@ export const removeBan = createAsyncThunk(
   'user/removeBan',
   async (userId, { rejectWithValue, getState }) => {
     try {
-      // const { token, user } = await checkToken();
       const { token, user } = getState().auth;
 
       const res = await axios.put(
@@ -161,10 +156,9 @@ export const fetchUserMeetings = createAsyncThunk(
   'user/fetchUserMeetings',
   async (userId, { rejectWithValue, getState }) => {
     try {
-      // const { user, token } = await checkToken();
       const { token, user } = getState().auth;
 
-      // if userId isn't passed in, use the one from the token
+      // if userId isn't passed in, use the one from auth
       if (userId === undefined) userId = user.id;
 
       const res = await axios.get(
