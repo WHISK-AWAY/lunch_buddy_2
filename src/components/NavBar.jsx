@@ -76,22 +76,14 @@ const NavBar = () => {
     // once we're logged in, make sure the userState object is populated
     if (authUser.id && !userState.id) {
       dispatch(fetchUser());
+    }
 
-      // also go ahead and grab maps key - we'll need it later, and won't want to wait on it
+    // also go ahead and update location & grab maps key
+    if (authUser.id) {
+      getLocation(dispatch, authUser.id);
       dispatch(fetchMapKey());
     }
-
-    // also go ahead and update location
-    if (authUser.id) getLocation(dispatch, authUser.id);
-  }, [authUser.id]);
-
-  useEffect(() => {
-    // if user is active and we've not yet polled for location, do so
-    if (authUser.id && !locationTriggered) {
-      getLocation(dispatch, authUser.id);
-      setLocationTriggered(true);
-    }
-  }, [locationTriggered, authUser.id]);
+  }, [authUser.id, userState.id]);
 
   useEffect(() => {
     // periodically check for new notifications
