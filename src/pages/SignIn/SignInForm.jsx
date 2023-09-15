@@ -91,9 +91,8 @@ const SignInForm = () => {
 
     const authState = await dispatch(successfulLogin());
     if (authState.payload.error) {
-      setFormInputs(inputs);
+      setFormInputs((prev) => ({ ...inputs, email: prev.email }));
       setIsInvalid(true);
-      console.log(authState.payload.error);
     } else {
       // dispatch(tryToken());
       // navigate('/');
