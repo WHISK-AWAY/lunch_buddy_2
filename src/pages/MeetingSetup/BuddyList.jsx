@@ -9,6 +9,8 @@ import {
   findRestaurants,
 } from '../../redux/slices';
 import { BuddyCard } from '../index';
+import FormButton from '../../components/FormButton';
+import { generateGeoDemo } from '../../utilities/geo';
 
 export default function BuddyList({ state }) {
   const dispatch = useDispatch();
@@ -116,12 +118,18 @@ export default function BuddyList({ state }) {
             <p>We're sorry...</p>
             <p>
               It looks like there's no one in your area looking for lunch just
-              now. Please try back later!
+              now. To demonstrate the app, you can initiate demo mode by
+              clicking below. Otherwise, please try back later!
             </p>
-            <p>
-              <Link to="/" className="text-headers">
+            <p className="flex w-full gap-4 items-center">
+              <FormButton handleSubmit={() => navigate('/')}>
                 BACK HOME
-              </Link>
+              </FormButton>
+              <FormButton
+                handleSubmit={() => generateGeoDemo(user, navigate, dispatch)}
+              >
+                DEMO MODE
+              </FormButton>
             </p>
           </div>
         )}
