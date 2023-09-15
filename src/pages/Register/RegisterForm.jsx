@@ -7,6 +7,7 @@ import { INVALID_CLASS } from '../../utilities/invalidInputClass';
 
 import gsap from 'gsap';
 import { fetchAllTags } from '../../redux/slices/tagSlice';
+import { useDispatch } from 'react-redux';
 
 // setting a couple defaults here so we keep the starting value if we proceed without changing
 const inputs = JSON.parse(localStorage.getItem('registerForm')) || {
@@ -40,6 +41,7 @@ const requiredFields = [
 
 const RegisterForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [formInputs, setFormInputs] = useState(inputs);
   const [emailIsUnavailable, setEmailIsUnavailable] = useState(false);
