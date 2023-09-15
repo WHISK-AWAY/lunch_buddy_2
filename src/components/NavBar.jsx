@@ -184,7 +184,10 @@ const NavBar = () => {
                     to="/account"
                     className="text-[1.3vw] 2xl:text-[1.1vw] 3xl:text-[1vw] 4xl:w-[.9vw] 5xl:text-[.8vw] 6xl:text-[.5vw] dark:text-white portrait:md:text-base"
                   >
-                    HI, {authUser.firstName.toUpperCase()}
+                    HI,{' '}
+                    {userState.firstName?.toUpperCase() ||
+                      authUser.firstName?.toUpperCase() ||
+                      'BUDDY'}
                   </Link>
                 </li>
 
