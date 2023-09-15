@@ -118,9 +118,7 @@ const NavBar = () => {
 
     if (authUser.id && !meetingState.isLoading && !meetingState.error) {
       dispatch(fetchCurrentMeeting({ userId: authUser.id }));
-      console.log('setting timeout');
       timer = setTimeout(() => {
-        console.log('dispatching notification fetch');
         dispatch(fetchAllNotifications({ userId: authUser.id }));
       }, 5000);
     }

@@ -50,7 +50,6 @@ export default function MeetingSetup(props) {
   }, [auth.user?.id]);
 
   useEffect(() => {
-    console.log('user:', user);
     if (user.id && user.lastLat) dispatch(findBuddies({ searchRadius }));
   }, [searchRadius, user.lastLat]);
 

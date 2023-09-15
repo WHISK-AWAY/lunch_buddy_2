@@ -157,8 +157,6 @@ const RegisterForm = () => {
       missingFields.length > 0 &&
       Object.values(tempValidator).some((field) => field)
     ) {
-      // console.log(missingFields.join(','));
-      // alert(`Missing required fields: ${missingFields.join(', ')}`);
     } else {
       const inputsCopy = { ...formInputs };
       localStorage.setItem('registerForm', JSON.stringify(inputsCopy));
