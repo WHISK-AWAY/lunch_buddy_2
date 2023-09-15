@@ -45,7 +45,7 @@ function App() {
   const location = useLocation();
 
   return (
-    <div className="font-jost bg-white dark:bg-dark h-screen w-screen">
+    <div className="font-jost bg-white dark:bg-dark ">
       <NavBar />
       <Routes>
         <Route
