@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 import FormButton from '../../components/FormButton';
@@ -8,6 +8,8 @@ import { INVALID_CLASS } from '../../utilities/invalidInputClass';
 import gsap from 'gsap';
 import { fetchAllTags } from '../../redux/slices/tagSlice';
 import { useDispatch } from 'react-redux';
+
+import { slowDebounce } from '../../utilities/debounce';
 
 // setting a couple defaults here so we keep the starting value if we proceed without changing
 const inputs = JSON.parse(localStorage.getItem('registerForm')) || {
@@ -54,6 +56,15 @@ const RegisterForm = () => {
   );
 
   const topImageRef = useRef(null);
+  const emailRef = useRef(null);
+  const checkEmailRef = useRef(
+    slowDebounce((args) => checkEmailAvailability(args), 500)
+  );
+
+  const isFirefox = useMemo(
+    () => navigator.userAgent.toLowerCase().includes('firefox'),
+    [navigator.userAgent]
+  );
 
   useEffect(() => {
     // fade bg image in only after it's downloaded
@@ -69,6 +80,7 @@ const RegisterForm = () => {
   }, []);
 
   useEffect(() => {
+    // should not be here if we have a token
     const token = localStorage.getItem('token');
     if (token) {
       navigate('/');
@@ -81,11 +93,10 @@ const RegisterForm = () => {
   }, []);
 
   useEffect(() => {
-    // Set error status (and therefore styling / feedback) according to email availability check
-    if (emailIsUnavailable) {
-      setFormInputs((prev) => ({ ...prev, email: '' }));
+    if (formInputs.email && validateEmail(formInputs.email)) {
+      checkEmailRef.current(formInputs.email);
     }
-  }, [emailIsUnavailable]);
+  }, [formInputs.email]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -140,6 +151,7 @@ const RegisterForm = () => {
     }
     setInputValidator(tempValidator);
     setFormInputs(tempFields);
+    setEmailIsUnavailable(false);
 
     if (
       missingFields.length > 0 &&
@@ -165,14 +177,11 @@ const RegisterForm = () => {
     return valid.test(email);
   };
 
-  const checkEmailAvailability = async (email) => {
+  async function checkEmailAvailability(email) {
     // Early uniqueness validation on email
     if (email === '') return;
 
-    if (!validateEmail(email)) {
-      // no need to check for uniqueness if format is invalid
-      setInputValidator((prev) => ({ ...prev, email: true }));
-    }
+    if (!validateEmail(email)) return;
 
     const queryParams = new URLSearchParams({ email });
 
@@ -182,8 +191,9 @@ const RegisterForm = () => {
     const res = await fetch(fullUrl);
     const { emailExists } = await res.json();
 
+    if (emailExists) setFormInputs((prev) => ({ ...prev, email: '' }));
     setEmailIsUnavailable(emailExists);
-  };
+  }
 
   const validatePassword = () => {
     return (
@@ -212,6 +222,7 @@ const RegisterForm = () => {
                 First Name
               </label>
               <input
+                autoComplete="given-name"
                 className={`${
                   inputValidator.firstName ? INVALID_CLASS : null
                 } autofill:bg-none w-full px-4 py-1 focus:outline-none bg-white dark:bg-[#0a0908] dark:text-white md:py-2  rounded-sm border border-primary-gray text-xs 6xl:text-sm 6xl:py-4`}
@@ -232,6 +243,7 @@ const RegisterForm = () => {
                 Last Name
               </label>
               <input
+                autoComplete="family-name"
                 className={`${
                   inputValidator.lastName ? INVALID_CLASS : null
                 } autofill:bg-none w-full px-4 py-1 rounded-sm focus:outline-none  bg-white dark:text-white dark:bg-[#0a0908] border md:py-2  border-primary-gray text-xs 6xl:text-sm 6xl:py-4`}
@@ -250,16 +262,18 @@ const RegisterForm = () => {
                 Email
               </label>
               <input
+                ref={emailRef}
+                autoComplete="email"
                 id="email"
                 type="email"
-                required={true}
+                // required={true}
                 className={`${
                   inputValidator.email || emailIsUnavailable
                     ? INVALID_CLASS
                     : null
-                }  w-full px-4 py-1 autofill:bg-none rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border md:py-2  border-primary-gray dark:text-white text-xs 6xl:text-sm 6xl:py-4`}
+                }  w-full px-4 py-1 autofill:bg-none rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border md:py-2 border-primary-gray dark:text-white text-xs 6xl:text-sm 6xl:py-4`}
                 placeholder={
-                  emailIsUnavailable
+                  emailIsUnavailable && !isFirefox
                     ? 'Sorry, that email is already registered.'
                     : inputValidator.email
                     ? 'Enter email'
@@ -270,8 +284,11 @@ const RegisterForm = () => {
                   setFormInputs((prev) => ({ ...prev, email: e.target.value }));
                   setEmailIsUnavailable(false);
                 }}
-                onBlur={(e) => checkEmailAvailability(e.target.value)}
+                // onBlur={() => checkEmailRef.current(formInputs.email)}
               />
+              {isFirefox && emailIsUnavailable && (
+                <p>Sorry, that email is already registered.</p> // Firefox does not immediately show placeholder when clearing an autofilled field
+              )}
             </div>
             <div className="relative col-span-full">
               <label className="text-label portrait:lg:text-[1.5vw] font-regular block text-xs absolute -top-3 6xl:text-[.5vw] left-3 dark:bg-[#0a0908] bg-white px-1">
@@ -279,6 +296,7 @@ const RegisterForm = () => {
               </label>
               <input
                 type="password"
+                autoComplete="new-password"
                 className={`${
                   inputValidator.password ? INVALID_CLASS : null
                 } autofill:bg-none w-full px-4 py-1 rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border md:py-2  border-primary-gray dark:text-white text-xs 6xl:text-sm 6xl:py-4`}
@@ -298,6 +316,7 @@ const RegisterForm = () => {
               </label>
               <input
                 type="password"
+                autoComplete="new-password"
                 className={`${
                   inputValidator.confirmPassword ? INVALID_CLASS : null
                 }  w-full px-4 py-1 autofill:bg-none rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border md:py-2  border-primary-gray dark:text-white text-xs 6xl:text-sm 6xl:py-4`}
@@ -318,6 +337,7 @@ const RegisterForm = () => {
                 Address 1
               </label>
               <input
+                autoComplete="address-line-1"
                 className={`${
                   inputValidator.address1 ? INVALID_CLASS : null
                 }  w-full px-4 py-1 autofill:bg-none rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border md:py-2  border-primary-gray dark:text-white text-xs 6xl:text-sm 6xl:py-4`}
@@ -336,6 +356,7 @@ const RegisterForm = () => {
                 Address 2
               </label>
               <input
+                autoComplete="address-line-2"
                 className="w-full px-4 py-1 autofill:bg-none rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border md:py-2  border-primary-gray dark:text-white text-xs 6xl:text-sm 6xl:py-4"
                 value={formInputs.address2}
                 onChange={(e) =>
@@ -351,6 +372,7 @@ const RegisterForm = () => {
                 City
               </label>
               <input
+                autoComplete="address-level2"
                 className={`${
                   inputValidator.city ? INVALID_CLASS : null
                 }  w-full px-4 py-1 autofill:bg-none rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border md:py-2  border-primary-gray dark:text-white text-xs 6xl:text-sm 6xl:py-4`}
@@ -366,7 +388,8 @@ const RegisterForm = () => {
                 State
               </label>
               <select
-                className="w-full px-4 py-1   rounded-sm focus:outline-none  border md:py-[.35rem]  border-primary-gray dark:text-white text-xs dark:bg-[#0a0908] bg-white 6xl:text-sm 6xl:py-4"
+                autoComplete="address-level1"
+                className="w-full px-4 py-1 autofill:bg-none autofill:dark:bg-dark autofill:!bg-white rounded-sm focus:outline-none  border md:py-[.35rem]  border-primary-gray dark:text-white text-xs dark:bg-[#0a0908] bg-white 6xl:text-sm 6xl:py-4"
                 onChange={(e) =>
                   setFormInputs((prev) => ({ ...prev, state: e.target.value }))
                 }
@@ -386,6 +409,7 @@ const RegisterForm = () => {
                 Zip
               </label>
               <input
+                autoComplete="postal-code"
                 type="text"
                 inputMode="numeric"
                 pattern="\d*"
@@ -408,6 +432,7 @@ const RegisterForm = () => {
               </label>
               <input
                 type="text"
+                autoComplete="off"
                 placeholder="18+"
                 className={`${
                   inputValidator.age ? INVALID_CLASS : null
@@ -423,6 +448,7 @@ const RegisterForm = () => {
                 Gender
               </label>
               <select
+                autoComplete="off"
                 className="w-full px-4 py-1  rounded-sm focus:outline-none  md:py-[.37rem]  border-primary-gray dark:text-white  text-xs 6xl:text-sm 6xl:py-4 border   dark:bg-[#0a0908] bg-white"
                 onChange={(e) =>
                   setFormInputs((prev) => ({ ...prev, gender: e.target.value }))
