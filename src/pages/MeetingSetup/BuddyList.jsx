@@ -25,6 +25,8 @@ export default function BuddyList({ state }) {
   const [readyToProceed, setReadyToProceed] = useState(false);
   const [buddy, setBuddy] = useState(null);
 
+  if (!state) navigate('/');
+
   const { searchRadius, timeSlot } = state;
 
   useEffect(() => {
