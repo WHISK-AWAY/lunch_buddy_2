@@ -116,7 +116,6 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
   }
 
   async function handleDemoMode() {
-    // TODO: move this to its own spot (or into geo module)
     closeMenu();
 
     setDemoModeAvailable(false);
