@@ -37,24 +37,26 @@ const CurrentMeeting = ({}) => {
     const bgImg = new Image();
     bgImg.src = '/assets/bgImg/currentMeeting-lq_10.webp';
 
-    gsap.set(topImageRef.current, { opacity: 0 });
+    if (topImageRef.current !== null) {
+      gsap.set(topImageRef.current, { opacity: 0 });
 
-    bgImg.onload = () => {
-      gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
-    };
-  }, []);
-
-  useEffect(() => {
-    // on load, make sure meeting state is cleared
-    dispatch(resetMeetingStatus());
-  }, []);
-
-  useEffect(() => {
-    if (authUser.id) {
-      // console.log('authUser:', authUser);
-      dispatch(fetchCurrentMeeting({ userId: authUser.id }));
+      bgImg.onload = () => {
+        gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
+      };
     }
-  }, [authUser.id]);
+  }, [topImageRef.current]);
+
+  // useEffect(() => {
+  //   // on load, make sure meeting state is cleared
+  //   dispatch(resetMeetingStatus());
+  // }, []);
+
+  // useEffect(() => {
+  //   if (authUser.id) {
+  //     // console.log('authUser:', authUser);
+  //     dispatch(fetchCurrentMeeting({ userId: authUser.id }));
+  //   }
+  // }, [authUser.id]);
 
   function handleCancelButton() {
     // cancel the meeting
@@ -165,7 +167,9 @@ const CurrentMeeting = ({}) => {
             className="flex gap-8 justify-between lg:w-3/5 pt-9 text-xs w-11/12 pb-5"
           >
             <FormButton handleSubmit={handleChat}>CHAT</FormButton>
-            <FormButton handleSubmit={handleCancelButton}>CANCEL</FormButton>
+            <FormButton handleSubmit={handleCancelButton}>
+              CANCEL MEETING
+            </FormButton>
           </div>
         </div>
       </div>

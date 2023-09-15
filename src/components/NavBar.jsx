@@ -23,6 +23,7 @@ import { selectDarkMode } from '../redux/slices/darkModeSlice';
 
 import getLocation from '../utilities/geo';
 import { fetchMapKey } from '../redux/slices';
+import { fetchCurrentMeeting } from '../redux/slices/meetingSlice';
 
 const NOTIFICATION_UPDATE_INTERVAL = 60000;
 const TOAST_DURATION = 10000;
@@ -111,15 +112,12 @@ const NavBar = () => {
 
   useEffect(() => {
     // check for new notifications shortly after creating a meeting
+    // pull current meeting so that it's available for currentmeeting view
 
     let timer;
 
-    if (
-      authUser.id &&
-      meetingState.meeting?.id &&
-      !meetingState.isLoading &&
-      !meetingState.error
-    ) {
+    if (authUser.id && !meetingState.isLoading && !meetingState.error) {
+      dispatch(fetchCurrentMeeting({ userId: authUser.id }));
       console.log('setting timeout');
       timer = setTimeout(() => {
         console.log('dispatching notification fetch');
