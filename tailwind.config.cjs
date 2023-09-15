@@ -43,6 +43,7 @@ module.exports = {
       black: 900,
     },
     extend: {
+      custom: ['custom-clip-path'],
       colors: {
         dark: '#0a0908',
         headers: '#F68080',
