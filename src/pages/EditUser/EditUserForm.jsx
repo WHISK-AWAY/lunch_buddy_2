@@ -3,11 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
 import { listOfStates } from '../../utilities/registerHelpers';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  checkUserCreated,
-  fetchUser,
-  updateUser,
-} from '../../redux/slices/userSlice';
+import { fetchUser, updateUser } from '../../redux/slices/userSlice';
 
 import gsap from 'gsap';
 import { fetchAllTags } from '../../redux/slices/tagSlice';
@@ -48,7 +44,6 @@ const EditUserForm = () => {
   const [formInputs, setFormInputs] = useState(inputs);
   const [baseImage, setBaseImage] = useState('');
 
-  // TODO: convert to memo
   const [inputValidator, setInputValidator] = useState(
     requiredFields.reduce((accumulator, field) => {
       accumulator[field] = false;
@@ -60,7 +55,6 @@ const EditUserForm = () => {
 
   useEffect(() => {
     // fade bg image in only after it's downloaded
-
     const bgImg = new Image();
     bgImg.src = '/assets/bgImg/signUpView-q30.webp';
 
@@ -180,25 +174,15 @@ const EditUserForm = () => {
     if (!tempFields.address2 && !userInfo.address2) delete tempFields.address2;
     if (!tempFields.avatarUrl) delete tempFields.avatarUrl;
 
-    console.log('tempfields:', tempFields);
-
     setInputValidator(tempValidator);
-    setFormInputs(tempFields);
+    setFormInputs((prev) => ({ ...prev, ...tempFields }));
 
     if (
-      missingFields.length > 0 &&
-      Object.values(tempValidator).some((field) => field)
+      missingFields.length === 0 &&
+      !Object.values(tempValidator).some((field) => field)
     ) {
-      console.log(missingFields.join(','));
-    } else {
-      dispatch(updateUser(formInputs));
-      // const asyncError = await dispatch(checkUserCreated());
-      // if (asyncError.payload.error) {
-      //   console.log('async error', typeof asyncError.payload.error);
-      //   console.log(`Error: ${asyncError.payload.error}`);
-      // } else {
+      dispatch(updateUser(tempFields));
       navigate('/edituser/tags');
-      // }
     }
   };
 
