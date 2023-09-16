@@ -105,7 +105,7 @@ input:-webkit-autofill {
 
 @media (max-width: 428px) and (orientation: portrait) {
   .custom-clip-path {
-    clip-path: polygon(0 0, 100% 0, 100% 56%, 0 78%);
+    clip-path: polygon(0 0, 100% 0, 100% 64%, 0 88%);
   }
 }
 
