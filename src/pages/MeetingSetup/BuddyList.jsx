@@ -9,6 +9,8 @@ import {
   findRestaurants,
 } from '../../redux/slices';
 import { BuddyCard } from '../index';
+import FormButton from '../../components/FormButton';
+import { generateGeoDemo } from '../../utilities/geo';
 
 export default function BuddyList({ state }) {
   const dispatch = useDispatch();
@@ -25,18 +27,16 @@ export default function BuddyList({ state }) {
   const [readyToProceed, setReadyToProceed] = useState(false);
   const [buddy, setBuddy] = useState(null);
 
+  if (!state) navigate('/');
+
   const { searchRadius, timeSlot } = state;
 
   useEffect(() => {
     // return to login if no token exists
     // otherwise, pull potential matches
     if (!auth.user?.id) {
-      console.warn('missing login information - returning to login screen');
       navigate('/login');
     } else if (!searchRadius || !timeSlot) {
-      console.warn(
-        'missing meeting setup information - returning to home screen'
-      );
       navigate('/');
     }
   }, [searchRadius, timeSlot, auth.user?.id]);
@@ -118,12 +118,18 @@ export default function BuddyList({ state }) {
             <p>We're sorry...</p>
             <p>
               It looks like there's no one in your area looking for lunch just
-              now. Please try back later!
+              now. To demonstrate the app, you can initiate demo mode by
+              clicking below. Otherwise, please try back later!
             </p>
-            <p>
-              <Link to="/" className="text-headers">
+            <p className="flex w-full gap-4 items-center">
+              <FormButton handleSubmit={() => navigate('/')}>
                 BACK HOME
-              </Link>
+              </FormButton>
+              <FormButton
+                handleSubmit={() => generateGeoDemo(user, navigate, dispatch)}
+              >
+                DEMO MODE
+              </FormButton>
             </p>
           </div>
         )}

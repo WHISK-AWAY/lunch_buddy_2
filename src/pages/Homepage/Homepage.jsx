@@ -5,24 +5,16 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { selectAuth } from '../../redux/slices';
-// import AOS from 'aos';
-// import 'aos/dist/aos.css';
 
 // import { tryToken } from '../../redux/slices';
 gsap.registerPlugin(ScrollTrigger);
 const Homepage = () => {
   const auth = useSelector(selectAuth);
 
-  console.log('auth', auth);
   const topImageRef = useRef(null);
 
-  // AOS.init({
-  //   duration: 2000,
-  //   offset: 0,
-  // });
-
   // useEffect(() => {
-  //   // fade bg image in only after it's downloaded
+    // fade bg image in only after it's downloaded
 
   //   const bgImg = new Image();
   //   bgImg.src = '/assets/bgImg/connect-q30.webp';

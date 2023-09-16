@@ -72,10 +72,6 @@ const User = db.define('user', {
   address2: {
     type: Sequelize.STRING,
     allowNull: true,
-    validate: {
-      notEmpty: false,
-      notNull: false,
-    },
   },
   city: {
     type: Sequelize.STRING,

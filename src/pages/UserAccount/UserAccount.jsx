@@ -5,8 +5,10 @@ import gsap from 'gsap';
 
 import { selectAuth } from '../../redux/slices/authSlice';
 import { fetchUser, selectUser } from '../../redux/slices/userSlice';
+
 import squaresSolid from '../../assets/icons/squares-solid.svg';
 import pencil from '../../assets/icons/pencil.svg';
+import getWebpUrl from '../../utilities/webpUrl';
 
 const UserAccount = () => {
   const dispatch = useDispatch();
@@ -22,10 +24,10 @@ const UserAccount = () => {
   const [cuisineTags, setCuisineTags] = useState([]);
 
   useEffect(() => {
-    if (auth.user?.id) {
+    if (auth.user?.id && !user.id) {
       dispatch(fetchUser());
     }
-  }, [auth.user?.id]);
+  }, [auth.user?.id, user.id]);
 
   useEffect(() => {
     // fade bg image in only after it's downloaded
@@ -78,7 +80,7 @@ const UserAccount = () => {
         {/* MD landscape */}
         <header className="hidden sticky px-[10%] z-10 bg-white dark:bg-[#0a0908] w-full h-40 top-0  landscape:md:flex portrait:flex flex-col justify-start  items-center">
           <h1 className="pt-10 text-xl text-headers ">
-            {auth.user.fullName.toUpperCase()}
+            {user.fullName?.toUpperCase()}
           </h1>
 
           <div id="user-avatar" className=" flex justify-center relative">
@@ -92,11 +94,14 @@ const UserAccount = () => {
                 className="h-[16px] w-6 m-auto relative top-[11px] rotate-3 left-2"
               />
             </Link>
-            <img
-              src={auth.user.avatarUrl}
-              alt="your avatar image"
-              className="object-cover aspect-square w-28 h-28 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative translate-y-[30%] place-self-end"
-            />
+            <picture>
+              <source srcSet={getWebpUrl(user.avatarUrl)} type="image/webp" />
+              <img
+                src={user.avatarUrl}
+                alt="your avatar image"
+                className="object-cover aspect-square w-28 h-28 rounded-[100%] z-10 bg-white p-1  drop-shadow-lg relative translate-y-[30%] place-self-end"
+              />
+            </picture>
           </div>
         </header>
 
@@ -105,13 +110,13 @@ const UserAccount = () => {
           <section className="landscape:md:hidden portrait:hidden flex justify-center items-center mx-auto">
             <div className=" gap-4 flex landscape:md:hidden">
               <img
-                src={auth.user.avatarUrl}
+                src={user.avatarUrl}
                 alt="your avatar image"
                 className="object-cover aspect-square w-24 bg-white dark:bg-slate-800 rounded-[100%] p-1 drop-shadow-lg"
               />
               <div className="flex flex-col">
                 <h1 className="text-lg text-headers">
-                  {auth.user.fullName.toUpperCase()}
+                  {user.fullName.toUpperCase()}
                 </h1>
                 <p className="text-sm portrait:md:text-base">
                   {user.city.toUpperCase()}, {user.state}
@@ -129,7 +134,7 @@ const UserAccount = () => {
             id="about-me"
             className="pt-7 text-justify text-primary-gray text-sm portrait:md:text-base dark:text-white md:px-4"
           >
-            <p>{auth.user.aboutMe}</p>
+            <p>{user.aboutMe}</p>
           </div>
 
           <div

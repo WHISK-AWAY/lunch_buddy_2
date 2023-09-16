@@ -19,6 +19,7 @@ import Rating from '../Feedback/Rating';
 import ReportSubmitted from './ToastFeedback/ReportSubmitted';
 
 import NotificationButton from '../../components/NotificationButton';
+import getWebpUrl from '../../utilities/webpUrl';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const TOAST_POPUP_DELAY = 1000;
@@ -122,7 +123,8 @@ export default function MeetingRequest({ notification }) {
     }, 500);
   };
 
-  const webpUrl = notification.fromUser.avatarUrl.split('.').at(0) + '-q1.webp';
+  // const webpUrl = notification.fromUser.avatarUrl.split('.').at(0) + '-q1.webp';
+  const webpUrl = getWebpUrl(notification?.fromUser?.avatarUrl);
 
   return (
     <div

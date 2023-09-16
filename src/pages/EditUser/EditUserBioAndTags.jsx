@@ -10,13 +10,11 @@ import {
 } from '../../utilities/registerHelpers';
 import {
   updateUser,
-  fetchUser,
+  // fetchUser,
   selectUser,
 } from '../../redux/slices/userSlice';
 import { selectAuthUser } from '../../redux/slices';
 import { useNavigate } from 'react-router-dom';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 import gsap from 'gsap';
 
@@ -34,7 +32,6 @@ const EditUserBioAndTags = () => {
   const tagsInState = useSelector((state) => state.tags.tags);
 
   const [bio, setBio] = useState('');
-
   const [socialTags, setSocialTags] = useState([]);
   const [professionalTags, setProfessionalTags] = useState([]);
   const [dietaryTags, setDietaryTags] = useState([]);
@@ -53,8 +50,6 @@ const EditUserBioAndTags = () => {
     Cuisine: { minimum: MINIMUM_CUISINE, show: false, numClicked: 0 },
   });
 
-  const [validBio, setValidBio] = useState(true);
-
   const topImageRef = useRef(null);
 
   useEffect(() => {
@@ -71,26 +66,17 @@ const EditUserBioAndTags = () => {
   }, []);
 
   useEffect(() => {
-    // const token = localStorage.getItem('token');
-    // if (token) {
-    // dispatch(tryToken());
-    dispatch(fetchAllTags());
-    // }
-  }, []);
+    if (!authUser.id) navigate('/login');
+  }, [authUser.id]);
 
   useEffect(() => {
-    if (authUser?.id) {
-      dispatch(fetchUser());
-    }
-  }, [authUser]);
-
-  useEffect(() => {
+    // initialize usertags & bio
     if (user?.tags?.length > 0 && !preventReset) {
       setUserTags(user.tags);
     }
 
     if (user?.id && bio === '') setBio(user.aboutMe);
-  }, [user, preventReset]);
+  }, [user.id, preventReset]);
 
   useEffect(() => {
     if (tagsInState.length > 0 && userTags.length > 0 && !preventReset) {
@@ -155,11 +141,8 @@ const EditUserBioAndTags = () => {
     localStorage.setItem('minTags', JSON.stringify(minTags));
   }, [minTags]);
 
-  // Handles creation of new user based on user inputs
   async function handleSubmit() {
-    let canProceed = true;
-
-    setValidBio(!!bio);
+    let canProceed = true; // flips to false on validation errors
 
     for (let category in minTags) {
       let minTagsCopy = { ...minTags[category] };
@@ -197,23 +180,16 @@ const EditUserBioAndTags = () => {
       localStorage.removeItem('Dietary');
       localStorage.removeItem('Professional');
 
-      setTimeout(() => navigate('/account'), 500);
+      // setTimeout(() => navigate('/account'), 500);
+      navigate('/account');
     }
   }
-
-  AOS.init({
-    duration: 2000,
-    offset: 0,
-  });
 
   return (
     <div className=" flex flex-row items-center justify-center   w-fit overflow-hidden dark:bg-[#0a0908] dark:text-white portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)]  landscape:h-[calc(100svh_-_56px)] ">
       <div
         id="form-container"
         className="lg:basis-1/2 flex flex-col  h-full justify-start align-middle overflow-auto scrollbar-hide landscape:4xl:px-24 landscape:5xl:px-44"
-        data-aos="fade-up"
-        data-aos-delay="700"
-        data-aos-duration="1800"
       >
         <h1 className="flex mt-20 mb-8 text-xl font-semibold text-headers self-center">
           TELL US ABOUT YOURSELF
@@ -257,9 +233,6 @@ const EditUserBioAndTags = () => {
         id="bg-img"
         ref={topImageRef}
         className="basis-1/2 hidden lg:block h-full bg-cover bg-[url('/assets/bgImg/aboutMeView.jpg')] supports-[background-image:_url('/assets/bgImg/aboutMeView-q30.webp')]:bg-[url('/assets/bgImg/aboutMeView-q30.webp')]"
-        data-aos="fade-left"
-        data-aos-delay="200"
-        data-aos-duration="2000"
       ></div>
     </div>
   );

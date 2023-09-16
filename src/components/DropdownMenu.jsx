@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
-import axios from 'axios';
 import gsap from 'gsap';
 
 import {
@@ -16,11 +14,9 @@ import { CustomEase } from 'gsap/CustomEase';
 
 gsap.registerPlugin(CustomEase);
 import DropDownItem from './DropDownItem';
-import DemoMode from '../pages/NotificationCenter/ToastFeedback/DemoMode';
+import getLocation, { generateGeoDemo } from '../utilities/geo';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-
-const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
+const DropdownMenu = ({ menuMode, closeMenu }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -30,7 +26,7 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
 
   const [demoModeAvailable, setDemoModeAvailable] = useState(false);
 
-  const authUser = useSelector(selectAuthUser);
+  const { user, locationEnabled } = useSelector((state) => state.user);
   const notifications = useSelector(selectUnreadNotifications);
   const userState = useSelector((state) => state.user.user);
   const currentMeetingNotification = notifications?.filter(
@@ -89,17 +85,17 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
     }
   }, [menuMode, wrapperRef.current]);
 
+  const demoFlag = window.localStorage.getItem('demoMode');
+
   useEffect(() => {
     // if logged in, check whether user has already triggered demo mode & set variable accordingly
-    if (authUser.id) {
-      const demoFlag = window.localStorage.getItem('demoMode');
-
+    if (user.id) {
       if (!demoFlag || demoFlag === 'false') {
         window.localStorage.setItem('demoMode', 'false');
         setDemoModeAvailable(true);
       }
     }
-  }, [authUser.id]);
+  }, [user.id, demoFlag]);
 
   function handleClick() {
     // setExpandMenu(false);
@@ -115,61 +111,15 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
   }
 
   async function handleDemoMode() {
-    // TODO: move this to its own spot (or into geo module)
     closeMenu();
 
     setDemoModeAvailable(false);
 
-    toast.custom((t) => <DemoMode t={t} />, { duration: 6000 });
+    generateGeoDemo(userState, navigate, dispatch);
 
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        const { latitude, longitude } = position.coords;
-        const center = {
-          latitude,
-          longitude,
-        };
-        axios
-          .post(
-            API_URL + '/api/user/generate/demo',
-            {
-              center,
-              radius: 0.5,
-              city: userState.city,
-              state: userState.state,
-              id: userState.id,
-            },
-            {
-              headers: {
-                Authorization: window.localStorage.getItem('token'),
-              },
-            }
-          )
-          .then(() => {
-            window.localStorage.setItem('demoMode', 'true');
-            navigate('/match');
-          });
-        // console.log(center);
-      },
-      function (err) {
-        console.log('error setting up demo mode:', err);
-      }
-    );
+    // toast.custom((t) => <DemoMode t={t} />, { duration: 6000 });
   }
 
-  /**
-   * Removed from wrapper class list:
-   *
-   * top-0
-   */
-
-  // console.log(window.screen.availHeight);
-  // console.log(window.innerHeight);
-  // const ratio = window.screen.width * window.devicePixelRatio;
-  // const ratioH = window.screen.height * window.devicePixelRatio;
-  // console.log(ratio/ratioH);
-
-  // console.log(window.innerHeight/window.innerWidth)
   return (
     <>
       <div
@@ -181,11 +131,11 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
         ref={wrapperRef}
         id="dropdown-container"
         className={` ${
-          !authUser.firstName ? 'landscape:lg:h-[40svh] ' : 'landscape:h-[60svh]'
+          !user.firstName ? 'landscape:lg:h-[40svh] ' : 'landscape:h-[60svh]'
         } dark:text-white dark:bg-[#0a0908]/60 bg-white/60 -translate-y-full fixed  w-screen opacity-95 z-30 landscape:lg:h-[60svh] landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] `}
       >
         <ul className="flex flex-col items-center short:py-6  justify-center  overflow-y-auto portrait:h-full landscape:lg:h-full landscape:h-full align-center ">
-          {!authUser.firstName ? (
+          {!user.firstName ? (
             <>
               {/* NAV LINKS WHEN NOT SIGNED IN */}
               <DropDownItem handleClick={handleClick} linkTo="/register">
@@ -208,9 +158,21 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
                 ACCOUNT
               </DropDownItem>
               {!currentMeetingNotification?.id ? (
-                <DropDownItem handleClick={handleClick} linkTo="/match">
-                  NEW MEETING
-                </DropDownItem>
+                locationEnabled ? (
+                  <DropDownItem handleClick={handleClick} linkTo="/match">
+                    NEW MEETING
+                  </DropDownItem>
+                ) : (
+                  <DropDownItem
+                    handleClick={() => {
+                      // window.location.reload(false);
+                      getLocation(dispatch, user.id);
+                      closeMenu();
+                    }}
+                  >
+                    ENABLE LOCATION SERVICES
+                  </DropDownItem>
+                )
               ) : (
                 <DropDownItem
                   handleClick={handleClick}
@@ -227,7 +189,7 @@ const DropdownMenu = ({ menuMode, navHeight, closeMenu }) => {
                   MESSAGES
                 </DropDownItem>
               )}
-              {demoModeAvailable && (
+              {demoModeAvailable && locationEnabled && (
                 <DropDownItem handleClick={handleDemoMode}>
                   DEMO MODE
                 </DropDownItem>

@@ -10,26 +10,26 @@ module.exports = {
   darkMode: 'class',
   theme: {
     fontFamily: {
-      fredericka: ['Fredericka the Great', 'cursive'],
-      tenor: ['Tenor Sans', 'sans-serif'],
-      monserrat: ['Montserrat', 'sans-serif'],
-      cormo: ['Cormorant', 'serif'],
-      clicker: ['Clicker Script', 'cursive'],
-      poppins: ['Poppins', 'sans-serif'],
-      abril: ['Abril Fatface', 'cursive'],
-      serif: ['DM Serif Display', 'serif'],
-      jo: ['Josefin Sans', 'sans-serif'],
-      po: ['Poiret One', 'cursive'],
-      ultra: ['Ultra', 'serif'],
-      fed: ['Federo', 'sans - serif'],
-      archivo: ['archivo Black', 'monospace'],
-      cutive: ['Cutive Mono', 'monospace'],
-      dm: ['DM Mono', 'monospace'],
-      pt: ['PT Mono', 'monospace'],
-      hat: ['Red Hat Mono', 'monospace'],
-      roboto: ['Roboto Mono', 'monospce'],
-      inso: ['Inconsolata', 'monospace'],
-      jost: ['Jost', 'monospace'],
+      fredericka: ['Fredericka the Great', 'cursive'], // unused
+      tenor: ['Tenor Sans', 'sans-serif'], // unused
+      monserrat: ['Montserrat', 'sans-serif'], // unused
+      cormo: ['Cormorant', 'serif'], // unused
+      clicker: ['Clicker Script', 'cursive'], // unused
+      poppins: ['Poppins', 'sans-serif'], // unused
+      abril: ['Abril Fatface', 'cursive'], // unused
+      serif: ['DM Serif Display', 'serif'], // unused
+      jo: ['Josefin Sans', 'sans-serif'], // unused
+      po: ['Poiret One', 'cursive'], // unused
+      ultra: ['Ultra', 'serif'], // unused
+      fed: ['Federo', 'sans - serif'], // unused
+      archivo: ['archivo Black', 'monospace'], // unused
+      cutive: ['Cutive Mono', 'monospace'], // unused
+      dm: ['DM Mono', 'monospace'], // unused
+      pt: ['PT Mono', 'monospace'], // unused
+      hat: ['Red Hat Mono', 'monospace'], // unused
+      roboto: ['Roboto Mono', 'monospce'], // unused
+      inso: ['Inconsolata', 'monospace'], // unused
+      jost: ['Jost', 'monospace'], // the only font we use apparently
     },
     fontWeight: {
       thin: 100,

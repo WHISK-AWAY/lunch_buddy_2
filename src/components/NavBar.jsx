@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
@@ -23,44 +23,29 @@ import { selectDarkMode } from '../redux/slices/darkModeSlice';
 
 import getLocation from '../utilities/geo';
 import { fetchMapKey } from '../redux/slices';
+import { fetchCurrentMeeting } from '../redux/slices/meetingSlice';
 
 const NOTIFICATION_UPDATE_INTERVAL = 60000;
-const TOAST_DURATION = Infinity;
+const TOAST_DURATION = 10000;
 
 const NavBar = () => {
   const dispatch = useDispatch();
 
   const root = document.querySelector('#root');
 
-  const navRef = useRef(null); // used to dynamically measure height of navbar
-
   const authUser = useSelector(selectAuthUser);
   const userState = useSelector((state) => state.user.user);
   const notifications = useSelector(selectUnreadNotifications);
   const isDarkMode = useSelector(selectDarkMode);
+  const meetingState = useSelector((state) => state.meetings);
 
   const hasNotifications = notifications?.length > 0;
 
-  const [locationTriggered, setLocationTriggered] = useState(false);
+  // const [locationTriggered, setLocationTriggered] = useState(false);
   const [menuMode, setMenuMode] = useState(null); // 'dropdown' | 'notifications' | null
   const [menuIcon, setMenuIcon] = useState(navbarIconWhite);
   const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);
   const [bellMenuIcon, setBellMenuIcon] = useState(bellIconWhite);
-
-  function closeMenu() {
-    setMenuMode(null);
-  }
-
-  function clickOff(e) {
-    if (
-      e.target.matches('#notification-container *') ||
-      e.target.matches('#dropdown-container *')
-    ) {
-      // Ignore clicks on certain targets
-      return;
-    }
-    closeMenu();
-  }
 
   useEffect(() => {
     // set up click-off event listener
@@ -89,19 +74,14 @@ const NavBar = () => {
     // once we're logged in, make sure the userState object is populated
     if (authUser.id && !userState.id) {
       dispatch(fetchUser());
+    }
 
-      // also go ahead and grab maps key - we'll need it later, and won't want to wait on it
+    // also go ahead and update location & grab maps key
+    if (authUser.id) {
+      getLocation(dispatch, authUser.id);
       dispatch(fetchMapKey());
     }
-  }, [authUser.id]);
-
-  useEffect(() => {
-    // if user is active and we've not yet polled for location, do so
-    if (authUser.id && !locationTriggered) {
-      getLocation(dispatch, authUser.id);
-      setLocationTriggered(true);
-    }
-  }, [locationTriggered, authUser.id]);
+  }, [authUser.id, userState.id]);
 
   useEffect(() => {
     // periodically check for new notifications
@@ -118,7 +98,23 @@ const NavBar = () => {
     return () => {
       if (timer) clearInterval(timer);
     };
-  }, [authUser]);
+  }, [authUser.id]);
+
+  useEffect(() => {
+    // check for new notifications shortly after creating a meeting
+    // pull current meeting so that it's available for currentmeeting view
+
+    let timer;
+
+    if (authUser.id && !meetingState.isLoading && !meetingState.error) {
+      dispatch(fetchCurrentMeeting({ userId: authUser.id }));
+      timer = setTimeout(() => {
+        dispatch(fetchAllNotifications({ userId: authUser.id }));
+      }, 5000);
+    }
+
+    if (timer) return () => clearTimeout(timer);
+  }, [meetingState.meeting?.id, authUser.id]);
 
   useEffect(() => {
     console.log(isDarkMode)
@@ -134,20 +130,34 @@ const NavBar = () => {
     }
   }, [isDarkMode]);
 
+  function closeMenu() {
+    setMenuMode(null);
+  }
+
+  function clickOff(e) {
+    if (
+      e.target.matches('#notification-container *') ||
+      e.target.matches('#dropdown-container *')
+    ) {
+      // Ignore clicks on certain targets
+      return;
+    }
+    closeMenu();
+  }
+
   return (
     <>
       <header
-        ref={navRef}
         className="sticky top-0 z-40  text-primary-gray 
        w-[100svw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20  landscape:h-14 portrait:h-14 landscape:3xl:h-16"
-       >
-       <nav className="flex justify-between w-full h-full">
-       <button className="flex justify-center  items-center">
+      >
+        <nav className="flex justify-between w-full h-full">
+          <button className="flex justify-center  items-center">
             <img
-            className="w-7 xl:w-10 lg:w-8 5xl:w-10 6xl:w-14 portrait:xs:w-9 portrait:md:w-10"
-            src={menuMode === 'dropdown' ? xMenuIcon : menuIcon}
-            alt={`click to ${
-              menuMode === 'dropdown' ? 'close' : 'open'
+              className="w-7 xl:w-10 lg:w-8 5xl:w-10 6xl:w-14 portrait:xs:w-9 portrait:md:w-10"
+              src={menuMode === 'dropdown' ? xMenuIcon : menuIcon}
+              alt={`click to ${
+                menuMode === 'dropdown' ? 'close' : 'open'
               } navigation menu`}
               // onClick={() => setExpandMenu((prev) => !prev)}
               onClick={() =>
@@ -159,17 +169,20 @@ const NavBar = () => {
             {/* BUTTONS THAT SHOW ONLY WHEN SIGNED IN */}
             {authUser?.firstName ? (
               <>
-              <li className="hidden md:block">
-              <Link
-              to="/account"
-              className="text-[1.3vw] 2xl:text-[1.1vw] 3xl:text-[1vw] 4xl:w-[.9vw] 5xl:text-[.8vw] 6xl:text-[.5vw] dark:text-white portrait:md:text-base"
-              >
-              HI, {authUser.firstName.toUpperCase()}
-              </Link>
-              </li>
-              <DarkModeToggler />
-              
-              {/**
+                <li className="hidden md:block">
+                  <Link
+                    to="/account"
+                    className="text-[1.3vw] 2xl:text-[1.1vw] 3xl:text-[1vw] 4xl:w-[.9vw] 5xl:text-[.8vw] 6xl:text-[.5vw] dark:text-white portrait:md:text-base"
+                  >
+                    HI,{' '}
+                    {userState.firstName?.toUpperCase() ||
+                      authUser.firstName?.toUpperCase() ||
+                      'BUDDY'}
+                  </Link>
+                </li>
+                <DarkModeToggler />
+
+                {/**
               <li className="flex items-center">
               <label className="relative inline-flex items-center cursor-pointer ">
               <input
@@ -184,40 +197,40 @@ const NavBar = () => {
               </label>
               </li>
             */}
-            <Toaster
-            position="top-right"
-            toastOptions={{
+                <Toaster
+                  position="top-right"
+                  toastOptions={{
                     duration: TOAST_DURATION,
                   }}
                 />
                 <li className="h-6 relative">
-                <button
-                id="bell-button"
-                className={
-                  hasNotifications
-                  ? "after:content-[''] after:absolute after:top-1 after:right-1 after:text-red-400 after:bg-headers after:rounded-full after:w-2 after:h-2"
-                  : ''
-                }
+                  <button
+                    id="bell-button"
+                    className={
+                      hasNotifications
+                        ? "after:content-[''] after:absolute after:top-1 after:right-1 after:text-red-400 after:bg-headers after:rounded-full after:w-2 after:h-2"
+                        : ''
+                    }
                     // onClick={handleNotificationClick}
                     disabled={!hasNotifications}
                     onClick={() =>
                       setMenuMode((prev) =>
-                      prev === 'notifications' ? null : 'notifications'
+                        prev === 'notifications' ? null : 'notifications'
                       )
                     }
-                    >
+                  >
                     <img
-                    className="w-6 lg:w-6 5xl:w-7 6xl:w-8 h-full"
-                    src={bellMenuIcon}
-                    alt="Notification bell icon"
+                      className="w-6 lg:w-6 5xl:w-7 6xl:w-8 h-full"
+                      src={bellMenuIcon}
+                      alt="Notification bell icon"
                     />
-                    </button>
+                  </button>
                 </li>
               </>
-              ) : (
+            ) : (
               //  WHEN NOT SIGNED IN SHOW BELOW
               <>
-              <DarkModeToggler />
+                <DarkModeToggler />
                 {/**
                 <Link to="/" className="dark:text-white text-primary-gray">
                 <h1 className="md:text-[2.4vw] xxs:text-[4.9vw]">
@@ -234,16 +247,8 @@ const NavBar = () => {
         </nav>
       </header>
       {/* DROPDOWN MENU, HIDDEN UNTIL CLICKED */}
-      <DropdownMenu
-        menuMode={menuMode}
-        closeMenu={closeMenu}
-        navHeight={navRef.current?.clientHeight}
-      />
-      <NotificationBody
-        menuMode={menuMode}
-        closeMenu={closeMenu}
-        navHeight={navRef.current?.clientHeight}
-      />
+      <DropdownMenu menuMode={menuMode} closeMenu={closeMenu} />
+      <NotificationBody menuMode={menuMode} closeMenu={closeMenu} />
     </>
   );
 };

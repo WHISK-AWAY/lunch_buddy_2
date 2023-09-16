@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import gsap from 'gsap';
 
-import { selectUser, selectAuth, findBuddies } from '../../redux/slices';
-// import getLocation from '../../utilities/geo';
+import { selectAuth, findBuddies } from '../../redux/slices';
 import FormButton from '../../components/FormButton';
 
 const SEARCH_RADIUS_LIST = [0.5, 1, 3, 5];
@@ -14,7 +13,7 @@ export default function MeetingSetup(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const user = useSelector(selectUser);
+  const { user, locationEnabled } = useSelector((state) => state.user);
   const auth = useSelector(selectAuth);
   const { isLoading: searchResultsLoading } = useSelector(
     (state) => state.search
@@ -41,17 +40,20 @@ export default function MeetingSetup(props) {
   }, []);
 
   useEffect(() => {
+    if (!locationEnabled) navigate('/');
+  }, [locationEnabled]);
+
+  useEffect(() => {
     // use token to keep track of logged-in user (id)
     // once that's known we can pull down user data
     if (auth.error || !auth.user?.id || !user.id) {
-      console.warn('missing authentication information - navigating to login');
       navigate('/login');
     }
   }, [auth.user?.id]);
 
   useEffect(() => {
-    dispatch(findBuddies({ searchRadius }));
-  }, [searchRadius]);
+    if (user.id && user.lastLat) dispatch(findBuddies({ searchRadius }));
+  }, [searchRadius, user.lastLat]);
 
   useEffect(() => {
     // move to next step once all the ducks are in a row

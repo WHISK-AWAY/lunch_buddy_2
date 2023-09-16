@@ -3,13 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import FormButton from '../../components/FormButton';
 import { listOfStates } from '../../utilities/registerHelpers';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  checkUserCreated,
-  fetchUser,
-  updateUser,
-} from '../../redux/slices/userSlice';
+import { fetchUser, updateUser } from '../../redux/slices/userSlice';
 
 import gsap from 'gsap';
+import { fetchAllTags } from '../../redux/slices/tagSlice';
 
 const inputs = {
   firstName: '',
@@ -41,7 +38,11 @@ const EditUserForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const authUser = useSelector((state) => state.auth.user);
+  const userInfo = useSelector((state) => state.user.user);
+
   const [formInputs, setFormInputs] = useState(inputs);
+  const [baseImage, setBaseImage] = useState('');
 
   const [inputValidator, setInputValidator] = useState(
     requiredFields.reduce((accumulator, field) => {
@@ -50,13 +51,10 @@ const EditUserForm = () => {
     }, {})
   );
 
-  const [baseImage, setBaseImage] = useState('');
-
   const topImageRef = useRef(null);
 
   useEffect(() => {
     // fade bg image in only after it's downloaded
-
     const bgImg = new Image();
     bgImg.src = '/assets/bgImg/signUpView-q30.webp';
 
@@ -74,8 +72,30 @@ const EditUserForm = () => {
     }));
   }, [baseImage]);
 
-  const authUser = useSelector((state) => state.auth.user);
-  const userInfo = useSelector((state) => state.user.user);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/');
+    } else {
+      // fetch tags list before next view where they'll be needed
+      dispatch(fetchAllTags());
+    }
+  }, []);
+
+  useEffect(() => {
+    if (authUser.id) {
+      dispatch(fetchUser());
+    } else console.log('authuser missing');
+  }, [authUser.id]);
+
+  useEffect(() => {
+    if (userInfo.id) {
+      for (let key in formInputs) {
+        setFormInputs((prev) => ({ ...prev, [key]: userInfo[key] || '' }));
+      }
+    }
+    // setFormInputs(userInfo);
+  }, [userInfo.id]);
 
   const validateZip = (zip) => {
     const valid = /^\d+$/;
@@ -98,28 +118,6 @@ const EditUserForm = () => {
   const validateAge = () => {
     return +formInputs.age >= 18 && +formInputs.age < 135;
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/');
-    }
-  }, []);
-
-  useEffect(() => {
-    if (authUser.id) {
-      dispatch(fetchUser());
-    }
-  }, [authUser.id]);
-
-  useEffect(() => {
-    if (userInfo.id) {
-      for (let key in formInputs) {
-        setFormInputs((prev) => ({ ...prev, [key]: userInfo[key] || '' }));
-      }
-    }
-    // setFormInputs(userInfo);
-  }, [userInfo]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -172,23 +170,19 @@ const EditUserForm = () => {
         tempFields.age = '';
       }
     }
+
+    if (!tempFields.address2 && !userInfo.address2) delete tempFields.address2;
+    if (!tempFields.avatarUrl) delete tempFields.avatarUrl;
+
     setInputValidator(tempValidator);
-    setFormInputs(tempFields);
+    setFormInputs((prev) => ({ ...prev, ...tempFields }));
 
     if (
-      missingFields.length > 0 &&
-      Object.values(tempValidator).some((field) => field)
+      missingFields.length === 0 &&
+      !Object.values(tempValidator).some((field) => field)
     ) {
-      console.log(missingFields.join(','));
-    } else {
-      await dispatch(updateUser(formInputs));
-      const asyncError = await dispatch(checkUserCreated());
-      if (asyncError.payload.error) {
-        console.log('async error', typeof asyncError.payload.error);
-        console.log(`Error: ${asyncError.payload.error}`);
-      } else {
-        navigate('/edituser/tags');
-      }
+      dispatch(updateUser(tempFields));
+      navigate('/edituser/tags');
     }
   };
 
@@ -225,6 +219,8 @@ const EditUserForm = () => {
               First Name
             </label>
             <input
+              autoFocus={true}
+              autoComplete="given-name"
               className={`${
                 inputValidator.firstName ? invalidClass : null
               }  w-full px-4 py-2 rounded-sm focus:outline-none h-9 border bg-white dark:bg-[#0a0908] border-primary-gray text-[.9rem]`}
@@ -242,6 +238,7 @@ const EditUserForm = () => {
               Last Name
             </label>
             <input
+              autoComplete="family-name"
               className={`${
                 inputValidator.lastName ? invalidClass : null
               }  w-full px-4 py-2 rounded-sm focus:outline-none h-9 border bg-white dark:bg-[#0a0908] border-primary-gray text-[.9rem]`}
@@ -256,6 +253,7 @@ const EditUserForm = () => {
               Address 1
             </label>
             <input
+              autoComplete="address-line1"
               className={`${
                 inputValidator.address1 ? invalidClass : null
               }  w-full px-4 py-2 rounded-sm focus:outline-none h-9 border bg-white dark:bg-[#0a0908] dark:text-white border-primary-gray text-[.9rem]`}
@@ -270,6 +268,7 @@ const EditUserForm = () => {
               Address 2
             </label>
             <input
+              autoComplete="address-line2"
               className="w-full px-4 py-2 rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] h-9 border border-primary-gray text-[.9rem]"
               value={formInputs.address2}
               onChange={(e) =>
@@ -282,6 +281,7 @@ const EditUserForm = () => {
               City
             </label>
             <input
+              autoComplete="address-level2"
               className={`${
                 inputValidator.lastName ? invalidClass : null
               }  w-full px-4 py-2 rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] h-9 border border-primary-gray text-[.9rem]`}
@@ -296,6 +296,7 @@ const EditUserForm = () => {
               State
             </label>
             <select
+              autoComplete="address-level1"
               className="w-full px-4 py-2 rounded-sm focus:outline-none h-9 border border-primary-gray text-xs bg-white dark:bg-[#0a0908]"
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, state: e.target.value }))
@@ -316,6 +317,7 @@ const EditUserForm = () => {
               Zip
             </label>
             <input
+              autoComplete="postal-code"
               className={`${
                 inputValidator.zip ? invalidClass : null
               }  w-full px-4 py-2 rounded-sm focus:outline-none h-9 border bg-white dark:bg-[#0a0908] border-primary-gray text-[.9rem]`}

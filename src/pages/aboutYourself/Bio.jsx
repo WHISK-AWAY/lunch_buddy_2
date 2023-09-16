@@ -7,6 +7,7 @@ const Bio = ({ setBio, bio, validBio }) => {
         Bio
       </label>
       <textarea
+        autoFocus={true}
         type="text"
         rows="24"
         className={`w-full px-4 rounded-2xl portrait:lg:h-56 landscape:6xl:h-80 focus:outline-none border dark:text-white resize-none dark:border-white h-24 border-primary-gray text-sm py-2 scrollbar-hide bg-white dark:bg-[#0a0908] ${

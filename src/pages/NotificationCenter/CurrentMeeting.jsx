@@ -8,7 +8,6 @@ import {
   fetchAllNotifications,
   cancelMeeting,
 } from '../../redux/slices';
-import FormButton from '../../components/FormButton';
 import xIcon from '../../assets/icons/x-icon.svg';
 import xIconWhite from '../../assets/icons/x-icon-white.svg';
 import NotificationButton from '../../components/NotificationButton';
@@ -33,6 +32,7 @@ export default function CurrentMeeting({ notification, meetings, closeMenu }) {
     if (triggerCancel) {
       // setTriggerClose(true);
       acknowledge();
+      closeMenu();
       dispatch(
         cancelMeeting({
           userId: notification.toUserId,
@@ -40,7 +40,12 @@ export default function CurrentMeeting({ notification, meetings, closeMenu }) {
         })
       );
       setTimeout(() => {
-        toast.custom((t) => <RejectInvite notification={notification} t={t} />);
+        toast.custom((t) => (
+          <RejectInvite
+            buddyFirstName={notification.fromUser?.firstName}
+            t={t}
+          />
+        ));
       }, TOAST_POPUP_DELAY);
       navigate('/');
     }
