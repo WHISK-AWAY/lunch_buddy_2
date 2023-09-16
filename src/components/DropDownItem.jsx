@@ -5,7 +5,7 @@ const DropDownItem = (props) => {
   return (
     <li
       onClick={props.handleClick}
-      className="transition-all w-full text-center font-thin h-fit landscape:py-2"
+      className="transition-all w-full text-center font-thin h-fit landscape:py-2 max-w-screen overflow-x-hidden"
       style={{
         transitionDelay: '0.1s',
       }}
