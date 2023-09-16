@@ -147,33 +147,33 @@ const AboutForm = () => {
     }
 
     await dispatch(createNewUser(prevPageFormData));
-    const { payload: errorOnCreation } = await dispatch(checkUserCreated());
-    if (errorOnCreation.error) {
-      console.log(errorOnCreation.error);
-    } else {
-      const form = JSON.parse(localStorage.getItem('registerForm'));
-      localStorage.removeItem('registerForm');
+    // const { payload: errorOnCreation } = await dispatch(checkUserCreated());
+    // if (errorOnCreation.error) {
+    //   console.log(errorOnCreation.error);
+    // } else {
+    const form = JSON.parse(localStorage.getItem('registerForm'));
+    localStorage.removeItem('registerForm');
 
-      localStorage.removeItem('aboutBio');
-      localStorage.removeItem('Social');
-      localStorage.removeItem('Cuisine');
-      localStorage.removeItem('Dietary');
-      localStorage.removeItem('Professional');
+    localStorage.removeItem('aboutBio');
+    localStorage.removeItem('Social');
+    localStorage.removeItem('Cuisine');
+    localStorage.removeItem('Dietary');
+    localStorage.removeItem('Professional');
 
-      dispatch(
-        requestLogin({
-          email: form.email,
-          password: form.password,
-        })
-      );
+    dispatch(
+      requestLogin({
+        email: form.email,
+        password: form.password,
+      })
+    );
+    setTimeout(() => {
       setTimeout(() => {
-        setTimeout(() => {
-          toast.custom((t) => <NewUserWelcome t={t} />);
-        }, TOAST_POPUP_DELAY);
-        // navigate('/match');
-        // navigate once signed in - based on watching for authuser
-      }, 500);
-    }
+        toast.custom((t) => <NewUserWelcome t={t} />);
+      }, TOAST_POPUP_DELAY);
+      // navigate('/match');
+      // navigate once signed in - based on watching for authuser
+    }, 500);
+    // }
   }
 
   const uploadImage = async (e) => {
