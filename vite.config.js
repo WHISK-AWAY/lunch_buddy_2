@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   build: {
     outDir: "/var/www/lunchbuddy/html",
+    emptyOutDir: true,
   },
   plugins: [react()],
 })
