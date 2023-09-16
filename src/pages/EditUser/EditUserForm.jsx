@@ -220,6 +220,7 @@ const EditUserForm = () => {
             </label>
             <input
               autoFocus={true}
+              autoComplete="given-name"
               className={`${
                 inputValidator.firstName ? invalidClass : null
               }  w-full px-4 py-2 rounded-sm focus:outline-none h-9 border bg-white dark:bg-[#0a0908] border-primary-gray text-[.9rem]`}
@@ -237,6 +238,7 @@ const EditUserForm = () => {
               Last Name
             </label>
             <input
+              autoComplete="family-name"
               className={`${
                 inputValidator.lastName ? invalidClass : null
               }  w-full px-4 py-2 rounded-sm focus:outline-none h-9 border bg-white dark:bg-[#0a0908] border-primary-gray text-[.9rem]`}
@@ -251,6 +253,7 @@ const EditUserForm = () => {
               Address 1
             </label>
             <input
+              autoComplete="address-line1"
               className={`${
                 inputValidator.address1 ? invalidClass : null
               }  w-full px-4 py-2 rounded-sm focus:outline-none h-9 border bg-white dark:bg-[#0a0908] dark:text-white border-primary-gray text-[.9rem]`}
@@ -265,6 +268,7 @@ const EditUserForm = () => {
               Address 2
             </label>
             <input
+              autoComplete="address-line2"
               className="w-full px-4 py-2 rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] h-9 border border-primary-gray text-[.9rem]"
               value={formInputs.address2}
               onChange={(e) =>
@@ -277,6 +281,7 @@ const EditUserForm = () => {
               City
             </label>
             <input
+              autoComplete="address-level2"
               className={`${
                 inputValidator.lastName ? invalidClass : null
               }  w-full px-4 py-2 rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] h-9 border border-primary-gray text-[.9rem]`}
@@ -291,6 +296,7 @@ const EditUserForm = () => {
               State
             </label>
             <select
+              autoComplete="address-level1"
               className="w-full px-4 py-2 rounded-sm focus:outline-none h-9 border border-primary-gray text-xs bg-white dark:bg-[#0a0908]"
               onChange={(e) =>
                 setFormInputs((prev) => ({ ...prev, state: e.target.value }))
@@ -311,6 +317,7 @@ const EditUserForm = () => {
               Zip
             </label>
             <input
+              autoComplete="postal-code"
               className={`${
                 inputValidator.zip ? invalidClass : null
               }  w-full px-4 py-2 rounded-sm focus:outline-none h-9 border bg-white dark:bg-[#0a0908] border-primary-gray text-[.9rem]`}
