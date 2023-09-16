@@ -62,9 +62,6 @@ module.exports = {
       },
       screens: {
         xxs: '360px',
-        // xxs: {
-        //   max: '374px',
-        // },
         xs: '375px',
         sm: '412px',
         md: '768px',
