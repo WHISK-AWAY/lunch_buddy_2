@@ -180,7 +180,7 @@ export default function ChatBox() {
     <div className="flex overflow-hidden dark:bg-[#0a0908]  bg-white dark:text-white text-primary-gray w-screen landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)] ">
       <div
         id="bg-img"
-        className="bg-cover supports-[background-image:_url('/assets/bgImg/chatView-q30.webp')]:bg-[url('/assets/bgImg/chatView-q30.webp')] supports-[background-image:_url('/assets/bgImg/chatbox-background-lq_10.webp')]:2xl:bg-[url('/assets/bgImg/chatbox-background-lq_10.webp')] bg-[url('/assets/bgImg/chatview.jpg')] basis-1/2  3xl:basis-full hidden portrait:hidden lg:block h-full"
+        className="bg-cover supports-[background-image:_url('/assets/bgImg/chatView-q30.webp')]:bg-[url('/assets/bgImg/chatView-q30.webp')] supports-[background-image:_url('/assets/bgImg/chatbox-background-lq_10.webp')]:2xl:bg-[url('/assets/bgImg/chatbox-background-lq_10.webp')] bg-[url('/assets/bgImg/chatView.jpg')] basis-1/2  3xl:basis-full hidden portrait:hidden lg:block h-full"
       ></div>
       <div
         id="chat-container"
