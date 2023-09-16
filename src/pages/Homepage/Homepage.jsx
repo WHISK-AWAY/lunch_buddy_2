@@ -71,7 +71,7 @@ const Homepage = () => {
             start: '40% bottom',
             trigger: '.vid-section',
             scrub: 5,
-            markers: true,
+            // markers: true,
           },
         },
         '>2'
@@ -88,7 +88,7 @@ const Homepage = () => {
       <div className="hero-container flex h-[100svh] w-full justify-center align-center custom-clip-path ">
         <div
           className="bg-cover bg-right  portrait:h-[calc(100svh_-_50px)]  bg-no-repeat
-      bg-[url('/assets/bgImg/homepage4.jpg')] portrait:bg-[url('/assets/bgImg/homepage4p.jpg')]  basis-[70%]  h-full  portrait:basis-full portrait:bg-center portrait:shrink-0"
+      bg-[url('/assets/bgImg/homepage4-q30.webp')] portrait:bg-[url('/assets/bgImg/homepage4p-q30.webp')]  basis-[70%]  h-full  portrait:basis-full portrait:bg-center portrait:shrink-0"
         ></div>
 
         {/**hero header */}
@@ -122,7 +122,7 @@ const Homepage = () => {
             ) : (
               <Link
                 to="/login"
-                className="group absolute -top-12 right-[39%]  rounded-sm border dark:border-zinc-700 border-primary-gray px-[4%]  py-2  dark:text-white text-primary-gray portrait:whitespace-nowrap portrait:text-[.9rem] portrait:px-10 portrait:-translate-x-10 portrait:sm:text-[1.1rem] portrait:sm:-translate-x-20 portrait:md:text-[1.6rem] portrait:lg:text-[2rem]  portrait:md:-translate-x-56 portrait:lg:-translate-x-[30rem]"
+                className="group absolute -top-12 right-[39%]  rounded-sm border dark:border-zinc-700 border-primary-gray px-[4%]  py-2  dark:text-white text-primary-gray portrait:whitespace-nowrap portrait:text-[.9rem] portrait:px-10 portrait:-translate-x-10 portrait:sm:text-[1.1rem] portrait:sm:-translate-x-20 portrait:md:text-[1.6rem] portrait:lg:text-[2rem]  portrait:md:-translate-x-56 portrait:lg:-translate-x-[30rem] landscape:lg:translate-x-10 landscape:2xl:translate-x-16 landscape:4xl:translate-x-24 landscape:5xl:translate-x-32 landscape:6xl:translate-x-52"
               >
                 <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
                 <span className="relative  group-hover:text-white dark:group-hover:text-dark">
@@ -134,7 +134,7 @@ const Homepage = () => {
         </div>
       </div>
 
-      <section className="max-w-[120%] overflow-hidden translate-y-2 text-[1rem] portrait:hidden">
+      <section className="max-w-[120%] overflow-hidden translate-y-2 text-[1rem] hidden portrait:hidden">
         <div className="test-block block whitespace-nowrap ">
           <span className=" inline-block p-2">Hello&nbsp;World</span>
           <span className=" inline-block p-2">Hello&nbsp;Hell</span>
@@ -156,25 +156,27 @@ const Homepage = () => {
         </div>
       </section>
 
+
+      {/**connect section */}
       <div className="h-full relative overflow-hidden w-screen -translate-y-10 portrait:-translate-y-56 portrait:overflow-hidden">
         <div className="dark:bg-zinc-900/80 bg-zinc-200 min-h-[90vh] connect-section flex justify-between relative  ">
           <div className="pt-28  pl-16 landscape:4xl:pl-44 landscape:6xl:pl-96 landscape:lg:pt-[20%] landscape:3xl:pt-[15%] text-[3.7rem] font-bold uppercase opacity-80 landscape:xl:text-[4.7rem] landscape:2xl:text-[6rem] landscape:2xl:top-[20%] landscape:5xl:text-[8rem] landscape:6xl:text-[10rem] portrait:pt-32 portrait:xs:pt-48 portrait:sm:mt-10 portrait:md:translate-x-[100%]">
             connect
-            <p className="lowercase font-light text-[.8rem] w-64 portrait:pt-[230px] portrait:sm:pt-[250px] portrait:md:pt-[430px] portrait:md:text-[1.1rem] portrait:translate-x-16 portrait:text-[.7rem] portrait:xs:text-[.9rem] ">
+            <p className="lowercase font-light text-[.8rem] w-64 portrait:pt-[230px] portrait:sm:pt-[250px] portrait:md:pt-[430px] portrait:translate-x-16 portrait:text-[.7rem] portrait:xs:text-[.9rem] portrait:md:text-[1rem] ">
               meet new people based on shared hobbies, professionsal interests
               and favourite cuisines
             </p>
           </div>
         </div>
 
-        <div className="h-[90vh]  max-h-[550px] landscape:4xl:max-h-[700px] landscape:5xl:max-h-[750px] top-1/2 -translate-y-[35%] landscape:2xl:-translate-y-[50%] landscape:lg:-translate-y-[40%]   landscape:6xl:max-h-[75vh] bg-contain w-[60%] bg-[url('/assets/bgImg/homepage1.jpg')] bg-no-repeat absolute -right-28 landscape:4xl:-right-72 landscape:5xl:-right-[650px]  landscape:6xl:-right-[580px] portrait:w-[100%]  portrait:bg-cover portrait:right-0 portrait:h-[200px] portrait:md:h-[420px]"></div>
+        <div className="h-[90vh]  max-h-[550px] landscape:4xl:max-h-[700px] landscape:5xl:max-h-[750px] top-1/2 -translate-y-[35%] landscape:2xl:-translate-y-[50%] landscape:lg:-translate-y-[40%]   landscape:6xl:max-h-[75vh] bg-contain w-[60%] bg-[url('/assets/bgImg/homepage1-q30.webp')] bg-no-repeat absolute -right-28 landscape:4xl:-right-72 landscape:5xl:-right-[650px]  landscape:6xl:-right-[580px] portrait:w-[100%]  portrait:bg-cover portrait:right-0 portrait:h-[200px] portrait:md:h-[420px]"></div>
       </div>
 
       <div className="h-[400px] pb-36 portrait:pb-0 w-[100svw] landscape:2xl:h-[500px]  landscape:4xl:h-[550px] landscape:5xl:h-[700px] landscape:6xl:h-[900px] landscape:max-h-[900px] flex portrait:flex-col items-center portrait:-translate-y-36 portrait:h-full">
         <div className="flex portrait:flex-col justify-around items-baseline    w-full portrait:gap-16">
           <div className=" flex flex-col justify-start text-center items-center w-fit  gap-2">
             <img
-              src="/assets/bgImg/homepage2.jpg"
+              src="/assets/bgImg/homepage2-q30.webp"
               alt=""
               className="w-[90%]  h-full aspect-auto bg-cover bg-no-repeat "
             />
@@ -192,7 +194,7 @@ const Homepage = () => {
 
           <div className=" flex flex-col justify-start text-center items-center w-fit gap-2">
             <img
-              src="/assets/bgImg/homepage5.jpg"
+              src="/assets/bgImg/homepage5-q30.webp"
               alt=""
               className="w-[90%]  h-full bg-cover bg-no-repeat aspect-auto"
             />
@@ -210,7 +212,7 @@ const Homepage = () => {
 
           <div className=" flex flex-col justify-start text-center items-center w-fit gap-2">
             <img
-              src="/assets/bgImg/homepage3.jpg"
+              src="/assets/bgImg/homepage3-q30.webp"
               alt=""
               className="w-[90%]  h-full bg-cover bg-no-repeat aspect-auto"
             />
