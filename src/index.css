@@ -63,16 +63,33 @@ body {
 
 /* override Chrome autofill colors */
 input:-webkit-autofill,
-select:-webkit-autofill {
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #0a0908;
+  -webkit-text-stroke-color: #0a0908;
+  color: #0a0908;
   -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
 
 .dark input:-webkit-autofill,
-.dark select:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px #0a0908 inset;
-  color: white;
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus,
+.dark textarea:-webkit-autofill,
+.dark textarea:-webkit-autofill:hover,
+.dark textarea:-webkit-autofill:focus,
+.dark select:-webkit-autofill,
+.dark select:-webkit-autofill:hover,
+.dark select:-webkit-autofill:focus {
   -webkit-text-fill-color: white;
   -webkit-text-stroke-color: white;
+  color: white;
+  -webkit-box-shadow: 0 0 0px 1000px #0a0908 inset;
 }
 
 .txt-stroke {
@@ -95,16 +112,34 @@ select:-webkit-autofill {
 
 @media (max-width: 520px) and (orientation: portrait) {
   /* override Chrome autofill colors */
+  /* override Chrome autofill colors */
   input:-webkit-autofill,
-  select:-webkit-autofill {
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    -webkit-text-fill-color: #0a0908;
+    -webkit-text-stroke-color: #0a0908;
+    color: #0a0908;
     -webkit-box-shadow: 0 0 0px 1000px white inset;
   }
 
   .dark input:-webkit-autofill,
-  .dark select:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px #0a0908 inset;
-    color: white;
+  .dark input:-webkit-autofill:hover,
+  .dark input:-webkit-autofill:focus,
+  .dark textarea:-webkit-autofill,
+  .dark textarea:-webkit-autofill:hover,
+  .dark textarea:-webkit-autofill:focus,
+  .dark select:-webkit-autofill,
+  .dark select:-webkit-autofill:hover,
+  .dark select:-webkit-autofill:focus {
     -webkit-text-fill-color: white;
     -webkit-text-stroke-color: white;
+    color: white;
+    -webkit-box-shadow: 0 0 0px 1000px #0a0908 inset;
   }
 }
