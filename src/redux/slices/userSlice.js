@@ -6,6 +6,7 @@ const initialUserState = {
   userMeetings: [],
   error: '',
   isLoading: false,
+  locationEnabled: false,
 };
 
 const VITE_API_URL = import.meta.env.VITE_API_URL;
@@ -187,6 +188,10 @@ const userSlice = createSlice({
   initialState: initialUserState,
   reducers: {
     resetUserState: () => initialUserState,
+    setLocationEnabled: (state, { payload }) => ({
+      ...state,
+      locationEnabled: payload,
+    }),
   },
   extraReducers: (builder) => {
     // FETCH USER
@@ -310,5 +315,5 @@ const userSlice = createSlice({
 export const selectUser = (state) => state.user.user;
 export const selectUserLoading = (state) => state.user.isLoading;
 export const selectUserError = (state) => state.user.error;
-export const { resetUserState } = userSlice.actions;
+export const { resetUserState, setLocationEnabled } = userSlice.actions;
 export default userSlice.reducer;
