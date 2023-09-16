@@ -61,37 +61,6 @@ body {
   height: 1px;
 }
 
-/* override Chrome autofill colors */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
-  -webkit-text-fill-color: #0a0908;
-  -webkit-text-stroke-color: #0a0908;
-  color: #0a0908;
-  -webkit-box-shadow: 0 0 0px 1000px white inset;
-}
-
-.dark input:-webkit-autofill,
-.dark input:-webkit-autofill:hover,
-.dark input:-webkit-autofill:focus,
-.dark textarea:-webkit-autofill,
-.dark textarea:-webkit-autofill:hover,
-.dark textarea:-webkit-autofill:focus,
-.dark select:-webkit-autofill,
-.dark select:-webkit-autofill:hover,
-.dark select:-webkit-autofill:focus {
-  -webkit-text-fill-color: white;
-  -webkit-text-stroke-color: white;
-  color: white;
-  -webkit-box-shadow: 0 0 0px 1000px #0a0908 inset;
-}
-
 .txt-stroke {
   -webkit-text-stroke: 2px #fff;
 }
@@ -110,6 +79,42 @@ select:-webkit-autofill:focus {
   }
 }
 
+/* override Chrome autofill colors */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #0a0908;
+  -webkit-text-stroke-color: #0a0908;
+  color: #0a0908;
+  box-shadow: 0 0 0px 1000px white inset;
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+  transition: background-color 0s 600000s, color 0s 600000s;
+}
+
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus,
+.dark textarea:-webkit-autofill,
+.dark textarea:-webkit-autofill:hover,
+.dark textarea:-webkit-autofill:focus,
+.dark select:-webkit-autofill,
+.dark select:-webkit-autofill:hover,
+.dark select:-webkit-autofill:focus {
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke-color: white;
+  color: white;
+  box-shadow: 0 0 0px 1000px #0a0908 inset;
+  -webkit-box-shadow: 0 0 0px 1000px #0a0908 inset;
+  transition: background-color 0s 600000s, color 0s 600000s;
+  color-scheme: dark;
+}
+
 @media (max-width: 520px) and (orientation: portrait) {
   /* override Chrome autofill colors */
   /* override Chrome autofill colors */
@@ -125,7 +130,9 @@ select:-webkit-autofill:focus {
     -webkit-text-fill-color: #0a0908;
     -webkit-text-stroke-color: #0a0908;
     color: #0a0908;
+    box-shadow: 0 0 0px 1000px white inset;
     -webkit-box-shadow: 0 0 0px 1000px white inset;
+    transition: background-color 0s 600000s, color 0s 600000s;
   }
 
   .dark input:-webkit-autofill,
@@ -140,6 +147,9 @@ select:-webkit-autofill:focus {
     -webkit-text-fill-color: white;
     -webkit-text-stroke-color: white;
     color: white;
+    box-shadow: 0 0 0px 1000px #0a0908 inset;
     -webkit-box-shadow: 0 0 0px 1000px #0a0908 inset;
+    transition: background-color 0s 600000s, color 0s 600000s;
+    color-scheme: dark;
   }
 }
