@@ -2,8 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 import gsap from 'gsap';
 
@@ -18,6 +16,7 @@ import { resetMeetingStatus } from '../../redux/slices';
 
 import RejectInvite from '../NotificationCenter/ToastFeedback/RejectInvite';
 import FormButton from '../../components/FormButton';
+import getWebpUrl from '../../utilities/webpUrl';
 
 const TOAST_POPUP_DELAY = 1000;
 
@@ -39,24 +38,26 @@ const CurrentMeeting = ({}) => {
     const bgImg = new Image();
     bgImg.src = '/assets/bgImg/currentMeeting-lq_10.webp';
 
-    gsap.set(topImageRef.current, { opacity: 0 });
+    if (topImageRef.current !== null) {
+      gsap.set(topImageRef.current, { opacity: 0 });
 
-    bgImg.onload = () => {
-      gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
-    };
-  }, []);
-
-  useEffect(() => {
-    // on load, make sure meeting state is cleared
-    dispatch(resetMeetingStatus());
-  }, []);
-
-  useEffect(() => {
-    if (authUser.id) {
-      // console.log('authUser:', authUser);
-      dispatch(fetchCurrentMeeting({ userId: authUser.id }));
+      bgImg.onload = () => {
+        gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
+      };
     }
-  }, [authUser.id]);
+  }, [topImageRef.current]);
+
+  // useEffect(() => {
+  //   // on load, make sure meeting state is cleared
+  //   dispatch(resetMeetingStatus());
+  // }, []);
+
+  // useEffect(() => {
+  //   if (authUser.id) {
+  //     // console.log('authUser:', authUser);
+  //     dispatch(fetchCurrentMeeting({ userId: authUser.id }));
+  //   }
+  // }, [authUser.id]);
 
   function handleCancelButton() {
     // cancel the meeting
@@ -99,44 +100,26 @@ const CurrentMeeting = ({}) => {
     return <h1>loading...</h1>;
   }
 
-  // ? performance question: should this be inside a useEffect with a cleanup step?
-  AOS.init({
-    duration: 2000,
-    offset: 0,
-  });
-
   const buddy =
     currentMeeting.userId === authUser.id
       ? currentMeeting.buddy
       : currentMeeting.user;
 
-  const webpUrl = buddy.avatarUrl.split('.').at(0) + '-q1.webp';
+  // const webpUrl = buddy.avatarUrl.split('.').at(0) + '-q1.webp';
+  const webpUrl = getWebpUrl(buddy?.avatarUrl);
 
   return (
     <div className="recap-card  w-screen self-center   justify-between lg:items-center  dark:bg-[#0a0908]  bg-white dark:text-white text-primary-gray    overflow-hidden flex flex-row  landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)]">
       <div
         ref={topImageRef}
         className="recap-image hidden h-screen lg:block lg:h-full lg:basis-1/2 2xl:basis-full bg-[url('/assets/bgImg/currentMeeting.jpg')] supports-[background-image:_url('/assets/bgImg/currentMeeting-lq_10.webp')]:bg-[url('/assets/bgImg/currentMeeting-lq_10.webp')] bg-center bg-cover overflow-hidden"
-        // data-aos="fade-right"
-        // data-aos-delay="800"
-        // data-aos-duration="1500"
       ></div>
       <div className="recap-info flex flex-col h-full lg:basis-1/2 gap-12 items-center overflow-auto justify-center basis-full ">
-        <div
-          className="recap-header text-headers text-lg landscape:pt-44 landscape:md:pt-0"
-          // data-aos="fade-up"
-          // data-aos-delay="400"
-          // data-aos-duration="1000"
-        >
+        <div className="recap-header text-headers text-lg landscape:pt-44 landscape:md:pt-0">
           <h1>MEETING DETAILS</h1>
         </div>
         <div className="recap-body flex flex-col items-center gap-1 w-4/5">
-          <div
-            className="buddy-avatar-container rounded-full mb-6"
-            // data-aos="zoom-in"
-            // data-aos-delay="800"
-            // data-aos-duration="1800"
-          >
+          <div className="buddy-avatar-container rounded-full mb-6">
             <picture>
               <source srcSet={webpUrl} type="image/webp" />
               <img
@@ -151,9 +134,6 @@ const CurrentMeeting = ({}) => {
           <div
             id="meeting-detail-container"
             className="flex flex-col justify-center items-center"
-            // data-aos="fade-down"
-            // data-aos-delay="800"
-            // data-aos-duration="2000"
           >
             <h2 className="text-md text-headers pb-4">
               {buddy.fullName.toUpperCase()}
@@ -187,12 +167,11 @@ const CurrentMeeting = ({}) => {
           <div
             id="btn-container"
             className="flex gap-8 justify-between lg:w-3/5 pt-9 text-xs w-11/12 pb-5"
-            // data-aos="fade-in"
-            // data-aos-delay="800"
-            // data-aos-duration="3000"
           >
             <FormButton handleSubmit={handleChat}>CHAT</FormButton>
-            <FormButton handleSubmit={handleCancelButton}>CANCEL</FormButton>
+            <FormButton handleSubmit={handleCancelButton}>
+              CANCEL MEETING
+            </FormButton>
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import chevronRightWhite from '../../assets/icons/chevron-right-white.svg';
 import plus from '../../assets/icons/plus-white.svg';
 import { useSelector } from 'react-redux';
 import { selectDarkMode } from '../../redux/slices/darkModeSlice';
+import getWebpUrl from '../../utilities/webpUrl';
 
 const MAX_BUDDY_TAGS_SHOWING = 3;
 
@@ -23,11 +24,11 @@ export default function BuddyCard(props) {
     }
   }, [darkModeSelector]);
 
-  const webpUrl = buddy?.avatarUrl.split('.').at(0) + '-q1.webp';
+  // const webpUrl = buddy?.avatarUrl.split('.').at(0) + '-q1.webp';
+  const webpUrl = getWebpUrl(buddy?.avatarUrl);
 
   return (
     <div className="buddy_card font-jost relative w-[90%] md:w-[90%] lg:w-4/5 3xl:w-9/12 flex flex-col md:flex-row lg:flex-col  justify-between shrink items-center gap-6 p-4 pb-6 bg-primary-gray/20 dark:bg-white/10 shadow-md landscape:md:mb-10 mb-8 rounded-3xl portrait:md:w-[80%] md:p-10 4xl:p-16 ">
-   
       <div className="buddy_avatar shrink-0 grow-0 justify-center items-center md:self-start lg:self-center  relative top-2">
         <picture>
           <source srcSet={webpUrl} type="image/webp" />

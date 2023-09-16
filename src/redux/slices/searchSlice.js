@@ -38,7 +38,7 @@ export const findBuddies = createAsyncThunk(
       });
       return res.data;
     } catch (err) {
-      return rejectWithValue(err);
+      return rejectWithValue(err.response.data.message || err.message);
     }
   }
 );
@@ -47,9 +47,11 @@ export const findRestaurants = createAsyncThunk(
   'search/findRestaurants',
   async (searchParams, { rejectWithValue, getState }) => {
     try {
-      // const { token, user } = await checkToken();
-      const { token, user } = getState().auth;
+      const { token } = getState().auth;
+      const { lastLat, lastLong } = getState().user.user;
       const { buddy, searchRadius } = searchParams;
+
+      if (!lastLat) return rejectWithValue('User location not set');
 
       if (!buddy || !searchRadius) throw new Error('Missing search parameters');
 
@@ -77,8 +79,8 @@ export const findRestaurants = createAsyncThunk(
 
       // package up search parameters for Yelp API
       const params = {};
-      params.latitude = user.lastLat;
-      params.longitude = user.lastLong;
+      params.latitude = lastLat;
+      params.longitude = lastLong;
       params.radius = searchRadius;
       params.open_now = true;
       params.categories = overlappingCuisineTags;
@@ -147,7 +149,7 @@ const searchSlice = createSlice({
     builder
       .addCase(findBuddies.rejected, (state, action) => {
         state.searchResults = [];
-        state.error = action.payload.response.data;
+        state.error = action.payload.message || action.payload;
         state.isLoading = false;
       })
 

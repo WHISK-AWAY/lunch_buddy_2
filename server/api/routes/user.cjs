@@ -144,8 +144,9 @@ router.post('/', async (req, res, next) => {
     // reject for missing required fields
     for (let key of Object.keys(newUserData)) {
       if (
-        (key === 'address2' || key === 'avatarUrl') &&
-        newUserData[key] === undefined
+        ((key === 'address2' || key === 'avatarUrl') &&
+          newUserData[key] === undefined) ||
+        newUserData[key] === ''
       ) {
         delete newUserData[key];
       } else if (newUserData[key] === undefined) {
@@ -440,7 +441,20 @@ router.put(
           .send(`Cannot update location: no such user id: ${userId}`);
 
       await thisUser.update({ lastLat: lat, lastLong: long });
-      res.status(200).send(thisUser);
+
+      const updatedUser = await User.findByPk(userId, {
+        include: {
+          model: Tag,
+          include: {
+            model: Category,
+          },
+        },
+        attributes: {
+          exclude: ['password', 'avgRating', 'reportCount', 'strikeCount'],
+        },
+      });
+
+      res.status(200).send(updatedUser);
     } catch (err) {
       next(err);
     }

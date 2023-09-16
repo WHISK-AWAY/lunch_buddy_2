@@ -13,35 +13,33 @@ import {
 } from '../../redux/slices';
 import RatingSubmitted from '../NotificationCenter/ToastFeedback/RatingSubmitted';
 import ReportSubmitted from '../NotificationCenter/ToastFeedback/ReportSubmitted';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 import gsap from 'gsap';
 
 const TOAST_POPUP_DELAY = 1000;
 
 const Feedback = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [showReport, setShowReport] = useState(false);
   const [reportInput, setReportInput] = useState('');
   const [starRating, setStarRating] = useState(0);
   const [noRating, setNoRating] = useState(false);
   const [noReportText, setNoReportText] = useState(false);
   const [notification, setNotification] = useState({});
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  const topImageRef = useRef(null);
 
   const meeting = useSelector((state) => state.meetings.meeting);
-  const user = useSelector((state) => state.auth.user);
+  const authUser = useSelector((state) => state.auth.user);
   const notifications = useSelector(selectUnreadNotifications);
 
-  const token = localStorage.getItem('token');
-  if (!token) {
+  if (!localStorage.getItem('token')) {
     navigate('/login');
   }
 
   const { meetingId } = useParams();
-
-  const topImageRef = useRef(null);
 
   useEffect(() => {
     // fade bg image in only after it's downloaded
@@ -69,12 +67,12 @@ const Feedback = () => {
   useEffect(() => {
     async function fetchMeeting() {
       const meetingFromDispatch = await dispatch(getMeeting({ meetingId }));
-      if (user.id) {
+      if (authUser.id) {
         if (meetingFromDispatch.meta.requestStatus === 'fulfilled') {
           if (
             // meetingFromDispatch.payload.isClosed ||
-            user.id !== meetingFromDispatch.payload.userId &&
-            user.id !== meetingFromDispatch.payload.buddyId
+            authUser.id !== meetingFromDispatch.payload.userId &&
+            authUser.id !== meetingFromDispatch.payload.buddyId
           ) {
             navigate('/');
           }
@@ -83,12 +81,12 @@ const Feedback = () => {
     }
 
     fetchMeeting();
-  }, [user]);
+  }, [authUser]);
 
   function acknowledge() {
     dispatch(
       updateNotificationStatus({
-        userId: user.id,
+        userId: authUser.id,
         notificationId: notification.id,
         updates: { isAcknowledged: true },
       })
@@ -147,7 +145,7 @@ const Feedback = () => {
     }
   };
 
-  if (user.id !== meeting.userId && user.id !== meeting.buddyId) {
+  if (authUser.id !== meeting.userId && authUser.id !== meeting.buddyId) {
     return <h1>Looks like you're not in this meeting!</h1>;
   }
 
@@ -155,23 +153,13 @@ const Feedback = () => {
     acc[rating.userId] = true;
     return acc;
   }, {});
-  if (userReviews && userReviews[user.id]) {
+  if (userReviews && userReviews[authUser.id]) {
     return <p>You have already reviewed this meeting</p>;
   }
 
-  AOS.init({
-    duration: 2000,
-    offset: 0,
-  });
-
   return (
     <div className=" w-screen  flex justify-center items-center dark:text-white text-primary-gray landscape:overflow-y-auto overflow-hidden bg-fixed bg-white dark:bg-[#0a0908]  landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)]">
-      <div
-        className="flex flex-col items-center   text-center w-full mx-auto lg:basis-1/2 landscape:pt-28 landscape:md:pt-10"
-        data-aos="fade-down"
-        data-aos-delay="1000"
-        data-aos-duration="1500"
-      >
+      <div className="flex flex-col items-center   text-center w-full mx-auto lg:basis-1/2 landscape:pt-28 landscape:md:pt-10">
         <Rating
           starRating={starRating}
           setStarRating={setStarRating}
@@ -204,9 +192,6 @@ const Feedback = () => {
         ref={topImageRef}
         id="bg-img"
         className="hidden lg:block h-full landscape:4xl:basis-full landscape:4xl:bg-left image-wrapper basis-1/2 bg-cover bg-[url('/assets/bgImg/rating-report.jpg')] supports-[background-image:_url('/assets/bgImg/rating-report-q30.webp')]:bg-[url('/assets/bgImg/rating-report-q30.webp')]"
-        data-aos="fade-left"
-        data-aos-delay="200"
-        data-aos-duration="2000"
       ></div>
     </div>
   );

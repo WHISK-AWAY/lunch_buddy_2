@@ -11,12 +11,7 @@ import MeetingCancelled from './MeetingCancelled';
 
 import gsap from 'gsap';
 
-const NotificationBody = ({
-  isDarkMode,
-  setIsDarkMode,
-  menuMode,
-  closeMenu,
-}) => {
+const NotificationBody = ({ menuMode, closeMenu }) => {
   const wrapperRef = useRef(null);
   const screenRef = useRef(null);
   const previousModeRef = useRef(null);

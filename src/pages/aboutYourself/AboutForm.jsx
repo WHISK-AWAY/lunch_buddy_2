@@ -10,16 +10,9 @@ import {
   shapeTagsForDB,
 } from '../../utilities/registerHelpers';
 import NewUserWelcome from '../NotificationCenter/ToastFeedback/NewUserWelcome';
-import {
-  createNewUser,
-  selectUserLoading,
-  selectUserError,
-  checkUserCreated,
-} from '../../redux/slices/userSlice';
+import { createNewUser, checkUserCreated } from '../../redux/slices/userSlice';
 import { requestLogin } from '../../redux/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 import gsap from 'gsap';
 
@@ -34,8 +27,7 @@ const TOAST_POPUP_DELAY = 1000;
 const AboutForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userLoading = useSelector(selectUserLoading);
-  const userError = useSelector(selectUserError);
+  const authUser = useSelector((state) => state.auth.user);
 
   const [bio, setBio] = useState(localStorage.getItem('aboutBio') || '');
   const [baseImage, setBaseImage] = useState('');
@@ -60,6 +52,11 @@ const AboutForm = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // automatically go to home screen upon successful login
+    if (authUser.id) navigate('/');
+  }, [authUser.id]);
+
   const [minTags, setMinTags] = useState(
     JSON.parse(localStorage.getItem('minTags')) || {
       Social: { minimum: MINIMUM_SOCIAL, show: false, numClicked: 0 },
@@ -72,8 +69,6 @@ const AboutForm = () => {
       Cuisine: { minimum: MINIMUM_CUISINE, show: false, numClicked: 0 },
     }
   );
-
-  const [validBio, setValidBio] = useState(true);
 
   const tagsInState = useSelector((state) => state.tags.tags);
 
@@ -118,8 +113,6 @@ const AboutForm = () => {
 
   // Handles creation of new user based on user inputs
   async function handleSubmit() {
-    setValidBio(!!bio);
-
     for (let category in minTags) {
       const minTagsCopy = { ...minTags[category] };
       setMinTags((prev) => ({
@@ -149,6 +142,9 @@ const AboutForm = () => {
     if (prevPageFormData.address2 === '') {
       delete prevPageFormData.address2;
     }
+    if (prevPageFormData.avatarUrl === '') {
+      delete prevPageFormData.avatarUrl;
+    }
 
     await dispatch(createNewUser(prevPageFormData));
     const { payload: errorOnCreation } = await dispatch(checkUserCreated());
@@ -174,15 +170,11 @@ const AboutForm = () => {
         setTimeout(() => {
           toast.custom((t) => <NewUserWelcome t={t} />);
         }, TOAST_POPUP_DELAY);
-        navigate('/match');
+        // navigate('/match');
+        // navigate once signed in - based on watching for authuser
       }, 500);
     }
   }
-
-  AOS.init({
-    duration: 2000,
-    offset: 0,
-  });
 
   const uploadImage = async (e) => {
     const file = e.target.files[0];
@@ -210,9 +202,6 @@ const AboutForm = () => {
       <div
         id="form-container"
         className="landscape:lg:basis-1/2 flex flex-col  h-full justify-start align-middle overflow-auto scrollbar-hide landscape:3xl:px-12 landscape:5xl:px-36 landscape:6xl:px-56"
-        data-aos="fade-up"
-        data-aos-delay="700"
-        data-aos-duration="1800"
       >
         <h1 className="flex mt-20 mb-8 text-xl font-semibold text-headers self-center">
           TELL US ABOUT YOURSELF
@@ -278,9 +267,6 @@ const AboutForm = () => {
         id="bg-img"
         ref={topImageRef}
         className="basis-1/2 hidden lg:block h-full bg-cover supports-[background-image:_url('/assets/bgImg/aboutMeView-q30.webp')]:bg-[url('/assets/bgImg/aboutMeView-q30.webp')] bg-[url('/assets/bgImg/aboutMeView.jpg')"
-        // data-aos="fade-left"
-        // data-aos-delay="200"
-        // data-aos-duration="2000"
       ></div>
     </div>
   );

@@ -44,14 +44,13 @@ export default function MeetingSetup(props) {
     // use token to keep track of logged-in user (id)
     // once that's known we can pull down user data
     if (auth.error || !auth.user?.id || !user.id) {
-      console.warn('missing authentication information - navigating to login');
       navigate('/login');
     }
   }, [auth.user?.id]);
 
   useEffect(() => {
-    dispatch(findBuddies({ searchRadius }));
-  }, [searchRadius]);
+    if (user.id && user.lastLat) dispatch(findBuddies({ searchRadius }));
+  }, [searchRadius, user.lastLat]);
 
   useEffect(() => {
     // move to next step once all the ducks are in a row

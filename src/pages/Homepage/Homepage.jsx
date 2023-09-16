@@ -4,19 +4,12 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 
 import { selectAuth } from '../../redux/slices';
-// import AOS from 'aos';
-// import 'aos/dist/aos.css';
 
 // import { tryToken } from '../../redux/slices';
 const Homepage = () => {
   const auth = useSelector(selectAuth);
 
   const topImageRef = useRef(null);
-
-  // AOS.init({
-  //   duration: 2000,
-  //   offset: 0,
-  // });
 
   useEffect(() => {
     // fade bg image in only after it's downloaded
@@ -42,10 +35,6 @@ const Homepage = () => {
           id="bg-img-container"
           alt="two women holding coffee smiling at each other"
           className="opacity-0 bg-[url('/assets/bgImg/connect.jpg')] supports-[background-image:_url('/assets/bgImg/connect-q30.webp')]:bg-[url('/assets/bgImg/connect-q30.webp')] self-right md:h-screen md:w-full md:bg-cover bg-cover h-[60svh] bg-no-repeat md:self-start sm:bg-right "
-          // data-aos="fade-up"
-          // data-aos-delay="400"
-          // duration="1000"
-          // data-aos-anchor-placement="center-center"
         ></div>
         <div
           id="connect-text-section"
@@ -54,17 +43,10 @@ const Homepage = () => {
           <h1
             id="connect-header"
             className=" w-fit flex flex-col self-end  sm:self-center md:items-center md:justify-center text-justify self-right md:text-3xl text-xl py-4"
-            // data-aos="fade-down"
-            // data-aos-delay="700"
           >
             CONNECT
           </h1>
-          <span
-            className="w-4/5  self-end text-justify text-xs leading-4 md:text-sm md:w-4/5 md:self-center md:text-center sm:w-11/12"
-            // data-aos="fade-in"
-            // data-aos-delay="1300"
-            // duration="500"
-          >
+          <span className="w-4/5  self-end text-justify text-xs leading-4 md:text-sm md:w-4/5 md:self-center md:text-center sm:w-11/12">
             explore the seamless way to connect with like-minded people in your
             area & build meaningful relationships
           </span>
@@ -79,9 +61,6 @@ const Homepage = () => {
           id="bg-img-container"
           alt="dark plate on the table with toast on the bed of spinach, avocado slices and eggs on top"
           className="md:w-1/2 bg-[url('/assets/bgImg/explore.jpg')] supports-[background-image:_url('/assets/bgImg/explore-q30.webp')]:bg-[url('/assets/bgImg/explore-q30.webp')] h-[70svh] md:h-screen bg-no-repeat bg-cover bg-left self-end w-full pl-6 md:self-end"
-          // data-aos="fade-right"
-          // data-aos-delay="300"
-          // data-aos-duration="1500"
         ></div>
         <div
           id="explore-text-section"
@@ -90,17 +69,10 @@ const Homepage = () => {
           <h1
             id="explore-header"
             className="w-fit self-start sm:self-center md:text-3xl text-xl py-4"
-            // data-aos="fade-up"
-            // data-aos-delay="500"
           >
             EXPLORE
           </h1>
-          <span
-            className="w-4/5 self-start md:self-center leading-4 md:text-sm sm:w-11/12 justify-center md:text-center sm:self-center text-xs text-justify pb-3 md:w-4/5"
-            // data-aos="zoom-in"
-            // data-aos-delay="400"
-            // data-aos-duration="2500"
-          >
+          <span className="w-4/5 self-start md:self-center leading-4 md:text-sm sm:w-11/12 justify-center md:text-center sm:self-center text-xs text-justify pb-3 md:w-4/5">
             discover new and exciting dining experiences, embark on a culinary
             journey, explore diverse flavors and cuisines in your area
           </span>
@@ -115,8 +87,6 @@ const Homepage = () => {
           id="bg-img-container"
           alt="two women giggling while sitting at the table in the cafe"
           className="bg-[url('/assets/bgImg/expand.jpg')] supports-[background-image:_url('/assets/bgImg/expand-q30.webp')]:bg-[url('/assets/bgImg/expand-q30.webp')] h-[65svh] md:h-screen md:w-full bg-no-repeat bg-cover self-right sm:bg-right "
-          // data-aos="zoom-in-right"
-          // data-aos-delay="300"
         ></div>
 
         <div
@@ -126,19 +96,11 @@ const Homepage = () => {
           <h1
             id="expand-header"
             className="w-fit self-end flex flex-col sm:self-center justify-start md:text-3xl text-xl align-top md:self-center md:justify-center md:items-center py-1"
-            // data-aos="zoom-in"
-            // data-aos-delay="500"
-            // data-aos-duration="2000"
           >
             EXPAND
           </h1>
 
-          <span
-            className="w-11/12 md:self-center md:text-center md:text-sm text-xs sm:text-center self-end text-right"
-            // data-aos="zoom-in-left"
-            // data-aos-delay="300"
-            // data-aos-duration="2000"
-          >
+          <span className="w-11/12 md:self-center md:text-center md:text-sm text-xs sm:text-center self-end text-right">
             expand your network for growth and opportunities
           </span>
         </div>
@@ -152,9 +114,6 @@ const Homepage = () => {
           id="bg-img-container"
           alt="lady sitting at the table with her feet on the chair with a bowl of pasta, holding her phone in the left hand"
           className="md:w-1/2 bg-[url('/assets/bgImg/join.jpg')] supports-[background-image:_url('/assets/bgImg/join-q30.webp')]:bg-[url('/assets/bgImg/join-q30.webp')] md:h-screen bg-no-repeat bg-right w-full bg-cover self-end h-[60svh]"
-          // data-aos="fade-left"
-          // data-aos-delay="300"
-          // data-aos-duration="1500"
         ></div>
         <div
           id="join-text-section"
@@ -163,26 +122,16 @@ const Homepage = () => {
           <h1
             id="join-header"
             className="w-fit md:self-center  flex flex-col  md:text-3xl text-xl text-start pb-1"
-            // data-aos="fade-down"
-            // data-aos-delay="400"
           >
             JOIN
           </h1>
 
-          <span
-            className="w-4/5 md:self-center flex flex-col items-center justify-center md:w-11/12 sm:self-center sm:w-11/12 text-xs pb-5"
-            // data-aos="fade-up"
-            // data-aos-delay="200"
-            // data-aos-duration="1000"
-          >
+          <span className="w-4/5 md:self-center flex flex-col items-center justify-center md:w-11/12 sm:self-center sm:w-11/12 text-xs pb-5">
             LUNCHbuddy and never eat lunch alone
           </span>
           <Link
             to={auth.user?.id ? '/match' : '/register'}
             className="border-2 self-center border-orange-400 rounded-3xl px-10 py-1 text-xs md:text-sm "
-            // data-aos="fade-in"
-            // data-aos-delay="1200"
-            // data-aos-duration="2900"
           >
             {auth.user?.id ? 'find buddy' : 'sign up'}
           </Link>
