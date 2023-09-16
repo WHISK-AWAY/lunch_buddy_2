@@ -21,6 +21,9 @@ body {
 body.dark {
   background-color: #0a0908;
 }
+html.dark {
+  background-color: #0a0908;
+}
 
 @layer components {
   .button {
