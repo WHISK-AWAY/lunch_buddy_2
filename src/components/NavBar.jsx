@@ -41,7 +41,7 @@ const NavBar = () => {
 
   const hasNotifications = notifications?.length > 0;
 
-  const [locationTriggered, setLocationTriggered] = useState(false);
+  // const [locationTriggered, setLocationTriggered] = useState(false);
   const [menuMode, setMenuMode] = useState(null); // 'dropdown' | 'notifications' | null
   const [menuIcon, setMenuIcon] = useState(navbarIconWhite);
   const [xMenuIcon, setXMenuIcon] = useState(xIconWhite);

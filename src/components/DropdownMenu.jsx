@@ -14,7 +14,7 @@ import { CustomEase } from 'gsap/CustomEase';
 
 gsap.registerPlugin(CustomEase);
 import DropDownItem from './DropDownItem';
-import { generateGeoDemo } from '../utilities/geo';
+import getLocation, { generateGeoDemo } from '../utilities/geo';
 
 const DropdownMenu = ({ menuMode, closeMenu }) => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const DropdownMenu = ({ menuMode, closeMenu }) => {
 
   const [demoModeAvailable, setDemoModeAvailable] = useState(false);
 
-  const authUser = useSelector(selectAuthUser);
+  const { user, locationEnabled } = useSelector((state) => state.user);
   const notifications = useSelector(selectUnreadNotifications);
   const userState = useSelector((state) => state.user.user);
   const currentMeetingNotification = notifications?.filter(
@@ -89,13 +89,13 @@ const DropdownMenu = ({ menuMode, closeMenu }) => {
 
   useEffect(() => {
     // if logged in, check whether user has already triggered demo mode & set variable accordingly
-    if (authUser.id) {
+    if (user.id) {
       if (!demoFlag || demoFlag === 'false') {
         window.localStorage.setItem('demoMode', 'false');
         setDemoModeAvailable(true);
       }
     }
-  }, [authUser.id, demoFlag]);
+  }, [user.id, demoFlag]);
 
   function handleClick() {
     // setExpandMenu(false);
@@ -131,13 +131,11 @@ const DropdownMenu = ({ menuMode, closeMenu }) => {
         ref={wrapperRef}
         id="dropdown-container"
         className={` ${
-          !authUser.firstName
-            ? 'landscape:lg:h-[40svh] '
-            : 'landscape:h-[60svh]'
+          !user.firstName ? 'landscape:lg:h-[40svh] ' : 'landscape:h-[60svh]'
         } dark:text-white dark:bg-[#0a0908]/60 bg-white/60 -translate-y-full fixed  w-screen opacity-95 z-30 landscape:lg:h-[60svh] landscape:h-[calc(100svh_-_56px)] portrait:h-[100svh] `}
       >
         <ul className="flex flex-col items-center short:py-6  justify-center   overflow-y-auto portrait:h-full landscape:lg:h-full landscape:h-full align-center ">
-          {!authUser.firstName ? (
+          {!user.firstName ? (
             <>
               {/* NAV LINKS WHEN NOT SIGNED IN */}
               <DropDownItem handleClick={handleClick} linkTo="/register">
@@ -160,9 +158,21 @@ const DropdownMenu = ({ menuMode, closeMenu }) => {
                 ACCOUNT
               </DropDownItem>
               {!currentMeetingNotification?.id ? (
-                <DropDownItem handleClick={handleClick} linkTo="/match">
-                  NEW MEETING
-                </DropDownItem>
+                locationEnabled ? (
+                  <DropDownItem handleClick={handleClick} linkTo="/match">
+                    NEW MEETING
+                  </DropDownItem>
+                ) : (
+                  <DropDownItem
+                    handleClick={() => {
+                      // window.location.reload(false);
+                      getLocation(dispatch, user.id);
+                      closeMenu();
+                    }}
+                  >
+                    ENABLE LOCATION SERVICES
+                  </DropDownItem>
+                )
               ) : (
                 <DropDownItem
                   handleClick={handleClick}
@@ -179,7 +189,7 @@ const DropdownMenu = ({ menuMode, closeMenu }) => {
                   MESSAGES
                 </DropDownItem>
               )}
-              {demoModeAvailable && (
+              {demoModeAvailable && locationEnabled && (
                 <DropDownItem handleClick={handleDemoMode}>
                   DEMO MODE
                 </DropDownItem>

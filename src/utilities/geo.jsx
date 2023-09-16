@@ -1,7 +1,10 @@
 import toast from 'react-hot-toast';
 import { updateLocation } from '../redux/slices';
 import axios from 'axios';
+import { setLocationEnabled } from '../redux/slices/userSlice';
+
 import DemoMode from '../pages/NotificationCenter/ToastFeedback/DemoMode';
+import LocationDisabled from '../pages/NotificationCenter/ToastFeedback/LocationDisabled';
 
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
@@ -28,6 +31,7 @@ export default function getLocation(dispatch, userId) {
     if (dispatch) {
       // dispatch updateLocation thunk, passing in location
       dispatch(updateLocation({ lat, long }));
+      dispatch(setLocationEnabled(true));
     } else {
       // console.log('not called from dispatch -- updating loc in api directly');
       // we should never wind up here -- TODO: remove 'if' construct & throw error if dispatch === undefined
@@ -48,6 +52,8 @@ export default function getLocation(dispatch, userId) {
 
   function geoError(err) {
     console.warn(`Geo error: ${err.code}: ${err.message}`);
+    dispatch(setLocationEnabled(false));
+    toast.custom((t) => <LocationDisabled t={t} />, { duration: Infinity });
   }
 
   navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);

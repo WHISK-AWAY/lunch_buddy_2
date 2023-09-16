@@ -336,7 +336,7 @@ const RegisterForm = () => {
                 Address 1
               </label>
               <input
-                autoComplete="address-line-1"
+                autoComplete="address-line1"
                 className={`${
                   inputValidator.address1 ? INVALID_CLASS : null
                 }  w-full px-4 py-1 autofill:bg-none rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border md:py-2  border-primary-gray dark:text-white text-xs 6xl:text-sm 6xl:py-4`}
@@ -355,7 +355,7 @@ const RegisterForm = () => {
                 Address 2
               </label>
               <input
-                autoComplete="address-line-2"
+                autoComplete="address-line2"
                 className="w-full px-4 py-1 autofill:bg-none rounded-sm focus:outline-none bg-white dark:bg-[#0a0908] border md:py-2  border-primary-gray dark:text-white text-xs 6xl:text-sm 6xl:py-4"
                 value={formInputs.address2}
                 onChange={(e) =>
