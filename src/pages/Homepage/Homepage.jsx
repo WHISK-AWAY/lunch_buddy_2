@@ -29,12 +29,58 @@ const Homepage = () => {
   useLayoutEffect(() => {
     const cxt = gsap.context(() => {
       const tl = gsap.timeline();
-      tl.to('.test-block', {
-        xPercent: -100,
-        ease: 'none',
-        duration: 10,
-        repeat: -1,
-      });
+      // tl.to('.test-block', {
+      //   xPercent: -100,
+      //   ease: 'none',
+      //   duration: 10,
+      //   repeat: -1,
+      // });
+
+      gsap.from('.connect-text', {
+        opacity: 0,
+        duration: 2,
+        ease: 'slow',
+        yPercent: -50,
+        scrollTrigger: {
+          start: 'top center',
+          end: 'center bottom',
+          trigger: '.connect-article',
+          scrub: 2, 
+          // pin: true,
+          markers: true
+
+        }
+      })
+
+      gsap.from('.connect-text-subhead', {
+        opacity:0,
+        duration: 1,
+        xPercent: 30,
+        scrollTrigger: {
+          start: 'top center',
+          end: 'bottom bottom',
+          trigger: '.connect-article',
+          scrub: 5,
+          markers: true
+        }
+      })
+
+      tl.from('.connect-img', {
+        opacity: 0,
+        duration: 4,
+        ease: 'slow',
+        xPercent: 50,
+        scrollTrigger: {
+          start: 'top center',
+          end:'center bottom',
+          trigger: '.connect-article',
+          scrub: 3,
+          // markers: true
+        }
+      })
+
+
+
 
       tl.from('.vid-section', {
         opacity: 0,
@@ -45,35 +91,58 @@ const Homepage = () => {
         width: '200%',
         scrollTrigger: {
           start: 'top bottom',
-          end: 'center bottom',
+          end: 'bottom bottom',
           trigger: '.vid-section',
           scrub: 8,
           // markers: true,
-        },
-      });
+        }, })
+      // }).from(
+        // '.join-text',
+        // {
+        //   // delay: 1.6,
+        //   opacity: 0,
+        //   duration: 1,
+        //   ease: 'slow',
+        //   scrollTrigger: {
+        //     start: 'top bottom',
+        //     // end: 'bottom bottom',
+        //     trigger: '.vid-section',
+        //     scrub: 5,
+        //     markers: true,
+        //   },
+        // }, '<'
+      // );
 
-      tl.from(
-        '.join-text',
-        {
-          delay: 5,
-          opacity: 0,
-          duration: 4,
-          ease: 'slow',
-          scrollTrigger: {
-            start: '40% bottom',
-            trigger: '.vid-section',
-            scrub: 5,
-            // markers: true,
-          },
-        },
-        '>2'
-      );
+
+
+     const tl2 = gsap.timeline();
+
+     tl2.from(
+       '.join-text',
+       {
+        //  delay: 1.6,
+         opacity: 0,
+         duration: 1,
+         ease: 'slow',
+         scrollTrigger: {
+           start: 'top 90%',
+           pin:true,
+          //  end: 'bottom bottom',
+          //  trigger: '.vid-section',
+          //  scrub: 5,
+          //  markers: true,
+         },
+       },
+       '<'
+     );
     });
 
     return () => {
       cxt.revert();
     };
   }, []);
+
+
 
   return (
     <section className="homepage-wrapper w-[100svw] h-full dark:text-white text-[#0a0908] dark:bg-[#0a0908] bg-white overflow-hidden portrait:overflow-hidden">
@@ -99,8 +168,6 @@ const Homepage = () => {
 
           {/**CTA hero section */}
           <div className="relative font-regular tracking-widest landscape:xl:text-[1rem] text-[.7rem] top-[45%] landscape:lg:top-[40%] right-[15%]  rounded-sm  py-3 px-6    landscape:2xl:text-[1.2rem] landscape:2xl:right-[16%] cursor-pointer leading-none  portrait:absolute portrait:top-[340px] portrait:xs:top-[400px] portrait:mt-10 portrait:right-7 portrait:sm:text-[1.1rem] portrait:md:mt-20 portrait:lg:mt-52 portrait:lg:text-[2.3rem] portrait:lg:-mr-44">
-
-
             {auth.token !== '' ? (
               <Link
                 to="/register"
@@ -126,7 +193,7 @@ const Homepage = () => {
         </div>
       </div>
 
-      <section className="max-w-[120%] overflow-hidden translate-y-2 text-[1rem] hidden portrait:hidden">
+      <section className="max-w-[120%] overflow-hidden translate-y-2 text-[1rem]  portrait:hidden">
         <div className="test-block block whitespace-nowrap ">
           <span className=" inline-block p-2">Hello&nbsp;World</span>
           <span className=" inline-block p-2">Hello&nbsp;Hell</span>
@@ -148,20 +215,20 @@ const Homepage = () => {
         </div>
       </section>
 
-
       {/**connect section */}
-      <div className="h-full relative overflow-hidden w-screen -translate-y-10 portrait:-translate-y-56 portrait:overflow-hidden">
+      <div className="connect-article h-full relative overflow-hidden w-screen -translate-y-10 portrait:-translate-y-56 portrait:overflow-hidden">
         <div className="dark:bg-zinc-900/80 bg-zinc-200 min-h-[90vh] connect-section flex justify-between relative  ">
           <div className="pt-28  pl-16 landscape:4xl:pl-44 landscape:6xl:pl-96 landscape:lg:pt-[20%] landscape:3xl:pt-[15%] text-[3.7rem] font-bold uppercase opacity-80 landscape:xl:text-[4.7rem] landscape:2xl:text-[6rem] landscape:2xl:top-[20%] landscape:5xl:text-[8rem] landscape:6xl:text-[10rem] portrait:pt-32 portrait:xs:pt-48 portrait:sm:mt-10 portrait:md:translate-x-[100%]">
-            connect
-            <p className="lowercase font-light text-[.8rem] w-64 portrait:pt-[230px] portrait:sm:pt-[250px] portrait:md:pt-[430px] portrait:translate-x-16 portrait:text-[.7rem] portrait:xs:text-[.9rem] portrait:md:text-[1rem] ">
+            <p className="connect-text ">connect</p>
+            <p className="connect-text-subhead lowercase font-light text-[.8rem] w-64 portrait:pt-[230px] portrait:sm:pt-[250px] portrait:md:pt-[430px] portrait:translate-x-16 portrait:text-[.7rem] portrait:xs:text-[.9rem] portrait:md:text-[1rem] ">
               meet new people based on shared hobbies, professionsal interests
               and favourite cuisines
             </p>
           </div>
         </div>
 
-        <div className="h-[90vh]  max-h-[550px] landscape:4xl:max-h-[700px] landscape:5xl:max-h-[750px] top-1/2 -translate-y-[35%] landscape:2xl:-translate-y-[50%] landscape:lg:-translate-y-[40%]   landscape:6xl:max-h-[75vh] bg-contain w-[60%] bg-[url('/assets/bgImg/homepage1-q30.webp')] bg-no-repeat absolute -right-28 landscape:4xl:-right-72 landscape:5xl:-right-[650px]  landscape:6xl:-right-[580px] portrait:w-[100%]  portrait:bg-cover portrait:right-0 portrait:h-[200px] portrait:md:h-[420px]"></div>
+        {/**connect section img */}
+        <div className="connect-img h-[90vh]  max-h-[550px] landscape:4xl:max-h-[700px] landscape:5xl:max-h-[750px] top-1/2 -translate-y-[35%] landscape:2xl:-translate-y-[50%] landscape:lg:-translate-y-[40%]   landscape:6xl:max-h-[75vh] bg-contain w-[60%] bg-[url('/assets/bgImg/homepage1-q30.webp')] bg-no-repeat absolute -right-28 landscape:4xl:-right-72 landscape:5xl:-right-[650px]  landscape:6xl:-right-[580px] portrait:w-[100%]  portrait:bg-cover portrait:right-0 portrait:h-[200px] portrait:md:h-[420px]"></div>
       </div>
 
       <div className="h-[400px] pb-36 portrait:pb-0 w-[100svw] landscape:2xl:h-[500px]  landscape:4xl:h-[550px] landscape:5xl:h-[700px] landscape:6xl:h-[900px] landscape:max-h-[900px] flex portrait:flex-col items-center portrait:-translate-y-36 portrait:h-full">
@@ -224,18 +291,18 @@ const Homepage = () => {
 
       <div className="dark:bg-zinc-900/60 bg-zinc-200 trio-section  w-full overflow-hidden landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)] ">
         <div className="h-full flex justify-end w-full relative ">
-          <div className=" basis-full vid-section scale-100 landscape:w-[30vw] h-full overflow-hidden  absolute top-0 left-0 opacity-100 portrait:w-[100svw]">
+          <div className=" object-cover basis-full vid-section scale-100 landscape:md:w-[30vw] h-full overflow-hidden  absolute top-0 left-0 opacity-100 portrait:w-[100svw]">
             <video
               src="/assets/bgImg/friends.mp4"
               autoPlay={true}
               loop={true}
               muted={true}
-              className="  object-cover min-h-full portrait:opacity-25"
+              className="  object-cover min-h-full w-full portrait:opacity-25"
             />
           </div>
 
-          <div className="flex flex-col  justify-center items-center  basis-1/2  -translate-x-20 ">
-            <h2 className="join-text font-bold text-[5.5rem] text-center leading-none opacity-100 portrait:opacity-100 portrait:md:text-[6rem]">
+          <div className="join-text opacity-100 flex flex-col  justify-center items-center  basis-1/2  -translate-x-20 ">
+            <h2 className=" font-bold text-[5.5rem] text-center leading-none opacity-100 portrait:opacity-100 portrait:md:text-[6rem]">
               JOIN
             </h2>
             <p className="lunch-buddy  pl-28 text-[1rem] pb-4">lunch buddy</p>
