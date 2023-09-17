@@ -11,8 +11,6 @@ export default function DarkModeToggler() {
 
   const isDarkMode = useSelector(selectDarkMode);
 
-  const test = document.documentElement.classList.contains('dark');
-  console.log('test', test);
 
   useEffect(() => {
     // sync initial redux state with result of <HEAD> script (see index.html)
@@ -25,9 +23,7 @@ export default function DarkModeToggler() {
 
   const toggleDarkMode = () => {
     // toggle state on user click
-    console.log(isDarkMode)
     if (isDarkMode) {
-      console.log('inside DM', isDarkMode)
       dispatch(darkModeOff());
       document.documentElement.classList.remove('dark');
       window.localStorage.setItem('color-theme', 'light');
