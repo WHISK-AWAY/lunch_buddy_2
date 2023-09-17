@@ -14,7 +14,7 @@ const Homepage = () => {
   const topImageRef = useRef(null);
 
   // useEffect(() => {
-    // fade bg image in only after it's downloaded
+  // fade bg image in only after it's downloaded
 
   //   const bgImg = new Image();
   //   bgImg.src = '/assets/bgImg/connect-q30.webp';
@@ -25,62 +25,92 @@ const Homepage = () => {
   //     gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
   //   };
   // }, []);
+      // const loop = horizontalLoop('.test-block', {
+      //   repeat: -1,
+      //   paused: false,
+      //   speed: 3,
+      // });
+
 
   useLayoutEffect(() => {
     const cxt = gsap.context(() => {
       const tl = gsap.timeline();
-      // tl.to('.test-block', {
-      //   xPercent: -100,
-      //   ease: 'none',
-      //   duration: 10,
-      //   repeat: -1,
-      // });
+      tl.to('.test-block', {
+        xPercent: -50,
+        ease: 'linear',
+        duration: 2,
+        repeat: -1,
+      });
+
+
+
 
       gsap.from('.connect-text', {
         opacity: 0,
-        duration: 2,
+        duration: 3,
         ease: 'slow',
-        yPercent: -50,
+        yPercent: -290,
         scrollTrigger: {
-          start: 'top center',
+          start: 'top 40%',
           end: 'center bottom',
           trigger: '.connect-article',
-          scrub: 2, 
+          scrub: 2,
           // pin: true,
-          markers: true
-
-        }
-      })
+          // markers: true
+        },
+      });
 
       gsap.from('.connect-text-subhead', {
-        opacity:0,
+        opacity: 0,
         duration: 1,
-        xPercent: 30,
+        yPercent: 80,
         scrollTrigger: {
           start: 'top center',
           end: 'bottom bottom',
           trigger: '.connect-article',
           scrub: 5,
-          markers: true
-        }
-      })
+          // markers: true
+        },
+      });
 
       tl.from('.connect-img', {
         opacity: 0,
         duration: 4,
         ease: 'slow',
-        xPercent: 50,
+        xPercent: 40,
         scrollTrigger: {
           start: 'top center',
-          end:'center bottom',
+          end: 'center bottom',
           trigger: '.connect-article',
-          scrub: 3,
+          scrub: 4,
           // markers: true
+        },
+      }).from('.trio-img', {
+        opacity: 0,
+        duration: 4,
+        ease: 'sine.inOut',
+        stagger: 1.3,
+        yPercent: 5,
+        scrollTrigger: {
+          start: 'top 80%',
+          end: 'bottom bottom',
+          trigger: '.trio-container',
+          scrub: 3,
+          // markers: true,
+        },
+      }).from('.trio-article', {
+        opacity: 0,
+        duration: 2,
+        yPercent: -50,
+        ease: 'expo.out',
+        scrollTrigger: {
+          trigger: '.trio-img',
+          start: 'top 50%',
+          end: 'center center',
+          scrub: 2,
+          markers: true,
         }
       })
-
-
-
 
       tl.from('.vid-section', {
         opacity: 0,
@@ -95,54 +125,51 @@ const Homepage = () => {
           trigger: '.vid-section',
           scrub: 8,
           // markers: true,
-        }, })
+        },
+      });
       // }).from(
-        // '.join-text',
-        // {
-        //   // delay: 1.6,
-        //   opacity: 0,
-        //   duration: 1,
-        //   ease: 'slow',
-        //   scrollTrigger: {
-        //     start: 'top bottom',
-        //     // end: 'bottom bottom',
-        //     trigger: '.vid-section',
-        //     scrub: 5,
-        //     markers: true,
-        //   },
-        // }, '<'
+      // '.join-text',
+      // {
+      //   // delay: 1.6,
+      //   opacity: 0,
+      //   duration: 1,
+      //   ease: 'slow',
+      //   scrollTrigger: {
+      //     start: 'top bottom',
+      //     // end: 'bottom bottom',
+      //     trigger: '.vid-section',
+      //     scrub: 5,
+      //     markers: true,
+      //   },
+      // }, '<'
       // );
 
+      const tl2 = gsap.timeline();
 
-
-     const tl2 = gsap.timeline();
-
-     tl2.from(
-       '.join-text',
-       {
-        //  delay: 1.6,
-         opacity: 0,
-         duration: 1,
-         ease: 'slow',
-         scrollTrigger: {
-           start: 'top 90%',
-           pin:true,
-          //  end: 'bottom bottom',
-          //  trigger: '.vid-section',
-          //  scrub: 5,
-          //  markers: true,
-         },
-       },
-       '<'
-     );
+      tl2.from(
+        '.join-text',
+        {
+          //  delay: 1.6,
+          opacity: 0,
+          duration: 1,
+          ease: 'slow',
+          scrollTrigger: {
+            start: 'top 90%',
+            pin: true,
+            //  end: 'bottom bottom',
+            //  trigger: '.vid-section',
+            //  scrub: 5,
+            //  markers: true,
+          },
+        },
+        '<'
+      );
     });
 
     return () => {
       cxt.revert();
     };
   }, []);
-
-
 
   return (
     <section className="homepage-wrapper w-[100svw] h-full dark:text-white text-[#0a0908] dark:bg-[#0a0908] bg-white overflow-hidden portrait:overflow-hidden">
@@ -220,7 +247,7 @@ const Homepage = () => {
         <div className="dark:bg-zinc-900/80 bg-zinc-200 min-h-[90vh] connect-section flex justify-between relative  ">
           <div className="pt-28  pl-16 landscape:4xl:pl-44 landscape:6xl:pl-96 landscape:lg:pt-[20%] landscape:3xl:pt-[15%] text-[3.7rem] font-bold uppercase opacity-80 landscape:xl:text-[4.7rem] landscape:2xl:text-[6rem] landscape:2xl:top-[20%] landscape:5xl:text-[8rem] landscape:6xl:text-[10rem] portrait:pt-32 portrait:xs:pt-48 portrait:sm:mt-10 portrait:md:translate-x-[100%]">
             <p className="connect-text ">connect</p>
-            <p className="connect-text-subhead lowercase font-light text-[.8rem] w-64 portrait:pt-[230px] portrait:sm:pt-[250px] portrait:md:pt-[430px] portrait:translate-x-16 portrait:text-[.7rem] portrait:xs:text-[.9rem] portrait:md:text-[1rem] ">
+            <p className="connect-text-subhead lowercase font-light text-[.8rem] w-64 portrait:pt-[230px] portrait:sm:pt-[250px] portrait:md:pt-[430px] portrait:translate-x-16 portrait:text-[.7rem] portrait:xs:text-[.9rem] portrait:md:text-[1rem] pl-3">
               meet new people based on shared hobbies, professionsal interests
               and favourite cuisines
             </p>
@@ -231,20 +258,21 @@ const Homepage = () => {
         <div className="connect-img h-[90vh]  max-h-[550px] landscape:4xl:max-h-[700px] landscape:5xl:max-h-[750px] top-1/2 -translate-y-[35%] landscape:2xl:-translate-y-[50%] landscape:lg:-translate-y-[40%]   landscape:6xl:max-h-[75vh] bg-contain w-[60%] bg-[url('/assets/bgImg/homepage1-q30.webp')] bg-no-repeat absolute -right-28 landscape:4xl:-right-72 landscape:5xl:-right-[650px]  landscape:6xl:-right-[580px] portrait:w-[100%]  portrait:bg-cover portrait:right-0 portrait:h-[200px] portrait:md:h-[420px]"></div>
       </div>
 
-      <div className="h-[400px] pb-36 portrait:pb-0 w-[100svw] landscape:2xl:h-[500px]  landscape:4xl:h-[550px] landscape:5xl:h-[700px] landscape:6xl:h-[900px] landscape:max-h-[900px] flex portrait:flex-col items-center portrait:-translate-y-36 portrait:h-full">
+      {/**trio section */}
+      <div className="trio-container h-[400px] pb-36 portrait:pb-0 w-[100svw] landscape:2xl:h-[500px]  landscape:4xl:h-[550px] landscape:5xl:h-[700px] landscape:6xl:h-[900px] landscape:max-h-[900px] flex portrait:flex-col items-center portrait:-translate-y-36 portrait:h-full pt-10">
         <div className="flex portrait:flex-col justify-around items-baseline    w-full portrait:gap-16">
           <div className=" flex flex-col justify-start text-center items-center w-fit  gap-2">
             <img
               src="/assets/bgImg/homepage2-q30.webp"
               alt=""
-              className="w-[90%]  h-full aspect-auto bg-cover bg-no-repeat "
+              className="trio-img w-[90%]  h-full aspect-auto bg-cover bg-no-repeat z-10"
             />
 
-            <article className="w-[80%] landscape:xl:w-[70%]">
+            <article className="trio-article w-[80%] landscape:xl:w-[70%]">
               <h2 className="font-medium pt-2 text-[1rem] landscape:3xl:text-[1.2rem] landscape:5xl:text-[1.5rem] portrait:md:text-[1.3rem]">
                 KEEP IT CONVENIENT
               </h2>
-              <p className="text-[.8rem] font-light text-center landscape:3xl:text-[1rem] landscape:5xl:text-[1.2rem] portrait:text-[.9rem] portrait:md:text-[1rem]">
+              <p className="text-[.8rem] font-light text-center landscape:3xl:text-[1rem] landscape:5xl:text-[1.2rem] portrait:text-[.9rem] portrait:md:text-[1rem] z-0">
                 No haggling over when & where: meet interesting new people,
                 wherever you happen to be - on your schedule!
               </p>
@@ -255,14 +283,14 @@ const Homepage = () => {
             <img
               src="/assets/bgImg/homepage5-q30.webp"
               alt=""
-              className="w-[90%]  h-full bg-cover bg-no-repeat aspect-auto"
+              className="trio-img w-[90%]  h-full bg-cover bg-no-repeat aspect-auto z-10"
             />
 
-            <article className="w-[80%] landscape:xl:w-[70%] ">
+            <article className="trio-article w-[80%] landscape:xl:w-[70%] ">
               <h2 className="font-medium pt-2 text-[1rem] landscape:3xl:text-[1.2rem] landscape:5xl:text-[1.5rem] portrait:md:text-[1.3rem]">
                 MAKE A CONNECTION
               </h2>
-              <p className="text-[.8rem] font-light text-center landscape:3xl:text-[1rem] landscape:5xl:text-[1.2rem] portrait:text-[.9rem] portrait:md:text-[1rem]">
+              <p className="text-[.8rem] font-light text-center landscape:3xl:text-[1rem] landscape:5xl:text-[1.2rem] portrait:text-[.9rem] portrait:md:text-[1rem] z-0">
                 Match with buddies who pursue the same hobbies, share the same
                 professional goals, and love the same foods
               </p>
@@ -273,14 +301,14 @@ const Homepage = () => {
             <img
               src="/assets/bgImg/homepage3-q30.webp"
               alt=""
-              className="w-[90%]  h-full bg-cover bg-no-repeat aspect-auto"
+              className="trio-img w-[90%]  h-full bg-cover bg-no-repeat aspect-auto z-10"
             />
 
-            <article className="w-[80%] landscape:xl:w-[70%] ">
+            <article className="trio-article w-[80%] landscape:xl:w-[70%] ">
               <h2 className="font-medium pt-2 text-[1rem] landscape:3xl:text-[1.2rem] landscape:5xl:text-[1.5rem] portrait:md:text-[1.3rem]">
                 NEW FAVORITE SPOT
               </h2>
-              <p className="text-[.8rem] font-light text-center landscape:3xl:text-[1rem] landscape:5xl:text-[1.2rem] portrait:text-[.9rem] portrait:md:text-[1rem]">
+              <p className="text-[.8rem] font-light text-center landscape:3xl:text-[1rem] landscape:5xl:text-[1.2rem] portrait:text-[.9rem] portrait:md:text-[1rem] z-0">
                 Restaurant suggestions based on shared preferences between you &
                 your new buddy
               </p>
@@ -297,6 +325,9 @@ const Homepage = () => {
               autoPlay={true}
               loop={true}
               muted={true}
+              playsInline={true}
+              defaultMuted={true}
+              controls={false}
               className="  object-cover min-h-full w-full portrait:opacity-25"
             />
           </div>
