@@ -54,7 +54,7 @@ export default function NewMessageReceived({ notification, closeMenu }) {
   return (
     <div
       id="meeting-card"
-      className="flex w-full h-fit bg-white dark:bg-[#0a0908] dark:text-white rounded-sm drop-shadow-sm my-3 items-center justify-between py-3"
+      className="flex w-full h-fit bg-white dark:bg-[#0a0908] dark:text-white rounded-sm drop-shadow-sm my-3 items-center justify-between py-3 relative"
     >
       <div
         id="x-icon"
