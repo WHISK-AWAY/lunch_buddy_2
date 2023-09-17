@@ -77,8 +77,8 @@ const UserAccount = () => {
       className=" flex flex-row-reverse flex-nowrap w-screen justify-center  overflow-hidden text-primary-gray dark:text-white bg-fixed landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)]"
     >
       <div className="lg:basis-1/2 portrait:lg:basis-auto flex flex-col items-center h-full relative ">
-        {/* Header section: only on tall-enough screens */}
-        <header className="sticky px-[10%] z-10 bg-white dark:bg-[#0a0908] w-full h-40 top-0  landscape:md:flex portrait:flex flex-col justify-start  items-center hidden">
+        {/* MD landscape */}
+        <header className="hidden sticky px-[10%] z-10 bg-white dark:bg-[#0a0908] w-full h-40 top-0  landscape:md:flex portrait:flex flex-col justify-start  items-center">
           <h1 className="pt-10 text-xl text-headers ">
             {user.fullName?.toUpperCase()}
           </h1>
@@ -106,17 +106,17 @@ const UserAccount = () => {
         </header>
 
         <main className="px-8 py-7 overflow-auto scrollbar-hide bg-label/40 dark:bg-primary-gray/10 h-full 3xl:px-20 5xl:px-48 6xl:px-80 portrait:lg:px-20">
-          {/* Identifying user info here -- only for use in shorter screens */}
-          <section className="hidden landscape:flex justify-between items-start mx-auto">
-            <div className="hidden gap-4 landscape:flex landscape:md:hidden">
+          {/* XXS landscape */}
+          <section className="landscape:md:hidden portrait:hidden flex justify-center items-center mx-auto">
+            <div className=" gap-4 flex landscape:md:hidden">
               <img
                 src={user.avatarUrl}
                 alt="your avatar image"
-                className="object-cover aspect-square w-16 bg-white dark:bg-slate-800 rounded-[100%] p-1 drop-shadow-lg"
+                className="object-cover aspect-square w-24 bg-white dark:bg-slate-800 rounded-[100%] p-1 drop-shadow-lg"
               />
               <div className="flex flex-col">
                 <h1 className="text-lg text-headers">
-                  {user.fullName?.toUpperCase()}
+                  {user.fullName.toUpperCase()}
                 </h1>
                 <p className="text-sm portrait:md:text-base">
                   {user.city.toUpperCase()}, {user.state}
@@ -255,7 +255,7 @@ const UserAccount = () => {
       <div
         ref={topImageRef}
         id="bg-img"
-        className="bg-cover bg-center
+        className="bg-cover bg-center landscape:4xl:basis-full
           bg-[url('/assets/bgImg/accView.jpg')] supports-[background-image:_url('/assets/bgImg/test19-lq_10.webp')]:bg-[url('/assets/bgImg/test19-lq_10.webp')] basis-1/2 hidden lg:block h-full portrait:lg:hidden"
       ></div>
     </div>

@@ -132,9 +132,9 @@ const DropdownMenu = ({ menuMode, closeMenu }) => {
         id="dropdown-container"
         className={` ${
           !user.firstName ? 'landscape:lg:h-[40svh] ' : 'landscape:h-[60svh]'
-        } dark:text-white dark:bg-[#0a0908]/60 bg-white/60 -translate-y-full fixed  w-screen opacity-95 z-30 landscape:lg:h-[60svh] landscape:h-[calc(100svh_-_56px)] portrait:h-[100svh] `}
+        } dark:text-white dark:bg-[#0a0908]/60 bg-white/60 -translate-y-full fixed  w-screen opacity-95 z-30  landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] `}
       >
-        <ul className="flex flex-col items-center short:py-6  justify-center   overflow-y-auto portrait:h-full landscape:lg:h-full landscape:h-full align-center ">
+        <ul className="flex flex-col items-center short:py-6  justify-center  overflow-y-auto portrait:h-full landscape:lg:h-full landscape:h-full align-center ">
           {!user.firstName ? (
             <>
               {/* NAV LINKS WHEN NOT SIGNED IN */}

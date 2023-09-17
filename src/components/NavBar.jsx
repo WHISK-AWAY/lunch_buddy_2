@@ -117,7 +117,9 @@ const NavBar = () => {
   }, [meetingState.meeting?.id, authUser.id]);
 
   useEffect(() => {
+    console.log(isDarkMode)
     if (isDarkMode) {
+
       setMenuIcon(navbarIconWhite);
       setXMenuIcon(xIconWhite);
       setBellMenuIcon(bellIconWhite);
@@ -147,9 +149,8 @@ const NavBar = () => {
     <>
       <header
         className="sticky top-0 z-40  text-primary-gray 
-       w-[100svw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20  landscape:h-14 portrait:h-14 landscape:3xl:h-16  border"
+       w-[100svw] bg-white dark:bg-[#0a0908] px-6 3xl:px-10 6xl:px-20  landscape:h-14 portrait:h-14 landscape:3xl:h-16"
       >
-        <DarkModeToggler />
         <nav className="flex justify-between w-full h-full">
           <button className="flex justify-center  items-center">
             <img
@@ -164,7 +165,7 @@ const NavBar = () => {
               }
             />
           </button>
-          <ul className="flex items-center justify-center align-center h-full gap-8 text-center">
+          <ul className="flex items-center justify-center align-center h-full gap-8 text-center ">
             {/* BUTTONS THAT SHOW ONLY WHEN SIGNED IN */}
             {authUser?.firstName ? (
               <>
@@ -179,29 +180,30 @@ const NavBar = () => {
                       'BUDDY'}
                   </Link>
                 </li>
+                <DarkModeToggler />
 
                 {/**
-                <li className="flex items-center">
-                <label className="relative inline-flex items-center cursor-pointer ">
-                    <input
-                      type="checkbox"
-                      value={''}
-                      className="sr-only peer"
-                      checked={userState.status === 'active'}
-                      onChange={handleToggleStatus}
-                      // onClick={handleToggleStatus}
-                    />
-                    <div className="w-11 h-6 bg-white border rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-600 after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-label peer-checked:border-white peer-checked:after:bg-white"></div>
-                    </label>
-                    </li>
-                  */}
+              <li className="flex items-center">
+              <label className="relative inline-flex items-center cursor-pointer ">
+              <input
+              type="checkbox"
+              value={''}
+              className="sr-only peer"
+              checked={userState.status === 'active'}
+              onChange={handleToggleStatus}
+              // onClick={handleToggleStatus}
+              />
+              <div className="w-11 h-6 bg-white border rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-600 after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-label peer-checked:border-white peer-checked:after:bg-white"></div>
+              </label>
+              </li>
+            */}
                 <Toaster
                   position="top-right"
                   toastOptions={{
                     duration: TOAST_DURATION,
                   }}
                 />
-                <li className="h-7 relative">
+                <li className="h-6 relative">
                   <button
                     id="bell-button"
                     className={
@@ -228,14 +230,15 @@ const NavBar = () => {
             ) : (
               //  WHEN NOT SIGNED IN SHOW BELOW
               <>
+                <DarkModeToggler />
                 {/**
-            <Link to="/" className="dark:text-white text-primary-gray">
-            <h1 className="md:text-[2.4vw] xxs:text-[4.9vw]">
-            LUNCH
-            <span className="font-clicker md:text-[2vw] font-thin xxs:text-[4.5vw]">
-            buddy
-            </span>
-            </h1>
+                <Link to="/" className="dark:text-white text-primary-gray">
+                <h1 className="md:text-[2.4vw] xxs:text-[4.9vw]">
+                LUNCH
+                <span className="font-clicker md:text-[2vw] font-thin xxs:text-[4.5vw]">
+                buddy
+                </span>
+                </h1>
             </Link>
           */}
               </>

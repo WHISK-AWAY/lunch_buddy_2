@@ -45,7 +45,7 @@ export default function RestaurantSuggestions({ state }) {
   return (
     <div
       id="restaurant-page"
-      className="w-screen  flex  justify-start items-center  landscape:lg:flex-row landscape:lg:justify-around landscape:lg:items-start landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)] overflow-hidden "
+      className="w-screen  flex  justify-start items-center  landscape:lg:flex-row landscape:lg:justify-around landscape:lg:items-start landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)] overflow-hidden bg-white dark:bg-[#0a0908]"
     >
       {/**desktop map container */}
       <div

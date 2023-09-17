@@ -43,6 +43,7 @@ module.exports = {
       black: 900,
     },
     extend: {
+      custom: ['custom-clip-path'],
       colors: {
         dark: '#0a0908',
         headers: '#F68080',
@@ -61,9 +62,6 @@ module.exports = {
       },
       screens: {
         xxs: '360px',
-        // xxs: {
-        //   max: '374px',
-        // },
         xs: '375px',
         sm: '412px',
         md: '768px',

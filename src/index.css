@@ -15,6 +15,14 @@ html {
 }
 body {
   height: -webkit-fill-available;
+  background-color: #fff;
+}
+
+body.dark {
+  background-color: #0a0908;
+}
+html.dark {
+  background-color: #0a0908;
 }
 
 @layer components {
@@ -79,6 +87,29 @@ body {
   }
 }
 
+.custom-clip-path {
+  clip-path: polygon(0 0, 100% 0, 100% 68%, 0 81%);
+}
+
+@media (max-width: 428px) and (orientation: portrait) {
+  .custom-clip-path {
+    clip-path: polygon(0 0, 100% 0, 100% 64%, 0 88%);
+  }
+}
+
+.connect-section {
+  clip-path: polygon(0 13%, 100% 0%, 100% 100%, 0 86%);
+}
+@media (max-width: 428px) and (orientation: portrait) {
+  .connect-section {
+    clip-path: polygon(0 26%, 100% 0%, 100% 100%, 0 84%);
+  }
+}
+
+
+.trio-section {
+clip-path: polygon(0 0, 100% 20%, 100% 100%, 0% 100%);
+}
 /* override Chrome autofill colors */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
