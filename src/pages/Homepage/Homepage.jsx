@@ -134,43 +134,32 @@ const Homepage = () => {
           // markers: true,
         },
       });
-      // }).from(
-      // '.join-text',
-      // {
-      //   // delay: 1.6,
-      //   opacity: 0,
-      //   duration: 1,
-      //   ease: 'slow',
-      //   scrollTrigger: {
-      //     start: 'top bottom',
-      //     // end: 'bottom bottom',
-      //     trigger: '.vid-section',
-      //     scrub: 5,
-      //     markers: true,
-      //   },
-      // }, '<'
-      // );
 
-      const tl2 = gsap.timeline();
+      const tl2 = gsap.timeline({
+        scrollTrigger: {
+          start: '80% bottom',
+          // end: '90% bottom',
+          trigger: '.trio-section',
+          // pin: true,
+          // scrub: 6,
+          toggleActions: 'restart reverse restart reverse',
+          markers: true,
+        },
+      });
 
       tl2.from(
         '.join-text',
         {
            delay: 1.6,
           opacity: 0,
-          duration: 1,
+          duration: 4,
           ease: 'slow',
-          scrollTrigger: {
-            start: 'center 90%',
-            end: 'bottom 90%',
-            trigger: '.trio-article',
-            // pin: true,
-             scrub: 5,
-             markers: true,
-          },
+
         },
         '<'
       );
+
+
     });
 
     return () => {
@@ -188,11 +177,6 @@ const Homepage = () => {
 
         {/**hero header */}
         <div className="hero-article  basis-[30%] flex flex-col justify-center gap-20 portrait:xs:gap-28 items-center h-[75svh] landscape:lg:px-6 px-3 text-center landscape:2xl:px-8 landscape:4xl:px-16 landscape:6xl:px-44  portrait:px-0 portrait:basis-0  portrait:absolute portrait:w-36  portrait:h-[35svh] portrait:xs:h-[45svh]  portrait:top-60 right-1/2 portrait:translate-x-[62%] portrait:xs:top-64">
-          {/**
-        <span className="absolute top-[20%] portrait:top-20 portrait:xs:top-40  right-[5%]  portrait:whitespace-pre-line portrait:right-1/2 portrait:translate-x-[50%] portrait:max-w-[50svw] opacity-80 landscape:2xl:text-[6rem] landscape:2xl:top-[20%] landscape:5xl:text-[8rem] landscape:6xl:text-[10rem] portrait:md:-left-44 portrait:md:whitespace-nowrap portrait:md:-mt-6 portrait:lg:text-[7rem]  mix-blend-difference hidden">
-        lunch buddy
-        </span>
-      */}
 
           {/**hero subheader */}
           <div className="w-full font-light text-[.7rem]  landscape:xl:text-[.9rem] landscape:5xl:text-[1rem] landscape:6xl:text-[1.1rem] portrait:w-[50vw]  portrait:md:pt-10 portrait:lg:pt-72">
@@ -243,7 +227,7 @@ const Homepage = () => {
         </div>
       </div>
 
-      <section className="max-w-[120%] overflow-hidden -translate-y-1 text-[1rem]  portrait:hidden bg-primary-gray/50 py-4">
+      <section className="max-w-[120%] overflow-hidden -translate-y-1 text-[1rem]  portrait:hidden bg-primary-gray/50 py-4 hidden">
         <div className="test-block block whitespace-nowrap ">
           <span className=" inline-block p-2">Hello&nbsp;World</span>
           <span className=" inline-block p-2">Hello&nbsp;Hell</span>
@@ -274,7 +258,7 @@ const Homepage = () => {
       </section>
 
       {/**connect section */}
-      <div className="connect-article h-full relative overflow-hidden w-screen -translate-y-10 portrait:-translate-y-56 portrait:overflow-hidden">
+      <div className="connect-article h-full relative overflow-hidden w-screen -translate-y-10 portrait:-translate-y-56 portrait:overflow-hidden mb-36 portrait:mb-16">
         <div className="dark:bg-zinc-900/80 bg-zinc-200 min-h-[90vh] connect-section flex justify-between relative  ">
           <div className="pt-28  pl-16 landscape:4xl:pl-44 landscape:6xl:pl-96 landscape:lg:pt-[20%] landscape:3xl:pt-[15%] text-[3.7rem] font-bold uppercase opacity-80 landscape:xl:text-[4.7rem] landscape:2xl:text-[6rem] landscape:2xl:top-[20%] landscape:5xl:text-[8rem] landscape:6xl:text-[10rem] portrait:pt-32 portrait:xs:pt-48 portrait:sm:mt-10 portrait:md:translate-x-[100%]">
             <p className="connect-text ">connect</p>
@@ -357,7 +341,6 @@ const Homepage = () => {
               loop={true}
               muted={true}
               playsInline={true}
-              defaultMuted={true}
               controls={false}
               className="  object-cover min-h-full w-full portrait:opacity-25"
             />
