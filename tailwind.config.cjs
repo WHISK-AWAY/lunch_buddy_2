@@ -27,9 +27,9 @@ module.exports = {
       dm: ['DM Mono', 'monospace'], // unused
       pt: ['PT Mono', 'monospace'], // unused
       hat: ['Red Hat Mono', 'monospace'], // unused
-      roboto: ['Roboto Mono', 'monospce'], // unused
+      roboto: ['Roboto Mono', 'monospce'], // used only for the dropdown menu dots - should change this to be something native
       inso: ['Inconsolata', 'monospace'], // unused
-      jost: ['Jost', 'monospace'], // the only font we use apparently
+      jost: ['Jost', 'monospace'], // used almost everywhere
     },
     fontWeight: {
       thin: 100,
