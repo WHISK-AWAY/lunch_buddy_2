@@ -56,7 +56,9 @@ export const createNewUser = createAsyncThunk(
 
       return newUser;
     } catch (err) {
-      return rejectWithValue(err);
+      return rejectWithValue(
+        err.response.data || err.message || 'unhandled error in createNewUser'
+      );
     }
   }
 );
@@ -221,10 +223,10 @@ const userSlice = createSlice({
         state.isLoading = true;
         state.error = '';
       })
-      .addCase(createNewUser.rejected, (state, action) => {
-        state.user = {};
+      .addCase(createNewUser.rejected, (state, { payload }) => {
+        state.user = initialUserState.user;
         state.isLoading = false;
-        state.error = action.payload.message;
+        state.error = payload;
       })
 
       // UPDATE USER (general purpose)
