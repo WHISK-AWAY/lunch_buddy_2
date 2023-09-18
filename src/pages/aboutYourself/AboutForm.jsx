@@ -11,7 +11,7 @@ import {
 } from '../../utilities/registerHelpers';
 import NewUserWelcome from '../NotificationCenter/ToastFeedback/NewUserWelcome';
 import { createNewUser, checkUserCreated } from '../../redux/slices/userSlice';
-import { requestLogin } from '../../redux/slices/authSlice';
+import { tryToken } from '../../redux/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 import gsap from 'gsap';
@@ -28,6 +28,7 @@ const AboutForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.user.user);
 
   const [bio, setBio] = useState(localStorage.getItem('aboutBio') || '');
   const [baseImage, setBaseImage] = useState('');
@@ -53,8 +54,31 @@ const AboutForm = () => {
   }, []);
 
   useEffect(() => {
-    // automatically go to home screen upon successful login
-    if (authUser.id) navigate('/');
+    if (user.id && !authUser.id) {
+      // attempt signin once user has been created
+      // (user creation places token in localstorage)
+      dispatch(tryToken());
+    }
+  }, [user.id]);
+
+  useEffect(() => {
+    // clean up form-related localstorage upon successful signin
+    if (authUser.id) {
+      [
+        'registerForm',
+        'aboutBio',
+        'Social',
+        'Cuisine',
+        'Dietary',
+        'Professional',
+        'minTags',
+      ].forEach((item) => localStorage.removeItem(item));
+
+      toast.custom((t) => <NewUserWelcome t={t} />);
+
+      // automatically go to home screen upon successful login
+      navigate('/');
+    }
   }, [authUser.id]);
 
   const [minTags, setMinTags] = useState(
@@ -113,67 +137,49 @@ const AboutForm = () => {
 
   // Handles creation of new user based on user inputs
   async function handleSubmit() {
+    let validationError = false;
+
     for (let category in minTags) {
       const minTagsCopy = { ...minTags[category] };
+
+      let show = minTags[category].numClicked < minTags[category].minimum;
+
+      if (show) validationError = true;
+
       setMinTags((prev) => ({
         ...prev,
         [category]: {
           minimum: minTagsCopy.minimum,
-          show: minTags[category].numClicked < minTags[category].minimum,
+          show,
           numClicked: minTagsCopy.numClicked,
         },
       }));
     }
 
-    const prevPageFormData = JSON.parse(
-      window.localStorage.getItem('registerForm')
-    );
+    if (validationError) return;
 
-    prevPageFormData.tags = shapeTagsForDB(
+    // create form data from info stored in localstorage from previous page
+    // then add current page data to it
+    const formData = JSON.parse(localStorage.getItem('registerForm'));
+
+    formData.tags = shapeTagsForDB(
       socialTags,
       professionalTags,
       dietaryTags,
       cuisineTags
     );
 
-    prevPageFormData.aboutMe = bio;
-    prevPageFormData.avatarUrl = baseImage;
+    formData.aboutMe = bio;
+    formData.avatarUrl = baseImage;
 
-    if (prevPageFormData.address2 === '') {
-      delete prevPageFormData.address2;
+    if (formData.address2 === '') {
+      delete formData.address2;
     }
-    if (prevPageFormData.avatarUrl === '') {
-      delete prevPageFormData.avatarUrl;
+    if (formData.avatarUrl === '') {
+      delete formData.avatarUrl;
     }
 
-    await dispatch(createNewUser(prevPageFormData));
-    // const { payload: errorOnCreation } = await dispatch(checkUserCreated());
-    // if (errorOnCreation.error) {
-    //   console.log(errorOnCreation.error);
-    // } else {
-    const form = JSON.parse(localStorage.getItem('registerForm'));
-    localStorage.removeItem('registerForm');
-
-    localStorage.removeItem('aboutBio');
-    localStorage.removeItem('Social');
-    localStorage.removeItem('Cuisine');
-    localStorage.removeItem('Dietary');
-    localStorage.removeItem('Professional');
-
-    dispatch(
-      requestLogin({
-        email: form.email,
-        password: form.password,
-      })
-    );
-    setTimeout(() => {
-      setTimeout(() => {
-        toast.custom((t) => <NewUserWelcome t={t} />);
-      }, TOAST_POPUP_DELAY);
-      // navigate('/match');
-      // navigate once signed in - based on watching for authuser
-    }, 500);
-    // }
+    dispatch(createNewUser(formData));
   }
 
   const uploadImage = async (e) => {

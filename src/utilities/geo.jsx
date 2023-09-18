@@ -53,7 +53,12 @@ export default function getLocation(dispatch, userId) {
   function geoError(err) {
     console.warn(`Geo error: ${err.code}: ${err.message}`);
     dispatch(setLocationEnabled(false));
-    toast.custom((t) => <LocationDisabled t={t} />, { duration: Infinity });
+    setTimeout(() => {
+      toast.custom((t) => <LocationDisabled t={t} />, {
+        duration: 10000,
+        id: 'location-disabled',
+      });
+    }, 1000);
   }
 
   navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
