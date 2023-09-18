@@ -187,7 +187,7 @@ const Homepage = () => {
         ></div>
 
         {/**hero header */}
-        <div className="hero-article  basis-[30%] flex flex-col justify-center gap-20 portrait:xs:gap-28 items-center h-[75svh]  px-6 text-center landscape:2xl:px-8 landscape:4xl:px-16 landscape:6xl:px-44  portrait:px-0 portrait:basis-0 border-2 border-red-300 portrait:absolute portrait:w-36  portrait:h-[35svh] portrait:xs:h-[45svh]  portrait:top-60 right-1/2 portrait:translate-x-[62%] portrait:xs:top-64">
+        <div className="hero-article  basis-[30%] flex flex-col justify-center gap-20 portrait:xs:gap-28 items-center h-[75svh]  px-6 text-center landscape:2xl:px-8 landscape:4xl:px-16 landscape:6xl:px-44  portrait:px-0 portrait:basis-0  portrait:absolute portrait:w-36  portrait:h-[35svh] portrait:xs:h-[45svh]  portrait:top-60 right-1/2 portrait:translate-x-[62%] portrait:xs:top-64">
           {/**
         <span className="absolute top-[20%] portrait:top-20 portrait:xs:top-40  right-[5%]  portrait:whitespace-pre-line portrait:right-1/2 portrait:translate-x-[50%] portrait:max-w-[50svw] opacity-80 landscape:2xl:text-[6rem] landscape:2xl:top-[20%] landscape:5xl:text-[8rem] landscape:6xl:text-[10rem] portrait:md:-left-44 portrait:md:whitespace-nowrap portrait:md:-mt-6 portrait:lg:text-[7rem]  mix-blend-difference hidden">
         lunch buddy
@@ -231,10 +231,10 @@ const Homepage = () => {
             ) : (
               <Link
                 to="/login"
-                className="group absolute -top-12 right-[39%]  rounded-sm border dark:border-zinc-700 border-primary-gray px-[4%]  py-2  dark:text-white text-primary-gray portrait:whitespace-nowrap portrait:text-[.9rem] portrait:px-10 portrait:-translate-x-10 portrait:sm:text-[1.1rem] portrait:sm:-translate-x-20 portrait:md:text-[1.6rem] portrait:lg:text-[2rem]  portrait:md:-translate-x-56 portrait:lg:-translate-x-[30rem] landscape:lg:translate-x-10 landscape:2xl:translate-x-16 landscape:4xl:translate-x-24 landscape:5xl:translate-x-32 landscape:6xl:translate-x-52"
+                className="group absolute top-0 right-1/2 translate-x-1/2  rounded-sm border dark:border-zinc-700 border-primary-gray px-5  py-2  dark:text-white text-primary-gray whitespace-nowrap portrait:text-[.9rem] portrait:px-10 portrait:-translate-x-10 portrait:sm:text-[1.1rem] portrait:sm:-translate-x-20 portrait:md:text-[1.6rem] portrait:lg:text-[2rem]  portrait:md:-translate-x-56 portrait:lg:-translate-x-[30rem] "
               >
                 <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
-                <span className="relative  group-hover:text-white dark:group-hover:text-dark">
+                <span className="relative  group-hover:text-white dark:group-hover:text-dark ">
                   sign in
                 </span>
               </Link>
