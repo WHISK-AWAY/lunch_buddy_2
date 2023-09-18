@@ -168,7 +168,7 @@ const Homepage = () => {
   }, []);
 
   return (
-    <section className="homepage-wrapper w-[100svw] h-full dark:text-white text-[#0a0908] dark:bg-[#0a0908] bg-white overflow-hidden portrait:overflow-hidden">
+    <section className="homepage-wrapper w-[100vw] h-full dark:text-white text-[#0a0908] dark:bg-[#0a0908] bg-white overflow-hidden portrait:overflow-hidden">
       <div className="hero-container flex h-[100svh] w-full justify-center align-center custom-clip-path ">
         <div
           className="bg-cover bg-right  portrait:h-[calc(100svh_-_50px)]  bg-no-repeat
@@ -263,8 +263,8 @@ const Homepage = () => {
           <div className="pt-28  pl-16 landscape:4xl:pl-44 landscape:6xl:pl-96 landscape:lg:pt-[20%] landscape:3xl:pt-[15%] text-[3.7rem] font-bold uppercase opacity-80 landscape:xl:text-[4.7rem] landscape:2xl:text-[6rem] landscape:2xl:top-[20%] landscape:5xl:text-[8rem] landscape:6xl:text-[10rem] portrait:pt-32 portrait:xs:pt-48 portrait:sm:mt-10 portrait:md:translate-x-[100%]">
             <p className="connect-text ">connect</p>
             <p className="connect-text-subhead lowercase font-light text-[.8rem] landscape:xl:text-[.9rem] landscape:2xl:text-[1.1rem] landscape:5xl:text-[1.4rem]  w-64 landscape:xl:w-72 landscape:2xl:w-96 landscape:5xl:w-[450px] portrait:pt-[230px] portrait:sm:pt-[250px] portrait:md:pt-[430px] portrait:translate-x-16 portrait:text-[.7rem] portrait:xs:text-[.9rem] portrait:md:text-[1rem] pl-3">
-              meet new people based on shared hobbies, professionsal interests
-              and favourite cuisines
+              meet new people based on shared hobbies, professional interests
+              and favorite cuisines
             </p>
           </div>
         </div>
