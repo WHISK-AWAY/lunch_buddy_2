@@ -11,6 +11,7 @@ module.exports = {
   theme: {
     fontFamily: {
       jost: ['Jost', 'monospace'], // the only font we use apparently
+      roboto: ['Roboto', 'monospace']
     },
     fontWeight: {
       thin: 100,
