@@ -10,25 +10,6 @@ module.exports = {
   darkMode: 'class',
   theme: {
     fontFamily: {
-      fredericka: ['Fredericka the Great', 'cursive'], // unused
-      tenor: ['Tenor Sans', 'sans-serif'], // unused
-      monserrat: ['Montserrat', 'sans-serif'], // unused
-      cormo: ['Cormorant', 'serif'], // unused
-      clicker: ['Clicker Script', 'cursive'], // unused
-      poppins: ['Poppins', 'sans-serif'], // unused
-      abril: ['Abril Fatface', 'cursive'], // unused
-      serif: ['DM Serif Display', 'serif'], // unused
-      jo: ['Josefin Sans', 'sans-serif'], // unused
-      po: ['Poiret One', 'cursive'], // unused
-      ultra: ['Ultra', 'serif'], // unused
-      fed: ['Federo', 'sans - serif'], // unused
-      archivo: ['archivo Black', 'monospace'], // unused
-      cutive: ['Cutive Mono', 'monospace'], // unused
-      dm: ['DM Mono', 'monospace'], // unused
-      pt: ['PT Mono', 'monospace'], // unused
-      hat: ['Red Hat Mono', 'monospace'], // unused
-      roboto: ['Roboto Mono', 'monospce'], // unused
-      inso: ['Inconsolata', 'monospace'], // unused
       jost: ['Jost', 'monospace'], // the only font we use apparently
     },
     fontWeight: {
