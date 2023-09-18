@@ -36,12 +36,18 @@ const Homepage = () => {
     const cxt = gsap.context(() => {
       const tl = gsap.timeline();
       tl.to('.test-block', {
-        xPercent: -50,
+        xPercent: -20,
         ease: 'linear',
-        duration: 2,
+        duration: 5,
         repeat: -1,
       });
 
+      // tl.from('.connect-article', {
+      //   scrollTrigger: {
+      //     pin: true,
+      //     scrub: 10,
+      //   }
+      // })
 
 
 
@@ -103,12 +109,13 @@ const Homepage = () => {
         duration: 2,
         yPercent: -50,
         ease: 'expo.out',
+        stagger: .1,
         scrollTrigger: {
           trigger: '.trio-img',
           start: 'top 50%',
           end: 'center center',
           scrub: 2,
-          markers: true,
+          // markers: true,
         }
       })
 
@@ -149,17 +156,17 @@ const Homepage = () => {
       tl2.from(
         '.join-text',
         {
-          //  delay: 1.6,
+           delay: 1.6,
           opacity: 0,
           duration: 1,
           ease: 'slow',
           scrollTrigger: {
-            start: 'top 90%',
-            pin: true,
-            //  end: 'bottom bottom',
-            //  trigger: '.vid-section',
-            //  scrub: 5,
-            //  markers: true,
+            start: 'center 90%',
+            end: 'bottom 90%',
+            trigger: '.trio-article',
+            // pin: true,
+             scrub: 5,
+             markers: true,
           },
         },
         '<'
@@ -176,12 +183,12 @@ const Homepage = () => {
       <div className="hero-container flex h-[100svh] w-full justify-center align-center custom-clip-path ">
         <div
           className="bg-cover bg-right  portrait:h-[calc(100svh_-_50px)]  bg-no-repeat
-      bg-[url('/assets/bgImg/homepage4-q30.webp')] portrait:bg-[url('/assets/bgImg/homepage4p-q30.webp')]  basis-[70%]  h-full  portrait:basis-full portrait:bg-center portrait:shrink-0"
+      bg-[url('/assets/bgImg/homepage44-q30.webp')] portrait:bg-[url('/assets/bgImg/homepage4p-q30.webp')]  basis-[70%]  h-full  portrait:basis-full portrait:bg-center portrait:shrink-0 z-50"
         ></div>
 
         {/**hero header */}
         <div className="hero-text text-7xl basis-[30%] uppercase font-bold w-fit  portrait:basis-0 portrait:text-[3.5rem] portrait:md:text-[6rem]   tracking-wide">
-          <span className="absolute top-[20%] portrait:top-20 portrait:xs:top-40  right-[5%]  portrait:whitespace-pre-line portrait:right-1/2 portrait:translate-x-[50%] portrait:max-w-[50svw] opacity-80 landscape:2xl:text-[6rem] landscape:2xl:top-[20%] landscape:5xl:text-[8rem] landscape:6xl:text-[10rem] portrait:md:-left-44 portrait:md:whitespace-nowrap portrait:md:-mt-6 portrait:lg:text-[7rem]">
+          <span className="absolute top-[20%] portrait:top-20 portrait:xs:top-40  right-[5%]  portrait:whitespace-pre-line portrait:right-1/2 portrait:translate-x-[50%] portrait:max-w-[50svw] opacity-80 landscape:2xl:text-[6rem] landscape:2xl:top-[20%] landscape:5xl:text-[8rem] landscape:6xl:text-[10rem] portrait:md:-left-44 portrait:md:whitespace-nowrap portrait:md:-mt-6 portrait:lg:text-[7rem]  mix-blend-difference hidden">
             lunch buddy
           </span>
 
@@ -220,7 +227,7 @@ const Homepage = () => {
         </div>
       </div>
 
-      <section className="max-w-[120%] overflow-hidden translate-y-2 text-[1rem]  portrait:hidden">
+      <section className="max-w-[120%] overflow-hidden -translate-y-1 text-[1rem]  portrait:hidden bg-primary-gray/50 py-4">
         <div className="test-block block whitespace-nowrap ">
           <span className=" inline-block p-2">Hello&nbsp;World</span>
           <span className=" inline-block p-2">Hello&nbsp;Hell</span>
@@ -231,6 +238,14 @@ const Homepage = () => {
           <span className=" inline-block p-2">Hello&nbsp;Hell</span>
           <span className=" inline-block p-2">Hello&nbsp;World</span>
           <span className=" inline-block p-2">Hello&nbsp;Hell</span>
+          <span className=" inline-block p-2">Hello&nbsp;Hell</span>
+          <span className=" inline-block p-2">Hello&nbsp;World</span>
+          <span className=" inline-block p-2">Hello&nbsp;World</span>
+          <span className=" inline-block p-2">Hello&nbsp;Hell</span>
+          <span className=" inline-block p-2">Hello&nbsp;World</span>
+          <span className=" inline-block p-2">Hello&nbsp;Hell</span>
+          <span className=" inline-block p-2">Hello&nbsp;Hell</span>
+          <span className=" inline-block p-2">Hello&nbsp;World</span>
           <span className=" inline-block p-2">Hello&nbsp;Hell</span>
           <span className=" inline-block p-2">Hello&nbsp;World</span>
           <span className=" inline-block p-2">Hello&nbsp;World</span>
