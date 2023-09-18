@@ -137,17 +137,26 @@ const AboutForm = () => {
 
   // Handles creation of new user based on user inputs
   async function handleSubmit() {
+    let validationError = false;
+
     for (let category in minTags) {
       const minTagsCopy = { ...minTags[category] };
+
+      let show = minTags[category].numClicked < minTags[category].minimum;
+
+      if (show) validationError = true;
+
       setMinTags((prev) => ({
         ...prev,
         [category]: {
           minimum: minTagsCopy.minimum,
-          show: minTags[category].numClicked < minTags[category].minimum,
+          show,
           numClicked: minTagsCopy.numClicked,
         },
       }));
     }
+
+    if (validationError) return;
 
     // create form data from info stored in localstorage from previous page
     // then add current page data to it
