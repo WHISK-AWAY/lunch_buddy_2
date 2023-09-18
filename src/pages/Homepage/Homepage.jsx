@@ -101,7 +101,7 @@ const Homepage = () => {
           start: 'top 80%',
           end: 'bottom bottom',
           trigger: '.trio-container',
-          scrub: 3,
+          scrub: 4,
           // markers: true,
         },
       }).from('.trio-article', {
@@ -114,7 +114,7 @@ const Homepage = () => {
           trigger: '.trio-img',
           start: 'top 50%',
           end: 'center center',
-          scrub: 2,
+          scrub: 3,
           // markers: true,
         }
       })
@@ -187,7 +187,7 @@ const Homepage = () => {
         ></div>
 
         {/**hero header */}
-        <div className="hero-article  basis-[30%] flex flex-col justify-center gap-20 portrait:xs:gap-28 items-center h-[75svh]  px-6 text-center landscape:2xl:px-8 landscape:4xl:px-16 landscape:6xl:px-44  portrait:px-0 portrait:basis-0  portrait:absolute portrait:w-36  portrait:h-[35svh] portrait:xs:h-[45svh]  portrait:top-60 right-1/2 portrait:translate-x-[62%] portrait:xs:top-64">
+        <div className="hero-article  basis-[30%] flex flex-col justify-center gap-20 portrait:xs:gap-28 items-center h-[75svh] landscape:lg:px-6 px-3 text-center landscape:2xl:px-8 landscape:4xl:px-16 landscape:6xl:px-44  portrait:px-0 portrait:basis-0  portrait:absolute portrait:w-36  portrait:h-[35svh] portrait:xs:h-[45svh]  portrait:top-60 right-1/2 portrait:translate-x-[62%] portrait:xs:top-64">
           {/**
         <span className="absolute top-[20%] portrait:top-20 portrait:xs:top-40  right-[5%]  portrait:whitespace-pre-line portrait:right-1/2 portrait:translate-x-[50%] portrait:max-w-[50svw] opacity-80 landscape:2xl:text-[6rem] landscape:2xl:top-[20%] landscape:5xl:text-[8rem] landscape:6xl:text-[10rem] portrait:md:-left-44 portrait:md:whitespace-nowrap portrait:md:-mt-6 portrait:lg:text-[7rem]  mix-blend-difference hidden">
         lunch buddy
@@ -195,7 +195,7 @@ const Homepage = () => {
       */}
 
           {/**hero subheader */}
-          <div className="w-full font-light text-[.5rem] landscape:lg:text-[.7rem] landscape:xl:text-[.9rem] landscape:5xl:text-[1rem] landscape:6xl:text-[1.1rem] portrait:w-[50vw]  portrait:md:pt-10 portrait:lg:pt-72">
+          <div className="w-full font-light text-[.7rem]  landscape:xl:text-[.9rem] landscape:5xl:text-[1rem] landscape:6xl:text-[1.1rem] portrait:w-[50vw]  portrait:md:pt-10 portrait:lg:pt-72">
             {/**landscape text */}
             <p className="portrait:mt-5 portrait:sm:mt-1 portrait:hidden">
               Take a chance to expand your social circle with Lunch Buddy.
@@ -220,7 +220,7 @@ const Homepage = () => {
           <div className="relative w-full  font-regular tracking-widest landscape:xl:text-[1rem] text-[.7rem]  rounded-sm     landscape:2xl:text-[1.2rem] landscape:6xl:text-[1.4rem]  cursor-pointer leading-none  portrait:sm:text-[1.1rem]  portrait:lg:text-[2rem] portrait:text-[.8rem] ">
             {auth.token !== '' ? (
               <Link
-                to="/register"
+                to="/match"
                 className="group absolute top-0 right-1/2 translate-x-1/2  rounded-sm border dark:portrait:bg-white/10 dark:border-zinc-700 border-primary-gray dark:portrait:border-white portrait:border-2 portrait:bg-primary-gray/20  py-2 px-4 landscape:2xl:px-5 whitespace-nowrap dark:text-white text-[#0a0908] portrait:right-16  portrait:py-3 portrait:px-10 portrait:sm:mt-16 portrait:md:mt-20"
               >
                 <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
@@ -231,7 +231,7 @@ const Homepage = () => {
             ) : (
               <Link
                 to="/login"
-                className="group absolute top-0 right-1/2 translate-x-1/2  rounded-sm border dark:border-zinc-700 border-primary-gray px-5  py-2  dark:text-white text-primary-gray whitespace-nowrap portrait:text-[.9rem] portrait:px-10 portrait:-translate-x-10 portrait:sm:text-[1.1rem] portrait:sm:-translate-x-20 portrait:md:text-[1.6rem] portrait:lg:text-[2rem]  portrait:md:-translate-x-56 portrait:lg:-translate-x-[30rem] "
+                className="group absolute top-0 right-1/2 translate-x-1/2  rounded-sm border dark:border-zinc-700 border-primary-gray px-5  py-2  dark:text-white text-primary-gray whitespace-nowrap portrait:text-[.9rem] portrait:px-10  portrait:sm:text-[1.1rem]  portrait:md:text-[1.6rem] portrait:lg:text-[2rem]    portrait:uppercase portrait:sm:mt-16 portrait:md:mt-20"
               >
                 <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
                 <span className="relative  group-hover:text-white dark:group-hover:text-dark ">
@@ -278,7 +278,7 @@ const Homepage = () => {
         <div className="dark:bg-zinc-900/80 bg-zinc-200 min-h-[90vh] connect-section flex justify-between relative  ">
           <div className="pt-28  pl-16 landscape:4xl:pl-44 landscape:6xl:pl-96 landscape:lg:pt-[20%] landscape:3xl:pt-[15%] text-[3.7rem] font-bold uppercase opacity-80 landscape:xl:text-[4.7rem] landscape:2xl:text-[6rem] landscape:2xl:top-[20%] landscape:5xl:text-[8rem] landscape:6xl:text-[10rem] portrait:pt-32 portrait:xs:pt-48 portrait:sm:mt-10 portrait:md:translate-x-[100%]">
             <p className="connect-text ">connect</p>
-            <p className="connect-text-subhead lowercase font-light text-[.8rem] w-64 portrait:pt-[230px] portrait:sm:pt-[250px] portrait:md:pt-[430px] portrait:translate-x-16 portrait:text-[.7rem] portrait:xs:text-[.9rem] portrait:md:text-[1rem] pl-3">
+            <p className="connect-text-subhead lowercase font-light text-[.8rem] landscape:xl:text-[.9rem] landscape:2xl:text-[1.1rem] landscape:5xl:text-[1.4rem]  w-64 landscape:xl:w-72 landscape:2xl:w-96 landscape:5xl:w-[450px] portrait:pt-[230px] portrait:sm:pt-[250px] portrait:md:pt-[430px] portrait:translate-x-16 portrait:text-[.7rem] portrait:xs:text-[.9rem] portrait:md:text-[1rem] pl-3">
               meet new people based on shared hobbies, professionsal interests
               and favourite cuisines
             </p>
@@ -364,37 +364,53 @@ const Homepage = () => {
           </div>
 
           <div className="join-text opacity-100 flex flex-col  justify-center items-center  basis-1/2  -translate-x-20 ">
-            <h2 className=" font-bold text-[5.5rem] text-center leading-none opacity-100 portrait:opacity-100 portrait:md:text-[6rem]">
+            <h2 className=" font-bold text-[5.5rem] text-center leading-none opacity-100 portrait:opacity-100 portrait:md:text-[6rem] landscape:5xl:text-[7rem]">
               JOIN
             </h2>
-            <p className="lunch-buddy  pl-28 text-[1rem] pb-4">lunch buddy</p>
-            <p className="text-[.8rem] font-light tracking-wide portrait:text-[.9rem] portrait:md:text-[1.2rem]">
+            <p className="lunch-buddy  pl-28 text-[1rem] pb-4 landscape:5xl:text-[1.4rem]">
+              lunch buddy
+            </p>
+            <p className="text-[.8rem] font-light tracking-wide portrait:text-[.9rem] portrait:md:text-[1.2rem] landscape:2xl:text-[1.1rem] landscape:5xl:text-[1.3rem]">
               to meet your next favorite lunch buddy today!
             </p>
 
             {/**CTA buttons container */}
-            <div className=" uppercase  text-[.8rem] font-light leading-none relative tracking-widest portrait:md:text-[1rem]">
-              {/**create an acc btn */}
-              <Link
-                to="/register"
-                className="group  absolute -bottom-16 -right-5 portrait:-right-10 whitespace-nowrap  rounded-sm border dark:border-zinc-700 border-primary-gray  px-6 py-2   dark:text-white text-primary-gray"
-              >
-                <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
-                <span className="relative  group-hover:text-white dark:group-hover:text-dark">
-                  create an account
-                </span>
-              </Link>
+            <div className=" uppercase  text-[.8rem] font-light leading-none relative tracking-widest portrait:md:text-[1rem] landscape:2xl:text-[1.1rem] landscape:5xl:text-[1.4rem]">
+              {auth.token !== '' ? (
+                <Link
+                  to="/match"
+                  className="group  absolute landscape:5xl:-bottom-20 -bottom-16 right-0 translate-x-[50%] portrait:-right-10 whitespace-nowrap  rounded-sm border dark:border-zinc-700 border-primary-gray  px-6 py-2   dark:text-white text-primary-gray"
+                >
+                  <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
+                  <span className="relative  group-hover:text-white dark:group-hover:text-dark">
+                    find a buddy
+                  </span>
+                </Link>
+              ) : (
+                <>
+                  {/**create an acc btn */}
+                  <Link
+                    to="/register"
+                    className="group  absolute -bottom-16 -right-5 portrait:-right-10 whitespace-nowrap  rounded-sm border dark:border-zinc-700 border-primary-gray  px-6 py-2   dark:text-white text-primary-gray"
+                  >
+                    <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
+                    <span className="relative  group-hover:text-white dark:group-hover:text-dark">
+                      create an account
+                    </span>
+                  </Link>
 
-              {/**sign in btn */}
-              <Link
-                to="/signin"
-                className="group absolute -bottom-16 -right-44 portrait:-right-40 rounded-sm border dark:border-zinc-700 border-primary-gray  px-6 whitespace-nowrap  py-2  dark:text-white text-primary-gray "
-              >
-                <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
-                <span className="relative  group-hover:text-white dark:group-hover:text-dark">
-                  sign in
-                </span>
-              </Link>
+                  {/**sign in btn */}
+                  <Link
+                    to="/signin"
+                    className="group absolute -bottom-16 -right-44 portrait:-right-40  landscape:5xl:-right-64 rounded-sm border dark:border-zinc-700 border-primary-gray  px-6 whitespace-nowrap  py-2  dark:text-white text-primary-gray "
+                  >
+                    <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
+                    <span className="relative  group-hover:text-white dark:group-hover:text-dark">
+                      sign in
+                    </span>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
