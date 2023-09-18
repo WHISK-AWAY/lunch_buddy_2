@@ -38,7 +38,7 @@ export default function LocationDisabled({ t }) {
 
         <div
           id="btn-container"
-          className="flex portrait:flex-wrap gap-4 h-fit w-full px-7 self-center text-xs space-5 justify-center items-center pt-5"
+          className="flex portrait:flex-wrap md:flex-wrap lg:flex-nowrap gap-4 h-fit w-full px-7 self-center text-xs space-5 justify-center items-center pt-5"
         >
           <a
             className="ease-in flex justify-center text-center 6xl:py-4 5xl:py-3 duration-300 w-full button 2xl:py-2  px-4 py-[.5rem] text-xs text-white  hover:bg-red-600 active:bg-red-700 transition-all hover:shadow-lg"
