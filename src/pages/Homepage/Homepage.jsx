@@ -183,32 +183,48 @@ const Homepage = () => {
       <div className="hero-container flex h-[100svh] w-full justify-center align-center custom-clip-path ">
         <div
           className="bg-cover bg-right  portrait:h-[calc(100svh_-_50px)]  bg-no-repeat
-      bg-[url('/assets/bgImg/homepage44-q30.webp')] portrait:bg-[url('/assets/bgImg/homepage4p-q30.webp')]  basis-[70%]  h-full  portrait:basis-full portrait:bg-center portrait:shrink-0 z-50"
+      landscape:bg-[url('/assets/bgImg/homepage4-mds.webp')] landscape:3xl:bg-[url('/assets/bgImg/homepage-3xl(1).webp')]  portrait:bg-[url('/assets/bgImg/homepage-xxs.webp')]  basis-[70%]  h-full  portrait:basis-full portrait:bg-center portrait:shrink-0 w-full"
         ></div>
 
         {/**hero header */}
-        <div className="hero-text text-7xl basis-[30%] uppercase font-bold w-fit  portrait:basis-0 portrait:text-[3.5rem] portrait:md:text-[6rem]   tracking-wide">
-          <span className="absolute top-[20%] portrait:top-20 portrait:xs:top-40  right-[5%]  portrait:whitespace-pre-line portrait:right-1/2 portrait:translate-x-[50%] portrait:max-w-[50svw] opacity-80 landscape:2xl:text-[6rem] landscape:2xl:top-[20%] landscape:5xl:text-[8rem] landscape:6xl:text-[10rem] portrait:md:-left-44 portrait:md:whitespace-nowrap portrait:md:-mt-6 portrait:lg:text-[7rem]  mix-blend-difference hidden">
-            lunch buddy
-          </span>
+        <div className="hero-article  basis-[30%] flex flex-col justify-center gap-20 portrait:xs:gap-28 items-center h-[75svh]  px-6 text-center landscape:2xl:px-8 landscape:4xl:px-16 landscape:6xl:px-44  portrait:px-0 portrait:basis-0 border-2 border-red-300 portrait:absolute portrait:w-36  portrait:h-[35svh] portrait:xs:h-[45svh]  portrait:top-60 right-1/2 portrait:translate-x-[62%] portrait:xs:top-64">
+          {/**
+        <span className="absolute top-[20%] portrait:top-20 portrait:xs:top-40  right-[5%]  portrait:whitespace-pre-line portrait:right-1/2 portrait:translate-x-[50%] portrait:max-w-[50svw] opacity-80 landscape:2xl:text-[6rem] landscape:2xl:top-[20%] landscape:5xl:text-[8rem] landscape:6xl:text-[10rem] portrait:md:-left-44 portrait:md:whitespace-nowrap portrait:md:-mt-6 portrait:lg:text-[7rem]  mix-blend-difference hidden">
+        lunch buddy
+        </span>
+      */}
 
           {/**hero subheader */}
-          <div className="lowercase tracking-wide font-light  text-[.8rem] absolute  top-[37%] landscape:lg:top-[33%] right-[10%] landscape:xl:text-[1rem] portrait:text-[1rem] portrait:sm:text-[1.2rem] portrait:tracking-widest portrait:top-[35%] portrait:right-20 portrait:sm:right-24 portrait:md:right-44 landscape:2xl:text-[1.1rem] landscape:5xl:text-[1.3rem] portrait:font-light portrait:md:text-[1.6rem] portrait:md:top-80 portrait:lg:text-[2.5rem] portrait:lg:pr-20 portrait:lg:top-96">
-            <p className="portrait:mt-5 portrait:sm:mt-1 ">
+          <div className="w-full font-light text-[.5rem] landscape:lg:text-[.7rem] landscape:xl:text-[.9rem] landscape:5xl:text-[1rem] landscape:6xl:text-[1.1rem] portrait:w-[50vw]  portrait:md:pt-10 portrait:lg:pt-72">
+            {/**landscape text */}
+            <p className="portrait:mt-5 portrait:sm:mt-1 portrait:hidden">
+              Take a chance to expand your social circle with Lunch Buddy.
+              Whether you are new to a city, seeking new perspectives, or just
+              looking for a delightful conversation over lunch, Lunch Buddy
+              provides the perfect avenue to foster new friendships and enrich
+              your dining experience. Embrace the opportunity to meet someone
+              new and turn an ordinary lunch break into a delightful and
+              socially fulfilling experience.
+            </p>
+
+            {/**portrait text */}
+            <p className="landscape:hidden portrait:block  text-[1rem] portrait:text-[1.1rem] portrait:sm:text-[1.4rem] portrait:lg:text-[2rem]">
               expand your network,
             </p>
-            <p>one bite at the time</p>
+            <p className="landscape:hidden portrait:block text-[1rem] portrait:text-[1.1rem] portrait:sm:text-[1.4rem] portrait:lg:text-[2rem] portrait:lg:pb-36">
+              one bite at a time
+            </p>
           </div>
 
           {/**CTA hero section */}
-          <div className="relative font-regular tracking-widest landscape:xl:text-[1rem] text-[.7rem] top-[45%] landscape:lg:top-[40%] right-[15%]  rounded-sm  py-3 px-6    landscape:2xl:text-[1.2rem] landscape:2xl:right-[16%] cursor-pointer leading-none  portrait:absolute portrait:top-[340px] portrait:xs:top-[400px] portrait:mt-10 portrait:right-7 portrait:sm:text-[1.1rem] portrait:md:mt-20 portrait:lg:mt-52 portrait:lg:text-[2.3rem] portrait:lg:-mr-44">
+          <div className="relative w-full  font-regular tracking-widest landscape:xl:text-[1rem] text-[.7rem]  rounded-sm     landscape:2xl:text-[1.2rem] landscape:6xl:text-[1.4rem]  cursor-pointer leading-none  portrait:sm:text-[1.1rem]  portrait:lg:text-[2rem] portrait:text-[.8rem] ">
             {auth.token !== '' ? (
               <Link
                 to="/register"
-                className="group absolute -top-12 right-[18%]  rounded-sm border dark:portrait:bg-white/10 dark:border-zinc-700 border-primary-gray dark:portrait:border-white portrait:border-2 portrait:bg-primary-gray/20  py-2 px-4 dark:text-white text-[#0a0908] portrait:right-16 portrait:whitespace-nowrap portrait:py-3 portrait:px-10 portrait:md:right-1/2 portrait:md:-translate-x-[100%]"
+                className="group absolute top-0 right-1/2 translate-x-1/2  rounded-sm border dark:portrait:bg-white/10 dark:border-zinc-700 border-primary-gray dark:portrait:border-white portrait:border-2 portrait:bg-primary-gray/20  py-2 px-4 landscape:2xl:px-5 whitespace-nowrap dark:text-white text-[#0a0908] portrait:right-16  portrait:py-3 portrait:px-10 portrait:sm:mt-16 portrait:md:mt-20"
               >
                 <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
-                <span className="relative  group-hover:text-white dark:group-hover:text-dark ">
+                <span className="relative  group-hover:text-white dark:group-hover:text-dark uppercase ">
                   find a buddy
                 </span>
               </Link>
