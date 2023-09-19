@@ -49,7 +49,29 @@ const Homepage = () => {
       //   }
       // })
 
+gsap.from('.hero-img', {
+  opacity: 0,
+  xPercent: -6,
+  duration: 1.2,
+  ease: 'power4.inOut'
 
+})
+
+gsap.from('.hero-text', {
+  delay: .7,
+  opacity: 0,
+  yPercent: -10,
+  ease: 'expo',
+  duration: 1.2
+})
+
+gsap.from('.hero-btn', {
+  opacity: 0,
+  duration: 1,
+  delay: .9,
+  ease: 'slow',
+
+})
 
       gsap.from('.connect-text', {
         opacity: 0,
@@ -177,7 +199,7 @@ const Homepage = () => {
     <section className="homepage-wrapper w-[100vw] h-full dark:text-white text-[#0a0908] dark:bg-[#0a0908] bg-white overflow-hidden portrait:overflow-hidden">
       <div className="hero-container flex h-[100svh] w-full justify-center align-center custom-clip-path ">
         <div
-          className="bg-cover bg-right  portrait:h-[calc(100svh_-_50px)]  bg-no-repeat
+          className="hero-img bg-cover bg-right  portrait:h-[calc(100svh_-_50px)]  bg-no-repeat
       landscape:bg-[url('/assets/bgImg/homepage4-mds.webp')] landscape:3xl:bg-[url('/assets/bgImg/homepage-3xl(1).webp')]  portrait:bg-[url('/assets/bgImg/homepage-xxs.webp')]  basis-[70%]  h-full  portrait:basis-full portrait:bg-center portrait:shrink-0 w-full"
         ></div>
 
@@ -186,7 +208,7 @@ const Homepage = () => {
           {/**hero subheader */}
           <div className="w-full font-light text-[.7rem]  landscape:xl:text-[.9rem] landscape:5xl:text-[1rem] landscape:6xl:text-[1.1rem] portrait:w-[50vw]  portrait:md:pt-10 portrait:lg:pt-72">
             {/**landscape text */}
-            <p className="portrait:mt-5 portrait:sm:mt-1 portrait:hidden">
+            <p className="hero-text portrait:mt-5 portrait:sm:mt-1 portrait:hidden">
               Take a chance to expand your social circle with Lunch Buddy.
               Whether you are new to a city, seeking new perspectives, or just
               looking for a delightful conversation over lunch, Lunch Buddy
@@ -206,7 +228,7 @@ const Homepage = () => {
           </div>
 
           {/**CTA hero section */}
-          <div className="relative w-full  font-regular tracking-widest landscape:xl:text-[1rem] text-[.7rem]  rounded-sm     landscape:2xl:text-[1.2rem] landscape:6xl:text-[1.4rem]  cursor-pointer leading-none  portrait:sm:text-[1.1rem]  portrait:lg:text-[2rem] portrait:text-[.8rem] ">
+          <div className="hero-btn relative w-full  font-regular tracking-widest landscape:xl:text-[1rem] text-[.7rem]  rounded-sm     landscape:2xl:text-[1.2rem] landscape:6xl:text-[1.4rem]  cursor-pointer leading-none  portrait:sm:text-[1.1rem]  portrait:lg:text-[2rem] portrait:text-[.8rem] ">
             {auth.token !== '' ? (
               <Link
                 to="/match"
