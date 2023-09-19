@@ -138,11 +138,11 @@ const DropdownMenu = ({ menuMode, closeMenu }) => {
           {!user.firstName ? (
             <>
               {/* NAV LINKS WHEN NOT SIGNED IN */}
-              <DropDownItem handleClick={handleClick} linkTo="/register">
-                SIGN UP
-              </DropDownItem>
               <DropDownItem handleClick={handleClick} linkTo="/login">
                 LOG IN
+              </DropDownItem>
+              <DropDownItem handleClick={handleClick} linkTo="/register">
+                SIGN UP
               </DropDownItem>
               <DropDownItem handleClick={handleClick} linkTo="/">
                 HOME
