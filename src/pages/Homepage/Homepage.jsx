@@ -241,7 +241,7 @@ gsap.from('.hero-btn', {
             ) : (
               <Link
                 to="/login"
-                className="group absolute top-0 right-1/2 translate-x-1/2  rounded-sm border dark:border-zinc-700 border-primary-gray px-5  py-2  dark:text-white text-primary-gray whitespace-nowrap portrait:text-[.9rem] portrait:px-10  portrait:sm:text-[1.1rem]  portrait:md:text-[1.6rem] portrait:lg:text-[2rem]    portrait:uppercase portrait:sm:mt-16 portrait:md:mt-20"
+                className="group absolute top-0 right-1/2 translate-x-1/2  rounded-sm border portrait:dark:border-white dark:border-zinc-700 border-primary-gray px-5  py-2  dark:text-white text-primary-gray whitespace-nowrap portrait:text-[.9rem] portrait:px-10  portrait:sm:text-[1.1rem]  portrait:md:text-[1.6rem] portrait:lg:text-[2rem]    portrait:uppercase portrait:sm:mt-16 portrait:md:mt-20"
               >
                 <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
                 <span className="relative  group-hover:text-white dark:group-hover:text-dark ">
