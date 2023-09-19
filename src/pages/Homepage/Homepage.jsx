@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useEffect, useRef, useLayoutEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
@@ -6,11 +6,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { selectAuth } from '../../redux/slices';
 
-// import { tryToken } from '../../redux/slices';
 gsap.registerPlugin(ScrollTrigger);
 const Homepage = () => {
   const auth = useSelector(selectAuth);
 
+  const [autoplay, setAutoplay] = useState(true);
   const vidRef = useRef(null);
   const topImageRef = useRef(null);
 
@@ -18,7 +18,10 @@ const Homepage = () => {
     if (vidRef.current) {
       const autoplayEnabled = vidRef.current.play();
       autoplayEnabled.catch((err) => {
-        window.alert(err);
+
+        if(err) {
+          setAutoplay(false)
+        }
 
         vidRef.current.play();
       });
@@ -374,16 +377,25 @@ const Homepage = () => {
       <div className="dark:bg-zinc-900/60 bg-zinc-200 trio-section  w-full overflow-hidden landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100vh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)] ">
         <div className="h-full flex justify-end w-full relative ">
           <div className=" object-cover basis-full vid-section scale-100 landscape:md:w-[30vw] h-full overflow-hidden  absolute top-0 left-0 opacity-100 portrait:w-[100svw]">
-            <video
-              ref={vidRef}
-              src="/assets/bgImg/friends.mp4"
-              autoPlay={true}
-              controls={false}
-              loop={true}
-              muted={true}
-              playsInline={true}
-              className="  object-cover min-h-full w-full portrait:opacity-25"
-            />
+
+
+            {autoplay ? (
+              <video
+                ref={vidRef}
+                src="/assets/bgImg/friends.mp4"
+                autoPlay={true}
+                controls={false}
+                loop={true}
+                muted={true}
+                playsInline={true}
+                className="  object-cover min-h-full w-full portrait:opacity-25"
+              />
+            ) : (
+              <img
+                src={'/assets/bgImg/expand-q30.webp'}
+                className="object-cover min-h-full w-full portrait:opacity-25"
+              />
+            )}
           </div>
 
           <div className="join-text opacity-80 flex flex-col  justify-center items-center  basis-1/2  -translate-x-20 ">
