@@ -13,7 +13,6 @@ const Homepage = () => {
 
   const vidRef = useRef(null);
   const topImageRef = useRef(null);
-  const deviceInnerWidth = window.innerWidth;
 
   useEffect(() => {
     if (vidRef.current) {
@@ -21,7 +20,6 @@ const Homepage = () => {
       autoplayEnabled.catch((err) => {
         window.alert(err);
 
-        // vidRef.current.muted = true;
         vidRef.current.play();
       });
     }
@@ -379,7 +377,7 @@ const Homepage = () => {
             <video
               ref={vidRef}
               src="/assets/bgImg/friends.mp4"
-              autoPlay={false}
+              autoPlay={true}
               controls={false}
               loop={true}
               muted={true}
