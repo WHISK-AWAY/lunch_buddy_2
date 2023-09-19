@@ -368,7 +368,6 @@ gsap.from('.hero-btn', {
               loop={true}
               muted={true}
               playsInline={true}
-              controls={false}
               className="  object-cover min-h-full w-full portrait:opacity-25"
             />
           </div>
@@ -389,7 +388,7 @@ gsap.from('.hero-btn', {
               {auth.token !== '' ? (
                 <Link
                   to="/match"
-                  className="group  absolute landscape:5xl:-bottom-20 -bottom-16 right-0 translate-x-[50%] portrait:-right-10 whitespace-nowrap  rounded-sm border dark:border-zinc-700 border-primary-gray  px-6 py-2   dark:text-white text-primary-gray"
+                  className="group  absolute landscape:5xl:-bottom-20 -bottom-16 right-0 translate-x-[50%] portrait:-right-10 whitespace-nowrap  rounded-sm border dark:border-white border-primary-gray  px-6 py-2   dark:text-white text-primary-gray"
                 >
                   <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
                   <span className="relative  group-hover:text-white dark:group-hover:text-dark">
