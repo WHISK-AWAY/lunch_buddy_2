@@ -21,6 +21,17 @@ const MINIMUM_SOCIAL = 10;
 const MINIMUM_PROFESSIONAL = 1;
 const MINIMUM_CUISINE = 5;
 
+const initialMinTags = {
+  Social: { minimum: MINIMUM_SOCIAL, show: false, numClicked: 0 },
+  Professional: {
+    minimum: MINIMUM_PROFESSIONAL,
+    show: false,
+    numClicked: 0,
+  },
+  Dietary: { minimum: 0, show: false, numClicked: 0 },
+  Cuisine: { minimum: MINIMUM_CUISINE, show: false, numClicked: 0 },
+};
+
 // delay between submit button & welcome note popup (ms)
 const TOAST_POPUP_DELAY = 1000;
 
@@ -81,18 +92,30 @@ const AboutForm = () => {
     }
   }, [authUser.id]);
 
-  const [minTags, setMinTags] = useState(
-    JSON.parse(localStorage.getItem('minTags')) || {
-      Social: { minimum: MINIMUM_SOCIAL, show: false, numClicked: 0 },
-      Professional: {
-        minimum: MINIMUM_PROFESSIONAL,
-        show: false,
-        numClicked: 0,
-      },
-      Dietary: { minimum: 0, show: false, numClicked: 0 },
-      Cuisine: { minimum: MINIMUM_CUISINE, show: false, numClicked: 0 },
+  // const [minTags, setMinTags] = useState(
+  //   JSON.parse(localStorage.getItem('minTags')) || {
+  //     Social: { minimum: MINIMUM_SOCIAL, show: false, numClicked: 0 },
+  //     Professional: {
+  //       minimum: MINIMUM_PROFESSIONAL,
+  //       show: false,
+  //       numClicked: 0,
+  //     },
+  //     Dietary: { minimum: 0, show: false, numClicked: 0 },
+  //     Cuisine: { minimum: MINIMUM_CUISINE, show: false, numClicked: 0 },
+  //   }
+  // );
+
+  const [minTags, setMinTags] = useState(initialMinTags);
+
+  useEffect(() => {
+    // pull tag selections from local storage if they're there
+    // e.g., if the user stops in the middle of registration
+    const localMinTags = localStorage.getItem('minTags');
+
+    if (localMinTags) {
+      setMinTags(JSON.parse(localMinTags));
     }
-  );
+  }, []);
 
   const tagsInState = useSelector((state) => state.tags.tags);
 
@@ -111,6 +134,50 @@ const AboutForm = () => {
 
   useEffect(() => {
     if (tagsInState.length > 0) {
+      const social =
+        JSON.parse(localStorage.getItem('Social')) ||
+        getTagsByCategory('social', tagsInState) ||
+        [];
+
+      const professional =
+        JSON.parse(localStorage.getItem('Professional')) ||
+        getTagsByCategory('professional', tagsInState || []);
+
+      const dietary =
+        JSON.parse(localStorage.getItem('Dietary')) ||
+        getTagsByCategory('dietary restriction', tagsInState || []);
+
+      const cuisine =
+        JSON.parse(localStorage.getItem('Cuisine')) ||
+        getTagsByCategory('cuisine', tagsInState || []);
+
+      social.groupName = 'Social';
+      professional.groupName = 'Professional';
+      dietary.groupName = 'Dietary';
+      cuisine.groupName = 'Cuisine';
+
+      [social, professional, dietary, cuisine].forEach((group) => {
+        let groupClickedCount = 0;
+        let { groupName } = group;
+
+        group.forEach((tag) => {
+          if (tag.clicked)
+            // increment "clicked" count on minTags object
+            groupClickedCount += 1;
+        });
+
+        // add the new click count to the existing object
+        // sorry that this is ugly
+        setMinTags((prev) => ({
+          ...initialMinTags,
+          ...prev,
+          [groupName]: {
+            ...prev[groupName],
+            numClicked: groupClickedCount,
+          },
+        }));
+      });
+
       setSocialTags(
         JSON.parse(localStorage.getItem('Social')) ||
           getTagsByCategory('social', tagsInState) ||
