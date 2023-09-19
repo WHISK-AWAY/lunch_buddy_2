@@ -11,8 +11,17 @@ gsap.registerPlugin(ScrollTrigger);
 const Homepage = () => {
   const auth = useSelector(selectAuth);
 
-  const topImageRef = useRef(null);
 
+
+  const topImageRef = useRef(null);
+  const vidRef = useRef(null)
+
+
+  useEffect(() => {
+    if(vidRef.current) {
+      vidRef.current.play();
+    }
+  }, [vidRef.current])
   // useEffect(() => {
   // fade bg image in only after it's downloaded
 
@@ -231,7 +240,7 @@ gsap.from('.hero-btn', {
             {auth.token !== '' ? (
               <Link
                 to="/match"
-                className="group absolute top-0 right-1/2 translate-x-1/2  rounded-sm border dark:portrait:bg-white/10 dark:border-white border-primary-gray dark:portrait:border-white portrait:border-2 portrait:bg-primary-gray/20  py-2 px-4 landscape:2xl:px-5 whitespace-nowrap dark:text-white text-[#0a0908] portrait:right-16  portrait:py-3 portrait:px-10 portrait:sm:mt-16 portrait:md:mt-20"
+                className="group absolute top-0 right-1/2 translate-x-1/2  rounded-sm border dark:portrait:bg-white/10 dark:border-border-primary-gray  border-primary-gray dark:portrait:border-white portrait:border-2 portrait:bg-primary-gray/20  py-2 px-4 landscape:2xl:px-5 whitespace-nowrap dark:text-white text-[#0a0908] portrait:right-16  portrait:py-3 portrait:px-10 portrait:sm:mt-16 portrait:md:mt-20"
               >
                 <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
                 <span className="relative  group-hover:text-white dark:group-hover:text-dark uppercase ">
@@ -362,8 +371,10 @@ gsap.from('.hero-btn', {
         <div className="h-full flex justify-end w-full relative ">
           <div className=" object-cover basis-full vid-section scale-100 landscape:md:w-[30vw] h-full overflow-hidden  absolute top-0 left-0 opacity-100 portrait:w-[100svw]">
             <video
+            ref={vidRef}
               src="/assets/bgImg/friends.mp4"
-              autoPlay={true}
+              autoPlay={false}
+              controls={false}
               loop={true}
               muted={true}
               playsInline={true}
