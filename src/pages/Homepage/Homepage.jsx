@@ -25,12 +25,11 @@ const Homepage = () => {
   //     gsap.to(topImageRef.current, { opacity: 1, duration: 0.5 });
   //   };
   // }, []);
-      // const loop = horizontalLoop('.test-block', {
-      //   repeat: -1,
-      //   paused: false,
-      //   speed: 3,
-      // });
-
+  // const loop = horizontalLoop('.test-block', {
+  //   repeat: -1,
+  //   paused: false,
+  //   speed: 3,
+  // });
 
   useLayoutEffect(() => {
     const cxt = gsap.context(() => {
@@ -49,29 +48,27 @@ const Homepage = () => {
       //   }
       // })
 
-gsap.from('.hero-img', {
-  opacity: 0,
-  xPercent: -6,
-  duration: 1.2,
-  ease: 'power4.inOut'
+      gsap.from('.hero-img', {
+        opacity: 0,
+        xPercent: -6,
+        duration: 1.2,
+        ease: 'power4.inOut',
+      });
 
-})
+      gsap.from('.hero-text', {
+        delay: 0.7,
+        opacity: 0,
+        yPercent: -10,
+        ease: 'expo',
+        duration: 1.2,
+      });
 
-gsap.from('.hero-text', {
-  delay: .7,
-  opacity: 0,
-  yPercent: -10,
-  ease: 'expo',
-  duration: 1.2
-})
-
-gsap.from('.hero-btn', {
-  opacity: 0,
-  duration: 1,
-  delay: .9,
-  ease: 'slow',
-
-})
+      gsap.from('.hero-btn', {
+        opacity: 0,
+        duration: 1,
+        delay: 0.9,
+        ease: 'slow',
+      });
 
       gsap.from('.connect-text', {
         opacity: 0,
@@ -113,33 +110,35 @@ gsap.from('.hero-btn', {
           scrub: 4,
           // markers: true
         },
-      }).from('.trio-img', {
-        opacity: 0,
-        duration: 4,
-        ease: 'sine.inOut',
-        stagger: 1.3,
-        yPercent: 5,
-        scrollTrigger: {
-          start: 'top 80%',
-          end: 'bottom bottom',
-          trigger: '.trio-container',
-          scrub: 4,
-          // markers: true,
-        },
-      }).from('.trio-article', {
-        opacity: 0,
-        duration: 2,
-        yPercent: -50,
-        ease: 'expo.out',
-        stagger: .1,
-        scrollTrigger: {
-          trigger: '.trio-img',
-          start: 'top 50%',
-          end: 'center center',
-          scrub: 3,
-          // markers: true,
-        }
       })
+        .from('.trio-img', {
+          opacity: 0,
+          duration: 4,
+          ease: 'sine.inOut',
+          stagger: 1.3,
+          yPercent: 5,
+          scrollTrigger: {
+            start: 'top 80%',
+            end: 'bottom bottom',
+            trigger: '.trio-container',
+            scrub: 4,
+            // markers: true,
+          },
+        })
+        .from('.trio-article', {
+          opacity: 0,
+          duration: 2,
+          yPercent: -50,
+          ease: 'expo.out',
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: '.trio-img',
+            start: 'top 50%',
+            end: 'center center',
+            scrub: 3,
+            // markers: true,
+          },
+        });
 
       tl.from('.vid-section', {
         opacity: 0,
@@ -168,25 +167,27 @@ gsap.from('.hero-btn', {
         },
       });
 
-      tl2.from(
-        '.join-text',
-        {
-           delay: 1.3,
-          opacity: 0,
-          duration: 4,
-          ease: 'slow',
-
-        },
-        '<'
-      ).from('.join-section-btn', {
-        opacity: 0,
-        yPercent: 20,
-        duration: 2,
-        ease: 'expo',
-      
-      }, '-=3.6')
-
-
+      tl2
+        .from(
+          '.join-text',
+          {
+            delay: 1.3,
+            opacity: 0,
+            duration: 4,
+            ease: 'slow',
+          },
+          '<'
+        )
+        .from(
+          '.join-section-btn',
+          {
+            opacity: 0,
+            yPercent: 20,
+            duration: 2,
+            ease: 'expo',
+          },
+          '-=3.6'
+        );
     });
 
     return () => {
@@ -219,10 +220,10 @@ gsap.from('.hero-btn', {
 
             {/**portrait text */}
             <p className="landscape:hidden portrait:block  text-[1rem] portrait:text-[1.1rem] portrait:sm:text-[1.4rem] portrait:lg:text-[2rem]">
-              expand your network,
+              expand your network, width: {window.innerWidth}
             </p>
             <p className="landscape:hidden portrait:block text-[1rem] portrait:text-[1.1rem] portrait:sm:text-[1.4rem] portrait:lg:text-[2rem] portrait:lg:pb-36">
-              one bite at a time
+              one bite at a time height: {window.innerHeight}
             </p>
           </div>
 
