@@ -48,6 +48,7 @@ const AboutForm = () => {
   const [professionalTags, setProfessionalTags] = useState([]);
   const [dietaryTags, setDietaryTags] = useState([]);
   const [cuisineTags, setCuisineTags] = useState([]);
+  const [minTags, setMinTags] = useState(initialMinTags);
 
   const topImageRef = useRef(null);
 
@@ -92,24 +93,9 @@ const AboutForm = () => {
     }
   }, [authUser.id]);
 
-  // const [minTags, setMinTags] = useState(
-  //   JSON.parse(localStorage.getItem('minTags')) || {
-  //     Social: { minimum: MINIMUM_SOCIAL, show: false, numClicked: 0 },
-  //     Professional: {
-  //       minimum: MINIMUM_PROFESSIONAL,
-  //       show: false,
-  //       numClicked: 0,
-  //     },
-  //     Dietary: { minimum: 0, show: false, numClicked: 0 },
-  //     Cuisine: { minimum: MINIMUM_CUISINE, show: false, numClicked: 0 },
-  //   }
-  // );
-
-  const [minTags, setMinTags] = useState(initialMinTags);
-
   useEffect(() => {
     // pull tag selections from local storage if they're there
-    // e.g., if the user stops in the middle of registration
+    // (e.g., if the user stops in the middle of registration)
     const localMinTags = localStorage.getItem('minTags');
 
     if (localMinTags) {
