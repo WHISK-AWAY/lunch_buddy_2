@@ -400,7 +400,7 @@ gsap.from('.hero-btn', {
                   {/**create an acc btn */}
                   <Link
                     to="/register"
-                    className="group  absolute -bottom-16 -right-5 portrait:-right-10 whitespace-nowrap  rounded-sm border dark:border-zinc-700 border-primary-gray  px-6 py-2   dark:text-white text-primary-gray"
+                    className="group  absolute -bottom-16 -right-5 portrait:-right-10 whitespace-nowrap  rounded-sm border dark:border-white border-primary-gray  px-6 py-2   dark:text-white text-primary-gray"
                   >
                     <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
                     <span className="relative  group-hover:text-white dark:group-hover:text-dark">
@@ -411,7 +411,7 @@ gsap.from('.hero-btn', {
                   {/**sign in btn */}
                   <Link
                     to="/signin"
-                    className="group absolute -bottom-16 -right-44 portrait:-right-40  landscape:5xl:-right-64 rounded-sm border dark:border-zinc-700 border-primary-gray  px-6 whitespace-nowrap  py-2  dark:text-white text-primary-gray "
+                    className="group absolute -bottom-16 -right-44 portrait:-right-40  landscape:5xl:-right-64 rounded-sm border dark:border-white  border-primary-gray  px-6 whitespace-nowrap  py-2  dark:text-white text-primary-gray "
                   >
                     <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
                     <span className="relative  group-hover:text-white dark:group-hover:text-dark">
