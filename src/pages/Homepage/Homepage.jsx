@@ -289,7 +289,7 @@ gsap.from('.hero-btn', {
         <div className="dark:bg-zinc-900/80 bg-zinc-200 min-h-[90vh] connect-section flex justify-between relative  portrait:h-[calc(100svh_-_56px)]">
           <div className="landscape:pt-28  pl-16 landscape:4xl:pl-44 landscape:6xl:pl-96 landscape:short:pt-44 landscape:lg:pt-[20%] landscape:3xl:pt-[15%] text-[3.7rem] font-bold uppercase opacity-80 landscape:xl:text-[4.7rem] landscape:2xl:text-[6rem] landscape:2xl:top-[20%] landscape:5xl:text-[8rem] landscape:6xl:text-[10rem] portrait:md:translate-x-[100%] portrait:pt-[calc(33svh_-_56px)] portrait:md:pt-[calc(30svh_-_56px)] portrait:lg:pt-[calc(34svh_-_56px)] portrait:xs:ml-3">
             <p className="connect-text portrait:lg:pl-12">connect</p>
-            <p className="connect-text-subhead lowercase font-light text-[.8rem] landscape:xl:text-[.9rem] landscape:2xl:text-[1.1rem] landscape:5xl:text-[1.4rem]  w-64 landscape:xl:w-72 landscape:2xl:w-96 landscape:5xl:w-[450px] portrait:pt-[210px] portrait:sm:pt-[225px] portrait:md:pt-[430px] portrait:translate-x-1  portrait:text-[.8rem] portrait:xs:text-[.9rem] portrait:md:text-[1rem] portrait:lg:text-[1.3rem] portrait:lg:w-80 pl-3">
+            <p className="connect-text-subhead lowercase font-light text-[.8rem] landscape:xl:text-[.9rem] landscape:2xl:text-[1.1rem] landscape:5xl:text-[1.4rem]  w-64 landscape:xl:w-72 landscape:2xl:w-96 landscape:5xl:w-[450px] portrait:pt-[210px] portrait:sm:pt-[240px] portrait:md:pt-[430px] portrait:translate-x-1  portrait:text-[.8rem] portrait:xs:text-[.9rem] portrait:md:text-[1rem] portrait:lg:text-[1.3rem] portrait:lg:w-80 pl-3">
               meet new people based on shared hobbies, professional interests
               and favorite cuisines
             </p>
