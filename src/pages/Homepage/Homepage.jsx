@@ -203,7 +203,7 @@ gsap.from('.hero-btn', {
         ></div>
 
         {/**hero header */}
-        <div className="hero-article  basis-[30%] flex flex-col justify-center gap-20 portrait:xs:gap-28 items-center h-[75svh] landscape:lg:px-6 px-3 text-center landscape:2xl:px-8 landscape:4xl:px-16 landscape:6xl:px-44  portrait:px-0 portrait:basis-0  portrait:absolute portrait:w-36  portrait:h-[35vh] portrait:xs:h-[45vh]  portrait:top-60 right-1/2 portrait:translate-x-[62%] portrait:xs:top-64">
+        <div className="hero-article  basis-[30%] flex flex-col justify-center gap-20 portrait:xs:gap-10 items-center h-[75svh] landscape:lg:px-6 px-3 text-center landscape:2xl:px-8 landscape:4xl:px-16 landscape:6xl:px-44  portrait:px-0 portrait:basis-0  portrait:absolute portrait:w-36  portrait:h-[35svh] portrait:xs:h-[45svh]  portrait:top-60 right-1/2 portrait:translate-x-[62%] portrait:xs:top-64">
           {/**hero subheader */}
           <div className="w-full font-light text-[.7rem]  landscape:xl:text-[.9rem] landscape:5xl:text-[1rem] landscape:6xl:text-[1.1rem] portrait:w-[50vw]  portrait:md:pt-10 portrait:lg:pt-72">
             {/**landscape text */}
