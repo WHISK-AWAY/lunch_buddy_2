@@ -150,14 +150,20 @@ const Homepage = () => {
       tl2.from(
         '.join-text',
         {
-           delay: 1.6,
+           delay: 1.3,
           opacity: 0,
           duration: 4,
           ease: 'slow',
 
         },
         '<'
-      );
+      ).from('.join-section-btn', {
+        opacity: 0,
+        yPercent: 20,
+        duration: 2,
+        ease: 'expo',
+      
+      }, '-=3.6')
 
 
     });
@@ -177,7 +183,6 @@ const Homepage = () => {
 
         {/**hero header */}
         <div className="hero-article  basis-[30%] flex flex-col justify-center gap-20 portrait:xs:gap-28 items-center h-[75svh] landscape:lg:px-6 px-3 text-center landscape:2xl:px-8 landscape:4xl:px-16 landscape:6xl:px-44  portrait:px-0 portrait:basis-0  portrait:absolute portrait:w-36  portrait:h-[35svh] portrait:xs:h-[45svh]  portrait:top-60 right-1/2 portrait:translate-x-[62%] portrait:xs:top-64">
-
           {/**hero subheader */}
           <div className="w-full font-light text-[.7rem]  landscape:xl:text-[.9rem] landscape:5xl:text-[1rem] landscape:6xl:text-[1.1rem] portrait:w-[50vw]  portrait:md:pt-10 portrait:lg:pt-72">
             {/**landscape text */}
@@ -259,10 +264,10 @@ const Homepage = () => {
 
       {/**connect section */}
       <div className="connect-article h-full relative overflow-hidden w-screen -translate-y-10 portrait:-translate-y-56 portrait:overflow-hidden mb-36 portrait:mb-16">
-        <div className="dark:bg-zinc-900/80 bg-zinc-200 min-h-[90vh] connect-section flex justify-between relative  ">
-          <div className="pt-28  pl-16 landscape:4xl:pl-44 landscape:6xl:pl-96 landscape:lg:pt-[20%] landscape:3xl:pt-[15%] text-[3.7rem] font-bold uppercase opacity-80 landscape:xl:text-[4.7rem] landscape:2xl:text-[6rem] landscape:2xl:top-[20%] landscape:5xl:text-[8rem] landscape:6xl:text-[10rem] portrait:pt-32 portrait:xs:pt-48 portrait:sm:mt-10 portrait:md:translate-x-[100%]">
-            <p className="connect-text ">connect</p>
-            <p className="connect-text-subhead lowercase font-light text-[.8rem] landscape:xl:text-[.9rem] landscape:2xl:text-[1.1rem] landscape:5xl:text-[1.4rem]  w-64 landscape:xl:w-72 landscape:2xl:w-96 landscape:5xl:w-[450px] portrait:pt-[230px] portrait:sm:pt-[250px] portrait:md:pt-[430px] portrait:translate-x-16 portrait:text-[.7rem] portrait:xs:text-[.9rem] portrait:md:text-[1rem] pl-3">
+        <div className="dark:bg-zinc-900/80 bg-zinc-200 min-h-[90vh] connect-section flex justify-between relative  portrait:h-[calc(100svh_-_56px)]">
+          <div className="landscape:pt-28  pl-16 landscape:4xl:pl-44 landscape:6xl:pl-96 landscape:short:pt-44 landscape:lg:pt-[20%] landscape:3xl:pt-[15%] text-[3.7rem] font-bold uppercase opacity-80 landscape:xl:text-[4.7rem] landscape:2xl:text-[6rem] landscape:2xl:top-[20%] landscape:5xl:text-[8rem] landscape:6xl:text-[10rem] portrait:md:translate-x-[100%] portrait:pt-[calc(33svh_-_56px)] portrait:md:pt-[calc(30svh_-_56px)] portrait:lg:pt-[calc(34svh_-_56px)] portrait:xs:ml-3">
+            <p className="connect-text portrait:lg:pl-12">connect</p>
+            <p className="connect-text-subhead lowercase font-light text-[.8rem] landscape:xl:text-[.9rem] landscape:2xl:text-[1.1rem] landscape:5xl:text-[1.4rem]  w-64 landscape:xl:w-72 landscape:2xl:w-96 landscape:5xl:w-[450px] portrait:pt-[210px] portrait:sm:pt-[225px] portrait:md:pt-[430px] portrait:translate-x-1  portrait:text-[.8rem] portrait:xs:text-[.9rem] portrait:md:text-[1rem] portrait:lg:text-[1.3rem] portrait:lg:w-80 pl-3">
               meet new people based on shared hobbies, professional interests
               and favorite cuisines
             </p>
@@ -332,7 +337,7 @@ const Homepage = () => {
         </div>
       </div>
 
-      <div className="dark:bg-zinc-900/60 bg-zinc-200 trio-section  w-full overflow-hidden landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100svh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)] ">
+      <div className="dark:bg-zinc-900/60 bg-zinc-200 trio-section  w-full overflow-hidden landscape:h-[calc(100svh_-_56px)] portrait:h-[calc(100vh_-_56px)] landscape:3xl:h-[calc(100svh_-_64px)] ">
         <div className="h-full flex justify-end w-full relative ">
           <div className=" object-cover basis-full vid-section scale-100 landscape:md:w-[30vw] h-full overflow-hidden  absolute top-0 left-0 opacity-100 portrait:w-[100svw]">
             <video
@@ -346,19 +351,19 @@ const Homepage = () => {
             />
           </div>
 
-          <div className="join-text opacity-100 flex flex-col  justify-center items-center  basis-1/2  -translate-x-20 ">
+          <div className="join-text opacity-80 flex flex-col  justify-center items-center  basis-1/2  -translate-x-20 ">
             <h2 className=" font-bold text-[5.5rem] text-center leading-none opacity-100 portrait:opacity-100 portrait:md:text-[6rem] landscape:5xl:text-[7rem]">
               JOIN
             </h2>
             <p className="lunch-buddy  pl-28 text-[1rem] pb-4 landscape:5xl:text-[1.4rem]">
               lunch buddy
             </p>
-            <p className="text-[.8rem] font-light tracking-wide portrait:text-[.9rem] portrait:md:text-[1.2rem] landscape:2xl:text-[1.1rem] landscape:5xl:text-[1.3rem]">
+            <p className="text-[.8rem]   font-light tracking-wide portrait:text-[.9rem] portrait:md:text-[1.2rem] landscape:2xl:text-[1.1rem] landscape:5xl:text-[1.3rem]">
               to meet your next favorite lunch buddy today!
             </p>
 
             {/**CTA buttons container */}
-            <div className=" uppercase  text-[.8rem] font-light leading-none relative tracking-widest portrait:md:text-[1rem] landscape:2xl:text-[1.1rem] landscape:5xl:text-[1.4rem]">
+            <div className="join-section-btn uppercase  text-[.8rem] font-light leading-none relative tracking-widest portrait:md:text-[1rem] landscape:2xl:text-[1.1rem] landscape:5xl:text-[1.4rem] portrait:font-semibold">
               {auth.token !== '' ? (
                 <Link
                   to="/match"
