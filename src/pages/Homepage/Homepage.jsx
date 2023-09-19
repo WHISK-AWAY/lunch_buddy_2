@@ -203,7 +203,7 @@ gsap.from('.hero-btn', {
         ></div>
 
         {/**hero header */}
-        <div className="hero-article  basis-[30%] flex flex-col justify-center gap-20  items-center h-[75svh] landscape:lg:px-6 px-3 text-center landscape:2xl:px-8 landscape:4xl:px-16 landscape:6xl:px-44  portrait:px-0 portrait:basis-0  portrait:absolute portrait:w-36  portrait:h-[35svh] portrait:xs:h-[45svh]  portrait:top-60 right-1/2 portrait:translate-x-[62%] portrait:xs:top-56 portrait:sm:pt-12">
+        <div className="hero-article  basis-[30%] flex flex-col justify-center gap-20 portrait:gap-10 items-center h-[75svh] landscape:lg:px-6 px-3 text-center landscape:2xl:px-8 landscape:4xl:px-16 landscape:6xl:px-44  portrait:px-0 portrait:basis-0  portrait:absolute portrait:w-36  portrait:h-[35svh] portrait:xs:h-[45svh]  portrait:top-60 right-1/2 portrait:translate-x-[62%] portrait:xs:top-56 portrait:sm:pt-5">
           {/**hero subheader */}
           <div className="w-full font-light text-[.7rem]  landscape:xl:text-[.9rem] landscape:5xl:text-[1rem] landscape:6xl:text-[1.1rem] portrait:w-[50vw]  portrait:md:pt-10 portrait:lg:pt-72">
             {/**landscape text */}
@@ -231,7 +231,7 @@ gsap.from('.hero-btn', {
             {auth.token !== '' ? (
               <Link
                 to="/match"
-                className="group absolute top-0 right-1/2 translate-x-1/2  rounded-sm border dark:portrait:bg-white/10 dark:border-zinc-700 border-primary-gray dark:portrait:border-white portrait:border-2 portrait:bg-primary-gray/20  py-2 px-4 landscape:2xl:px-5 whitespace-nowrap dark:text-white text-[#0a0908] portrait:right-16  portrait:py-3 portrait:px-10 portrait:sm:mt-16 portrait:md:mt-20"
+                className="group absolute top-0 right-1/2 translate-x-1/2  rounded-sm border dark:portrait:bg-white/10 dark:border-white border-primary-gray dark:portrait:border-white portrait:border-2 portrait:bg-primary-gray/20  py-2 px-4 landscape:2xl:px-5 whitespace-nowrap dark:text-white text-[#0a0908] portrait:right-16  portrait:py-3 portrait:px-10 portrait:sm:mt-16 portrait:md:mt-20"
               >
                 <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
                 <span className="relative  group-hover:text-white dark:group-hover:text-dark uppercase ">
