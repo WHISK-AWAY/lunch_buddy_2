@@ -436,7 +436,7 @@ const Homepage = () => {
 
                   {/**sign in btn */}
                   <Link
-                    to="/signin"
+                    to="/login"
                     className="group absolute -bottom-16 -right-44 portrait:-right-40  landscape:5xl:-right-64 rounded-sm border dark:border-white  border-primary-gray  px-6 whitespace-nowrap  py-2  dark:text-white text-primary-gray "
                   >
                     <span className="absolute left-0 top-0 mb-0 flex h-0 w-full -translate-y-0 transform dark:bg-zinc-100 bg-primary-gray transition-all duration-700 ease-out group-hover:h-full"></span>
